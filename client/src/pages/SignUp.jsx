@@ -1,5 +1,10 @@
 import { useState } from "react";
+
 import { Link } from "react-router-dom";
+
+import Navbar from "../components/Navbar";
+
+
 function SignUp() {
   const [state, setState] = useState("Signup");
   const [fullname, setFullName] = useState("");
@@ -7,6 +12,7 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   return (
+
     <form className="min-h-[80vh] flex justify-center items-center ">
       <div className=" flex-col items-center  gap-5  py-[2%] px-[4%] shadow-lg shadow-zinc-700">
         <p className="text-xl font-bold">
@@ -48,6 +54,7 @@ function SignUp() {
         </p>
       </div>
     </form>
+ 
   );
 }
 
