@@ -12,8 +12,9 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   return (
-
-    <form className="min-h-[80vh] flex justify-center items-center ">
+      <div className="sign-up" >
+      <Navbar/>
+       <form className="min-h-[80vh] flex justify-center items-center ">
       <div className=" flex-col items-center  gap-5  py-[2%] px-[4%] shadow-lg shadow-zinc-700">
         <p className="text-xl font-bold">
           {state == "Signup" ? "Create Account" : "Login Account"}
@@ -54,6 +55,8 @@ function SignUp() {
         </p>
       </div>
     </form>
+      </div>
+   
  
   );
 }
