@@ -24,9 +24,8 @@ function SignUp() {
         password,
       });
       if (response.data.success) {
-        console.log(response.data);
-        const userToken = response.data.token;
-        localStorage.setItem("token", userToken);
+       
+       
         toast.success("Account Successfully created");
         navigate('/login');
       }
