@@ -2,6 +2,7 @@ const express = require('express');
 const connectDb = require('./db/db');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes')
 require('dotenv').config();
 
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({extended:true}));
 
 // Setting my routes
 app.use('/api/v1',userRoutes);
+app.use('/api/v1',adminRoutes);
 
 
 
