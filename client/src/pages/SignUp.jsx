@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import Navbar from "../components/Navbar";
 import axios from "axios";
 
 function SignUp() {
@@ -24,10 +23,8 @@ function SignUp() {
         password,
       });
       if (response.data.success) {
-       
-       
         toast.success("Account Successfully created");
-        navigate('/login');
+        navigate("/login");
       }
     } catch (error) {
       console.log("Some Error Occrured during login", error);
@@ -36,7 +33,6 @@ function SignUp() {
   };
   return (
     <div className="sign-up">
-      <Navbar />
       <form
         onSubmit={handleSubmit}
         className="min-h-[90vh] flex justify-center items-center rounded-xl "
@@ -83,7 +79,10 @@ function SignUp() {
               className="w-[95%] p-2 my-1 h-[50%] border-2 border-zinc-200 rounded-sm"
             />
           </div>
-          <button type="submit" className="px-4 py-2 text-md bg-slate-900 text-white rounded-md my-4 mx-auto hover:bg-slate-800">
+          <button
+            type="submit"
+            className="px-4 py-2 text-md bg-slate-900 text-white rounded-md my-4 mx-auto hover:bg-slate-800"
+          >
             Create Account
           </button>
           <p>
