@@ -1,12 +1,36 @@
 import { useState  } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { axios } from "axios";
 
 function AdminLogin() {
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
+    const backendUrl=import.meta.env.VITE_BACKEND_URL;
+    const navigate = useNavigate();
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
+
+        try{
+          const response = await axios.post(`${backendUrl}/api/v1/admin-login`);
+
+          if(response.data.success){
+            const userToken = await response.data.token;
+            localStorage.setItem("token",userToken);
+
+            toast.success(response.data.success || "Login Successful");
+
+            navigate('/dashboard');
+
+
+          }
+        }
+        catch(error){
+          console.log("Some error occured",error);
+          toast.error("Internal Server Error");
+        }
     }
 
   return (
