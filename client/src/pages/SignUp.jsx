@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import Navbar from "../components/Navbar";
 import axios from "axios";
 
 function SignUp() {
@@ -34,7 +33,6 @@ function SignUp() {
   };
   return (
     <div className="sign-up">
-      <Navbar />
       <form
         onSubmit={handleSubmit}
         className="min-h-[90vh] flex justify-center items-center rounded-xl "
