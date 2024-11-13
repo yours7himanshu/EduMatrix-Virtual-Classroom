@@ -5,22 +5,27 @@ import AdminLogin from './pages/AdminLogin'
 import AdminSignUp from './pages/AdminSignUp'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Home from './pages/Home';
+
+import AddTeacher from './components/AddTeacher';
+import Sidebar from './components/Sidebar';
+import Announcement from './pages/Announcement';
+import Students from './components/Students';
 
 function App() {
  
 
   return (
     <>
-    <div className="app">
+    <div className="app flex ">
+      <Sidebar/>
       <ToastContainer/>
   <Routes>
     <Route path='/' element={<AdminLogin/>}/>
     <Route path='/sign-up' element={<AdminSignUp/>}/>
-    <Route path='/home' element={<Home/>}/>
-    
-
-
+    <Route path='/enroll-students' element={<Students/>}/>
+ 
+    <Route path='/add-teachers' element={<AddTeacher/>}/>
+    <Route path='/announcement' element={<Announcement/>}/>
 
   </Routes>
     </div>
