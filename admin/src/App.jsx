@@ -5,6 +5,7 @@ import AdminLogin from './pages/AdminLogin'
 import AdminSignUp from './pages/AdminSignUp'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Home from './pages/Home';
 
 function App() {
  
@@ -16,6 +17,11 @@ function App() {
   <Routes>
     <Route path='/' element={<AdminLogin/>}/>
     <Route path='/sign-up' element={<AdminSignUp/>}/>
+    <Route path='/home' element={<Home/>}/>
+    
+
+
+
   </Routes>
     </div>
     </>
