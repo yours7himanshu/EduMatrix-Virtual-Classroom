@@ -4,6 +4,7 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes')
 require('dotenv').config();
+const assignmentRoutes = require("./routes/assignmentRoutes")
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.urlencoded({extended:true}));
 // Setting my routes
 app.use('/api/v1',userRoutes);
 app.use('/api/v1',adminRoutes);
+app.use('api/v1',assignmentRoutes);
 
 
 
