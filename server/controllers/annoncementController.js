@@ -1,50 +1,46 @@
+// announcementController.js
+
 const Assignment = require('../models/announcementModels');
 
+const announcement = async (req, res) => {
+    const { category, course, branch, descrition } = req.body;
 
-const assignment = async(req,res)=>{
-    const {category,course,branch,descrition}=req.body;
-
-    try{
+    try {
         const assignment = await Assignment.create({
             category,
             course,
             branch,
             descrition
-
-        })
+        });
 
         return res.status(201).json({
-            success:true,
+            success: true,
             assignment,
-            message:"Assignment Successfully posted"
-        })
-
-
-    }catch(error){
+            message: "Assignment Successfully posted"
+        });
+    } catch (error) {
         return res.status(500).json({
-            success:false,
-            error:"Error Posting the Assignment"
-        })
+            success: false,
+            error: "Error Posting the Assignment"
+        });
     }
-}
+};
 
+const displayAnnouncement = async (req, res) => { // fixed typo in function name
+    try {
+        const display = await Assignment.find(); // fixed typo to use Assignment model
 
-const displayAnnoncement = async(req,res)=>{
-    try{
-        const display = await Announcement.find();
-
-    return res.status(200).json({
-        success:true,
-        display,
-        message:"Announcement Successfully displayed"
-    })
-    }
-    catch(error){
+        return res.status(200).json({
+            success: true,
+            display,
+            message: "Announcement Successfully displayed"
+        });
+    } catch (error) {
         return res.status(500).json({
-            success:false,
-            error:"Some error occured"
-        })
+            success: false,
+            error: "Some error occurred"
+        });
     }
-}
+};
 
-module.exports={assignment,displayAnnoncement};
+module.exports = { announcement, displayAnnouncement }; // fixed typo in export
