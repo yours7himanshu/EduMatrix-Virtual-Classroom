@@ -14,9 +14,18 @@ const studentSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    image:{
+        type:Array,
+        required:true
+    },
+    
     year:{
      type:String,
      required:true
+    },
+    role:{
+        type:String,
+        default:'student'
     }
 })
 

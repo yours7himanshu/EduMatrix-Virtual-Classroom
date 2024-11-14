@@ -62,7 +62,7 @@ const collegeLogin = async(req,res)=>{
 
         }
 
-       const token = jwt.sign({email:email,collegeId:college._id},
+       const token = jwt.sign({email:email,collegeId:college._id,role:'admin',name:'admin'},
         process.env.JWT_SECRET,
         {expiresIn:"1d"}
        );

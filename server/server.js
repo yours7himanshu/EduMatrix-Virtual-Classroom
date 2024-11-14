@@ -7,6 +7,7 @@ require('dotenv').config();
 const announcementRoutes = require("./routes/announcementRoutes");
 const teacherRoutes = require('./routes/teachersRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const connectCloudinary = require('./config/cloudinary');
 
 
 const app = express();
@@ -15,6 +16,8 @@ const app = express();
 // connecting database string
 connectDb();
 
+// initializing cloudinary
+connectCloudinary();
 
 // middlewares
 app.use(cors());
