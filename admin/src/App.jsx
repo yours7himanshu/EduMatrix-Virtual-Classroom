@@ -13,6 +13,7 @@ import Students from './components/Students';
 import Dashboard from './components/Dashboard';
 import TimeTable from './components/TimeTable';
 import Classes from './components/Classes';
+import CreateLecture from './components/CreateLecture';
 
 function App() {
  
@@ -31,6 +32,8 @@ function App() {
     <Route path='/announcement' element={<Announcement/>}/>
     <Route path='/timetable' element={<TimeTable/>}/>
 <Route path='/classes' element={<Classes/>}/>
+<Route path='/createLecture' element={<CreateLecture/>}/>
+
   </Routes>
     </div>
     </>
