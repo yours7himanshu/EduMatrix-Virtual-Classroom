@@ -1,7 +1,7 @@
 const Student = require('../models/studentModels');
 
 const enrollStudent = async(req,res)=>{
-    const {name ,rollNo, branch,year}=req.body;
+    const {name ,rollNo, branch,year,image}=req.body;
 
     try{
         const existingStudent = await Student.findOne({rollNo});
@@ -17,6 +17,7 @@ const enrollStudent = async(req,res)=>{
             name,
             rollNo,
             branch,
+            image,
             year
         });
 
