@@ -1,9 +1,9 @@
 const express = require('express');
-const assignment = require('../controllers/annoncementController')
+const announcement = require('../controllers/annoncementController')
 
 const assignmentRouter = express.Router();
 
-assignmentRouter.post('/assignment',assignment);
+assignmentRouter.post('/announcement',announcement);
 
 
 module.exports=assignmentRouter;

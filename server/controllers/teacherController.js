@@ -34,4 +34,25 @@ const addTeacher = async(req,res)=>{
     }
 }
 
-module.exports=addTeacher;
+// function for displaying teachers
+
+const teacherDetail = async(req,res)=>{
+   try{
+    const teacherDetail = await Teacher.find();
+    return res.status(200).json({
+        success:true,
+        teacherDetail,
+        message:"Teacher detail successfully displayed"
+    })
+   }
+   catch(error){
+    return res.status(500).json({
+        success:false,
+        error:"Some error occured"
+    })
+   }
+
+    
+}
+
+module.exports={addTeacher,teacherDetail};

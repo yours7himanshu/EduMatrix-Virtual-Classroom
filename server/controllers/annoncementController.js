@@ -28,4 +28,23 @@ const assignment = async(req,res)=>{
     }
 }
 
-module.exports=assignment;
+
+const displayAnnoncement = async(req,res)=>{
+    try{
+        const display = await Announcement.find();
+
+    return res.status(200).json({
+        success:true,
+        display,
+        message:"Announcement Successfully displayed"
+    })
+    }
+    catch(error){
+        return res.status(500).json({
+            success:false,
+            error:"Some error occured"
+        })
+    }
+}
+
+module.exports={assignment,displayAnnoncement};
