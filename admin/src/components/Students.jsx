@@ -1,15 +1,33 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
+import { toast } from "react-toastify";
 
 function Students() {
   const [studentName, setStudentName] = useState('');
   const [studentBranch, setStudentBranch] = useState('');
   const [studentYear, setStudentYear] = useState('');
   const [studentRollNo, setStudentRollNo] = useState('');
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Add functionality to handle form submission
+   try{
+    const response = await axios.post(`${backendUrl}/api/v1/`,{
+      studentName,
+      studentBranch,
+      studentYear,
+      studentRollNo
+
+    });
+   if(response.data.success){
+    toast.success("Student Successfully Enrolled");
+   }
+  
+   }
+   catch(error){
+    console.log("Some error occured",error);
+    toast.error("Error Enrolling Student");
+   }
   };
 
   return (
