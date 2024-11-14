@@ -21,7 +21,7 @@ const Sidebar = () => {
                         Add Teachers
                     </li>
                 </Link>
-                <Link to="enroll-students" >
+                <Link to="/enroll-students" >
                     <li className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${activeItem === 'students' ? 'bg-white text-black border rounded-md' : 'text-white'}`} 
                         onClick={() => setActiveItem('students')}
                     >

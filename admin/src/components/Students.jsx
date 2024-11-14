@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Sidebar from "./Sidebar";
 
 function Students() {
   const [studentName, setStudentName] = useState('');
@@ -12,7 +13,9 @@ function Students() {
   };
 
   return (
-    <div className="enroll-students flex flex-col items-center w-full h-screen bg-gray-50 p-8">
+   <div className="students flex">
+    <Sidebar/>
+     <div className="enroll-students flex flex-col items-center w-full h-screen bg-gray-50 p-8">
       <h1 className="text-3xl text-violet-600 font-bold mb-10">
         Enroll Students for Your College
       </h1>
@@ -71,6 +74,7 @@ function Students() {
         </button>
       </form>
     </div>
+   </div>
   );
 }
 
