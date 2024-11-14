@@ -1,9 +1,8 @@
 const express = require('express');
-const announcement = require('../controllers/annoncementController')
+const router = express.Router();
+const { announcement, displayAnnouncement } = require('../controllers/annoncementController');
 
-const assignmentRouter = express.Router();
+router.post('/announcement', announcement);
+router.get('/announcement', displayAnnouncement);
 
-assignmentRouter.post('/announcement',announcement);
-
-
-module.exports=assignmentRouter;
+module.exports = router;
