@@ -2,9 +2,11 @@ const express = require('express');
 const connectDb = require('./db/db');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
-const adminRoutes = require('./routes/adminRoutes')
+const adminRoutes = require('./routes/adminRoutes');
 require('dotenv').config();
-const assignmentRoutes = require("./routes/assignmentRoutes")
+const announcementRoutes = require("./routes/announcementRoutes");
+const teacherRoutes = require('./routes/teachersRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 
 const app = express();
@@ -24,7 +26,9 @@ app.use(express.urlencoded({extended:true}));
 // Setting my routes
 app.use('/api/v1',userRoutes);
 app.use('/api/v1',adminRoutes);
-app.use('api/v1',assignmentRoutes);
+app.use('/api/v1',announcementRoutes);
+app.use('/api/v1',teacherRoutes);
+app.use('/api/v1',studentRoutes);
 
 
 
