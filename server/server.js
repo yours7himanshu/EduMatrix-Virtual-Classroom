@@ -25,7 +25,7 @@ app.use(express.urlencoded({extended:true}));
 
 // Setting my routes
 app.use('/api/v1',userRoutes);
-app.use('/api/v1',adminRoutes);
+app.use('/api/v2',adminRoutes);
 app.use('/api/v1',announcementRoutes);
 app.use('/api/v1',teacherRoutes);
 app.use('/api/v1',studentRoutes);

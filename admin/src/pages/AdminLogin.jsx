@@ -7,11 +7,13 @@ import axios from 'axios';
 function AdminLogin() {
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
+    const [loading,setLoading]=useState(false);
     const backendUrl=import.meta.env.VITE_BACKEND_URL;
     const navigate = useNavigate();
 
     const handleSubmit = async(e)=>{
         e.preventDefault();
+        setLoading(true);
 
         try{
           const response = await axios.post(`${backendUrl}/api/v1/admin-login`);
@@ -30,6 +32,9 @@ function AdminLogin() {
         catch(error){
           console.log("Some error occured",error);
           toast.error("Internal Server Error");
+        }
+        finally{
+          setLoading(false);
         }
     }
 
@@ -67,7 +72,12 @@ function AdminLogin() {
          required
           />
        
-        <button className="bg-violet-600 mt-7 text-white font-semibold w-full border-none outline-none rounded-md  p-2" type="submit" >Login</button>
+        <button 
+        type="submit"
+        disabled={loading}
+        className="bg-violet-600 mt-7 text-white font-semibold w-full border-none outline-none rounded-md  p-2" 
+        
+        >{loading?'Logging...':'Login'}</button>
       
          
         <p>Do not have and account?? <Link to="/sign-up" className="cursor-pointer text-blue-600 font-semibold" >Sign Up</Link> </p>
