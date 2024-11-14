@@ -35,4 +35,23 @@ const enrollStudent = async(req,res)=>{
     }
 }
 
-module.exports=enrollStudent;
+
+// displaying the details of the students
+const studentDetail = async(req,res)=>{
+    try{
+        const displayInfo = await Student.find();
+        return res.status(200).json({
+            success:true,
+            displayInfo,
+            message:"These are the details of the students"
+        })
+    }
+    catch(error){
+        return res.status(500).json({
+            success:false,
+            error:"Some error occured"
+        })
+    }
+}
+
+module.exports={enrollStudent,studentDetail};

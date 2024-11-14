@@ -13,7 +13,7 @@ const Announcement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${backendUrl}/api/v1/assignment`, {
+      const response = await axios.post(`${backendUrl}/api/v3/announcement`, {
         category,
         description,
         course,

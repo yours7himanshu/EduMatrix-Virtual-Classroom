@@ -8,6 +8,7 @@ function Students() {
   const [studentBranch, setStudentBranch] = useState('');
   const [studentYear, setStudentYear] = useState('');
   const [studentRollNo, setStudentRollNo] = useState('');
+  const [image,setImage]=useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = async(e) => {
@@ -64,7 +65,9 @@ function Students() {
         <input
           type="file"
           className="p-2 border border-gray-300 rounded-md file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-          accept="image/*"
+          value={image}
+          onChange={(e)=>setImage(e.target.files)}
+         
         />
 
         <input
