@@ -16,7 +16,10 @@ function AdminLogin() {
         setLoading(true);
 
         try{
-          const response = await axios.post(`${backendUrl}/api/v1/admin-login`);
+          const response = await axios.post(`${backendUrl}/api/v1/admin-login`,{
+            email,
+            password
+          });
 
           if(response.data.success){
             const userToken = await response.data.token;
