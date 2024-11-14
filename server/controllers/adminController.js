@@ -25,7 +25,7 @@ const collegeRegister = async(req,res)=>{
         })
 
         return res.status(201).json({
-            success:false,
+            success:true,
             college,
             message:"Your College is successfully registered"
         })
@@ -43,9 +43,9 @@ const collegeRegister = async(req,res)=>{
 const collegeLogin = async(req,res)=>{
     const {email,password}=req.body;
     try{
-        const college = Admin.findOne({email});
+        const college = await  Admin.findOne({email});
         if(!college){
-            return res.status(500).json({
+            return res.status(400).json({
                 success:false,
                 error:"College does not exists",
             });
@@ -56,7 +56,7 @@ const collegeLogin = async(req,res)=>{
         
         if(!isValidPassword){
             return res.status(400).json({
-                success:"faslse",
+                success:"false",
                 error:"Invalid Credentials"
             })
 
