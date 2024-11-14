@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import Sidebar from "../components/Sidebar";
 const Announcement = () => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -28,7 +29,9 @@ const Announcement = () => {
   };
   return (
     <>
-      <div className="announcement flex flex-col items-center w-full mt-20  ">
+    <div className="announcement flex w-screen ">
+      <Sidebar/>
+    <div className="announcement flex flex-col items-center w-full mt-20  ">
         <h1 className="font-bold text-3xl">
           Post Announcement for your college!!
         </h1>
@@ -109,6 +112,8 @@ const Announcement = () => {
           </div>
         </form>
       </div>
+    </div>
+     
     </>
   );
 };
