@@ -1,4 +1,4 @@
-const Assignment = require('../models/assignment');
+const Assignment = require('../models/announcementModels');
 
 
 const assignment = async(req,res)=>{
