@@ -28,13 +28,7 @@ const Sidebar = () => {
                         Enroll Students
                     </li>
                 </Link>
-                <Link to="/classes" >
-                    <li className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${activeItem === 'classes' ? 'bg-white text-black border rounded-md' : 'text-white'}`} 
-                        onClick={() => setActiveItem('classes')}
-                    >
-                        Assign Classes
-                    </li>
-                </Link>
+            
                 <Link to="/announcement" >
                     <li  className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${activeItem === 'announcement' ? 'bg-white text-black border rounded-md' : 'text-white'}`} 
                         onClick={() => setActiveItem('announcement')}
@@ -47,6 +41,14 @@ const Sidebar = () => {
                         onClick={() => setActiveItem('timetable')}
                     >
                         Time Table
+                    </li>
+                </Link>
+
+                <Link to="/admin-live" >
+                    <li className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${activeItem === 'live' ? 'bg-white text-black border rounded-md' : 'text-white'}`} 
+                        onClick={() => setActiveItem('live')}
+                    >
+                        Go Live Class
                     </li>
                 </Link>
             </ul>
