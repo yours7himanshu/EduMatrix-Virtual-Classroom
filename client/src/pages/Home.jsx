@@ -1,7 +1,9 @@
 import React from "react";
 
+
 const HomePage = () => {
   return (
+
     <div className="bg-gray-50 p-4">
       {/* Header */}
       <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6">
@@ -129,6 +131,7 @@ const HomePage = () => {
         <p>&copy; 2024 EduMatrix. All rights reserved.</p>
       </footer>
     </div>
+
   );
 };
 
