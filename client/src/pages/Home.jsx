@@ -1,15 +1,12 @@
-
-import mainImage from '../assets/What-is-a-Virtual-Classroom-3.png'
+import mainImage from '../assets/What-is-a-Virtual-Classroom-3.png';
 
 const HomePage = () => {
   return (
-
-    <div className="bg-gray-50 p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 ">
-
+    <div className="bg-gray-50 p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
-      <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6 ">
+      <header className="flex flex-wrap justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6">
         <h1 className="text-2xl font-bold text-blue-700">EduMatrix</h1>
-        <nav className="space-x-6">
+        <nav className="space-x-4 flex flex-wrap justify-center">
           <a href="#features" className="text-gray-700 hover:text-blue-700">
             Features
           </a>
@@ -25,10 +22,8 @@ const HomePage = () => {
         </nav>
       </header>
 
-      
-
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-violet-500 to-blue-600 text-white py-20 px-6 rounded-md mb-6">
+      <section className="bg-gradient-to-r from-violet-500 to-blue-600 text-white py-10 px-6 rounded-md mb-6">
         <div className="container mx-auto flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 space-y-6 text-center md:text-left">
             <h2 className="text-4xl font-extrabold">
@@ -38,7 +33,7 @@ const HomePage = () => {
               An AI-powered smart education system for a seamless virtual
               classroom experience.
             </p>
-            <div className="flex justify-center md:justify-start space-x-4">
+            <div className="flex flex-wrap justify-center md:justify-start space-x-4">
               <button className="px-6 py-2 bg-white text-blue-600 rounded-lg shadow-md hover:bg-gray-100">
                 Explore Features
               </button>
@@ -47,12 +42,11 @@ const HomePage = () => {
               </button>
             </div>
           </div>
-          <div className="md:w-1/2 flex justify-center">
+          <div className="md:w-1/2 flex justify-center mt-6 md:mt-0">
             <img
-
               src={mainImage}
-              className="rounded-lg w-[80%] shadow-lg"
-
+              alt="Virtual Classroom"
+              className="rounded-lg w-full md:w-4/5 lg:w-3/4 shadow-lg"
             />
           </div>
         </div>
@@ -61,13 +55,13 @@ const HomePage = () => {
       {/* Features Section */}
       <section
         id="features"
-        className="py-20 px-6 bg-white rounded-md mb-6 shadow-md"
+        className="py-10 px-6 bg-white rounded-md mb-6 shadow-md"
       >
         <div className="container mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-800">
             Why Choose EduMatrix?
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 cursor-pointer ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {[
               "Smart Attendance Tracking",
               "Interactive Virtual Whiteboard",
@@ -78,7 +72,7 @@ const HomePage = () => {
             ].map((feature, index) => (
               <div
                 key={index}
-                className="p-6 border rounded-lg shadow-sm hover:shadow-lg"
+                className="p-6 border rounded-lg shadow-sm hover:shadow-lg text-center"
               >
                 <h4 className="text-xl font-semibold text-blue-600">
                   {feature}
@@ -95,7 +89,7 @@ const HomePage = () => {
       {/* Demo Section */}
       <section
         id="demo"
-        className="py-20 px-6 bg-gray-100 rounded-md mb-6 shadow-md"
+        className="py-10 px-6 bg-gray-100 rounded-md mb-6 shadow-md"
       >
         <div className="container mx-auto text-center">
           <h3 className="text-3xl font-bold text-gray-800">
@@ -106,7 +100,7 @@ const HomePage = () => {
           </p>
           <div className="mt-8">
             <iframe
-              className="w-full md:w-3/4 h-64 mx-auto rounded-lg shadow-md"
+              className="w-full sm:w-3/4 h-64 mx-auto rounded-lg shadow-md"
               src="https://www.youtube.com/embed/dQw4w9WgXcQ"
               title="EduMatrix Demo"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -119,7 +113,7 @@ const HomePage = () => {
       {/* Call-to-Action Section */}
       <section
         id="get-started"
-        className="py-20 px-6 bg-blue-600 text-white text-center rounded-md mb-6 shadow-md"
+        className="py-10 px-6 bg-blue-600 text-white text-center rounded-md mb-6 shadow-md"
       >
         <h3 className="text-3xl font-bold">Transform Education Today</h3>
         <p className="mt-4">
