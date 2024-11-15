@@ -30,7 +30,9 @@ function AddTeacher() {
     }
   };
   return (
-    <div className="addteachers flex-col items-center justify-center ">
+   <div className="addTeacher flex">
+    <Sidebar/>
+     <div className="addteachers w-[80%] flex-col items-center justify-center ">
       <TeacherRole />
       <div className="teachers-section flex flex-col items-center justify-center gap-5 h-screen w-[100%]">
         <h1 className="text-zinc-800 font-semibold text-3xl">
@@ -85,6 +87,7 @@ function AddTeacher() {
         </form>
       </div>
     </div>
+   </div>
   );
 }
 
