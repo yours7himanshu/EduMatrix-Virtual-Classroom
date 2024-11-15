@@ -1,63 +1,64 @@
-import React, { useEffect, useState } from "react";
-import socket from "../socket";
+// JoinLecture.js
+import  { useEffect, useRef } from "react";
+import socket from "../socket"; // Import your configured socket client
 
 const JoinLecture = ({ lectureId }) => {
-    const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState([]);
+    const remoteVideoRef = useRef(null);
+    const peerConnection = useRef(null);
 
     useEffect(() => {
         socket.emit("joinLecture", lectureId);
 
-        // Listen for messages from the server
-        socket.on("receiveMessage", (data) => {
-            setMessages((prevMessages) => [...prevMessages, data]);
-        });
+        socket.on("videoOffer", handleVideoOffer);
+        socket.on("iceCandidate", handleNewICECandidateMsg);
 
         return () => {
-            socket.off("receiveMessage");
+            socket.off("videoOffer");
+            socket.off("iceCandidate");
+            if (peerConnection.current) peerConnection.current.close();
         };
     }, [lectureId]);
 
-    const handleSendMessage = () => {
-        const chatData = {
-            userId: "ClientUser", // Replace with actual user ID
-            message,
-            lectureId,
+    const handleVideoOffer = async (offer) => {
+        if (!peerConnection.current) initializePeerConnection();
+
+        await peerConnection.current.setRemoteDescription(new RTCSessionDescription(offer));
+        const answer = await peerConnection.current.createAnswer();
+        await peerConnection.current.setLocalDescription(answer);
+        socket.emit("videoAnswer", { answer, lectureId });
+    };
+
+    const initializePeerConnection = () => {
+        peerConnection.current = new RTCPeerConnection();
+
+        peerConnection.current.onicecandidate = (event) => {
+            if (event.candidate) {
+                socket.emit("iceCandidate", { candidate: event.candidate });
+            }
         };
-        socket.emit("sendMessage", chatData); // Send message to server
-        setMessage(""); // Clear input field
+
+        peerConnection.current.ontrack = (event) => {
+            remoteVideoRef.current.srcObject = event.streams[0];
+        };
+    };
+
+    const handleNewICECandidateMsg = async (data) => {
+        try {
+            await peerConnection.current.addIceCandidate(data.candidate);
+        } catch (e) {
+            console.error("Error adding received ICE candidate", e);
+        }
     };
 
     return (
-        <div className="flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow-md max-w-lg mx-auto">
-            <div className="w-full bg-white p-4 rounded-lg shadow-sm mb-4 overflow-y-auto max-h-96">
-                {/* Displaying messages */}
-                {messages.map((msg, index) => (
-                    <div key={index} className="flex flex-col mb-2">
-                        <span className="font-semibold text-sm text-blue-600">{msg.userId}</span>
-                        <p className="text-gray-800 text-sm">{msg.message}</p>
-                    </div>
-                ))}
-            </div>
-
-            <div className="flex w-full space-x-2">
-                {/* Message input field */}
-                <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Type your message"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-
-                {/* Send button */}
-                <button
-                    onClick={handleSendMessage}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    Send
-                </button>
-            </div>
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl text-red-600 font-semibold mb-4">Live Lecture</h2>
+            <video
+                ref={remoteVideoRef}
+                autoPlay
+                className="w-[80%] h-[90%] bg-black rounded-lg shadow-md mb-4"
+            ></video>
+            <p className="text-green-600">You are now watching the live lecture.</p>
         </div>
     );
 };

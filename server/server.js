@@ -45,10 +45,26 @@ io.on("connection", (socket) => {
         await chatController.createChatMessage(data);
     });
 
+   
+
+    socket.on("videoOffer", (data) => {
+        socket.to(data.lectureId).emit("videoOffer", data.offer);
+    });
+
+    socket.on("videoAnswer", (data) => {
+        socket.to(data.lectureId).emit("videoAnswer", data.answer);
+    });
+
+    socket.on("iceCandidate", (data) => {
+        socket.to(data.lectureId).emit("iceCandidate", data.candidate);
+    });
+
     socket.on("disconnect", () => {
         console.log("User disconnected:", socket.id);
     });
 });
+
+
 
 // Setting up API routes
 app.use("/api/lectures", lectureRoutes);

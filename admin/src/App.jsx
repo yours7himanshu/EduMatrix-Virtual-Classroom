@@ -7,13 +7,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import AddTeacher from './components/AddTeacher';
-import Sidebar from './components/Sidebar';
+
 import Announcement from './pages/Announcement';
 import Students from './components/Students';
 import Dashboard from './components/Dashboard';
 import TimeTable from './components/TimeTable';
 import Classes from './components/Classes';
-import CreateLecture from './components/CreateLecture';
+
+import AdminLive from './components/AdminLive';
 
 function App() {
  
@@ -32,7 +33,7 @@ function App() {
     <Route path='/announcement' element={<Announcement/>}/>
     <Route path='/timetable' element={<TimeTable/>}/>
 <Route path='/classes' element={<Classes/>}/>
-<Route path='/createLecture' element={<CreateLecture/>}/>
+<Route path='/admin-live' element={<AdminLive/>}/>
 
   </Routes>
     </div>
