@@ -1,12 +1,22 @@
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import AdminLogin from "./pages/AdminLogin";
+import AdminSignUp from "./pages/AdminSignUp";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import './App.css'
-import { Routes,Route } from 'react-router-dom'
-import AdminLogin from './pages/AdminLogin'
-import AdminSignUp from './pages/AdminSignUp'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import AddTeacher from "./components/AddTeacher";
 
-import AddTeacher from './components/AddTeacher';
+import Announcement from "./pages/Announcement";
+import Students from "./components/Students";
+import Dashboard from "./components/Dashboard";
+import TimeTable from "./components/TimeTable";
+import Classes from "./components/Classes";
+
+
+import AdminLive from "./components/AdminLive";
+import Sidebar from "./components/Sidebar";
+import DashboardPage from "./components/DashboardPage";
 
 import Announcement from './pages/Announcement';
 import Students from './components/Students';
@@ -17,11 +27,11 @@ import Classes from './components/Classes';
 import AdminLive from './components/AdminLive';
 import CreateQuiz from './components/CreateQuiz';
 
-function App() {
- 
 
+function App() {
   return (
     <>
+
     <div className="app  ">
       
       <ToastContainer/>
@@ -40,8 +50,9 @@ function App() {
 
   </Routes>
     </div>
+
     </>
-  )
+  );
 }
 
-export default App
+export default App;

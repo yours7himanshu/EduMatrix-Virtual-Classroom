@@ -1,9 +1,11 @@
+
 import mainImage from '../assets/What-is-a-Virtual-Classroom-3.png'
 
 const HomePage = () => {
   return (
 
     <div className="bg-gray-50 p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 ">
+
       {/* Header */}
       <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6 ">
         <h1 className="text-2xl font-bold text-blue-700">EduMatrix</h1>
@@ -22,6 +24,8 @@ const HomePage = () => {
           </a>
         </nav>
       </header>
+
+      <Header />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-violet-500 to-blue-600 text-white py-20 px-6 rounded-md mb-6">
@@ -45,15 +49,20 @@ const HomePage = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img
+
               src={mainImage}
               className="rounded-lg w-[80%] shadow-lg"
+
             />
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-6 bg-white rounded-md mb-6 shadow-md">
+      <section
+        id="features"
+        className="py-20 px-6 bg-white rounded-md mb-6 shadow-md"
+      >
         <div className="container mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-800">
             Why Choose EduMatrix?
@@ -84,7 +93,10 @@ const HomePage = () => {
       </section>
 
       {/* Demo Section */}
-      <section id="demo" className="py-20 px-6 bg-gray-100 rounded-md mb-6 shadow-md">
+      <section
+        id="demo"
+        className="py-20 px-6 bg-gray-100 rounded-md mb-6 shadow-md"
+      >
         <div className="container mx-auto text-center">
           <h3 className="text-3xl font-bold text-gray-800">
             See EduMatrix in Action
@@ -129,7 +141,6 @@ const HomePage = () => {
         <p>&copy; 2024 EduMatrix. All rights reserved.</p>
       </footer>
     </div>
-
   );
 };
 
