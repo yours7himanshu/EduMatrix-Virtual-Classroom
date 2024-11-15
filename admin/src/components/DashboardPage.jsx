@@ -6,9 +6,9 @@ import Dashboard from "./Dashboard";
 
 const DashboardPage = () => {
   return (
-    <div className="flex ">
-      <Sidebar />
-      <div className="flex-1 p-4 py-6 bg-gray-100">
+    <div className="dashboard flex ">
+    <Sidebar/>
+      <div className="flex-1 w-[80%] p-4 py-6 bg-gray-100">
         {/* Dashboard Header */}
         <div className="flex w-[80%]  items-center justify-between mb-6">
           <h1 className="text-3xl font-semibold text-gray-800">

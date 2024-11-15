@@ -15,16 +15,12 @@ import Classes from "./components/Classes";
 
 
 import AdminLive from "./components/AdminLive";
-import Sidebar from "./components/Sidebar";
-import DashboardPage from "./components/DashboardPage";
 
-import Announcement from './pages/Announcement';
-import Students from './components/Students';
-import Dashboard from './components/Dashboard';
-import TimeTable from './components/TimeTable';
-import Classes from './components/Classes';
 
-import AdminLive from './components/AdminLive';
+
+
+
+
 import CreateQuiz from './components/CreateQuiz';
 
 
@@ -35,6 +31,7 @@ function App() {
     <div className="app  ">
       
       <ToastContainer/>
+     
   <Routes>
     <Route path='/' element={<AdminLogin/>}/>
     <Route path='/sign-up' element={<AdminSignUp/>}/>
