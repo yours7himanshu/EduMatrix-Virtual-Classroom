@@ -1,78 +1,66 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import profilePic from "../assets/pp.png";
 import dropdown from "../assets/dropdown.png";
 
 const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const [token, setToken] = useState(true);
 
   return (
     <nav className="bg-blue-700 text-white shadow-md p-4">
-      <div className="container mx-auto flex justify-evenly items-center">
+      <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-
         <div className="text-2xl font-semibold">
           <Link to="/">EduMatrix</Link>
         </div>
-        
-       
-        <div className="hidden md:flex space-x-6">
-          <Link to="/" className="hover:text-blue-300">Home</Link>
-          <Link to="/aboutUs" className="hover:text-blue-300">About Us</Link>
-          <Link to="/courses" className="hover:text-blue-300">Courses</Link>
-          <Link to="/contact" className="hover:text-blue-300">Contact Us</Link>
-          <Link to="/notes" className="hover:text-blue-300">Notes</Link>
-          <Link to="/syllabus" className="hover:text-blue-300">Syllabus</Link>
-          
-          
-        </div>
 
-        <div className="md:hidden">
-          <button className="text-white focus:outline-none" id="menu-toggle">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
-            </svg>
-          </button>
-        </div>
+        {/* Links */}
+        {isAuthenticated && (
+          <div className="hidden md:flex space-x-6">
+            <Link to="/" className="hover:text-blue-300">
+              Home
+            </Link>
+            <Link to="/aboutUs" className="hover:text-blue-300">
+              About Us
+            </Link>
+            <Link to="/courses" className="hover:text-blue-300">
+              Courses
+            </Link>
+            <Link to="/contact" className="hover:text-blue-300">
+              Contact Us
+            </Link>
+            <Link to="/notes" className="hover:text-blue-300">
+              Notes
+            </Link>
+            <Link to="/syllabus" className="hover:text-blue-300">
+              Syllabus
+            </Link>
+          </div>
+        )}
 
-        {/* Profile or Create Account Button */}
+        {/* Profile or Login/Signup */}
         <div className="flex items-center gap-4">
-          {token ? (
+          {isAuthenticated ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
-              <img
-                className="w-8 rounded-full"
-                src={profilePic}
-                alt="Profile"
-              />
+              <img className="w-8 rounded-full" src={profilePic} alt="Profile" />
               <img className="w-2.5" src={dropdown} alt="Dropdown Icon" />
               <div className="absolute top-0 right-0 pt-14 text-base font-medium text-grey-600 z-20 hidden group-hover:block">
                 <div className="min-w-48 bg-gray-500 rounded flex flex-col gap-4 p-4">
                   <p
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/my-courses")}
                     className="hover:text-black cursor-pointer"
                   >
                     My Courses
                   </p>
                   <p
-                    onClick={() => setToken(false)}
+                    onClick={logout}
                     className="hover:text-black cursor-pointer"
                   >
                     Logout
                   </p>
                   <p
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/profile")}
                     className="hover:text-black cursor-pointer"
                   >
                     My Profile
