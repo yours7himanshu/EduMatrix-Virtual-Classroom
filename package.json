@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
     "socket.io-client": "^4.8.1"
   }
 }

@@ -19,10 +19,10 @@ const Navbar = () => {
        
         <div className="hidden md:flex space-x-6">
           <Link to="/" className="hover:text-blue-300">Home</Link>
+          <Link to="/aboutUs" className="hover:text-blue-300">About Us</Link>
           <Link to="/courses" className="hover:text-blue-300">Courses</Link>
-          <Link to="/assignments" className="hover:text-blue-300">Assignments</Link>
-          <Link to="/profile" className="hover:text-blue-300">Profile</Link>
-          <Link to="/contact" className="hover:text-blue-300">Contact</Link>
+          <Link to="/contact" className="hover:text-blue-300">Contact Us</Link>
+          
         </div>
         
        
