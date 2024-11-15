@@ -1,12 +1,11 @@
-import React from "react";
-
+import mainImage from '../assets/What-is-a-Virtual-Classroom-3.png'
 
 const HomePage = () => {
   return (
 
-    <div className="bg-gray-50 p-4">
+    <div className="bg-gray-50 p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 ">
       {/* Header */}
-      <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6">
+      <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6 ">
         <h1 className="text-2xl font-bold text-blue-700">EduMatrix</h1>
         <nav className="space-x-6">
           <a href="#features" className="text-gray-700 hover:text-blue-700">
@@ -25,7 +24,7 @@ const HomePage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-20 px-6 rounded-md mb-6">
+      <section className="bg-gradient-to-r from-violet-500 to-blue-600 text-white py-20 px-6 rounded-md mb-6">
         <div className="container mx-auto flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 space-y-6 text-center md:text-left">
             <h2 className="text-4xl font-extrabold">
@@ -46,9 +45,8 @@ const HomePage = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img
-              src="https://via.placeholder.com/400x300"
-              alt="EduMatrix Illustration"
-              className="rounded-lg shadow-lg"
+              src={mainImage}
+              className="rounded-lg w-[80%] shadow-lg"
             />
           </div>
         </div>
@@ -60,7 +58,7 @@ const HomePage = () => {
           <h3 className="text-3xl font-bold text-center text-gray-800">
             Why Choose EduMatrix?
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 cursor-pointer ">
             {[
               "Smart Attendance Tracking",
               "Interactive Virtual Whiteboard",
