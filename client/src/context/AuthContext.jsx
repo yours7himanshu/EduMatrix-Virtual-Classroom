@@ -1,6 +1,16 @@
-import { useState, useEffect, createContext, useMemo } from "react";
+import { useState, useEffect, useContext, createContext, useMemo } from "react";
 
-export const AuthContext = createContext();
+// Create the AuthContext
+const AuthContext = createContext();
+
+// Custom hook for consuming the AuthContext
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthContextProvider");
+    }
+    return context;
+};
 
 const AuthContextProvider = ({ children }) => {
     const [token, setToken] = useState("");
@@ -24,17 +34,13 @@ const AuthContextProvider = ({ children }) => {
         () => ({
             token,
             setToken,
-            isAuthenticated: !!token, // Renamed for consistency
+            isAuthenticated: !!token, // Helper for login status
             logout,
         }),
         [token]
     );
 
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    );
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;
