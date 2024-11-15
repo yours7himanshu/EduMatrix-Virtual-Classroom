@@ -25,7 +25,7 @@ const HomePage = () => {
         </nav>
       </header>
 
-      <Header />
+      
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-violet-500 to-blue-600 text-white py-20 px-6 rounded-md mb-6">
