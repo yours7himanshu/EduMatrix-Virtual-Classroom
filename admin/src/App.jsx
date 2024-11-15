@@ -15,6 +15,7 @@ import TimeTable from './components/TimeTable';
 import Classes from './components/Classes';
 
 import AdminLive from './components/AdminLive';
+import CreateQuiz from './components/CreateQuiz';
 
 function App() {
  
@@ -34,6 +35,8 @@ function App() {
     <Route path='/timetable' element={<TimeTable/>}/>
 <Route path='/classes' element={<Classes/>}/>
 <Route path='/admin-live' element={<AdminLive/>}/>
+<Route path='/post-quiz' element={<CreateQuiz/>}/>
+
 
   </Routes>
     </div>
