@@ -11,23 +11,21 @@ const Navbar = () => {
     <nav className="bg-blue-700 text-white shadow-md p-4">
       <div className="container mx-auto flex justify-evenly items-center">
         {/* Logo */}
-        {/* <div className="text-2xl font-semibold">
-          <Link to="/">Smart Education</Link>
-        </div> */}
 
+        <div className="text-2xl font-semibold">
+          <Link to="/">EduMatrix</Link>
+        </div>
+        
+       
         <div className="hidden md:flex space-x-6">
-          <Link to="/" className="hover:text-blue-300">
-            Home
-          </Link>
-          <Link to="/aboutUs" className="hover:text-blue-300">
-            About Us
-          </Link>
-          <Link to="/courses" className="hover:text-blue-300">
-            Courses
-          </Link>
-          <Link to="/contact" className="hover:text-blue-300">
-            Contact Us
-          </Link>
+          <Link to="/" className="hover:text-blue-300">Home</Link>
+          <Link to="/aboutUs" className="hover:text-blue-300">About Us</Link>
+          <Link to="/courses" className="hover:text-blue-300">Courses</Link>
+          <Link to="/contact" className="hover:text-blue-300">Contact Us</Link>
+          <Link to="/notes" className="hover:text-blue-300">Notes</Link>
+          <Link to="/syllabus" className="hover:text-blue-300">Syllabus</Link>
+          
+          
         </div>
 
         <div className="md:hidden">
