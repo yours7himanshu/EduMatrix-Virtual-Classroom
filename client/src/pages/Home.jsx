@@ -1,9 +1,9 @@
 import React from "react";
-
+import Header from "../components/Header";
+import { assets } from "../assets/assets";
 
 const HomePage = () => {
   return (
-
     <div className="bg-gray-50 p-4">
       {/* Header */}
       <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6">
@@ -23,6 +23,8 @@ const HomePage = () => {
           </a>
         </nav>
       </header>
+
+      <Header />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-20 px-6 rounded-md mb-6">
@@ -46,7 +48,7 @@ const HomePage = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img
-              src="https://via.placeholder.com/400x300"
+              src={assets.img3}
               alt="EduMatrix Illustration"
               className="rounded-lg shadow-lg"
             />
@@ -55,7 +57,10 @@ const HomePage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-6 bg-white rounded-md mb-6 shadow-md">
+      <section
+        id="features"
+        className="py-20 px-6 bg-white rounded-md mb-6 shadow-md"
+      >
         <div className="container mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-800">
             Why Choose EduMatrix?
@@ -86,7 +91,10 @@ const HomePage = () => {
       </section>
 
       {/* Demo Section */}
-      <section id="demo" className="py-20 px-6 bg-gray-100 rounded-md mb-6 shadow-md">
+      <section
+        id="demo"
+        className="py-20 px-6 bg-gray-100 rounded-md mb-6 shadow-md"
+      >
         <div className="container mx-auto text-center">
           <h3 className="text-3xl font-bold text-gray-800">
             See EduMatrix in Action
@@ -131,7 +139,6 @@ const HomePage = () => {
         <p>&copy; 2024 EduMatrix. All rights reserved.</p>
       </footer>
     </div>
-
   );
 };
 

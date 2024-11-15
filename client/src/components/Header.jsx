@@ -9,7 +9,7 @@ const Header = () => {
           Create your own
         </p>
         <p className="text-5xl m-4 text-blue-950 font-extrabold font-serif">
-          World's best online{" "}
+          World's best online
         </p>
         <p className="text-5xl m-4 text-blue-400 font-extrabold font-serif">
           learning platform

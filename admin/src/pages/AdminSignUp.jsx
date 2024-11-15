@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import axios from 'axios';
+import { useContext, useState } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ContextStore } from "../store/ContextStore";
 
 function AdminSignUp() {
-  const [collegeName, setCollegeName] = useState("");
+  const { collegeName, setCollegeName } = useContext(ContextStore);
   const [directorName, setDirectorName] = useState("");
   const [email, setEmail] = useState("");
   const [centerCode, setCenterCode] = useState("");
@@ -27,13 +28,17 @@ function AdminSignUp() {
         password,
       });
       if (response.data.success) {
-        toast.success(response.data.message || "College successfully registered");
-        navigate('/');
+        toast.success(
+          response.data.message || "College successfully registered"
+        );
+        navigate("/");
       }
     } catch (error) {
       console.log("Some error occurred", error);
       if (error.response) {
-        toast.error(`Error: ${error.response.data.message || "Internal server error"}`);
+        toast.error(
+          `Error: ${error.response.data.message || "Internal server error"}`
+        );
       } else if (error.request) {
         toast.error("No response from server.");
       } else {
@@ -103,7 +108,6 @@ function AdminSignUp() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-           
           />
           <input
             className="border w-full border-gray-300 h-10 rounded-sm p-2"
@@ -112,7 +116,6 @@ function AdminSignUp() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-           
           />
 
           <button
@@ -120,7 +123,7 @@ function AdminSignUp() {
             type="submit"
             disabled={loading}
           >
-            {loading ? 'Registering...' : 'Register'}
+            {loading ? "Registering..." : "Register"}
           </button>
 
           <p>
