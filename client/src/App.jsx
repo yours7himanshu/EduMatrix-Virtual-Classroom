@@ -18,6 +18,7 @@ import CardActions from "@material-ui/core/CardActions";
 import NotesPage from "./pages/NotesPage.jsx";
 import SyllabusPage from "./pages/SyllabusPage.jsx";
 import QuizList from "./components/QuizList.jsx";
+import Login  from "./pages/Login.jsx"
 function App() {
   return (
     <>
@@ -33,6 +34,10 @@ function App() {
         <Route path="/notes" element={<NotesPage/>} />
         <Route path="/syllabus" element={<SyllabusPage/>} />
         <Route path="/quiz" element={<QuizList/>} />
+        <Route path="/login" element={<Login/>} />
+        
+
+
 
 
 
