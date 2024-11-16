@@ -5,7 +5,7 @@ const HomePage = () => {
     <div className="bg-gray-50 p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
       <header className="flex flex-wrap justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6">
-        <h1 className="text-2xl font-bold text-blue-700">EduMatrix</h1>
+        <h1 className="text-2xl font-bold text-violet-500">EduMatrix</h1>
         <nav className="space-x-4 flex flex-wrap justify-center">
           <a href="#features" className="text-gray-700 hover:text-blue-700">
             Features
