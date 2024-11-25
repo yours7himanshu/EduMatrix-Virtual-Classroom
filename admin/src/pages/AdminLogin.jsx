@@ -31,7 +31,12 @@ function AdminLogin() {
       }
     } catch (error) {
       console.log("Some error occured", error);
-      toast.error("Internal Server Error");
+      if(error.response && error.response.data && error.response.data.message){
+        toast.error(error.response.data.message);
+      }
+      else{
+        toast.error("Some unexpected error occured..Please try again")
+      }
     } finally {
       setLoading(false);
     }

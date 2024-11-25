@@ -71,6 +71,32 @@ const Sidebar = () => {
           </li>
         </Link>
 
+        <Link to="/post-quiz">
+          <li
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+              activeItem === "quiz"
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+            onClick={() => setActiveItem("quiz")}
+          >
+        Quiz
+          </li>
+        </Link>
+
+        <Link to="/post-assignment">
+          <li
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+              activeItem === "assignment"
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+            onClick={() => setActiveItem("assignment")}
+          >
+            Assignment
+          </li>
+        </Link>
+
         <Link to="/admin-live">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${

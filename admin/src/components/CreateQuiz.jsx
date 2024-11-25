@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from './Sidebar';
 
 const CreateQuiz = () => {
   const [quiz, setQuiz] = useState({
@@ -51,10 +52,11 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className="flex gap-20 min-h-screen bg-gray-50">
+      <Sidebar/>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8 space-y-6"
+        className="w-[70%] justify-center  flex flex-col bg-white shadow-lg rounded-lg p-8 space-y-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">Create a New Quiz</h2>
 

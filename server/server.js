@@ -13,6 +13,7 @@ const studentRoutes = require('./routes/studentRoutes');
 const connectCloudinary = require('./config/cloudinary');
 const lectureRoutes = require('./routes/lectureRoutes');
 const quizRoutes = require('./routes/quizessRoutes');
+const assignmentRoutes = require("./routes/assignmentRoutes")
 
 const app = express();
 
@@ -75,6 +76,7 @@ app.use('/api/v3', announcementRoutes);
 app.use('/api/v4', teacherRoutes);
 app.use('/api/v5', studentRoutes);
 app.use('/api',quizRoutes);
+app.use('/api/v7',assignmentRoutes);
 
 // Health check route
 app.get('/', (req, res) => {
