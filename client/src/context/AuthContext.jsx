@@ -14,7 +14,8 @@ export const useAuth = () => {
 
 const AuthContextProvider = ({ children }) => {
     const [token, setToken] = useState("");
-
+    
+   
     // Check for token in localStorage on mount
     useEffect(() => {
         const localToken = localStorage.getItem("token");
@@ -22,6 +23,7 @@ const AuthContextProvider = ({ children }) => {
             setToken(localToken);
         }
     }, []);
+
 
     // Logout function
     const logout = () => {

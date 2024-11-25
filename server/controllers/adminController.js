@@ -9,7 +9,7 @@ const collegeRegister = async(req,res)=>{
         if(existingCollege){
             return res.status(400).json({
                 success:false,
-                error:"College Already Exists"
+                message:"College Already Exists"
             })
 
         }
@@ -35,7 +35,7 @@ const collegeRegister = async(req,res)=>{
 
         return res.status(500).json({
             success:false,
-            error:"Internal Sever error"
+            message:"Internal Sever error"
         })
     }
 }
@@ -47,7 +47,7 @@ const collegeLogin = async(req,res)=>{
         if(!college){
             return res.status(400).json({
                 success:false,
-                error:"College does not exists",
+                message:"College does not exists",
             });
 
         }
@@ -57,7 +57,7 @@ const collegeLogin = async(req,res)=>{
         if(!isValidPassword){
             return res.status(400).json({
                 success:"false",
-                error:"Invalid Credentials"
+                message:"Invalid Credentials"
             })
 
         }
@@ -80,7 +80,7 @@ const collegeLogin = async(req,res)=>{
     catch(error){
         return res.status(500).json({
             success:false,
-            error:"Internal Server error"
+            message:"Internal Server error"
         })
     }
 }
