@@ -6,10 +6,17 @@ const collegeRegister = async(req,res)=>{
     const {directorName,collegeName,email,centerCode,password}=req.body;
     try{
         const existingCollege = await Admin.findOne({email});
-        if(existingCollege){
-            return res.status(400).json({
+        const existingCollegeName = await Admin.findOne({collegeName});
+        if(existingCollegeName){
+            return res.status(409).json({
                 success:false,
-                message:"College Already Exists"
+                message:" Your college is already registered with another id"
+            });
+        }
+        if(existingCollege){
+            return res.status(409).json({
+                success:false,
+                message:"Your college already exists"
             })
 
         }
@@ -47,7 +54,7 @@ const collegeLogin = async(req,res)=>{
         if(!college){
             return res.status(400).json({
                 success:false,
-                message:"College does not exists",
+                message:"College does not exists...Please Register",
             });
 
         }
