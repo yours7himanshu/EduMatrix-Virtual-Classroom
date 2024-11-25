@@ -73,7 +73,7 @@ const Dashboard = () => {
         </h1> */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Attendance Chart */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Attendance Overview
             </h2>
@@ -86,7 +86,7 @@ const Dashboard = () => {
             />
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Marks Overview
             </h2>

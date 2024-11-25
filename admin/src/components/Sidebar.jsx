@@ -1,22 +1,26 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { ContextStore } from "../store/ContextStore";
 import Logo from "./Logo";
+
 const Sidebar = () => {
-  const [activeItem, setActiveItem] = useState("dashboard");
   const { collegeName } = useContext(ContextStore);
+  const location = useLocation();
+
+  // A function to check if a route is active
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <div className="sidebar flex flex-col w-[20%] bg-blue-500 text-white">
-      <ul className="flex  flex-col ml-10 gap-5">
+    <div className="sidebar h-screen flex flex-col w-[20%] bg-blue-500 text-white">
+      <ul className="flex flex-col ml-10 gap-5">
         <Logo />
         <Link to="/dashboard">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "dashboard"
+              isActive("/dashboard")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("dashboard")}
           >
             Dashboard
           </li>
@@ -24,11 +28,10 @@ const Sidebar = () => {
         <Link to="/add-teachers">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "teachers"
+              isActive("/add-teachers")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("teachers")}
           >
             Add Teachers
           </li>
@@ -36,24 +39,21 @@ const Sidebar = () => {
         <Link to="/enroll-students">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "students"
+              isActive("/enroll-students")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("students")}
           >
             Enroll Students
           </li>
         </Link>
-
         <Link to="/announcement">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "announcement"
+              isActive("/announcement")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("announcement")}
           >
             Announcement
           </li>
@@ -61,50 +61,43 @@ const Sidebar = () => {
         <Link to="/timetable">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "timetable"
+              isActive("/timetable")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("timetable")}
           >
             Time Table
           </li>
         </Link>
-
         <Link to="/post-quiz">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "quiz"
+              isActive("/post-quiz")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("quiz")}
           >
-        Quiz
+            Quiz
           </li>
         </Link>
-
         <Link to="/post-assignment">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "assignment"
+              isActive("/post-assignment")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("assignment")}
           >
             Assignment
           </li>
         </Link>
-
         <Link to="/admin-live">
           <li
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
-              activeItem === "live"
+              isActive("/admin-live")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
-            onClick={() => setActiveItem("live")}
           >
             Go Live Class
           </li>

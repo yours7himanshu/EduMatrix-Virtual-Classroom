@@ -56,7 +56,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <Dashboard />
+        <Dashboard  />
       </div>
     </div>
   );
