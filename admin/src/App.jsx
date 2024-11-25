@@ -13,7 +13,7 @@ import Classes from "./components/Classes";
 import AdminLive from "./components/AdminLive";
 import CreateQuiz from "./components/CreateQuiz";
 import Assignment from "./components/Assignment";
-import DashboardPage from "./components/DashboardPage"
+import DashboardPage from "./components/DashboardPage";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<AdminLogin />} />
           <Route path="/sign-up" element={<AdminSignUp />} />
-          
+
           <Route path="/enroll-students" element={<Students />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/add-teachers" element={<AddTeacher />} />
