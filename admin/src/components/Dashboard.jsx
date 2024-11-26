@@ -66,14 +66,14 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard flex ">
-      <Sidebar/>
-      <div className="p-8 bg-gray-100 min-h-screen w-[100%]">
+      
+      <div className="p-8 bg-gray-100  w-[100%]">
         {/* <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
           Student Dashboard
         </h1> */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Attendance Chart */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Attendance Overview
             </h2>
@@ -86,7 +86,7 @@ const Dashboard = () => {
             />
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Marks Overview
             </h2>

@@ -35,15 +35,13 @@ function AdminSignUp() {
       }
     } catch (error) {
       console.log("Some error occurred", error);
-      if (error.response) {
-        toast.error(
-          `Error: ${error.response.data.message || "Internal server error"}`
-        );
-      } else if (error.request) {
-        toast.error("No response from server.");
-      } else {
-        toast.error("An unexpected error occurred.");
-      }
+     if(error.response && error.response.data && error.response.data.message)
+     {
+      toast.error(error.response.data.message);
+     }
+     else{
+      toast.error("Some unexpected error occured...Try Again!!")
+     }
     } finally {
       setLoading(false);
     }
@@ -51,7 +49,7 @@ function AdminSignUp() {
 
   return (
     <div className="min-h-screen max-w-screen flex">
-      <div className="first w-[50%] h-screen flex justify-start items-center bg-blue-600 p-4">
+      <div className="first w-[50%] h-screen flex justify-start items-center bg-gradient-to-r from-blue-600 to-violet-700 p-4">
         <img
           className="h-[50%]"
           src="https://png.pngtree.com/png-vector/20240616/ourmid/pngtree-man-using-laptop-png-image_12780624.png"
@@ -62,8 +60,7 @@ function AdminSignUp() {
             Wanted to make Education Awesome??
           </h1>
           <p className="text-yellow-300 font-semibold">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Praesentium, voluptate.
+          Bridging the Gap Between Knowledge and Success. Learning Beyond Boundaries!
           </p>
         </div>
       </div>

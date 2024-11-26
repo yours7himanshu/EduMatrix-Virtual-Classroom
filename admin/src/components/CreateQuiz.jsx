@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from './Sidebar';
 
 const CreateQuiz = () => {
   const [quiz, setQuiz] = useState({
@@ -51,10 +52,11 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className="flex ml-[25%] mt-11  rounded-lg shadow-xl w-screen border border-gray-200 gap-20 h-[80%]  ">
+      <Sidebar/>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8 space-y-6"
+        className="w-[70%] justify-center   flex flex-col bg-gray-50 shadow-lg rounded-lg p-8 space-y-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">Create a New Quiz</h2>
 
@@ -69,7 +71,7 @@ const CreateQuiz = () => {
             placeholder="Enter quiz title"
             value={quiz.title}
             onChange={(e) => setQuiz({ ...quiz, title: e.target.value })}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1  border p-3 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             required
           />
         </div>
@@ -84,7 +86,7 @@ const CreateQuiz = () => {
             placeholder="Enter quiz description"
             value={quiz.description}
             onChange={(e) => setQuiz({ ...quiz, description: e.target.value })}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 border p-3 focus:border-indigo-500 sm:text-sm"
             rows={4}
             required
           ></textarea>
@@ -108,7 +110,7 @@ const CreateQuiz = () => {
                   ),
                 })
               }
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border p-2 "
               required
             />
             <div className="grid grid-cols-2 gap-4">
@@ -118,6 +120,7 @@ const CreateQuiz = () => {
                   type="text"
                   placeholder={`Option ${i + 1}`}
                   value={option}
+                  
                   onChange={(e) =>
                     setQuiz({
                       ...quiz,
@@ -128,7 +131,7 @@ const CreateQuiz = () => {
                       ),
                     })
                   }
-                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="block w-full border-gray-300 rounded-md shadow-sm  focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border p-2"
                   required
                 />
               ))}

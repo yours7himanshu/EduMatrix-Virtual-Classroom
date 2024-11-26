@@ -6,10 +6,17 @@ const collegeRegister = async(req,res)=>{
     const {directorName,collegeName,email,centerCode,password}=req.body;
     try{
         const existingCollege = await Admin.findOne({email});
-        if(existingCollege){
-            return res.status(400).json({
+        const existingCollegeName = await Admin.findOne({collegeName});
+        if(existingCollegeName){
+            return res.status(409).json({
                 success:false,
-                error:"College Already Exists"
+                message:" Your college is already registered with another id"
+            });
+        }
+        if(existingCollege){
+            return res.status(409).json({
+                success:false,
+                message:"Your college already exists"
             })
 
         }
@@ -35,19 +42,19 @@ const collegeRegister = async(req,res)=>{
 
         return res.status(500).json({
             success:false,
-            error:"Internal Sever error"
+            message:"Internal Sever error"
         })
     }
 }
 
 const collegeLogin = async(req,res)=>{
-    const {email,password}=req.body;
+    const {email,password,role}=req.body;
     try{
         const college = await  Admin.findOne({email});
         if(!college){
             return res.status(400).json({
                 success:false,
-                error:"College does not exists",
+                message:"College does not exists...Please Register",
             });
 
         }
@@ -57,7 +64,7 @@ const collegeLogin = async(req,res)=>{
         if(!isValidPassword){
             return res.status(400).json({
                 success:"false",
-                error:"Invalid Credentials"
+                message:"Invalid Credentials"
             })
 
         }
@@ -80,7 +87,7 @@ const collegeLogin = async(req,res)=>{
     catch(error){
         return res.status(500).json({
             success:false,
-            error:"Internal Server error"
+            message:"Internal Server error"
         })
     }
 }

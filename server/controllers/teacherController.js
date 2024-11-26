@@ -48,7 +48,7 @@ const teacherDetail = async(req,res)=>{
    catch(error){
     return res.status(500).json({
         success:false,
-        error:"Some error occured"
+        message:"Some error occured"
     })
    }
 
