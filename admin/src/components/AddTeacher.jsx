@@ -30,18 +30,20 @@ function AddTeacher() {
     }
   };
   return (
-   <div className="addTeacher flex">
+   <div className="addTeacher ml-[30%] flex">
     <Sidebar/>
      <div className="addteachers w-[80%] flex-col items-center justify-center ">
       <TeacherRole />
       <div className="teachers-section flex flex-col items-center justify-center gap-5 h-screen w-[100%]">
-        <h1 className="text-zinc-800 font-semibold text-3xl">
-          Add Teachers of your College to help Students!!
-        </h1>
+       
         <form
-          className="flex flex-col gap-2 w-[50%] border border-gray-300 shadow-lg p-10 rounded-lg"
+          className="flex flex-col gap-2 w-[60%] border border-gray-100 shadow-lg p-10 rounded-lg"
           onSubmit={handleSubmit}
         >
+           <h1 className="text-violet-800 font-semibold mb-3 text-3xl">
+          Add Teachers of your College to help Students!!
+        </h1>
+
           <input
             type="text"
             placeholder="Faculty Name"
@@ -51,14 +53,16 @@ function AddTeacher() {
             required
           />
 
-          <input
-            type="text"
-            placeholder="Faculty Qualification"
-            value={qualification}
-            className="border border-gray-300 h-10 w-full p-2 rounded-md"
-            onChange={(e) => setQualification(e.target.value)}
-            required
-          />
+         <select name="qualifications"
+         className="border border-gray-300 h-10 w-full p-2 rounded-md focus:text-black text-gray-400"
+         id="qualifications">
+          <option value="choose">Choose your Qualification</option>
+          <option value="choose">B.Tech</option>
+          <option value="choose">M.Sc</option>
+          <option value="choose">P.hd</option>
+          <option value="choose">B.Sc</option>
+
+         </select>
 
           <input
             type="text"

@@ -4,11 +4,13 @@ import Sidebar from "./Sidebar";
 
 import Dashboard from "./Dashboard";
 
+import Teachers from "./Teachers";
+
 const DashboardPage = () => {
   return (
     <div className="dashboard flex ">
-    <Sidebar/>
-      <div className="flex-1 w-[80%] p-4 py-6 bg-gray-100">
+    <Sidebar />
+      <div className="flex flex-col ml-[20%] w-[80%]  p-4   py-6 bg-gray-100">
         {/* Dashboard Header */}
         <div className="flex w-[80%]  items-center justify-between mb-6">
           <h1 className="text-3xl font-semibold text-gray-800">
@@ -18,7 +20,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           {/* Total Students */}
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
             <h2 className="text-2xl font-semibold text-gray-700">
@@ -57,6 +59,10 @@ const DashboardPage = () => {
         </div>
 
         <Dashboard  />
+        <h1 className="text-3xl font-semibold text-gray-800">
+            Teachers Overview
+          </h1>
+        <Teachers/>
       </div>
     </div>
   );

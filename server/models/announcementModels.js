@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const assignmentSchema = new mongoose.Schema({
+const announementSchema = new mongoose.Schema({
     category:{
         type:String,
         required:true
@@ -19,5 +19,5 @@ const assignmentSchema = new mongoose.Schema({
     }
 });
 
-const Announcement = mongoose.model("announcement",assignmentSchema);
+const Announcement = mongoose.model("announcement",announementSchema);
 module.exports=Announcement;

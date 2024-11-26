@@ -11,7 +11,7 @@ const Sidebar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="sidebar h-screen flex flex-col w-[20%] bg-blue-500 text-white">
+    <div className="sidebar fixed top-0 left-0 h-screen flex flex-col w-[20%] bg-blue-600 text-white">
       <ul className="flex flex-col ml-10 gap-5">
         <Logo />
         <Link to="/dashboard">
