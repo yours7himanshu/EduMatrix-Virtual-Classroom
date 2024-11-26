@@ -1,7 +1,6 @@
 // JoinLecture.js
 import { useEffect, useRef } from "react";
-import socket from "../socket"; // Import your configured socket client
-
+import socket from "../socket";
 const JoinLecture = ({ lectureId }) => {
   const remoteVideoRef = useRef(null);
   const peerConnection = useRef(null);
