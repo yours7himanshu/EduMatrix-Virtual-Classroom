@@ -19,6 +19,7 @@ import NotesPage from "./pages/NotesPage.jsx";
 import SyllabusPage from "./pages/SyllabusPage.jsx";
 import QuizList from "./components/QuizList.jsx";
 import Login  from "./pages/Login.jsx"
+import Announcement from "./components/Announcement.jsx";
 function App() {
   return (
     <>
@@ -35,13 +36,7 @@ function App() {
         <Route path="/syllabus" element={<SyllabusPage/>} />
         <Route path="/quiz" element={<QuizList/>} />
         <Route path="/login" element={<Login/>} />
-        
-
-
-
-
-
-
+        <Route path="/displayAnnoncement"element={<Announcement/>}/>
       </Routes>
     </>
   );

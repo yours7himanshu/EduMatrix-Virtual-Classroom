@@ -9,6 +9,7 @@ function AdminLogin() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [token,setToken]=useState('');
+  const [role,setRole]=useState('');
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
@@ -44,11 +45,8 @@ function AdminLogin() {
 
 
   useEffect(()=>{
-    if(!token){
-      navigate('/');
-    }
-    else{
-      navigate('/')
+    if(token){
+      navigate('/dashboard');
     }
   },[token,navigate])
 
@@ -105,6 +103,19 @@ function AdminLogin() {
               required
             />
           </div>
+           
+           <div>
+           <label htmlFor="password" className="block text-gray-600 font-medium mb-2">Choose role</label>
+           <select
+           value={role}
+           onChange={(e)=>setRole(e.target.value)}
+           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            name="Choose role" id="role">
+            <option value="registrar">Registrar</option>
+            <option value="director">Director</option>
+            <option value="teacher">Teacher</option>
+           </select>
+           </div>
 
           <button
             type="submit"

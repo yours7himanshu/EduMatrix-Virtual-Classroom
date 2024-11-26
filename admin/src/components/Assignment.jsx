@@ -42,10 +42,10 @@ const Assignment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex ">
+    <div className="min-h-screen w-full  flex ml-[30%]">
       <div className="flex w-full  gap-8">
         {/* Sidebar */}
-        <Sidebar className="hidden  lg:block  bg-white  rounded-lg shadow-md" />
+        <Sidebar />
 
        <div className="form-details flex justify-center items-center h-screen w-[70%]">
        <form

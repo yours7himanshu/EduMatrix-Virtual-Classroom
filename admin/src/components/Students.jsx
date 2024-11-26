@@ -31,7 +31,7 @@ function Students() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen ml-[20%] bg-gray-100">
       <Sidebar />
       <div className="flex-1 p-8 bg-gray-50 overflow-auto">
         <div className="flex items-center justify-between mb-8">

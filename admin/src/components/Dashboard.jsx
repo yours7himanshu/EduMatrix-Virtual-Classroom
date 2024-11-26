@@ -67,7 +67,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard flex ">
       
-      <div className="p-8 bg-gray-100 min-h-screen w-[100%]">
+      <div className="p-8 bg-gray-100  w-[100%]">
         {/* <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
           Student Dashboard
         </h1> */}

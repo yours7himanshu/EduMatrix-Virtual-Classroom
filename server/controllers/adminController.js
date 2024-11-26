@@ -48,7 +48,7 @@ const collegeRegister = async(req,res)=>{
 }
 
 const collegeLogin = async(req,res)=>{
-    const {email,password}=req.body;
+    const {email,password,role}=req.body;
     try{
         const college = await  Admin.findOne({email});
         if(!college){
