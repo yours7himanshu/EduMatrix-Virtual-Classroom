@@ -20,6 +20,15 @@ const teacherSchema = new mongoose.Schema({
     role:{
         type:String,
         default:'teacher'
+    },
+    email:{
+        type:String,
+        required:true,
+
+    },
+    password:{
+        type:String,
+        required:true
     }
 })
 

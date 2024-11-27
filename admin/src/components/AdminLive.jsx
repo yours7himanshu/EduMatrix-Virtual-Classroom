@@ -1,28 +1,26 @@
-// AdminLive.js
-import { useEffect, useRef, useState } from "react";
-import socket from "../socket"; // Import your configured socket client
+import { useEffect, useRef, useState } from 'react';
+import socket from '../socket';
 
 const AdminLive = ({ lectureId }) => {
   const localVideoRef = useRef(null);
   const peerConnections = useRef({});
-  const mediaStreamRef = useRef(null); // Store the media stream
-  const [isLive, setIsLive] = useState(true); // Track live status
+  const mediaStreamRef = useRef(null);
+  const [isLive, setIsLive] = useState(true);
 
   useEffect(() => {
     startVideoStream();
 
-    socket.emit("adminGoLive", lectureId); // Notify server that admin has gone live
+    socket.emit('adminGoLive', lectureId);
 
-    // Set up event listeners for signaling
-    socket.on("studentJoin", handleStudentJoin);
-    socket.on("iceCandidate", handleNewICECandidateMsg);
-    socket.on("videoAnswer", handleVideoAnswer);
+    socket.on('studentJoin', handleStudentJoin);
+    socket.on('iceCandidate', handleNewICECandidateMsg);
+    socket.on('videoAnswer', handleVideoAnswer);
 
     return () => {
-      socket.off("studentJoin", handleStudentJoin);
-      socket.off("iceCandidate", handleNewICECandidateMsg);
-      socket.off("videoAnswer", handleVideoAnswer);
-      endCall(); // Ensure cleanup on component unmount
+      socket.off('studentJoin', handleStudentJoin);
+      socket.off('iceCandidate', handleNewICECandidateMsg);
+      socket.off('videoAnswer', handleVideoAnswer);
+      endCall();
     };
   }, [lectureId]);
 
@@ -32,21 +30,19 @@ const AdminLive = ({ lectureId }) => {
         video: true,
         audio: true,
       });
-      mediaStreamRef.current = stream; // Save the stream reference
+      mediaStreamRef.current = stream;
       localVideoRef.current.srcObject = stream;
 
-      // Handle student join requests
-      socket.on("studentJoin", (studentId) => {
+      socket.on('studentJoin', (studentId) => {
         const peerConnection = createPeerConnection(studentId);
         peerConnections.current[studentId] = peerConnection;
 
-        // Add admin's video stream to the peer connection
         stream
           .getTracks()
           .forEach((track) => peerConnection.addTrack(track, stream));
       });
     } catch (error) {
-      console.error("Error accessing media devices:", error);
+      console.error('Error accessing media devices:', error);
     }
   };
 
@@ -55,13 +51,13 @@ const AdminLive = ({ lectureId }) => {
 
     peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
-        socket.emit("iceCandidate", { candidate: event.candidate, studentId });
+        socket.emit('iceCandidate', { candidate: event.candidate, studentId });
       }
     };
 
     peerConnection.createOffer().then((offer) => {
       peerConnection.setLocalDescription(offer);
-      socket.emit("videoOffer", { offer, studentId });
+      socket.emit('videoOffer', { offer, studentId });
     });
 
     return peerConnection;
@@ -90,13 +86,11 @@ const AdminLive = ({ lectureId }) => {
   };
 
   const endCall = () => {
-    // Stop all tracks in the media stream to end video/audio
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach((track) => track.stop());
-      mediaStreamRef.current = null; // Clear the stream reference
+      mediaStreamRef.current = null;
     }
 
-    // Close all peer connections with students
     for (let studentId in peerConnections.current) {
       const peerConnection = peerConnections.current[studentId];
       if (peerConnection) {
@@ -105,8 +99,8 @@ const AdminLive = ({ lectureId }) => {
       delete peerConnections.current[studentId];
     }
 
-    socket.emit("endCall", lectureId); // Notify server of the call end
-    setIsLive(false); // Update the UI state to show that live streaming has ended
+    socket.emit('endCall', lectureId);
+    setIsLive(false);
   };
 
   return (
@@ -118,14 +112,11 @@ const AdminLive = ({ lectureId }) => {
         ref={localVideoRef}
         autoPlay
         muted
-        controls
         className="w-[80%] h-[90%] bg-black rounded-lg shadow-md mb-4"
       ></video>
       {isLive ? (
         <>
-          <p className="text-gray-600">
-            You are now live. Students will join your lecture.
-          </p>
+          <p className="text-gray-600">You are now live.</p>
           <button
             onClick={endCall}
             className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
