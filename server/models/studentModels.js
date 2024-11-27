@@ -10,18 +10,34 @@ const studentSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    fatherName:{
+        type:String,
+        required:true
+    },
+    phoneNo:{
+        type:String,
+        required:true
+    },
+    batch:{
+        type:Number,
+        required:true
+    },
     branch:{
         type:String,
         required:true
     },
-    image:{
-        type:Array,
+    avatar:{
+        type:String,
         required:true
     },
-    
-    year:{
-     type:String,
-     required:true
+    email:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    password:{
+        type:String,
+        required:true
     },
     role:{
         type:String,
