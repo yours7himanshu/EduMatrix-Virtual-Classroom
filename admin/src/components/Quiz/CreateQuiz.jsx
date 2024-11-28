@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 
 const CreateQuiz = () => {
   const [quiz, setQuiz] = useState({

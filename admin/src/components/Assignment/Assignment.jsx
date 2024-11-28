@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 
 const Assignment = () => {
   const [title, setTitle] = useState("");

@@ -17,19 +17,20 @@ const teacherSchema = new mongoose.Schema({
      type:Number,
      required:true
     },
-    role:{
-        type:String,
-        default:'teacher'
-    },
     email:{
         type:String,
         required:true,
-
+        
     },
     password:{
         type:String,
         required:true
-    }
+    },
+    role:{
+        type:String,
+        default:'teacher'
+    },
+   
 })
 
 const Teacher = mongoose.model("teacher",teacherSchema);

@@ -1,7 +1,7 @@
 import React from "react";
 
 // Importing an image of a teacher for the visual
-import teacherImage from "../assets/teacher-image.jpg"; // Adjust path as necessary
+import teacherImage from "../../assets/teacher-image.jpg"; // Adjust path as necessary
 
 const TeacherRole = () => {
   return (
