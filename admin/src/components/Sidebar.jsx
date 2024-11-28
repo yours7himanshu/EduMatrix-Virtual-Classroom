@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ContextStore } from "../store/ContextStore";
-import Logo from "./Logo";
+import Logo from "./Dashboard/Logo";
 
 const Sidebar = () => {
   const { collegeName } = useContext(ContextStore);

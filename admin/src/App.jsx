@@ -4,17 +4,17 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminSignUp from "./pages/AdminSignUp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddTeacher from "./components/AddTeacher";
+import AddTeacher from "./components/Teachers/AddTeacher";
 import Announcement from "./pages/Announcement";
-import Students from "./components/Students";
+import Students from "./components/Student/Students";
 import TimeTable from "./components/TimeTable";
 import Classes from "./components/Classes";
 import AdminLive from "./components/AdminLive";
-import CreateQuiz from "./components/CreateQuiz";
-import Assignment from "./components/Assignment";
-import DashboardPage from "./components/DashboardPage";
+import CreateQuiz from "./components/Quiz/CreateQuiz";
+import Assignment from "./components/Assignment/Assignment";
+import DashboardPage from "./components/Dashboard/DashboardPage";
 
-import Teachers from "./components/Teachers";
+import Teachers from "./components/Teachers/Teachers";
 
 function App() {
   return (

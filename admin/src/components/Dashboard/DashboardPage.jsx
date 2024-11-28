@@ -1,17 +1,17 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 
 import Dashboard from "./Dashboard";
 
-import Teachers from "./Teachers";
+import Teachers from "../Teachers/Teachers";
 
 const DashboardPage = () => {
   return (
     <div className="dashboard flex ">
     <Sidebar />
       <div className="flex flex-col ml-[20%] w-[80%]  p-4   py-6 bg-gray-100">
-        {/* Dashboard Header */}
+     
         <div className="flex w-[80%]  items-center justify-between mb-6">
           <h1 className="text-3xl font-semibold text-gray-800">
             Dashboard Overview
@@ -19,9 +19,9 @@ const DashboardPage = () => {
           <div className="text-gray-600">Welcome, Admin!</div>
         </div>
 
-        {/* Stats Cards */}
+        
         <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-          {/* Total Students */}
+         
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
             <h2 className="text-2xl font-semibold text-gray-700">
               Total Students
@@ -30,7 +30,7 @@ const DashboardPage = () => {
             <span className="text-sm text-gray-500">+12% from last month</span>
           </div>
 
-          {/* Total Teachers */}
+          
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
             <h2 className="text-2xl font-semibold text-gray-700">
               Total Teachers

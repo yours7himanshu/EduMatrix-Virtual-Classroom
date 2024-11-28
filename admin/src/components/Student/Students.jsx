@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Avatar, Stack, IconButton } from "@mui/material";
-import { VisuallyHiddenInput } from "./styles/StyledComponents";
+import { VisuallyHiddenInput } from "../styles/StyledComponents";
 import { CameraAlt as Camera } from "@mui/icons-material";
 import { useFileHandler } from "6pp";
 
