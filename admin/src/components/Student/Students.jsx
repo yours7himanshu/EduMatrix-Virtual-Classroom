@@ -195,7 +195,7 @@ function Students() {
               disabled={loading}
               className="w-full py-3 mt-6 bg-violet-600 text-white font-semibold text-lg rounded-md hover:bg-violet-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
             >
-              {loading ? "Enrolling..." : "Enroll Student"}
+              {loading ? "Enrolling Student Please Wait..." : "Enroll Student"}
             </button>
           </form>
         </div>

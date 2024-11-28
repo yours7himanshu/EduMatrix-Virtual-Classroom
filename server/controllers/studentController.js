@@ -90,4 +90,25 @@ const enrollStudent = async (req, res) => {
   }
 };
 
-module.exports = { enrollStudent };
+// Now writing code for showing details of the students
+const getStudents = async(req,res)=>{
+try{
+  const studentdetails = await Student.find();
+
+  return res.status(200).json({
+    success:true,
+    studentdetails,
+    message:"Here are the details of the students",
+  })
+}
+catch(error){
+  return res.status(500).json({
+    success:false,
+    message:"Some error occured on fetching the student details"
+  })
+}
+
+}
+
+
+module.exports = { enrollStudent ,getStudents};
