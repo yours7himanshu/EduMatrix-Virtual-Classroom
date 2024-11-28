@@ -35,6 +35,11 @@ function Students() {
     formData.append("password", password);
     if (avatar.file) {
       formData.append("avatar", avatar.file);
+      console.log(avatar.file)
+      
+    }
+    else{
+      console.log("avatar file is not present");
     }
 
     try {
@@ -65,7 +70,7 @@ function Students() {
       <div className="flex-1 h-[80%] p-8 bg-gray-50 ml-[20%]">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold text-violet-700 text-center mb-4">
-            Enroll Students for Your College:
+            Enroll Students for Your College:)
           </h1>
 
           <form className="bg-white p-8 rounded-lg shadow-lg" onSubmit={handleSubmit}>
@@ -156,7 +161,7 @@ function Students() {
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 transition duration-200"
                 required
               >
-                <option value="Branch">Choose Student Branch</option>
+                <option  value="Branch">Choose Student Branch</option>
                 <option value="CSE">CSE</option>
                 <option value="CSE AI">CSE AI</option>
                 <option value="CSE IOT">CSE IOT</option>
@@ -167,6 +172,7 @@ function Students() {
               </select>
 
               <select
+              
                 name="year"
                 id="studentYear"
                 value={batch}
@@ -174,7 +180,7 @@ function Students() {
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 transition duration-200"
                 required
               >
-                <option value="choose student year">Choose Student Batch</option>
+                <option  value="choose student year">Choose Student Batch</option>
                 <option value="2017-2021">2017-2021</option>
                 <option value="2018-2022">2018-2022</option>
                 <option value="2019-2023">2019-2023</option>

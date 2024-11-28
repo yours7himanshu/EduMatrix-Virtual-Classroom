@@ -1,10 +1,7 @@
-const multer = require('multer');
+const multer = require("multer");
 
-const storage = multer.diskStorage({
-    filename:function(req,file,callback){
-        callback(null,file.originalname);
-    }
+// Memory storage for processing in memory (for Cloudinary direct uploads)
+const storage = multer.memoryStorage(); 
 
-});
-const upload = multer({storage});
-module.exports=upload;
+const upload = multer({ storage });
+module.exports = upload;

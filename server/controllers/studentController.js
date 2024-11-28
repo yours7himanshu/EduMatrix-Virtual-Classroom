@@ -1,71 +1,93 @@
-const Student = require('../models/studentModels');
-const bcrypt = require('bcrypt');
-const cloudinary = require('cloudinary').v2;
+const Student = require("../models/studentModels");
+const bcrypt = require("bcrypt");
+const cloudinary = require("cloudinary").v2;
 
 const enrollStudent = async (req, res) => {
-    const { name, rollNo, fatherName, phoneNo, branch, avatar, batch, email, password } = req.body;
+  try {
+    const {
+      name,
+      rollNo,
+      fatherName,
+      phoneNo,
+      branch,
+      batch,
+      email,
+      password,
+    } = req.body;
 
-    try {
-
-        // Check if student with the same rollNo or email exists
-        const existingStudent = await Student.findOne({ $or: [{ rollNo }, { email }] });
-        if (existingStudent) {
-            return res.status(400).json({
-                success: false,
-                message: "Student with the same roll number or email already exists"
-            });
-        }
-
-
-        const avatarResult = await cloudinary.uploader.upload(avatar, { resource_type: "image" });
-
-       
-        // Hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create new student
-        const student = await Student.create({
-            name,
-            rollNo,
-            fatherName,
-            phoneNo,
-            branch,
-            batch,
-            email,
-            password: hashedPassword,
-            avatar: avatarResult.secure_url
-        });
-
-        return res.status(201).json({
-            success: true,
-            student,
-            message: "Student successfully enrolled"
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Error enrolling student",
-            error: error.message
-        });
+    // Check if file is uploaded
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Avatar file is required",
+      });
     }
+
+    // Validate if student already exists
+    const existingStudent = await Student.findOne({
+      $or: [{ rollNo }, { email }],
+    });
+    if (existingStudent) {
+      return res.status(400).json({
+        success: false,
+        message: "Student with the same roll number or email already exists",
+      });
+    }
+
+    let avatarUrl;
+
+    // Upload avatar to Cloudinary
+    try {
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: "image" },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(req.file.buffer); // Pass the buffer to the stream
+      });
+
+      avatarUrl = result.secure_url;
+    } catch (uploadError) {
+      console.error("Error uploading avatar to Cloudinary:", uploadError);
+      return res.status(500).json({
+        success: false,
+        message: "Error uploading avatar",
+        error: uploadError.message,
+      });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new student
+    const student = await Student.create({
+      name,
+      rollNo,
+      fatherName,
+      phoneNo,
+      branch,
+      batch,
+      email,
+      password: hashedPassword,
+      avatar: avatarUrl,
+    });
+
+    res.status(201).json({
+      success: true,
+      student,
+      message: "Student successfully enrolled",
+    });
+  } catch (error) {
+    console.error("Error enrolling student:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error enrolling student",
+      error: error.message,
+    });
+  }
 };
 
-const studentDetail = async (req, res) => {
-    try {
-        const students = await Student.find();
-        return res.status(200).json({
-            success: true,
-            students,
-            message: "Student details retrieved successfully"
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Error retrieving student details",
-            error: error.message
-        });
-    }
-};
-
-module.exports = { enrollStudent, studentDetail };
+module.exports = { enrollStudent };
