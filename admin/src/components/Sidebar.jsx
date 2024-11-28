@@ -1,22 +1,41 @@
-import { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ContextStore } from "../store/ContextStore";
 import Logo from "./Dashboard/Logo";
+import Lottie from "lottie-react";
+import loadingAnimation from "../assets/loading.json";
 
 const Sidebar = () => {
   const { collegeName } = useContext(ContextStore);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // A function to check if a route is active
+  // Loader state
+  const [isLoading, setIsLoading] = useState(false);
+
+  
   const isActive = (path) => location.pathname === path;
 
+
+  const handleNavigation = (path) => {
+    if (location.pathname !== path) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate(path);
+      }, 1500); 
+    }
+  };
+
   return (
-    <div className="sidebar fixed top-0 left-0 h-screen flex flex-col w-[20%] bg-blue-600 text-white">
-      <ul className="flex flex-col ml-10 gap-5">
-        <Logo />
-        <Link to="/dashboard">
+    <div className="flex">
+      {/* Sidebar */}
+      <div className="sidebar fixed top-0 left-0 h-screen flex flex-col w-[20%] bg-blue-600 text-white">
+        <ul className="flex flex-col ml-10 gap-5">
+          <Logo />
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/dashboard")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/dashboard")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -24,10 +43,9 @@ const Sidebar = () => {
           >
             Dashboard
           </li>
-        </Link>
-        <Link to="/add-teachers">
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/add-teachers")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/add-teachers")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -35,10 +53,9 @@ const Sidebar = () => {
           >
             Add Teachers
           </li>
-        </Link>
-        <Link to="/enroll-students">
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/enroll-students")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/enroll-students")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -46,10 +63,9 @@ const Sidebar = () => {
           >
             Enroll Students
           </li>
-        </Link>
-        <Link to="/announcement">
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/announcement")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/announcement")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -57,10 +73,9 @@ const Sidebar = () => {
           >
             Announcement
           </li>
-        </Link>
-        <Link to="/timetable">
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/timetable")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/timetable")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -68,10 +83,9 @@ const Sidebar = () => {
           >
             Time Table
           </li>
-        </Link>
-        <Link to="/post-quiz">
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/post-quiz")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/post-quiz")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -79,10 +93,9 @@ const Sidebar = () => {
           >
             Quiz
           </li>
-        </Link>
-        <Link to="/post-assignment">
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/post-assignment")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/post-assignment")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -90,10 +103,9 @@ const Sidebar = () => {
           >
             Assignment
           </li>
-        </Link>
-        <Link to="/admin-live">
           <li
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] ${
+            onClick={() => handleNavigation("/admin-live")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/admin-live")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -101,8 +113,20 @@ const Sidebar = () => {
           >
             Go Live Class
           </li>
-        </Link>
-      </ul>
+        </ul>
+      </div>
+
+      {/* Loader */}
+      {isLoading && (
+        <div className="flex flex-col justify-center items-center w-full h-screen bg-gray-100 absolute top-0 left-0 z-50">
+          <Lottie
+            animationData={loadingAnimation}
+            loop={true}
+            className="w-20 h-20"
+          />
+         
+        </div>
+      )}
     </div>
   );
 };

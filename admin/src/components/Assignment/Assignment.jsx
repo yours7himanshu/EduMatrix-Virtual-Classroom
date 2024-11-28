@@ -42,7 +42,7 @@ const Assignment = () => {
   };
 
   return (
-    <div className="min-h-screen w-full  flex ml-[30%]">
+    <div className="min-h-screen w-full  flex ml-[23%]">
       <div className="flex w-full  gap-8">
         {/* Sidebar */}
         <Sidebar />

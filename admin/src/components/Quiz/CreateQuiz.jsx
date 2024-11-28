@@ -52,7 +52,7 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="flex ml-[25%] mt-11  rounded-lg shadow-xl w-screen border border-gray-200 gap-20 h-[80%]  ">
+    <div className="flex ml-[20%] mt-11  rounded-lg shadow-xl w-screen border border-gray-200 gap-20 h-[80%]  ">
       <Sidebar/>
       <form
         onSubmit={handleSubmit}
