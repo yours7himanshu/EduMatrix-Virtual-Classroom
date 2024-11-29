@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Sidebar from "../Sidebar";
+import AppLayout from "../../layout/AppLayout";
+
 
 const Assignment = () => {
   const [title, setTitle] = useState("");
@@ -45,7 +46,7 @@ const Assignment = () => {
     <div className="min-h-screen w-full  flex ml-[23%]">
       <div className="flex w-full  gap-8">
         {/* Sidebar */}
-        <Sidebar />
+        
 
        <div className="form-details flex justify-center items-center h-screen w-[70%]">
        <form
@@ -127,4 +128,4 @@ const Assignment = () => {
   );
 };
 
-export default Assignment;
+export default AppLayout()(Assignment);

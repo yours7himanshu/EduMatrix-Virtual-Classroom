@@ -2,7 +2,8 @@ import { useState } from "react";
 
 import axios from "axios";
 import { toast } from "react-toastify";
-import Sidebar from "../components/Sidebar";
+
+import AppLayout from "../layout/AppLayout";
 const Announcement = () => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -35,8 +36,8 @@ const Announcement = () => {
   };
   return (
     <>
-    <div className="announcement bg-gray-50 h-screen ml-[10%] flex w-[100%] overflow-x-hidden ">
-      <Sidebar/>
+    <div className="announcement bg-gray-50 h-screen ml-[10%]  w-[100%] overflow-x-hidden ">
+     
     <div className="announcement flex flex-col items-center w-full mt-20  ">
         <h1 className="font-bold text-3xl">
           Post Announcement for your college!!
@@ -124,4 +125,4 @@ const Announcement = () => {
   );
 };
 
-export default Announcement;
+export default AppLayout()(Announcement);
