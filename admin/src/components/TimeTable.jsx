@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AppLayout from "../layout/AppLayout";
 // import Sidebar from "./Sidebar";
 
 // Sample data for timetables
@@ -29,7 +30,7 @@ const TimeTable = () => {
   };
 
   return (
-    <div className="time-table-page min-h-screen bg-gray-50 py-12 px-6">
+    <div className="time-table-page w-[70%] ml-[25%] min-h-screen bg-gray-50 py-12 px-6">
       <div className="container mx-auto text-center">
         {/* Header */}
         <h1 className="text-3xl font-bold text-gray-800 mb-8">
@@ -84,4 +85,4 @@ const TimeTable = () => {
   );
 };
 
-export default TimeTable;
+export default AppLayout()(TimeTable);

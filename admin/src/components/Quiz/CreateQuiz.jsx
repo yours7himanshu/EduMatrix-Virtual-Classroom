@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Sidebar from '../Sidebar';
+import AppLayout from '../../layout/AppLayout';
+
 
 const CreateQuiz = () => {
   const [quiz, setQuiz] = useState({
@@ -52,11 +53,11 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="flex ml-[20%] mt-11  rounded-lg shadow-xl w-screen border border-gray-200 gap-20 h-[80%]  ">
-      <Sidebar/>
+    <div className="  ml-[25%] flex justifiy-center items-center   h-screen  rounded-lg shadow-xl w-screen border border-gray-50 gap-20  ">
+     
       <form
         onSubmit={handleSubmit}
-        className="w-[70%] justify-center   flex flex-col bg-gray-50 shadow-lg rounded-lg p-8 space-y-6"
+        className="w-[70%] justify-center h-[95%]  flex flex-col bg-gray-100 shadow-lg rounded-lg p-8 space-y-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">Create a New Quiz</h2>
 
@@ -164,4 +165,4 @@ const CreateQuiz = () => {
   );
 };
 
-export default CreateQuiz;
+export default AppLayout()(CreateQuiz);

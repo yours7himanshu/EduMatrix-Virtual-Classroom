@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 import loadingAnimation from "./assets/loading.json";
+import NotFound from "./pages/NotFound";
+
 
 
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
@@ -45,6 +47,7 @@ function App() {
   return (
     <div className="app">
       <ToastContainer />
+    
       {isLoading ? (
         <Loader />
       ) : (
@@ -62,6 +65,8 @@ function App() {
             <Route path="/post-quiz" element={<CreateQuiz />} />
             <Route path="/post-assignment" element={<Assignment />} />
             <Route path="/student-detail" element={<StudentDetail />} />
+
+            <Route path="*" element={<NotFound/>}/>
           </Routes>
         </Suspense>
       )}

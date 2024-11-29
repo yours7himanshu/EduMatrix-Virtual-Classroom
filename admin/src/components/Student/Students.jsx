@@ -6,6 +6,7 @@ import { Avatar, Stack, IconButton } from "@mui/material";
 import { VisuallyHiddenInput } from "../styles/StyledComponents";
 import { CameraAlt as Camera } from "@mui/icons-material";
 import { useFileHandler } from "6pp";
+import AppLayout from "../../layout/AppLayout";
 
 function Students() {
   const [name, setName] = useState("");
@@ -65,9 +66,9 @@ function Students() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex-1 h-[80%] p-8 bg-gray-50 ml-[20%]">
+    <div className=" min-h-screen bg-gray-100">
+    
+      <div className="flex-1 h-[80%] p-8 bg-gray-50 ml-[19%]">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold text-violet-700 text-center mb-4">
             Enroll Students for Your College:)
@@ -204,4 +205,4 @@ function Students() {
   );
 }
 
-export default Students;
+export default AppLayout()(Students);

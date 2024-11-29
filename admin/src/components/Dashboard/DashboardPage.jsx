@@ -1,15 +1,16 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import Sidebar from "../Sidebar";
+
 
 import Dashboard from "./Dashboard";
 
 import Teachers from "../Teachers/Teachers";
+import AppLayout from "../../layout/AppLayout";
 
 const DashboardPage = () => {
   return (
     <div className="dashboard flex ">
-    <Sidebar />
+   
       <div className="flex flex-col ml-[20%] w-[80%]  p-4   py-6 bg-gray-100">
      
         <div className="flex w-[80%]  items-center justify-between mb-6">
@@ -68,4 +69,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default AppLayout()(DashboardPage);

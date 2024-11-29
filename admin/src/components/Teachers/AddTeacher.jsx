@@ -1,8 +1,9 @@
 import { useState } from "react";
-import Sidebar from "../Sidebar";
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import TeacherRole from "./TeacherRole";
+import AppLayout from "../../layout/AppLayout";
 
 function AddTeacher() {
   const [name, setName] = useState("");
@@ -48,7 +49,7 @@ function AddTeacher() {
   };
   return (
     <div className="addTeacher ml-[30%] flex">
-      <Sidebar />
+     
       <div className="addteachers w-[80%] flex-col items-center justify-center ">
         <TeacherRole />
         <div className="teachers-section flex flex-col items-center justify-center gap-5 h-screen w-[100%]">
@@ -132,4 +133,4 @@ function AddTeacher() {
   );
 }
 
-export default AddTeacher;
+export default AppLayout()(AddTeacher);
