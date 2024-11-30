@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ContextStore } from "../store/ContextStore";
-import Logo from "./Dashboard/Logo";
+import Logo from "../components/Dashboard/Logo";
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
 
