@@ -1,5 +1,5 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../shared/Sidebar'
 
 const AppLayout = () => (WrapLayoutComponent)=> {
     return (props)=>{
