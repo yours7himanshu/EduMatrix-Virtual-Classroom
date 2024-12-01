@@ -1,87 +1,87 @@
 const express = require('express');
 const connectDb = require('./db/db');
 const cors = require('cors');
+const http = require('http');
+const socketIo = require('socket.io');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const http = require("http");
-const socketIo = require("socket.io");
-const chatController = require("./controllers/chatController");
-require('dotenv').config();
-const announcementRoutes = require("./routes/announcementRoutes");
+const chatController = require('./controllers/chatController');
+const announcementRoutes = require('./routes/announcementRoutes');
 const teacherRoutes = require('./routes/teachersRoutes');
 const studentRoutes = require('./routes/studentRoutes');
-const connectCloudinary = require('./config/cloudinary');
 const lectureRoutes = require('./routes/lectureRoutes');
 const quizRoutes = require('./routes/quizessRoutes');
+const assignmentRoutes = require('./routes/assignmentRoutes');
+const connectCloudinary = require('./config/cloudinary');
+const cookieParser = require('cookie-parser')
 
+// Initialize Express app and setup middlewares
 const app = express();
-
-// Connecting database
-connectDb();
-
-// Initializing Cloudinary
-connectCloudinary();
-
-// Middlewares
-app.use(cors());
-
-// Parsing form data
+connectDb(); // Connect database
+connectCloudinary(); // Initialize Cloudinary
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials:true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+// cookie-parser
+app.use(cookieParser());
+
 // Socket.IO setup
 const server = http.createServer(app);
-const io = socketIo(server, { cors: { origin: "*" } });
+const io = socketIo(server, { cors: { origin: '*' } });
 
-io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
 
-    socket.on("joinLecture", (lectureId) => {
-        socket.join(lectureId);
-        console.log(`User joined lecture: ${lectureId}`);
-    });
+  socket.on('joinLecture', (lectureId) => {
+    socket.join(lectureId);
+    console.log(`User joined lecture: ${lectureId}`);
+  });
 
-    socket.on("sendMessage", async (data) => {
-        io.to(data.lectureId).emit("receiveMessage", data);
-        await chatController.createChatMessage(data);
-    });
+  socket.on('sendMessage', async (data) => {
+    io.to(data.lectureId).emit('receiveMessage', data);
+    await chatController.createChatMessage(data);
+  });
 
-   
+  socket.on('videoOffer', (data) => {
+    socket.to(data.lectureId).emit('videoOffer', data);
+  });
 
-    socket.on("videoOffer", (data) => {
-        socket.to(data.lectureId).emit("videoOffer", data.offer);
-    });
+  socket.on('videoAnswer', (data) => {
+    socket.to(data.lectureId).emit('videoAnswer', data);
+  });
 
-    socket.on("videoAnswer", (data) => {
-        socket.to(data.lectureId).emit("videoAnswer", data.answer);
-    });
+  socket.on('iceCandidate', (data) => {
+    socket.to(data.lectureId).emit('iceCandidate', data);
+  });
 
-    socket.on("iceCandidate", (data) => {
-        socket.to(data.lectureId).emit("iceCandidate", data.candidate);
-    });
-
-    socket.on("disconnect", () => {
-        console.log("User disconnected:", socket.id);
-    });
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
 });
 
-
-
-// Setting up API routes
-app.use("/api/lectures", lectureRoutes);
+// API routes
+app.use('/api/lectures', lectureRoutes);
 app.use('/api/v1', userRoutes);
 app.use('/api/v2', adminRoutes);
 app.use('/api/v3', announcementRoutes);
 app.use('/api/v4', teacherRoutes);
 app.use('/api/v5', studentRoutes);
-app.use('/api',quizRoutes);
+app.use('/api', quizRoutes);
+app.use('/api/v7', assignmentRoutes);
 
 // Health check route
 app.get('/', (req, res) => {
-    res.send("Welcome to my Server");
+  res.send('Welcome to my Server');
 });
 
-// Start server on the specified port
+// Start server
 server.listen(process.env.PORT, () => {
-    console.log(`Server is listening on port: ${process.env.PORT}`);
+  console.log(`Server is listening on port: ${process.env.PORT}`);
 });

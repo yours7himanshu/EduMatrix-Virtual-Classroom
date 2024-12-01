@@ -1,46 +1,46 @@
 // announcementController.js
 
-const Assignment = require('../models/announcementModels');
+const Announcement = require('../models/announcementModels');
 
 const announcement = async (req, res) => {
-    const { category, course, branch, descrition } = req.body;
+    const { category, course, branch, description } = req.body;
 
     try {
-        const assignment = await Assignment.create({
+        const postAnnouncement = await Announcement.create({
             category,
             course,
             branch,
-            descrition
+            description
         });
 
         return res.status(201).json({
             success: true,
-            assignment,
-            message: "Assignment Successfully posted"
+            postAnnouncement,
+            message: "Announcement Successfully posted"
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
-            error: "Error Posting the Assignment"
+            message: "Error Posting the Announcement"
         });
     }
 };
 
-const displayAnnouncement = async (req, res) => { // fixed typo in function name
+const displayAnnouncement = async (req, res) => { 
     try {
-        const display = await Assignment.find(); // fixed typo to use Assignment model
+        const getAnnouncement = await Announcement.find(); 
 
         return res.status(200).json({
             success: true,
-            display,
+            getAnnouncement,
             message: "Announcement Successfully displayed"
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
-            error: "Some error occurred"
+            message: "Some error occurred"
         });
     }
 };
 
-module.exports = { announcement, displayAnnouncement }; // fixed typo in export
+module.exports = { announcement, displayAnnouncement }; 

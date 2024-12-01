@@ -1,54 +1,76 @@
-import "./App.css";
+import React, { Suspense, lazy, useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import AdminLogin from "./pages/AdminLogin";
-import AdminSignUp from "./pages/AdminSignUp";
 import { ToastContainer } from "react-toastify";
+import Lottie from "lottie-react";
 import "react-toastify/dist/ReactToastify.css";
 
-import AddTeacher from "./components/AddTeacher";
 
-import Announcement from "./pages/Announcement";
-import Students from "./components/Students";
-import Dashboard from "./components/Dashboard";
-import TimeTable from "./components/TimeTable";
-import Classes from "./components/Classes";
-
-
-import AdminLive from "./components/AdminLive";
+import loadingAnimation from "./assets/loading.json";
+import NotFound from "./pages/NotFound";
 
 
 
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminSignUp = lazy(() => import("./pages/AdminSignUp"));
+const AddTeacher = lazy(() => import("./components/Teachers/AddTeacher"));
+const Announcement = lazy(() => import("./pages/Announcement"));
+const Students = lazy(() => import("./components/Student/Students"));
+const TimeTable = lazy(() => import("./components/TimeTable"));
+const AdminLive = lazy(() => import("./components/AdminLive"));
+const CreateQuiz = lazy(() => import("./components/Quiz/CreateQuiz"));
+const Assignment = lazy(() => import("./components/Assignment/Assignment"));
+const DashboardPage = lazy(() => import("./components/Dashboard/DashboardPage"));
+const Teachers = lazy(() => import("./components/Teachers/Teachers"));
+const StudentDetail = lazy(() => import("./components/Student/StudentDetail"));
 
-
-
-import CreateQuiz from './components/CreateQuiz';
-
+const Loader = () => {
+  return (
+    <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
+      <Lottie animationData={loadingAnimation} loop={true} className="w-20 h-20" />
+     
+    </div>
+  );
+};
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+   
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer); 
+  }, []);
+
   return (
-    <>
+    <div className="app">
+      <ToastContainer />
+    
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<AdminLogin />} />
+            <Route path="/sign-up" element={<AdminSignUp />} />
+            <Route path="/teachers" element={<Teachers />} />
+            <Route path="/enroll-students" element={<Students />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/add-teachers" element={<AddTeacher />} />
+            <Route path="/announcement" element={<Announcement />} />
+            <Route path="/timetable" element={<TimeTable />} />
+            <Route path="/admin-live" element={<AdminLive />} />
+            <Route path="/post-quiz" element={<CreateQuiz />} />
+            <Route path="/post-assignment" element={<Assignment />} />
+            <Route path="/student-detail" element={<StudentDetail />} />
 
-    <div className="app  ">
-      
-      <ToastContainer/>
-     
-  <Routes>
-    <Route path='/' element={<AdminLogin/>}/>
-    <Route path='/sign-up' element={<AdminSignUp/>}/>
-    <Route path='/enroll-students' element={<Students/>}/>
- <Route path='/dashboard' element={<Dashboard/>}/>
-    <Route path='/add-teachers' element={<AddTeacher/>}/>
-    <Route path='/announcement' element={<Announcement/>}/>
-    <Route path='/timetable' element={<TimeTable/>}/>
-<Route path='/classes' element={<Classes/>}/>
-<Route path='/admin-live' element={<AdminLive/>}/>
-<Route path='/post-quiz' element={<CreateQuiz/>}/>
-
-
-  </Routes>
+            <Route path="*" element={<NotFound/>}/>
+          </Routes>
+        </Suspense>
+      )}
     </div>
-
-    </>
   );
 }
 

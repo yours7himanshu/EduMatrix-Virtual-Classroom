@@ -2,7 +2,8 @@ import { useState } from "react";
 
 import axios from "axios";
 import { toast } from "react-toastify";
-import Sidebar from "../components/Sidebar";
+
+import AppLayout from "../layout/AppLayout";
 const Announcement = () => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -15,22 +16,28 @@ const Announcement = () => {
     try {
       const response = await axios.post(`${backendUrl}/api/v3/announcement`, {
         category,
-        description,
         course,
         branch,
+        description,
       });
       if (response.data.success) {
         toast.success("Assignment posted Successful");
       }
     } catch (error) {
       console.log("Error posting assignments", error);
-      toast.error("Error posting the assignments");
+      if(error.response && error.response.data && error.response.data.message)
+      {
+        toast.error(error.response.data.message);
+      }
+      else{
+        toast.error("Some unexpected error occured");
+      }
     }
   };
   return (
     <>
-    <div className="announcement flex w-screen ">
-      <Sidebar/>
+    <div className="announcement bg-gray-50 h-screen ml-[10%]  w-[100%] overflow-x-hidden ">
+     
     <div className="announcement flex flex-col items-center w-full mt-20  ">
         <h1 className="font-bold text-3xl">
           Post Announcement for your college!!
@@ -118,4 +125,4 @@ const Announcement = () => {
   );
 };
 
-export default Announcement;
+export default AppLayout()(Announcement);

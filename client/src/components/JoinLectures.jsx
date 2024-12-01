@@ -1,54 +1,74 @@
-// JoinLecture.js
 import { useEffect, useRef } from "react";
-import socket from "../socket"; // Import your configured socket client
+import socket from "../socket";
 
 const JoinLecture = ({ lectureId }) => {
   const remoteVideoRef = useRef(null);
   const peerConnection = useRef(null);
 
   useEffect(() => {
+    // Notify server that the client has joined the lecture
     socket.emit("joinLecture", lectureId);
 
+    // Listen for WebRTC events
     socket.on("videoOffer", handleVideoOffer);
     socket.on("iceCandidate", handleNewICECandidateMsg);
 
     return () => {
-      socket.off("videoOffer");
-      socket.off("iceCandidate");
-      if (peerConnection.current) peerConnection.current.close();
+      // Cleanup listeners and close the peer connection on unmount
+      socket.off("videoOffer", handleVideoOffer);
+      socket.off("iceCandidate", handleNewICECandidateMsg);
+      if (peerConnection.current) {
+        peerConnection.current.close();
+        peerConnection.current = null;
+      }
     };
   }, [lectureId]);
 
   const handleVideoOffer = async (offer) => {
     if (!peerConnection.current) initializePeerConnection();
 
-    await peerConnection.current.setRemoteDescription(
-      new RTCSessionDescription(offer)
-    );
-    const answer = await peerConnection.current.createAnswer();
-    await peerConnection.current.setLocalDescription(answer);
-    socket.emit("videoAnswer", { answer, lectureId });
+    try {
+      // Set the remote description to the incoming offer
+      await peerConnection.current.setRemoteDescription(
+        new RTCSessionDescription(offer)
+      );
+
+      // Create and send an answer back to the admin
+      const answer = await peerConnection.current.createAnswer();
+      await peerConnection.current.setLocalDescription(answer);
+      socket.emit("videoAnswer", { answer, lectureId });
+    } catch (error) {
+      console.error("Error handling video offer:", error);
+    }
   };
 
   const initializePeerConnection = () => {
+    // Initialize a new RTCPeerConnection
     peerConnection.current = new RTCPeerConnection();
 
+    // Handle ICE candidate events and send them to the admin
     peerConnection.current.onicecandidate = (event) => {
       if (event.candidate) {
-        socket.emit("iceCandidate", { candidate: event.candidate });
+        socket.emit("iceCandidate", { candidate: event.candidate, lectureId });
       }
     };
 
+    // Attach the remote stream to the video element
     peerConnection.current.ontrack = (event) => {
-      remoteVideoRef.current.srcObject = event.streams[0];
+      if (remoteVideoRef.current) {
+        remoteVideoRef.current.srcObject = event.streams[0];
+      }
     };
   };
 
   const handleNewICECandidateMsg = async (data) => {
     try {
-      await peerConnection.current.addIceCandidate(data.candidate);
-    } catch (e) {
-      console.error("Error adding received ICE candidate", e);
+      // Add the received ICE candidate to the peer connection
+      if (peerConnection.current) {
+        await peerConnection.current.addIceCandidate(data.candidate);
+      }
+    } catch (error) {
+      console.error("Error adding received ICE candidate:", error);
     }
   };
 
@@ -58,7 +78,7 @@ const JoinLecture = ({ lectureId }) => {
       <video
         ref={remoteVideoRef}
         autoPlay
-        controls
+        muted
         className="w-[80%] h-[90%] bg-black rounded-lg shadow-md mb-4"
       ></video>
       <p className="text-green-600">You are now watching the live lecture.</p>

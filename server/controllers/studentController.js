@@ -1,57 +1,114 @@
-const Student = require('../models/studentModels');
+const Student = require("../models/studentModels");
+const bcrypt = require("bcrypt");
+const cloudinary = require("cloudinary").v2;
 
-const enrollStudent = async(req,res)=>{
-    const {name ,rollNo, branch,year,image}=req.body;
+const enrollStudent = async (req, res) => {
+  try {
+    const {
+      name,
+      rollNo,
+      fatherName,
+      phoneNo,
+      branch,
+      batch,
+      email,
+      password,
+    } = req.body;
 
-    try{
-        const existingStudent = await Student.findOne({rollNo});
-        if(existingStudent){
-            return res.status(400).json({
-                success:false,
-                error:"Student already enrolled"
-            })
-
-        }
-        
-        const student = await Student.create({
-            name,
-            rollNo,
-            branch,
-            image,
-            year
-        });
-
-        return res.status(201).json({
-            success:true,
-            student,
-            message:"Student successfully enrolled"
-        })
+    // Check if file is uploaded
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Avatar file is required",
+      });
     }
-    catch(error){
-        return res.status(500).json({
-            success:false,
-            error:"Some error occured"
-        })
+
+    // Validate if student already exists
+    const existingStudent = await Student.findOne({
+      $or: [{ rollNo }, { email }],
+    });
+    if (existingStudent) {
+      return res.status(400).json({
+        success: false,
+        message: "Student with the same roll number or email already exists",
+      });
     }
+
+    let avatarUrl;
+
+    // Upload avatar to Cloudinary
+    try {
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: "image" },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(req.file.buffer); // Pass the buffer to the stream
+      });
+
+      avatarUrl = result.secure_url;
+    } catch (uploadError) {
+      console.error("Error uploading avatar to Cloudinary:", uploadError);
+      return res.status(500).json({
+        success: false,
+        message: "Error uploading avatar",
+        error: uploadError.message,
+      });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new student
+    const student = await Student.create({
+      name,
+      rollNo,
+      fatherName,
+      phoneNo,
+      branch,
+      batch,
+      email,
+      password: hashedPassword,
+      avatar: avatarUrl,
+    });
+
+    res.status(201).json({
+      success: true,
+      student,
+      message: "Student successfully enrolled",
+    });
+  } catch (error) {
+    console.error("Error enrolling student:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error enrolling student",
+      error: error.message,
+    });
+  }
+};
+
+// Now writing code for showing details of the students
+const getStudents = async(req,res)=>{
+try{
+  const studentdetails = await Student.find();
+
+  return res.status(200).json({
+    success:true,
+    studentdetails,
+    message:"Here are the details of the students",
+  })
+}
+catch(error){
+  return res.status(500).json({
+    success:false,
+    message:"Some error occured on fetching the student details"
+  })
+}
+
 }
 
 
-// displaying the details of the students
-const studentDetail = async(req,res)=>{
-    try{
-        const displayInfo = await Student.find();
-        return res.status(200).json({
-            success:true,
-            displayInfo,
-            message:"These are the details of the students"
-        })
-    }
-    catch(error){
-        return res.status(500).json({
-            success:false,
-            error:"Some error occured"
-        })
-    }
-}
-
-module.exports={enrollStudent,studentDetail};
+module.exports = { enrollStudent ,getStudents};

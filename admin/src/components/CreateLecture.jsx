@@ -9,7 +9,7 @@ const CreateLecture = () => {
     const handleCreateLecture = async () => {
         const newLecture = await createLecture({ title, description, host: "Admin" });
         if (newLecture) {
-            socket.emit("joinLecture", newLecture._id); // Admin joins the lecture room
+            socket.emit("joinLecture", newLecture._id); 
         }
     };
 

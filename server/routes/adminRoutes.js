@@ -1,5 +1,6 @@
 const express = require('express');
-const {collegeRegister,collegeLogin} = require('../controllers/adminController')
+const {collegeRegister,collegeLogin} = require('../controllers/adminController');
+
 const adminRouter = express.Router();
 
 

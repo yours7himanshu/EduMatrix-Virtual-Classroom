@@ -1,23 +1,26 @@
 const Teacher = require('../models/teachersModels');
-
+const bcrypt = require('bcrypt');
 
 const addTeacher = async(req,res)=>{
-    const {name,qualification,subject,experience}=req.body;
+    const {name,qualification,subject,experience,email,password}=req.body;
 
     try{
         const existingTeacher = await Teacher.findOne({name});
         if(existingTeacher){
             return res.status(400).json({
                 success:false,
-                error:"Teacher already exists"
+                message:"Teacher already exists"
             })
         }
-
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password,salt);
         const teacher = await Teacher.create({
             name,
             qualification,
             subject,
-            experience
+            experience,
+            email,
+            password:hashPassword
         })
 
         return res.status(201).json({
@@ -29,7 +32,7 @@ const addTeacher = async(req,res)=>{
     catch(error){
         return res.status(500).json({
             success:false,
-            error:"Some error occured on adding teachers"
+            message:"Some error occured on adding teachers"
         })
     }
 }
@@ -48,7 +51,7 @@ const teacherDetail = async(req,res)=>{
    catch(error){
     return res.status(500).json({
         success:false,
-        error:"Some error occured"
+        message:"Some error occured"
     })
    }
 
