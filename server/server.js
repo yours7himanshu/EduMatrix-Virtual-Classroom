@@ -16,14 +16,21 @@ const lectureRoutes = require('./routes/lectureRoutes');
 const quizRoutes = require('./routes/quizessRoutes');
 const assignmentRoutes = require('./routes/assignmentRoutes');
 const connectCloudinary = require('./config/cloudinary');
+const cookieParser = require('cookie-parser')
 
 // Initialize Express app and setup middlewares
 const app = express();
 connectDb(); // Connect database
 connectCloudinary(); // Initialize Cloudinary
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials:true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+// cookie-parser
+app.use(cookieParser());
 
 // Socket.IO setup
 const server = http.createServer(app);

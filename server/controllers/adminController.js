@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const collegeRegister = async(req,res)=>{
-    const {directorName,collegeName,email,centerCode,password}=req.body;
+    const {directorName,collegeName,email,centerCode,password,role}=req.body;
     try{
         const existingCollege = await Admin.findOne({email});
         const existingCollegeName = await Admin.findOne({collegeName});
@@ -28,6 +28,7 @@ const collegeRegister = async(req,res)=>{
             collegeName,
             email,
             centerCode,
+            role,
             password:hashPassword
         })
 
@@ -48,7 +49,7 @@ const collegeRegister = async(req,res)=>{
 }
 
 const collegeLogin = async(req,res)=>{
-    const {email,password,role}=req.body;
+    const {email,password}=req.body;
     try{
         const college = await  Admin.findOne({email});
         if(!college){
@@ -69,13 +70,15 @@ const collegeLogin = async(req,res)=>{
 
         }
 
-       const token = jwt.sign({email:email,collegeId:college._id,role:'admin',name:'admin'},
+       const token = jwt.sign({email:email,collegeId:college._id,role:college.role},
         process.env.JWT_SECRET,
         {expiresIn:"1d"}
        );
 
        res.cookie("token",token,{
-        httpOnly:true
+        httpOnly:true,
+        sameSite:"strict"
+        
        })
 
        return res.status(200).json({
