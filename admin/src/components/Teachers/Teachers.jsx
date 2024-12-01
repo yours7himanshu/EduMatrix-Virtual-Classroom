@@ -8,7 +8,9 @@ function Teachers() {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/v4/teacher-detail`);
+        const response = await axios.get(`${backendUrl}/api/v4/teacher-detail`,{
+          withCredentials:true,
+        });
         if (response.data.success) {
           setTeachers(response.data.teacherDetail);
           console.log(response.data.teacherDetail);

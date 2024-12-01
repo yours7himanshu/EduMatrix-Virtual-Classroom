@@ -1,12 +1,14 @@
-import { useContext, useState } from "react";
+import {  useState ,useContext} from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ContextStore } from "../store/ContextStore";
+// import { ContextStore } from "../store/ContextStore";
 import Logo from "../components/Dashboard/Logo";
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/loading.json";
+import { RoleContext } from "../context/RoleContext";
 
 const Sidebar = () => {
-  const { collegeName } = useContext(ContextStore);
+  // const { collegeName } = useContext(ContextStore);
+  const userRole = useContext(RoleContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -43,7 +45,9 @@ const Sidebar = () => {
           >
             Dashboard
           </li>
-          <li
+
+
+{userRole==='Director' &&  <li
             onClick={() => handleNavigation("/add-teachers")}
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/add-teachers")
@@ -52,8 +56,10 @@ const Sidebar = () => {
             }`}
           >
             Add Teachers
-          </li>
-          <li
+          </li> }
+         
+
+         {userRole==='Registrar' &&  <li
             onClick={() => handleNavigation("/enroll-students")}
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/enroll-students")
@@ -62,8 +68,9 @@ const Sidebar = () => {
             }`}
           >
             Enroll Students
-          </li>
-          <li
+          </li>}
+          
+          {(userRole==='Teacher'||userRole==='Director') &&  <li
             onClick={() => handleNavigation("/announcement")}
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/announcement")
@@ -72,8 +79,10 @@ const Sidebar = () => {
             }`}
           >
             Announcement
-          </li>
-          <li
+          </li>}
+         
+
+         {userRole==='Teacher'&& <li
             onClick={() => handleNavigation("/timetable")}
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/timetable")
@@ -82,8 +91,10 @@ const Sidebar = () => {
             }`}
           >
             Time Table
-          </li>
-          <li
+          </li>}
+         
+
+         {userRole ==='Teacher' && <li
             onClick={() => handleNavigation("/post-quiz")}
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/post-quiz")
@@ -92,8 +103,10 @@ const Sidebar = () => {
             }`}
           >
             Quiz
-          </li>
-          <li
+          </li>}
+         
+
+         {userRole==='Teacher'&& <li
             onClick={() => handleNavigation("/post-assignment")}
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/post-assignment")
@@ -102,8 +115,32 @@ const Sidebar = () => {
             }`}
           >
             Assignment
-          </li>
-          <li
+          </li>}
+         
+
+          {userRole === 'Registrar' && <li
+            onClick={() => handleNavigation("/student-detail")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+              isActive("/admin-live")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            Student Details
+          </li>}
+
+          {userRole === 'Registrar' && <li
+            onClick={() => handleNavigation("/teachers")}
+            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+              isActive("/admin-live")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            Teacher Details
+          </li>}
+
+         {(userRole === 'Teacher'|| userRole==='Director') && <li
             onClick={() => handleNavigation("/admin-live")}
             className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/admin-live")
@@ -112,7 +149,8 @@ const Sidebar = () => {
             }`}
           >
             Go Live Class
-          </li>
+          </li>}
+         
         </ul>
       </div>
 

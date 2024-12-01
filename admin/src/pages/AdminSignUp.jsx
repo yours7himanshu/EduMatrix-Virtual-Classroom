@@ -12,6 +12,8 @@ function AdminSignUp() {
   const [centerCode, setCenterCode] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState('');
+
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
@@ -25,58 +27,54 @@ function AdminSignUp() {
         directorName,
         email,
         centerCode,
+        role,
         password,
       });
       if (response.data.success) {
-        toast.success(
-          response.data.message || "College successfully registered"
-        );
+        toast.success(response.data.message || "College successfully registered");
         navigate("/");
       }
     } catch (error) {
       console.log("Some error occurred", error);
-     if(error.response && error.response.data && error.response.data.message)
-     {
-      toast.error(error.response.data.message);
-     }
-     else{
-      toast.error("Some unexpected error occured...Try Again!!")
-     }
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Some unexpected error occurred...Try Again!!");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen max-w-screen flex">
-      <div className="first w-[50%] h-screen flex justify-start items-center bg-gradient-to-r from-blue-600 to-violet-700 p-4">
+    <div className="min-h-screen flex">
+      {/* Left Section: Image and Description */}
+      <div className="w-[50%] h-screen bg-gradient-to-r from-blue-600 to-violet-700   flex  justify-center items-start ">
         <img
-          className="h-[50%]"
+          className="w-[50%] mt-[20%]"
           src="https://png.pngtree.com/png-vector/20240616/ourmid/pngtree-man-using-laptop-png-image_12780624.png"
-          alt=""
+          alt="Illustration"
         />
-        <div className="discription flex flex-col gap-5">
-          <h1 className="text-white font-bold text-3xl">
-            Wanted to make Education Awesome??
-          </h1>
-          <p className="text-yellow-300 font-semibold">
-          Bridging the Gap Between Knowledge and Success. Learning Beyond Boundaries!
+        <div className="text-white h-full mt-[30%] w-full">
+          <h1 className="text-4xl font-bold mb-3">Wanted to make Education Awesome??</h1>
+          <p className="text-yellow-300 text-lg font-semibold">
+            Bridging the Gap Between Knowledge and Success. Learning Beyond Boundaries!
           </p>
         </div>
       </div>
 
-      <div className="second flex justify-center items-center w-[50%] h-screen">
+      {/* Right Section: Form */}
+      <div className="w-[50%] h-screen flex justify-center items-center bg-gray-50 p-6">
         <form
-          className="flex flex-col w-[70%] gap-3 p-10 h-auto border border-gray-200 shadow-2xl items-center rounded-lg"
+          className="w-full max-w-md p-8 bg-white rounded-lg shadow-xl border border-gray-200"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl font-medium text-zinc-600 mb-6">
-            Admin Register
-          </h1>
+          <h1 className="text-3xl font-medium text-zinc-600 mb-6">Admin Register</h1>
 
+          {/* Input Fields */}
           <input
             type="text"
-            className="border border-gray-300 h-10 w-full p-2 rounded-sm"
+            className="border border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="College Name"
             value={collegeName}
             onChange={(e) => setCollegeName(e.target.value)}
@@ -84,7 +82,7 @@ function AdminSignUp() {
           />
           <input
             type="text"
-            className="border border-gray-300 h-10 w-full p-2 rounded-sm"
+            className="border border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="Director Name"
             value={directorName}
             onChange={(e) => setDirectorName(e.target.value)}
@@ -92,42 +90,61 @@ function AdminSignUp() {
           />
           <input
             type="text"
-            className="border border-gray-300 h-10 w-full p-2 rounded-sm"
+            className="border border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="Center Code"
             value={centerCode}
             onChange={(e) => setCenterCode(e.target.value)}
             required
           />
           <input
-            className="border w-full border-gray-300 h-10 rounded-sm p-2"
             type="email"
+            className="border border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="College Administration Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
-            className="border w-full border-gray-300 h-10 rounded-sm p-2"
             type="password"
+            className="border border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
 
+          {/* Role Selection */}
+          <div className="mb-4">
+            <label htmlFor="role" className="block text-gray-600 font-medium mb-2">Choose Role</label>
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="choose">Choose your Role</option>
+
+              <option value="Registrar">Registrar</option>
+              <option value="Director">Director</option>
+              <option value="Teacher">Teacher</option>
+            </select>
+          </div>
+
+          {/* Submit Button */}
           <button
-            className="bg-violet-600 mt-7 text-white font-semibold w-full border-none outline-none rounded-md p-2"
+            className="bg-violet-600 text-white font-semibold w-full p-3 rounded-md mt-6"
             type="submit"
             disabled={loading}
           >
             {loading ? "Registering..." : "Register"}
           </button>
 
-          <p>
-            Already have an account??{" "}
-            <Link to="/" className="cursor-pointer text-blue-600 font-semibold">
+          {/* Link to Login */}
+          <p className="mt-4 text-center text-gray-600">
+            Already have an account?{" "}
+            <Link to="/" className="text-blue-600 font-semibold hover:text-blue-800">
               Login
-            </Link>{" "}
+            </Link>
           </p>
         </form>
       </div>
