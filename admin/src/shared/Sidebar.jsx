@@ -7,7 +7,7 @@ import loadingAnimation from "../assets/loading.json";
 import { RoleContext } from "../context/RoleContext";
 
 const Sidebar = () => {
-  // const { collegeName } = useContext(ContextStore);
+ 
   const userRole = useContext(RoleContext);
   const location = useLocation();
   const navigate = useNavigate();

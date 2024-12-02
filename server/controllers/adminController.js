@@ -77,7 +77,8 @@ const collegeLogin = async(req,res)=>{
 
        res.cookie("token",token,{
         httpOnly:true,
-        sameSite:"strict"
+        secure: false,
+        sameSite:"lax"
         
        })
 
