@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import loadingAnimation from "./assets/loading.json";
 import NotFound from "./pages/NotFound";
+import Message from "./shared/Message";
 
 
 
@@ -65,6 +66,7 @@ function App() {
             <Route path="/post-quiz" element={<CreateQuiz />} />
             <Route path="/post-assignment" element={<Assignment />} />
             <Route path="/student-detail" element={<StudentDetail />} />
+            <Route path='/messages' element={<Message/>}/>
 
             <Route path="*" element={<NotFound/>}/>
           </Routes>

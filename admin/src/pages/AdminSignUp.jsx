@@ -48,7 +48,7 @@ function AdminSignUp() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Section: Image and Description */}
+      
       <div className="w-[50%] h-screen bg-gradient-to-r from-blue-600 to-violet-700   flex  justify-center items-start ">
         <img
           className="w-[50%] mt-[20%]"

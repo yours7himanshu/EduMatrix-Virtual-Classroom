@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import socket from '../socket';
+import Message from '../shared/Message';
 
 const AdminLive = ({ lectureId }) => {
   const localVideoRef = useRef(null);
@@ -104,7 +105,9 @@ const AdminLive = ({ lectureId }) => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
+
+    <div className="video-call flex h-screen w-screen">
+ <div className="flex w-[70%] flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
       <h2 className="text-xl text-green-600 font-semibold mb-4">
         Admin Live Stream
       </h2>
@@ -114,20 +117,11 @@ const AdminLive = ({ lectureId }) => {
         muted
         className="w-[80%] h-[90%] bg-black rounded-lg shadow-md mb-4"
       ></video>
-      {isLive ? (
-        <>
-          <p className="text-gray-600">You are now live.</p>
-          <button
-            onClick={endCall}
-            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-          >
-            End Call
-          </button>
-        </>
-      ) : (
-        <p className="text-red-500 mt-4">The live session has ended.</p>
-      )}
+      
     </div>
+    <Message />
+    </div>
+   
   );
 };
 
