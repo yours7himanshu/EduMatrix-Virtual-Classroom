@@ -24,6 +24,7 @@ const DashboardPage = lazy(() => import("./components/Dashboard/DashboardPage"))
 const Teachers = lazy(() => import("./components/Teachers/Teachers"));
 const StudentDetail = lazy(() => import("./components/Student/StudentDetail"));
 
+
 const Loader = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">

@@ -8,7 +8,7 @@ import { RoleContext } from "../context/RoleContext";
 
 const Sidebar = () => {
  
-  const userRole = useContext(RoleContext);
+  const {userRole} = useContext(RoleContext);
   const location = useLocation();
   const navigate = useNavigate();
 

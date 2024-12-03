@@ -10,7 +10,7 @@ const HomePage = () => {
           <a href="#features" className="text-gray-700 hover:text-blue-700">
             Features
           </a>
-          <a href="#demo" className="text-gray-700 hover:text-blue-700">
+          <a href="/liveLecture" className="text-gray-700 hover:text-blue-700">
             Demo
           </a>
           <a
