@@ -114,20 +114,12 @@ const AdminLive = () => {
             className="w-full h-full rounded-lg border-2 border-green-500 shadow-md"
             autoPlay
             muted
-            ref={(video) => {
-              if (video && myStream) {
-                video.srcObject = myStream;
-              }
-            }}
+            ref={(ref) => ref && (ref.srcObject = myStream)}
           />
           <video
             className="w-full h-full rounded-lg border-2 border-blue-500 shadow-md"
             autoPlay
-            ref={(video) => {
-              if (video && remoteStream) {
-                video.srcObject = remoteStream;
-              }
-            }}
+            ref={(ref) => ref && (ref.srcObject = remoteStream)}
           />
         </div>
       </div>
