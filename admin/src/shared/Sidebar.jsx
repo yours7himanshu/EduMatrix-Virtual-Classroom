@@ -11,10 +11,12 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import QuizIcon from '@mui/icons-material/Quiz';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import Modal from "../components/Model";
 const Sidebar = () => {
  
   const {userRole} = useContext(RoleContext);
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   // Loader state
@@ -154,7 +156,7 @@ const Sidebar = () => {
 
          {(userRole === 'Teacher'|| userRole==='Director') && <div className="flex items-center gap-4" >
           <li
-            onClick={() => handleNavigation("/admin-live")}
+             onClick={() => setIsModalOpen(true)}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/admin-live")
                 ? "bg-white text-black border rounded-md"
@@ -168,6 +170,17 @@ const Sidebar = () => {
          
         </ul>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={() => console.log("Handle Room Join")}
+        email=""
+        setEmail={() => {}}
+        roomId=""
+        setRoomId={() => {}}
+        loading={false}
+      />
 
       {/* Loader */}
       {isLoading && (

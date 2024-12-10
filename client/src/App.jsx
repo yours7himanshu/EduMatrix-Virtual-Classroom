@@ -19,7 +19,7 @@ import NotesPage from "./pages/NotesPage.jsx";
 import SyllabusPage from "./pages/SyllabusPage.jsx";
 import QuizList from "./components/QuizList.jsx";
 import Login  from "./pages/Login.jsx"
-
+import { PeerProvider } from "./providers/Peer.jsx";
 import MainLoginPage from "./pages/MainLoginPage.jsx";
 
 import Announcement from "./components/Announcement.jsx";
@@ -29,6 +29,8 @@ function App() {
     <>
       <Navbar />
       <ToastContainer/>
+      <PeerProvider>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
@@ -46,6 +48,7 @@ function App() {
         <Route path="/displayAnnoncement"element={<Announcement/>}/>
 
       </Routes>
+      </PeerProvider>
     </>
   );
 }
