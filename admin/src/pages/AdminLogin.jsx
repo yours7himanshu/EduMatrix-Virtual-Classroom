@@ -55,7 +55,7 @@ function AdminLogin() {
   return (
     <div className="min-h-screen flex bg-gradient-to-r from-blue-500 to-teal-500">
       {/* Left Section with Image and Text */}
-      <div className="w-full md:w-1/2 h-screen flex justify-center items-center p-8  bg-gradient-to-r from-blue-600 to-violet-700 text-white">
+      <div className="w-full md:w-1/2 h-screen flex justify-center items-center p-8 max-md:hidden bg-gradient-to-r from-blue-600 to-violet-700 text-white">
         <div className="text-center flex gap-5 space-y-6">
           <img
             className="mx-auto h-[40%] w-[40%]"
