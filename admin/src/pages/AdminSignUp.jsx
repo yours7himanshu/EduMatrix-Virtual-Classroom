@@ -66,7 +66,7 @@ function AdminSignUp() {
       {/* Right Section: Form */}
       <div className="w-[50%] max-md:w-auto max-md:m-3 h-screen flex justify-center items-center bg-gray-50 p-6">
         <form
-          className="w-full max-md:h-[80%] max-w-md p-8 bg-white rounded-lg shadow-xl border border-gray-200"
+          className="w-full max-md:h-[90%] max-w-md p-8 bg-white rounded-lg shadow-xl border border-gray-200"
           onSubmit={handleSubmit}
         >
           <h1 className="text-3xl max-md:text-xl font-medium text-zinc-600 mb-6">Admin Register</h1>
@@ -74,7 +74,7 @@ function AdminSignUp() {
           {/* Input Fields */}
           <input
             type="text"
-            className="border max-md:mb-3 border-gray-300 max-md:h-8 max-md:text-sm max-md:p-2 h-12 w-full p-3 rounded-md mb-4"
+            className="border max-md:mb-3 border-gray-300 max-md:h-[10%] max-md:text-sm max-md:p-2 h-12 w-full p-3 rounded-md mb-4"
             placeholder="College Name"
             value={collegeName}
             onChange={(e) => setCollegeName(e.target.value)}
@@ -82,7 +82,7 @@ function AdminSignUp() {
           />
           <input
             type="text"
-            className="border max-md:h-8 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
+            className="border max-md:h-[10%] max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="Director Name"
             value={directorName}
             onChange={(e) => setDirectorName(e.target.value)}
@@ -90,7 +90,7 @@ function AdminSignUp() {
           />
           <input
             type="text"
-            className="border max-md:h-8 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
+            className="border max-md:h-[10%] max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="Center Code"
             value={centerCode}
             onChange={(e) => setCenterCode(e.target.value)}
@@ -98,7 +98,7 @@ function AdminSignUp() {
           />
           <input
             type="email"
-            className="border max-md:h-8 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
+            className="border max-md:h-[10%] max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="College Administration Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -106,7 +106,7 @@ function AdminSignUp() {
           />
           <input
             type="password"
-            className="border max-md:h-8 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
+            className="border max-md:h-[10%] max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -120,7 +120,7 @@ function AdminSignUp() {
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full p-3  text-sm  max-md:mb-3 border max-md:flex max-md:flex-col max-md:justify-center max-md:h-8 max-md:p-1  max-md:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-3  text-sm  max-md:mb-3 border max-md:flex max-md:flex-col max-md:justify-center max-md:h-[9%] max-md:p-1  max-md:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option className="max-md:text-sm max-md:text-gray-300 " value="choose">Choose your role</option>
 
