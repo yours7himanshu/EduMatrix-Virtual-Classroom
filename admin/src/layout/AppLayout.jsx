@@ -6,12 +6,12 @@ import { RoleProvider } from "../context/RoleContext";
 const AppLayout = () => (WrapLayoutComponent)=> {
     return (props)=>{
         return (
-            <div  className='flex  h-screen w-screen' >
+            <div  className='flex  h-screen w-screen max-md:justify-center ' >
               <RoleProvider>
 
-              <Sidebar/>
+              <Sidebar />
               </RoleProvider>
-              <div className='w-full h-screen overflow-x-hidden' >
+              <div className='w-full h-screen overflow-x-hidden  ' >
 
               <WrapLayoutComponent {...props} />
               </div>
