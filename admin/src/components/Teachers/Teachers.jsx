@@ -23,7 +23,7 @@ function Teachers() {
   }, []);
 
   return (
-    <div className="container my-1 px-4 py-8">
+    <div className="container my-1 px-4 py-8 max-md:hidden">
      
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">

@@ -60,7 +60,7 @@ const DashboardPage = () => {
         </div>
 
         <Dashboard  />
-        <h1 className="text-3xl font-semibold text-gray-800">
+        <h1 className="text-3xl font-semibold text-gray-800 max-md:hidden ">
             Teachers Overview
           </h1>
         <Teachers/>
