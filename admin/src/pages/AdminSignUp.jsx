@@ -69,7 +69,7 @@ function AdminSignUp() {
           className="w-full max-md:h-[90%] max-w-md p-8 bg-white rounded-lg shadow-xl border border-gray-200"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl max-md:text-xl font-medium text-zinc-600 mb-6">Admin Register</h1>
+          <h1 className="text-3xl max-md:text-xl max-md:mb-3 font-medium text-zinc-600 mb-6">Admin Register</h1>
 
           {/* Input Fields */}
           <input
@@ -114,13 +114,13 @@ function AdminSignUp() {
           />
 
           {/* Role Selection */}
-          <div className="mb-4">
+          <div className="mb-4 max-md:mb-2 max-md:h-[10%] ">
             <label htmlFor="role" className="block max-md:text-sm max-md:mb-1 max-md:ml-1 text-gray-600 font-medium mb-2">Choose Role</label>
             <select
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full p-3  text-sm  max-md:mb-3 border max-md:flex max-md:flex-col max-md:justify-center max-md:h-[9%] max-md:p-1  max-md:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-3 block text-sm  max-md:mb-3 border max-md:h-[100%] max-md:p-1  max-md:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option className="max-md:text-sm max-md:text-gray-300 " value="choose">Choose your role</option>
 
@@ -132,7 +132,7 @@ function AdminSignUp() {
 
           {/* Submit Button */}
           <button
-            className="bg-violet-600 max-md:mt-0 max-md:p-1 max-md:text-sm max-md:h-8 text-white font-semibold w-full p-3 rounded-md mt-6"
+            className="bg-violet-600 max-md:mt-6 max-md:p-1 max-md:text-sm max-md:h-[8%] text-white font-semibold w-full p-3 rounded-md mt-6"
             type="submit"
             disabled={loading}
           >
