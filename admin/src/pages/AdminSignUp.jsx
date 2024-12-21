@@ -60,7 +60,7 @@ function AdminSignUp() {
       {/* Right Section: Form */}
       <div className="w-[50%] min-h-screen max-md:h-auto max-md:w-auto max-md:m-3  flex justify-center items-center bg-white p-6">
         <form
-          className="w-full  max-md:h-auto max-w-md p-8 bg-gray-50 rounded-lg shadow-xl border border-gray-200 max-md:p-10 "
+          className=" w-[100%]  max-md:h-auto max-w-md p-8 bg-gray-50 rounded-lg shadow-xl border border-gray-200 max-md:p-10 "
           onSubmit={handleSubmit}
         >
           <h1 className="text-3xl max-md:text-xl max-md:mb-3 font-medium text-zinc-600 mb-6">
