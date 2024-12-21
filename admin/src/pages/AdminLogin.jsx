@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AuthSidebar from "../shared/AuthSidebar";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -55,25 +56,10 @@ function AdminLogin() {
   return (
     <div className="min-h-screen flex bg-gradient-to-r from-blue-500 to-teal-500">
       {/* Left Section with Image and Text */}
-      <div className="w-full md:w-1/2 h-screen flex justify-center items-center p-8 max-md:hidden bg-gradient-to-r from-blue-600 to-violet-700 text-white">
-        <div className="text-center flex gap-5 space-y-6">
-          <img
-            className="mx-auto h-[40%] w-[40%]"
-            src="https://png.pngtree.com/png-vector/20240616/ourmid/pngtree-man-using-laptop-png-image_12780624.png"
-            alt="Learning"
-          />
-          <div className="para-detail flex flex-col gap-6 ">
-          <h1 className="text-4xl font-extrabold mt-8">Wanted to make Education Awesome??</h1>
-          <p className="text-lg text-yellow-300 font-medium">
-            Bridging the Gap Between Knowledge and Success. Learning Beyond Boundaries!
-          </p>
-          </div>
-          
-        </div>
-      </div>
+      <AuthSidebar/>
 
       {/* Right Section with Form */}
-      <div className="w-full md:w-1/2 flex justify-center items-center p-8 bg-white">
+      <div className="w-full md:w-1/2 flex justify-center items-center p-8 bg-gray-50">
         <form
           className="w-full max-w-md p-8 bg-gray-100 rounded-lg shadow-lg space-y-6"
           onSubmit={handleSubmit}
