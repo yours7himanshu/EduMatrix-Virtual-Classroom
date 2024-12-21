@@ -45,14 +45,14 @@ const Sidebar = () => {
           <div className="flex gap-4" >
           <li
             onClick={() => handleNavigation("/dashboard")}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
               isActive("/dashboard")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
           >
-            Dashboard
           <DashboardIcon/>
+            Dashboard
           </li>
           </div>
 
@@ -88,8 +88,8 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            Announcement
             <CampaignIcon/>
+            Announcement
           </li>}
          
 
@@ -101,8 +101,8 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            Time Table
             <EventNoteIcon/>
+            Time Table
           </li>}
          
 
@@ -114,8 +114,8 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            Quiz
             <QuizIcon/>
+            Quiz
           </li>}
          
 
@@ -127,8 +127,8 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            Assignment
             <AssignmentIcon/>
+            Assignment
           </li>}
          
 
@@ -163,8 +163,8 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            Go Live Class
           <LiveTvIcon  />
+            Go Live Class
           </li>
           </div>}
          
