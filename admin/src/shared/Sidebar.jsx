@@ -39,7 +39,7 @@ const Sidebar = () => {
   return (
     <div className="flex max-md:hidden  ">
       {/* Sidebar */}
-      <div className="sidebar fixed top-0  left-0 h-screen flex flex-col w-[20%] bg-blue-600 text-white">
+      <div className="sidebar fixed top-0  left-0 h-screen flex flex-col w-[20%] bg-gradient-to-tr from-indigo-800 to-blue-700 text-white">
         <ul className="flex flex-col ml-10 gap-5">
           <Logo />
           <div className="flex gap-4" >

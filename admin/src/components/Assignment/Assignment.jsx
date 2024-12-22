@@ -1,3 +1,7 @@
+// Copyright (c) 2024 Himanshu Dinkar
+// Licensed under the MIT Lincense. See LICENSE file in the project directory for full License information
+
+
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
