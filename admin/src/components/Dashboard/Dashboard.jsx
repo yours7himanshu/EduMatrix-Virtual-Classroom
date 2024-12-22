@@ -38,7 +38,7 @@ const Dashboard = () => {
       },
     ],
   };
-
+ 
   const marksData = {
     labels: ["Math", "Science", "History", "English", "Arts"],
     datasets: [
