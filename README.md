@@ -125,4 +125,9 @@ We welcome contributions! To contribute, please follow these steps:
 - Write meaningful commit messages.
 - Test your changes before submitting a pull request.
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
 ---

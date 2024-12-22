@@ -1,4 +1,9 @@
 // src/api/lectureApi.js
+
+// Copyright (c) 2024 Himanshu Dinkar
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+
+
 import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/lectures`;
