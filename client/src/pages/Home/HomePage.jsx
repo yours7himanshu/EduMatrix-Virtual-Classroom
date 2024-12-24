@@ -1,54 +1,37 @@
-import mainImage from '../assets/What-is-a-Virtual-Classroom-3.png';
-
+import mainImage from '../../assets/What-is-a-Virtual-Classroom-3.png';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
 const HomePage = () => {
+
+  useEffect(() => { AOS.init(); }, []);
+
   return (
-    <div className="bg-gray-50 p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="bg-gradient-to-r from-blue-950 via-violet-800 to-indigo-950  p-4 b">
       {/* Header */}
-      <header className="flex flex-wrap justify-between items-center px-6 py-4 bg-white shadow-md rounded-md mb-6">
-        <h1 className="text-2xl font-bold text-violet-500">EduMatrix</h1>
-        <nav className="space-x-4 flex flex-wrap justify-center">
-          <a href="#features" className="text-gray-700 hover:text-blue-700">
-            Features
-          </a>
-          <a href="/liveLecture" className="text-gray-700 hover:text-blue-700">
-            Demo
-          </a>
-          <a
-            href="#get-started"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Get Started
-          </a>
-        </nav>
-      </header>
+      
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-violet-500 to-blue-600 text-white py-10 px-6 rounded-md mb-6">
-        <div className="container mx-auto flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 space-y-6 text-center md:text-left">
-            <h2 className="text-4xl font-extrabold">
-              Revolutionize Learning with EduMatrix
-            </h2>
-            <p className="text-lg">
+      <section className="bg-gradient-to-r min-h-screen text-white py-10 px-6 rounded-md mb-6">
+        <div className="container min-h-screen mx-auto flex flex-col md:flex-row items-center justify-center">
+          <div className=" w-[90%] h-[95%]  mb-[10%] flex flex-col items-center justify-center space-y-6 text-center md:text-left">
+            <h1 data-aos="fade-down" data-aos-duration="1500" className="text-6xl tracking-tight leading-[107%]  mb-2 z-50  text-center font-extrabold  ">
+             <span className='text-6xl z-50 text-center p-2 font-extrabold text-cyan-300'  > Empowering</span>  Interactive and Seamless Virtual <span className='text-6xl font-extrabold text-lime-400  '  > Learning</span> Experiences Online through <span className='text-6xlfont-extrabold text-yellow-300  '  >EduMatrix</span>
+            </h1>
+            <p data-aos="fade-down" data-aos-duration="1500" className="text-lg">
               An AI-powered smart education system for a seamless virtual
               classroom experience.
             </p>
-            <div className="flex flex-wrap justify-center md:justify-start space-x-4">
-              <button className="px-6 py-2 bg-white text-blue-600 rounded-lg shadow-md hover:bg-gray-100">
+            <div data-aos="fade-down" data-aos-duration="1500" className="flex flex-wrap justify-center md:justify-start space-x-4">
+              <button className="px-4 py-1 h-13 bg-white text-indigo-950 rounded-md font-medium shadow-md hover:bg-gray-100">
                 Explore Features
               </button>
-              <button className="px-6 py-2 bg-blue-800 rounded-lg shadow-md hover:bg-blue-900">
+              <button className="px-6 py-2 h-14 bg-black  rounded-md shadow-md hover:bg-gray-900">
                 Start Free Trial
               </button>
             </div>
           </div>
-          <div className="md:w-1/2 flex justify-center mt-6 md:mt-0">
-            <img
-              src={mainImage}
-              alt="Virtual Classroom"
-              className="rounded-lg w-full md:w-4/5 lg:w-3/4 shadow-lg"
-            />
-          </div>
+        
         </div>
       </section>
 

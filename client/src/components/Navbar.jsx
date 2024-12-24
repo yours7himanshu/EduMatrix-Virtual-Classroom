@@ -8,10 +8,10 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-violet-600 text-white shadow-md p-4">
+    <nav className="bg-violet-950 h-[25%] text-white shadow-lg p-4">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <div className="text-2xl font-semibold">
+        <div className="text-3xl font-extrabold">
           <Link to="/">EduMatrix</Link>
         </div>
 
