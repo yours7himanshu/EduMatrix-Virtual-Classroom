@@ -16,7 +16,7 @@ const HomePage = () => {
         <div className="container min-h-screen mx-auto flex flex-col md:flex-row items-center justify-center">
           <div className=" w-[90%] h-[95%] max-lg:w-screen  mb-[10%] flex flex-col items-center justify-center space-y-6 text-center md:text-left">
             <h1 data-aos="fade-down" data-aos-duration="1500" className="text-6xl max-lg:w-screen tracking-tight leading-[107%]  mb-2 z-50  text-center font-extrabold max-lg:text-4xl max-lg:font-bold ">
-             <span className='text-6xl z-50 text-center p-2 font-extrabold text-cyan-300'  > Empowering</span>  Interactive and Seamless Virtual <span className='text-6xl font-extrabold text-lime-400  '  > Learning</span> Experiences Online through <span className='text-6xlfont-extrabold text-yellow-300  '  >EduMatrix</span>
+             <span className='text-6xl max-lg:text-4xl max-lg:font-bold z-50 text-center p-2 font-extrabold text-cyan-300'  > Empowering</span>  Interactive and Seamless Virtual <span className='text-6xl font-extrabold text-lime-400 max-lg:text-4xl max-lg:font-bold '  > Learning</span> Experiences Online through <span className='text-6xlfont-extrabold text-yellow-300 max-lg:text-4xl max-lg:font-bold '  >EduMatrix</span>
             </h1>
             <p data-aos="fade-down" data-aos-duration="1500" className="text-lg">
               An AI-powered smart education system for a seamless virtual
