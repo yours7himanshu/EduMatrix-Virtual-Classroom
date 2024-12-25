@@ -42,7 +42,7 @@ const HomePage = () => {
             <p
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="text-sm max-md:w-full max-md:mx-1 "
+              className="text-sm max-md:w-full max-md:mx-3 "
             >
               💎 An AI-powered smart education system for a seamless virtual
               classroom experience 💎
@@ -71,7 +71,7 @@ const HomePage = () => {
         className="py-10 px-6  rounded-md mb-6 shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950  to-blue-900  "
       >
         <div className="container mx-auto">
-          <h3 className="text-5xl font-bold text-center text-gray-200 mb-16 ">
+          <h3 className="text-5xl max-md:text-3xl max-md:mb-10 font-bold text-center text-gray-200 mb-16 ">
             Why Choosing Us ???
           </h3>
 
