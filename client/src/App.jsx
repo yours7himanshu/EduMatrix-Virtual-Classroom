@@ -1,5 +1,5 @@
 import Signup from "./pages/Auth/SignUp.jsx";
-import Navbar from "./components/Navbar.jsx";
+import Navbar from "./components/Navbar/Navbar.jsx";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -17,12 +17,12 @@ import Card from '@mui/material/Card';
    import CardActions from '@mui/material/CardActions';
 import NotesPage from "./pages/Notes/NotesPage.jsx";
 import SyllabusPage from "./pages/Syllabus/SyllabusPage.jsx";
-import QuizList from "./components/QuizList.jsx";
+import QuizList from "./components/Quiz/QuizList.jsx";
 import Login  from "./pages/Auth/Login.jsx"
 import { PeerProvider } from "./providers/Peer.jsx";
 import MainLoginPage from "./pages/Auth/MainLoginPage.jsx";
 
-import Announcement from "./components/Announcement.jsx";
+import Announcement from "./components/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
 
 function App() {

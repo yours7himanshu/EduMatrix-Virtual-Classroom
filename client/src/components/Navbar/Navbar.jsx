@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import profilePic from "../assets/pp.png";
-import dropdown from "../assets/dropdown.png";
+import { useAuth } from "../../context/AuthContext";
+import profilePic from "../../assets/pp.png";
+import dropdown from "../../assets/dropdown.png";
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
