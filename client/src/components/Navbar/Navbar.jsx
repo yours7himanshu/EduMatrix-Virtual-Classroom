@@ -8,10 +8,10 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-violet-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white shadow-lg p-4">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className="bg-violet-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white max-md:shadow-sm shadow-lg p-4">
+      <div className="container mx-auto max-md:m-2 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-3xl font-extrabold">
+        <div className="text-3xl  font-extrabold">
           <Link to="/">EduMatrix</Link>
         </div>
 
@@ -40,7 +40,7 @@ const Navbar = () => {
         )}
 
         {/* Profile or Login/Signup */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center gap-4">
           {isAuthenticated ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img className="w-8 rounded-full" src={profilePic} alt="Profile" />

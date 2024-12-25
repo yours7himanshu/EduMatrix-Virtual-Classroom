@@ -1,3 +1,5 @@
+
+
 import mainImage from "../../assets/What-is-a-Virtual-Classroom-3.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -11,36 +13,36 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-blue-950 via-violet-800 to-indigo-950  p-4 b">
+    <div className="bg-gradient-to-r overflow-x-hidden from-blue-950 via-violet-800 to-indigo-950  p-4 ">
       {/* Header */}
 
       {/* Hero  section of the website of the home page */}
-      <section className="bg-gradient-to-r mt-36  h-screen max-md:h-auto text-white py-10 px-6 rounded-md mb-6">
-        <div className="container  h-[90%] max-md:h-[70%] mx-auto flex flex-col md:flex-row items-center justify-center">
+      <section className="bg-gradient-to-r mt-36  h-screen max-md:h-auto text-white py-10 px-6 mb-6">
+        <div className="container max-md:w-full   h-[90%] max-md:h-[70%] mx-auto flex flex-col md:flex-row items-center justify-center">
           <div className=" w-[90%]  h-[95%]  max-lg:w-screen  mb-[10%] flex flex-col items-center justify-center space-y-6 text-center md:text-left">
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="text-6xl max-lg:w-screen  leading-[107%]  mb-2  max-lg:tracking-wider text-center font-extrabold max-md:mx-4 max-lg:text-4xl max-lg:font-bold "
+              className="text-6xl max-lg:w-screen max-md:w-full  leading-[107%]  mb-2  max-lg:tracking-wider text-center max-md:mx-1 font-extrabold  max-lg:text-3xl  max-md:text-xl max-lg:font-bold "
             >
-              <span className="text-6xl max-lg:text-4xl max-lg:font-bold  text-center p-2 font-extrabold text-cyan-300">
+              <span className="text-6xl max-lg:text-4xl max-lg:font-bold max-md:text-2xl text-center p-2 font-extrabold text-cyan-300">
                 {" "}
                 Empowering
               </span>{" "}
               Interactive and Seamless Virtual{" "}
-              <span className="text-6xl font-extrabold text-lime-400 max-lg:text-4xl max-lg:font-bold ">
+              <span className="text-6xl font-extrabold max-md:text-2xl text-lime-400 max-lg:text-4xl max-lg:font-bold ">
                 {" "}
                 Learning
               </span>{" "}
               Experiences Online through{" "}
-              <span className="text-6xlfont-extrabold text-yellow-300 max-lg:text-4xl max-lg:font-bold ">
+              <span className="text-6xlfont-extrabold max-md:text-2xl text-yellow-300 max-lg:text-4xl max-lg:font-bold ">
                 EduMatrix
               </span>
             </h1>
             <p
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="text-sm"
+              className="text-sm max-md:w-full max-md:mx-1 "
             >
               💎 An AI-powered smart education system for a seamless virtual
               classroom experience 💎
