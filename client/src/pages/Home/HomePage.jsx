@@ -2,6 +2,7 @@ import mainImage from '../../assets/What-is-a-Virtual-Classroom-3.png';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
+import Buttons from '../../shared/Buttons/Buttons';
 const HomePage = () => {
 
   useEffect(() => { AOS.init(); }, []);
@@ -11,34 +12,32 @@ const HomePage = () => {
       {/* Header */}
       
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r  h-screen max-md:h-auto text-white py-10 px-6 rounded-md mb-6">
+      {/* Hero  section of the website of the home page */}
+      <section className="bg-gradient-to-r mt-24  h-screen max-md:h-auto text-white py-10 px-6 rounded-md mb-6">
         <div className="container  h-full max-md:h-[70%] mx-auto flex flex-col md:flex-row items-center justify-center">
           <div className=" w-[90%]  h-[95%]  max-lg:w-screen  mb-[10%] flex flex-col items-center justify-center space-y-6 text-center md:text-left">
-            <h1 data-aos="fade-down" data-aos-duration="1500" className="text-6xl max-lg:w-screen  leading-[107%]  mb-2 z-50 max-lg:tracking-wider text-center font-extrabold max-md:mx-4 max-lg:text-4xl max-lg:font-bold ">
-             <span className='text-6xl max-lg:text-4xl max-lg:font-bold z-50 text-center p-2 font-extrabold text-cyan-300'  > Empowering</span>  Interactive and Seamless Virtual <span className='text-6xl font-extrabold text-lime-400 max-lg:text-4xl max-lg:font-bold '  > Learning</span> Experiences Online through <span className='text-6xlfont-extrabold text-yellow-300 max-lg:text-4xl max-lg:font-bold '  >EduMatrix</span>
+            <h1 data-aos="fade-down" data-aos-duration="1500" className="text-6xl max-lg:w-screen  leading-[107%]  mb-2  max-lg:tracking-wider text-center font-extrabold max-md:mx-4 max-lg:text-4xl max-lg:font-bold ">
+             <span className='text-6xl max-lg:text-4xl max-lg:font-bold  text-center p-2 font-extrabold text-cyan-300'  > Empowering</span>  Interactive and Seamless Virtual <span className='text-6xl font-extrabold text-lime-400 max-lg:text-4xl max-lg:font-bold '  > Learning</span> Experiences Online through <span className='text-6xlfont-extrabold text-yellow-300 max-lg:text-4xl max-lg:font-bold '  >EduMatrix</span>
             </h1>
             <p data-aos="fade-down" data-aos-duration="1500" className="text-sm">
               An AI-powered smart education system for a seamless virtual
-              classroom experience.
+              classroom experience 💎
             </p>
             <div data-aos="fade-down" data-aos-duration="1500" className="flex flex-wrap justify-center md:justify-start space-x-4">
-              <button className="px-4 py-1 h-13 bg-white text-indigo-950 rounded-md font-medium shadow-md hover:bg-gray-100">
-                Explore Features
-              </button>
-              <button className="px-6 py-2 h-14 bg-black  rounded-md shadow-md hover:bg-gray-900">
-                Start Free Trial
-              </button>
+             
+              <Buttons  className="px-8 outline-none border-none h-13 bg-white text-indigo-950 rounded-md font-medium shadow-md hover:bg-gray-100" title="Start Demo"/>
+              <Buttons className="px-8 py-4 h-15 outline-none border-none bg-black text-white rounded-md  shadow-md hover:bg-gray-900" title="Get Started"/>
+
             </div>
           </div>
         
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* features section of the website of homepage */}
       <section
         id="features"
-        className="py-10 px-6 bg-white rounded-md mb-6 shadow-md"
+        className="py-10 px-6  rounded-md mb-6 shadow-md"
       >
         <div className="container mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-800">

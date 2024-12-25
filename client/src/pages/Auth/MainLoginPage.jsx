@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LockKeyhole, GraduationCap, Waves } from 'lucide-react';
-import LoginOption from '../components/LoginOption';
+import LoginOption from '../../components/LoginOption';
 
 const MainLoginPage = () => {
   const [selectedRole, setSelectedRole] = useState(null);

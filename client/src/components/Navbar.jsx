@@ -8,7 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-violet-950 h-[25%] text-white shadow-lg p-4">
+    <nav className="bg-violet-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white shadow-lg p-4">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="text-3xl font-extrabold">
@@ -17,7 +17,7 @@ const Navbar = () => {
 
         {/* Links */}
         {isAuthenticated && (
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex mr-11  space-x-6">
             <Link to="/" className="hover:text-blue-300">
               Home
             </Link>
@@ -30,12 +30,12 @@ const Navbar = () => {
             <Link to="/contact" className="hover:text-blue-300">
               Contact Us
             </Link>
-            <Link to="/notes" className="hover:text-blue-300">
+            {/* <Link to="/notes" className="hover:text-blue-300">
               Notes
             </Link>
             <Link to="/syllabus" className="hover:text-blue-300">
               Syllabus
-            </Link>
+            </Link> */}
           </div>
         )}
 
