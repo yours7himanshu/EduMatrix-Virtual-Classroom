@@ -68,29 +68,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Demo Section */}
-      <section
-        id="demo"
-        className="py-10 px-6 bg-gray-100 rounded-md mb-6 shadow-md"
-      >
-        <div className="container mx-auto text-center">
-          <h3 className="text-3xl font-bold text-gray-800">
-            See EduMatrix in Action
-          </h3>
-          <p className="text-gray-600 mt-4">
-            Experience the powerful features of EduMatrix through a live demo.
-          </p>
-          <div className="mt-8">
-            <iframe
-              className="w-full sm:w-3/4 h-64 mx-auto rounded-lg shadow-md"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="EduMatrix Demo"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
-      </section>
+      
+     
 
       {/* Call-to-Action Section */}
       <section

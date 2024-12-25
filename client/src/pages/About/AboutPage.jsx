@@ -1,97 +1,20 @@
 
 
 import React from 'react';
-import { 
-  Award, 
-  Users, 
-  Globe, 
-  BookOpen, 
-  Building, 
-  GraduationCap,
-  Video,
-  ClipboardCheck,
-  HelpCircle,
-  LineChart,
-  MessageCircle,
-  Calendar
-} from 'lucide-react';
+import stats from './Stats';
+import services from './Services';
+import milestones from './milestones';
+import values from './Values'
 
 const AboutPage = () => {
-  const stats = [
-    { number: "10K+", label: "Students Enrolled", icon: <Users className="w-6 h-6 text-blue-600" /> },
-    { number: "500+", label: "Expert Teachers", icon: <GraduationCap className="w-6 h-6 text-blue-600" /> },
-    { number: "100+", label: "Courses", icon: <BookOpen className="w-6 h-6 text-blue-600" /> },
-    { number: "50+", label: "Partner Institutions", icon: <Building className="w-6 h-6 text-blue-600" /> }
-  ];
+  
+ 
+  
 
-  const services = [
-    {
-      title: "Live Interactive Classes",
-      description: "Engage in real-time with expert instructors through our interactive virtual classrooms. Experience dynamic learning with live discussions and instant doubt resolution.",
-      icon: <Video className="w-12 h-12 text-blue-600" />,
-      features: ["Real-time interaction", "Interactive whiteboard", "Live Q&A sessions", "Recorded sessions available"]
-    },
-    {
-      title: "Comprehensive Assignments",
-      description: "Strengthen your understanding through carefully crafted assignments that test your knowledge and promote practical application of concepts.",
-      icon: <ClipboardCheck className="w-12 h-12 text-blue-600" />,
-      features: ["Auto-graded exercises", "Detailed solutions", "Regular feedback", "Progressive difficulty levels"]
-    },
-    {
-      title: "24/7 Doubt Resolution",
-      description: "Never let doubts hold you back. Get instant answers from our expert mentors through our dedicated doubt resolution platform.",
-      icon: <HelpCircle className="w-12 h-12 text-blue-600" />,
-      features: ["Quick response time", "One-on-one sessions", "Topic-wise experts", "Video explanations"]
-    },
-    {
-      title: "Performance Analytics",
-      description: "Track your learning journey with our advanced analytics dashboard. Monitor progress, identify areas for improvement, and celebrate your achievements.",
-      icon: <LineChart className="w-12 h-12 text-blue-600" />,
-      features: ["Detailed progress reports", "Personalized insights", "Improvement suggestions", "Achievement tracking"]
-    },
-    {
-      title: "Discussion Forums",
-      description: "Join our vibrant community of learners. Share knowledge, discuss concepts, and learn from peers through moderated discussion forums.",
-      icon: <MessageCircle className="w-12 h-12 text-blue-600" />,
-      features: ["Topic-wise discussions", "Expert moderation", "Peer learning", "Resource sharing"]
-    },
-    {
-      title: "Scheduled Learning",
-      description: "Stay on track with personalized learning schedules. Our smart calendar helps you maintain consistent progress towards your goals.",
-      icon: <Calendar className="w-12 h-12 text-blue-600" />,
-      features: ["Customized timetables", "Reminder system", "Flexible scheduling", "Progress tracking"]
-    }
-  ];
-
-  const values = [
-    {
-      title: "Excellence in Education",
-      description: "We strive to maintain the highest standards in digital education and learning methodologies.",
-      icon: <Award className="w-6 h-6 text-blue-600" />
-    },
-    {
-      title: "Student-Centered Approach",
-      description: "Our focus is always on creating the best possible learning experience for our students.",
-      icon: <Users className="w-6 h-6 text-blue-600" />
-    },
-    {
-      title: "Global Reach",
-      description: "We connect students and educators across borders, fostering a global learning community.",
-      icon: <Globe className="w-6 h-6 text-blue-600" />
-    }
-  ];
-
-  const milestones = [
-    { year: "2018", event: "Founded with a vision to transform education" },
-    { year: "2019", event: "Launched our first online learning platform" },
-    { year: "2020", event: "Expanded to serve 1000+ students" },
-    { year: "2021", event: "Introduced advanced learning tools" },
-    { year: "2022", event: "Partnered with leading educational institutions" },
-    { year: "2023", event: "Reached students across 20+ countries" }
-  ];
+ 
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen mt-14 bg-white">
       {/* Previous sections remain unchanged */}
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-blue-50 to-white py-20">
