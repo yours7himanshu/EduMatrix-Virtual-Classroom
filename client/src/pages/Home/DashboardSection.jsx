@@ -17,9 +17,9 @@ const DashboardSection = () => {
                 <h1 className='text-gray-200 max-md:text-3xl max-md:w-full  text-5xl mx-3' > Interactive Admin Dashboard for College Faculty </h1>
                 <ul className='text-gray-200 max-md:mx-1 gap-4 flex flex-col  text-wrap mx-3' >
                     <li  > 💎 Role based Admin features</li>
-                    <li className='max-md:hidden' > 💎 Add teachers and students in your Virtual College </li>
-                    <li className='max-md:hidden' > 💎 Upload Assignment and Quizes for your Students </li>
-                    <li className='max-md:hidden' > 💎 Manage your College Timetable and Announcements </li>
+                    <li  > 💎 Add teachers and students in your Virtual College </li>
+                    <li  > 💎 Upload Assignment and Quizes for your Students </li>
+                    <li  > 💎 Manage your College Timetable and Announcements </li>
                     <li  > 💎 View and Download your College Reports </li>
                     <li> 💎 Go Live feature for teaching your Students </li>
                     {/* <li  > 💎 AI powered Smart Education System </li> */}
