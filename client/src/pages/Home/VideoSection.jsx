@@ -8,7 +8,7 @@ const VideoSection = () => {
     >
       <div className="container flex gap-3  max-md:h-auto h-screen mx-auto w-full justify-center max-md:flex-col-reverse max-md:w-full max-md:items-center  ">
         <div className="left-portion gap-8  flex flex-col justify-center max-md:items-start items-center max-md:w-[100%] w-[60%] ">
-          <h1 className="text-gray-200 text-5xl max-md:mt-8 mx-3 max-md:text-2xl max-md:w-full ">
+          <h1 className="text-gray-200 text-5xl max-md:mt-8 mx-3 max-md:text-2xl font-semibold max-md:w-full ">
             {" "}
             Supported Live Lecture And Live Chatting Features for Students and
             Teachers{" "}

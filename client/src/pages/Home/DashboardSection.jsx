@@ -14,7 +14,7 @@ const DashboardSection = () => {
             </div>
 
             <div className=" max-md:w-full gap-8 flex max-md:mx-2 flex-col max-md:justify-start justify-center mx-4 w-[60%] ">
-                <h1 className='text-gray-200 max-md:text-3xl max-md:w-full  text-5xl mx-3' > Interactive Admin Dashboard for College Faculty </h1>
+                <h1 className='text-gray-200 max-md:text-3xl max-md:w-full font-semibold text-5xl mx-3' > Interactive Admin Dashboard for College Faculty </h1>
                 <ul className='text-gray-200 max-md:mx-1 gap-4 flex flex-col  text-wrap mx-3' >
                     <li  > 💎 Role based Admin features</li>
                     <li  > 💎 Add teachers and students in your Virtual College </li>
