@@ -55,7 +55,8 @@ const AiAssistent = () => {
           className="text-black"
           value={input}
           required
-          rows="4"
+          rows="2"
+          columns="5"
           placeholder="Ask any question here..."
           onChange={(e) => setInput(e.target.value)}
           name="Question"
