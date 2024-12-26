@@ -1,3 +1,7 @@
+// Copyright 2024 Himanshu
+// Project is undercopyright restrictions please read the LICENSE.txt file
+
+
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
