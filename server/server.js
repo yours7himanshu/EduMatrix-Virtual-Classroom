@@ -5,7 +5,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const dotenv = require('dotenv');
 dotenv.config();
-
+const aiRoutes = require('./routes/aiAssistentRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
@@ -42,6 +42,8 @@ const io = socketIo(server, {
 socketService(io);
 
 // API routes
+
+app.use('/api',aiRoutes);
 app.use('/api/v1', userRoutes);
 app.use('/api/v2', adminRoutes);
 app.use('/api/v3', announcementRoutes);

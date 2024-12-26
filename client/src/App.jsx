@@ -24,6 +24,7 @@ import MainLoginPage from "./pages/Auth/MainLoginPage.jsx";
 
 import Announcement from "./components/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
+import AiAssistent from "./components/AI Powered Assistant/AiAssistent.jsx";
 
 function App() {
   return (
@@ -43,7 +44,7 @@ function App() {
         <Route path="/syllabus" element={<SyllabusPage/>} />
         <Route path="/quiz" element={<QuizList/>} />
         <Route path="/login" element={<Login/>} />
-
+<Route path="/ai" element={<AiAssistent/>}/>
         <Route path="/MainLogin" element={<MainLoginPage/>}/>
         
         <Route path="/displayAnnoncement"element={<Announcement/>}/>

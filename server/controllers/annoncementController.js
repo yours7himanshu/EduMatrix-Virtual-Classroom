@@ -7,6 +7,7 @@ const announcement = async (req, res) => {
 
     try {
         const postAnnouncement = await Announcement.create({
+
             category,
             course,
             branch,
