@@ -18,8 +18,8 @@ const HomePage = () => {
 
       {/* Hero  section of the website of the home page */}
       <section className="bg-gradient-to-r mt-36  h-screen max-md:h-auto text-white py-10 px-6 mb-6">
-        <div className="container max-md:w-full   h-[90%] max-md:h-[70%] mx-auto flex flex-col md:flex-row items-center justify-center">
-          <div className=" w-[90%]  h-[95%]  max-lg:w-screen  mb-[10%] flex flex-col items-center justify-center space-y-6 text-center md:text-left">
+        <div className="container max-md:w-full   h-[90%] max-md:h-[100%] mx-auto flex flex-col  items-center justify-center">
+          <div className=" w-[90%]  h-[95%]  max-lg:w-screen  mb-[30%] flex flex-col items-center justify-center space-y-6 text-center mt-[20%] ">
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"

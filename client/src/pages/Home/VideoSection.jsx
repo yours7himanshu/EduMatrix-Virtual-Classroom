@@ -13,10 +13,8 @@ const VideoSection = () => {
             Supported Live Lecture And Live Chatting Features for Students and
             Teachers{" "}
           </h1>
-          <p className="text-gray-200 text-xl mx-3">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo rerum
-            molestiae aut molestias laudantium? Neque placeat iste reiciendis
-            doloribus molestias!
+          <p className="text-gray-200 text-xl text-wrap mx-3">
+          The platform enables live lecture streaming and interactive live chatting, promoting seamless communication between students and teachers for an enhanced, engaging, and collaborative learning experience in real time.
           </p>
         </div>
         <div className="right-portion h-screen w-1/2  max-md:w-full flex items-center max-md:items-start max-md:h-1/2 justify-center ">
