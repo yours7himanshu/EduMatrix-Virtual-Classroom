@@ -11,13 +11,14 @@ const Navbar = () => {
     <nav className="bg-violet-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white max-md:shadow-sm shadow-lg p-4">
       <div className="container mx-auto max-md:m-2 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-3xl  font-extrabold">
+        <div className="text-3xl max-md:text-2xl flex items-center gap-2 font-extrabold">
+        <img className="rounded-full max-md:h-7 h-10" src="/logo/EduMatrix2.png" alt="" />
           <Link to="/">EduMatrix</Link>
         </div>
 
         {/* Links */}
-        {isAuthenticated && (
-          <div className="hidden md:flex mr-11  space-x-6">
+       
+          <div className="hidden md:flex mr-11 ml-5 space-x-6">
             <Link to="/" className="hover:text-blue-300">
               Home
             </Link>
@@ -37,11 +38,11 @@ const Navbar = () => {
               Syllabus
             </Link> */}
           </div>
-        )}
+   
 
         {/* Profile or Login/Signup */}
         <div className="flex items-center justify-center gap-4">
-          {isAuthenticated ? (
+          {/* {isAuthenticated ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img className="w-8 rounded-full" src={profilePic} alt="Profile" />
               <img className="w-2.5" src={dropdown} alt="Dropdown Icon" />
@@ -68,14 +69,14 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-          ) : (
+          ) : ( */}
             <button
               onClick={() => navigate("/login")}
-              className="bg-green-500 text-white px-8 py-3 rounded-full font-light hidden md:block"
+              className="bg-green-500 text-white px-5 py-3 rounded-md font-light max-md:px-2  max-md:text-sm  "
             >
               Create Account
             </button>
-          )}
+          {/* )} */}
         </div>
       </div>
     </nav>

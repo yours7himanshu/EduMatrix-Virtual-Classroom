@@ -5,7 +5,7 @@ const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 py-4">
+    <div className="border-b  border-gray-200 py-4">
       <button
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
@@ -80,9 +80,9 @@ const ContactPage = () => {
       <div className="absolute top-0 right-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-bl from-blue-200 to-transparent opacity-20 blur-3xl" />
       <div className="absolute bottom-0 left-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-purple-200 to-transparent opacity-20 blur-3xl" />
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto px-4 py-12  ">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mt-[5%] mb-16">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Get in Touch
           </h1>
