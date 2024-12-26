@@ -6,6 +6,7 @@ import Buttons from "../../shared/Buttons/Buttons";
 import Services from "../../constants/Services";
 import Footer from "../../shared/Footer/Footer";
 import VideoSection from "./VideoSection";
+import DashboardSection from "./DashboardSection";
 const HomePage = () => {
   useEffect(() => {
     AOS.init();
@@ -82,6 +83,10 @@ const HomePage = () => {
       {/* Section for Video feature */}
 
       <VideoSection />
+
+      {/* Section for showing Admin features that already designed
+       */}
+       <DashboardSection/>
 
       {/* footer section of the website */}
     </div>
