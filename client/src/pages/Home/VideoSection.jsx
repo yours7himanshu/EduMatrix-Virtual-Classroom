@@ -17,9 +17,9 @@ const VideoSection = () => {
           The platform enables live lecture streaming and interactive live chatting, promoting seamless communication between students and teachers for an enhanced, engaging, and collaborative learning experience in real time.
           </p>
         </div>
-        <div className="right-portion h-screen w-1/2  max-md:w-full flex items-center max-md:items-start max-md:h-1/2 justify-center ">
+        <div className="right-portion h-screen w-1/2  max-md:w-full flex items-center max-md:items-start max-md:h-1/2  justify-center ">
           <video
-            className="rounded-lg w-[85%] "
+            className="rounded-lg w-[95%] "
             src="/videos/project.mp4 "
             autoPlay
             muted
