@@ -1,5 +1,3 @@
-
-
 import mainImage from "../../assets/What-is-a-Virtual-Classroom-3.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -7,6 +5,7 @@ import { useEffect } from "react";
 import Buttons from "../../shared/Buttons/Buttons";
 import Services from "../../constants/Services";
 import Footer from "../../shared/Footer/Footer";
+import VideoSection from "./VideoSection";
 const HomePage = () => {
   useEffect(() => {
     AOS.init();
@@ -79,6 +78,10 @@ const HomePage = () => {
           <Services />
         </div>
       </section>
+
+      {/* Section for Video feature */}
+
+      <VideoSection />
 
       {/* footer section of the website */}
     </div>
