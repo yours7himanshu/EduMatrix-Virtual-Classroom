@@ -19,23 +19,23 @@ const HomePage = () => {
       {/* Hero  section of the website of the home page */}
       <section className="bg-gradient-to-r mt-36  h-screen max-md:h-auto text-white py-10 px-6 mb-6">
         <div className="container max-md:w-full   h-[90%] max-md:h-[100%] mx-auto flex flex-col  items-center justify-center">
-          <div className=" w-[90%] max-md:w-full  h-[95%]  max-lg:w-screen  mb-[30%] flex flex-col items-center justify-center space-y-6 text-center mt-[20%] ">
+          <div className=" w-[90%]   h-[95%]  max-lg:w-screen  mb-[30%] flex flex-col items-center justify-center space-y-6 text-center mt-[20%] ">
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="text-6xl max-lg:w-full   leading-[107%]  mb-2  max-lg:tracking-tighter text-center  font-extrabold  max-lg:text-3xl  max-md:text-3xl max-lg:font-bold "
+              className="text-6xl max-lg:w-full   leading-[107%]  mb-2  max-lg:tracking-tighter text-center  font-extrabold  max-lg:text-3xl  max-md:text-2xl max-lg:font-bold "
             >
-              <span className="text-6xl max-lg:text-4xl max-lg:font-bold max-md:text-3xl text-center p-2 font-extrabold text-cyan-300">
+              <span className="text-6xl max-lg:text-4xl max-lg:font-bold max-md:text-2xl text-center p-2 font-extrabold text-cyan-300">
                 {" "}
                 Empowering
               </span>{" "}
-              Interactive and Seamless Virtual{" "}
-              <span className="text-6xl font-extrabold max-md:text-3xl text-lime-400 max-lg:text-4xl max-lg:font-bold ">
+              Interactive and Seamless {" "}
+              <span className="text-6xl font-extrabold max-md:text-2xl text-lime-400 max-lg:text-4xl max-lg:font-bold ">
                 {" "}
-                Learning
+                Virtual Learning
               </span>{" "}
               Experiences Online through{" "}
-              <span className="text-6xl font-extrabold max-md:text-3xl text-yellow-300 max-lg:text-4xl max-lg:font-bold ">
+              <span className="text-6xl font-extrabold max-md:text-2xl text-yellow-300 max-lg:text-4xl max-lg:font-bold ">
                 EduMatrix
               </span>
             </h1>
@@ -50,7 +50,7 @@ const HomePage = () => {
             <div
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="flex flex-wrap justify-center md:justify-start space-x-4"
+              className="flex max-md:space-x-2 max-md:text-sm justify-center  space-x-4"
             >
               <Buttons
                 className="px-8 outline-none border-none h-13 bg-white text-indigo-950 rounded-md font-medium shadow-md hover:bg-gray-100"
