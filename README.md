@@ -1,6 +1,6 @@
 # Making Virtual College for everyone (Project) 
 
-**Main aim is to make all colleges run virtually and in short making making Learning Virtually Available to everyone**
+**Main aim is to make all colleges run virtually and in short making Learning Virtually Available to everyone**
 
 This project is a fullstack web application built with React (frontend) and Node.js (backend). The frontend is configured with Vite and is located in the `client` folder, while the backend server runs with Node.js and can be started with `npm run dev`.
 
