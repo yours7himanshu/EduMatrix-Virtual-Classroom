@@ -17,19 +17,19 @@ limitations under the License.
 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import profilePic from "../../assets/pp.png";
-import dropdown from "../../assets/dropdown.png";
+// import profilePic from "../../assets/pp.png";
+// import dropdown from "../../assets/dropdown.png";
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-violet-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white max-md:shadow-sm shadow-lg p-4">
+    <nav className="bg-violet-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white max-md:shadow-sm shadow-lg p-3">
       <div className="container mx-auto max-md:m-2 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-3xl max-md:text-2xl flex items-center gap-2 font-extrabold">
-        <img className="rounded-full max-md:h-7 h-10" src="/logo/EduMatrix2.png" alt="" />
+        <div className="text-3xl max-md:text-3xl flex items-center gap-2 font-extrabold">
+        <img className="rounded-full  h-10" src="/logo/EduMatrix2.png" alt="" />
           <Link to="/">EduMatrix</Link>
         </div>
 
