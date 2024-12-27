@@ -53,7 +53,7 @@ const HomePage = () => {
                 Virtual Learning
               </span>{" "}
               Experiences Online through{" "}
-              <span className="text-6xl font-extrabold max-md:text-3xl text-yellow-300 max-lg:text-4xl max-lg:font-bold max-md:text-wrap ">
+              <span className="text-6xl font-extrabold max-md:text-3xl text-yellow-300 max-lg:text-4xl max-lg:font-bold max-md:text-wrap max-md:block ">
                 EduMatrix
               </span>
             </h1>
