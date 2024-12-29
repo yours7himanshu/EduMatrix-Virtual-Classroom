@@ -33,7 +33,7 @@ const Modal = ({ isOpen, onClose, content, actionButton }) => {
         </div>
         <div className="p-1 space-y-3">
             
-        <p className=" text-center text-sm  font-medium text-wrap dark:text-red-600" > {content.disclaimer} </p>
+        <p className=" text-center text-sm  font-medium text-wrap dark:text-indigo-600" > {content.disclaimer} </p>
           <p className=" text-center  text-wrap dark:text-gray-500">
             {content.message}
             <span className='block' >
