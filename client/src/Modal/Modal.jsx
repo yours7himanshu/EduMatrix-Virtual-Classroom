@@ -18,7 +18,7 @@ const Modal = ({ isOpen, onClose, content, actionButton }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="relative w-full max-w-md mx-auto bg-white h-[40%] rounded-lg shadow-lg">
+      <div className="relative w-full max-md:w-[95%] max-md:h-[30%] max-w-md mx-auto bg-white h-[40%] rounded-lg shadow-lg">
         <div className="flex items-center justify-center p-5  ">
           {/* <h3 className="text-xl font-semibold text-gray-400 dark:text-white">
             {content.title}
