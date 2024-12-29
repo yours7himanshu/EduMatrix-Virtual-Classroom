@@ -35,9 +35,12 @@ const Modal = ({ isOpen, onClose, content, actionButton }) => {
         
           <p className=" text-center  text-wrap dark:text-gray-500">
             {content.message}
+            <span className='block' >
+                {content.thank}
+            </span>
           </p>
         </div>
-        <div className=" flex  justify-center p-6 ">
+        <div className=" flex  justify-center p-2 ">
           {actionButton}
         </div>
       </div>
