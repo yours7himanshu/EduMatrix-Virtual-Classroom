@@ -18,6 +18,7 @@ limitations under the License.
 
 import  { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, ChevronDown, ExternalLink } from 'lucide-react';
+import Footer from '../../shared/Footer/Footer';
 
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -101,7 +102,7 @@ const ContactPage = () => {
       <div className="max-w-6xl mx-auto px-4 py-12  ">
         {/* Header */}
         <div className="text-center mt-[5%] mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-700 via-violet-600 to-indigo-700 bg-clip-text text-transparent mb-4">
             Get in Touch
           </h1>
           <p className="text-lg text-gray-600">
@@ -252,70 +253,10 @@ const ContactPage = () => {
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="mt-24 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl">
-          <div className="max-w-7xl mx-auto px-4 py-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Company Info */}
-              <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Smart Education System</h3>
-                <p className="text-gray-600 mb-4">
-                  Empowering education through innovative technology solutions.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  {socialLinks.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link.url}
-                      className="inline-flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      <span>{link.name}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quick Links */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
-                <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">About Us</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Our Services</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Privacy Policy</a></li>
-                  <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Terms of Service</a></li>
-                </ul>
-              </div>
-
-              {/* Contact Info */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact Info</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center space-x-2">
-                    <Mail className="w-4 h-4 text-gray-600" />
-                    <span className="text-gray-600">support@smartedu.com</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <Phone className="w-4 h-4 text-gray-600" />
-                    <span className="text-gray-600">+1 (555) 123-4567</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <MapPin className="w-4 h-4 text-gray-600" />
-                    <span className="text-gray-600">123 Education Street, Tech Valley</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Copyright */}
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <p className="text-center text-gray-600">
-                © {new Date().getFullYear()} Smart Education System. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </footer>
+       
       </div>
+        {/* Footer */}
+      <Footer/>
     </div>
   );
 };

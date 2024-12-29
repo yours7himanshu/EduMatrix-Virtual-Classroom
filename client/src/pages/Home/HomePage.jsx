@@ -107,6 +107,10 @@ const HomePage = () => {
        <DashboardSection/>
 
       {/* footer section of the website */}
+      <div className="footer">
+
+      <Footer/>
+      </div>
     </div>
   );
 };

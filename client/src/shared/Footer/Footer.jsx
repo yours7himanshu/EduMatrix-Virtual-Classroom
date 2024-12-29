@@ -15,22 +15,37 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
+import {Link} from 'react-router-dom'
 import React from 'react'
+import { Mail, Phone, MapPin, Clock, Send, ChevronDown, ExternalLink } from 'lucide-react';
+
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-400 py-12">
+    <footer className="bg-gradient-to-tr from-blue-950 via-violet-950 to-indigo-900 text-gray-400 py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-36">
         <div>
-          <h3 className="text-white font-semibold mb-4">Platform</h3>
-          <ul className="space-y-2">
-            <li><a href="#" className="hover:text-white">Features</a></li>
-            <li><a href="#" className="hover:text-white">Solutions</a></li>
-            <li><a href="#" className="hover:text-white">Pricing</a></li>
-          </ul>
+          <div className="text-3xl max-md:text-3xl  flex items-center gap-2 font-extrabold">
+                 <img className="rounded-full  h-10" src="/logo/EduMatrix2.png" alt="" />
+                   <Link className='text-white' to="/">EduMatrix</Link>
+                 </div>
+                 <ul className="space-y-2">
+                  <li className="flex items-center mt-4 space-x-2">
+                    <Mail className="w-4 h-4 text-gray-400" />
+                    <span className="text-gray-400">support@smartedu.com</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <Phone className="w-4 h-4 text-gray-400" />
+                    <span className="text-gray-400">+1 (555) 123-4567</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <MapPin className="w-4 h-4 text-gray-400" />
+                    <span className="text-gray-400">123 Education Street, Tech Valley</span>
+                  </li>
+                </ul>
         </div>
+       
         <div>
           <h3 className="text-white font-semibold mb-4">Resources</h3>
           <ul className="space-y-2">
