@@ -22,7 +22,7 @@ function ModalComponent() {
         isOpen={modalOpen}
         onClose={closeModal}
         content={{
-       
+          disclaimer:"Disclaimer : Project is under Apache License 2.0",
           message: " Wanna help me in my journey 💎 ? Please star this repository to support my project.",
           thank : 'Thank You ❤️.'
         }}
