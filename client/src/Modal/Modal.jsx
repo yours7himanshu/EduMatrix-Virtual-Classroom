@@ -18,7 +18,7 @@ const Modal = ({ isOpen, onClose, content, actionButton }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="relative w-full max-md:w-[95%] max-md:h-[30%] max-w-md mx-auto bg-white h-[40%] rounded-lg shadow-lg">
+      <div className="relative w-full max-md:w-[95%] max-md:h-auto max-w-md mx-auto bg-white h-[40%] rounded-lg shadow-lg">
         <div className="flex items-center justify-center p-5  ">
           {/* <h3 className="text-xl font-semibold text-gray-400 dark:text-white">
             {content.title}
@@ -33,11 +33,11 @@ const Modal = ({ isOpen, onClose, content, actionButton }) => {
         </div>
         <div className="p-6 space-y-3">
         
-          <p className="text-base text-center leading-normal  dark:text-gray-500">
+          <p className=" text-center  text-wrap dark:text-gray-500">
             {content.message}
           </p>
         </div>
-        <div className="flex  justify-center p-6 ">
+        <div className=" flex  justify-center p-6 ">
           {actionButton}
         </div>
       </div>
