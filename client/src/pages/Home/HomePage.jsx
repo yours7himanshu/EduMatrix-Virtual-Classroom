@@ -25,6 +25,9 @@ import Services from "../../constants/Services";
 import Footer from "../../shared/Footer/Footer";
 import VideoSection from "./VideoSection";
 import DashboardSection from "./DashboardSection";
+import Modal from "../../Modal/Modal";
+import ModalComponent from "../../Modal/ModalComponent";
+
 const HomePage = () => {
   useEffect(() => {
     AOS.init();
@@ -33,6 +36,7 @@ const HomePage = () => {
   return (
     <div className="bg-gradient-to-r overflow-x-hidden from-blue-950 via-violet-800 to-indigo-950  p-4 ">
       {/* Header */}
+      <ModalComponent/>
 
       {/* Hero  section of the website of the home page */}
       <section className="bg-gradient-to-r mt-36 w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">

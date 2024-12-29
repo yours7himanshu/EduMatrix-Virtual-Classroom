@@ -42,11 +42,14 @@ import MainLoginPage from "./pages/Auth/MainLoginPage.jsx";
 import Announcement from "./components/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
 import AiAssistent from "./components/AI Powered Assistant/AiAssistent.jsx";
+import Modal from "./Modal/Modal.jsx";
+// import ModalComponent from "./Modal/ModalComponent.jsx";
 
 function App() {
   return (
     <>
       <Navbar />
+
       <ToastContainer/>
       <PeerProvider>
 
