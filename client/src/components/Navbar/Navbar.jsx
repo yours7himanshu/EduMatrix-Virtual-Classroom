@@ -88,7 +88,7 @@ const Navbar = () => {
             </div>
           ) : ( */}
             <button
-              onClick={() => navigate("/login")}
+              onClick={()=> navigate("/MainLogin")}
               className="bg-green-500 text-white px-5 py-3 rounded-md font-light max-md:px-2  max-md:text-sm  "
             >
               Create Account

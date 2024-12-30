@@ -20,14 +20,11 @@ limitations under the License.
 import React, { useState } from 'react';
 import { LockKeyhole, GraduationCap, Waves } from 'lucide-react';
 import LoginOption from './LoginOption';
+import { useNavigate } from 'react-router-dom';
 
 const MainLoginPage = () => {
-  const [selectedRole, setSelectedRole] = useState(null);
-
-  const handleRoleSelect = (role) => {
-    setSelectedRole(role);
-  };
-
+ 
+const navigate = useNavigate();
   return (
     <div 
       className="
@@ -74,10 +71,14 @@ const MainLoginPage = () => {
       {/* Login Options Container */}
       <div 
         className="
+        max-md:flex-col
+         mt-16
           flex 
+          max-md:gap-5
           space-x-8 
           z-10 
-          relative 
+          relative
+          max-md:space-x-0
           items-center 
           justify-center
         "
@@ -88,8 +89,8 @@ const MainLoginPage = () => {
           description="Access academic resources, courses, and personal dashboard"
           bgColor="text-blue-500"
           borderColor="border-blue-500"
-          isSelected={selectedRole === 'Student Login'}
-          onSelect={() => handleRoleSelect('Student Login')}
+          onClick={ ()=> navigate("/StudentDashboard")}
+          
         />
         <LoginOption 
           icon={LockKeyhole}
@@ -97,8 +98,7 @@ const MainLoginPage = () => {
           description="Manage system, users, and administrative functions"
           bgColor="text-green-500"
           borderColor="border-green-500"
-          isSelected={selectedRole === 'Admin Login'}
-          onSelect={() => handleRoleSelect('Admin Login')}
+          onClick={()=>{window.location.href="https://virtual-classroom-admin.vercel.app"}}
         />
       </div>
     </div>

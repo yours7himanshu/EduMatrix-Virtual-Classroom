@@ -22,7 +22,7 @@ const VideoSection = () => {
   return (
     <section
       id="project-video"
-      className="py-10 px-6 mt-[10%] rounded-md mb-6 shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950  to-blue-900  "
+      className="py-10 relative px-6 mt-[10%] rounded-md mb-6 shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950  to-blue-900  "
     >
       <div className="container flex gap-3  max-md:h-auto h-screen mx-auto w-full justify-center max-md:flex-col-reverse max-md:w-full max-md:items-center  ">
         <div className="left-portion gap-8  flex flex-col justify-center max-md:items-start items-center max-md:w-[100%] w-[60%] ">

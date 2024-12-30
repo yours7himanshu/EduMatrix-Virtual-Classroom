@@ -43,6 +43,7 @@ import Announcement from "./components/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
 import AiAssistent from "./components/AI Powered Assistant/AiAssistent.jsx";
 import Modal from "./Modal/Modal.jsx";
+import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx";
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
 <Route path="/ai" element={<AiAssistent/>}/>
         <Route path="/MainLogin" element={<MainLoginPage/>}/>
-        
+        <Route path="/StudentDashboard" element={<StudentDashboard/>}/>
         <Route path="/displayAnnoncement"element={<Announcement/>}/>
 
       </Routes>
