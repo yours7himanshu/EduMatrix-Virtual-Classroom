@@ -46,9 +46,9 @@ const DashboardSection = () => {
             
             </div>
             
-                <img className="absolute top-0 left-[45%]  h-[10%] object-contain max-md:hidden w-full  inset-0" src="/images/pattern6.png" alt="pattern1" />
+                {/* <img className="absolute top-0 left-[45%]  h-[10%] object-contain max-md:hidden w-full  inset-0" src="/images/pattern6.png" alt="pattern1" />
 
-                <img className="absolute top-0 -left-[45%]  h-[10%] object-contain max-md:hidden w-full  inset-0" src="/images/pattern6.png" alt="pattern1" />
+                <img className="absolute top-0 -left-[45%]  h-[10%] object-contain max-md:hidden w-full  inset-0" src="/images/pattern6.png" alt="pattern1" /> */}
         
     </section>
   )
