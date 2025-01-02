@@ -33,6 +33,7 @@ const navigate = useNavigate();
         from-blue-50 
         to-blue-100 
         flex 
+        
         items-center 
         justify-center 
         p-4 
@@ -71,7 +72,9 @@ const navigate = useNavigate();
       {/* Login Options Container */}
       <div 
         className="
-        max-md:flex-col
+        max-md:flex-col-reverse
+        flex-row-reverse
+        gap-11
          mt-16
           flex 
           max-md:gap-5

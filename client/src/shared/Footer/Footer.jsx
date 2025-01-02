@@ -24,32 +24,32 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-tr from-blue-950 via-violet-950 to-indigo-900 text-gray-400 py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-36">
+      <div className="grid grid-cols-2 md:grid-cols-4 max-md:gap-24 gap-36">
         <div>
-          <div className="text-3xl max-md:text-3xl  flex items-center gap-2 font-extrabold">
+          <div className="text-3xl max-md:text-2xl   flex items-center gap-2 font-extrabold">
                  <img className="rounded-full  h-10" src="/logo/EduMatrix2.png" alt="" />
                    <Link className='text-white' to="/">EduMatrix</Link>
                  </div>
-                 <ul className="space-y-2">
+                 <ul className="space-y-2 max-md:w-56 max-md:text-sm ">
                   <li className="flex items-center mt-4 space-x-2">
-                    <Mail className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-400">support@smartedu.com</span>
+                    <Mail className="w-4  h-4 text-gray-400" />
+                    <span className="text-gray-400 block ">support@edumatrix.com</span>
                   </li>
                   <li className="flex items-center space-x-2">
-                    <Phone className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-400">+1 (555) 123-4567</span>
+                    <Phone className="w-4  h-4  text-gray-400" />
+                    <span className="text-gray-400 block w-[100%] max-md:w-24">+91639886545</span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <MapPin className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-400">123 Education Street, Tech Valley</span>
+                    <span className="text-gray-400 max-md:w-[100%]">123 Education Street, Tech Valley</span>
                   </li>
                 </ul>
         </div>
        
-        <div>
-          <h3 className="text-white font-semibold mb-4">Resources</h3>
-          <ul className="space-y-2">
-            <li><a href="#" className="hover:text-white">Documentation</a></li>
+        <div className='max-md:ml-5'>
+          <h3 className="text-white font-semibold max-md:text-sm max-md:mt-3  mb-4">Resources</h3>
+          <ul className="space-y-2 text-sm  ">
+            <li><a href="#" className="hover:text-white ">Documentation</a></li>
             <li><a href="#" className="hover:text-white">Guides</a></li>
             <li><a href="#" className="hover:text-white">Support</a></li>
           </ul>
@@ -62,7 +62,7 @@ const Footer = () => {
             <li><a href="#" className="hover:text-white">Contact</a></li>
           </ul>
         </div>
-        <div>
+        <div className='max-md:ml-5' >
           <h3 className="text-white font-semibold mb-4">Legal</h3>
           <ul className="space-y-2">
             <li><a href="#" className="hover:text-white">Privacy</a></li>
