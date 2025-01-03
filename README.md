@@ -1,6 +1,3 @@
-Here’s an improved **README.md** for your EduMatrix Virtual Classroom project with corrections, the inclusion of the `admin` directory, and engaging emojis to make it more appealing and user-friendly. 
-
----
 
 # 🎓 **EduMatrix Virtual Classroom** – _Making Virtual College for Everyone_
 
