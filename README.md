@@ -5,6 +5,8 @@
 
 EduMatrix is a **full-stack web application** designed to revolutionize online education by providing a seamless and interactive virtual classroom experience. Built using the **MERN stack** (MongoDB, Express, React, Node.js), the platform incorporates **real-time communication features** to support live classes, video conferencing, and collaborative tools like a shared whiteboard and chat.
 
+![EduMatrix Home Page](assets/homepage.png)
+
 ---
 
 ## 📚 **About the Project**
