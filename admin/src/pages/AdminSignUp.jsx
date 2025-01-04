@@ -78,7 +78,7 @@ function AdminSignUp() {
 
       {/* Right Section: Form */}
       <div className="w-[50%] min-h-screen max-md:h-auto max-md:w-auto max-md:m-3  flex flex-col justify-center items-center bg-white p-6">
-        <p className={clsx(errors && "border border-red-700 flex items-center justify-center p-3 h-[8%] w-[63%] text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap" )} > {errors} </p>
+        <p className={clsx(errors && "border border-red-700 flex items-center justify-center p-3 h-[8%] w-[63%] text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium " )} > {errors} </p>
         <form
           className=" w-[100%]  max-md:h-auto max-w-md p-8 bg-gray-50 rounded-lg shadow-xl border border-gray-200 max-md:p-10 "
           onSubmit={handleSubmit}

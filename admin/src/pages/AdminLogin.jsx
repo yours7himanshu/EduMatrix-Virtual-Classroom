@@ -81,7 +81,7 @@ function AdminLogin() {
 
       {/* Right Section with Form */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 bg-gray-50">
-      <p  className={clsx(errors && "border border-red-700 flex items-center justify-center p-3 h-[8%] w-[63%] text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap")} > {errors} </p>
+      <p  className={clsx(errors && "border border-red-700 flex items-center justify-center p-3 h-[8%] w-[63%] text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium")} > {errors} </p>
         <form
           className="w-full max-w-md p-8 bg-gray-100 rounded-lg shadow-lg space-y-6"
           onSubmit={handleSubmit}
