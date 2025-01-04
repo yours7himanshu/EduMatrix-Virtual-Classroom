@@ -21,9 +21,11 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthSidebar from "../shared/AuthSidebar";
+import clsx from 'clsx';
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
+  const [errors,setErrors]=useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [token,setToken]=useState('');
@@ -54,8 +56,10 @@ function AdminLogin() {
     } catch (error) {
       console.log("Some error occured", error);
       if (error.response?.data?.message) {
+        setErrors(error.response.data.message);
         toast.error(error.response.data.message);
       } else {
+        setErrors("Some unexpected error occured. Please try again.")
         toast.error("Some unexpected error occurred. Please try again.");
       }
     } finally {
@@ -76,7 +80,8 @@ function AdminLogin() {
       <AuthSidebar/>
 
       {/* Right Section with Form */}
-      <div className="w-full md:w-1/2 flex justify-center items-center p-8 bg-gray-50">
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 bg-gray-50">
+      <p  className={clsx(errors && "border border-red-700 flex items-center justify-center p-3 h-[8%] w-[63%] text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap")} > {errors} </p>
         <form
           className="w-full max-w-md p-8 bg-gray-100 rounded-lg shadow-lg space-y-6"
           onSubmit={handleSubmit}
