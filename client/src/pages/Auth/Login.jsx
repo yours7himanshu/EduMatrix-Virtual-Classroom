@@ -22,6 +22,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
 
 
 
@@ -31,9 +32,12 @@ function Login() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const { token, setToken } = useAuth();
+  const [errors,setErrors]=useState('');
+  const [loading,setLoading]=useState(false);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+    setLoading(true);
 
     try{
     const response = await axios.post(`${backendUrl}/api/v1/login`,{
@@ -51,8 +55,19 @@ function Login() {
     }
     }
     catch(error){
-      console.log("Some Error Occcured",error);
-      toast.error("Internal Server Error");
+     if(error.response?.data?.message){
+      setErrors(error.response.data.message);
+      toast.error(error.response.data.message);
+      console.log(error.response.data.message);
+     }
+     else{
+      setErrors("Some unexpected error has occured");
+      toast.error("Some unexpected error has occured");
+     }
+    
+    }
+    finally{
+      setLoading(false);
     }
   
   }
@@ -65,8 +80,8 @@ useEffect(()=>{
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full space-y-4">
         
+         {errors && <p className="border border-red-700 flex items-center justify-center p-3 h-[8%] w-full text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium" > {errors} </p> }
         <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-          
           <h1 className="text-3xl font-semibold text-center mb-8">
             Student Portal Login
           </h1>
@@ -97,10 +112,11 @@ useEffect(()=>{
 
            
             <button
+            disabled={loading}
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded font-medium hover:bg-blue-600"
+              className="w-full bg-blue-500  text-white py-2 rounded font-medium hover:bg-blue-600"
             >
-              Log In
+              {loading ? "Logging to your account...": "login"}
             </button>
 
 
