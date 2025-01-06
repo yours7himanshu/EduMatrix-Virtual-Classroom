@@ -89,7 +89,7 @@ const Navbar = () => {
           ) : ( */}
             <button
               onClick={()=> navigate("/MainLogin")}
-              className="bg-green-500 text-white px-5 py-3 rounded-md font-light max-md:px-2  max-md:text-sm  "
+              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-3 rounded-md font-light max-md:px-2  max-md:text-sm  "
             >
               Create Account
             </button>

@@ -48,16 +48,16 @@ const HomePage = () => {
               data-aos-duration="1500"
               className="text-6xl  z-30 max-lg:w-full max-md:w-screen max-md:  leading-[107%]  mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center  font-semibold  max-lg:text-3xl  max-md:text-3xl max-lg:font-bold "
             >
-              <span className="text-6xl max-lg:text-4xl max-lg:font-bold max-md:text-3xl text-center p-2 font-extrabold text-cyan-300">
+              <span className="text-6xl max-lg:text-4xl max-lg:font-bold max-md:text-3xl text-center p-2 font-extrabold text-cyan-300 ">
                 {" "}
                 Empowering
               </span>{" "}
               Interactive and Seamless {" "}
-              <span className="text-6xl font-extrabold max-md:text-3xl text-lime-400 max-lg:text-4xl max-lg:font-bold ">
+              <span className="text-6xl font-semibold max-md:text-3xl text-white max-lg:text-4xl max-lg:font-bold ">
                 {" "}
                 Virtual Learning
               </span>{" "}
-              Experiences Online through{" "}
+              through{" "}
               <span className="text-6xl font-extrabold max-md:text-3xl text-yellow-300 max-lg:text-4xl max-lg:font-bold max-md:text-wrap max-md:block ">
                 EduMatrix
               </span>
