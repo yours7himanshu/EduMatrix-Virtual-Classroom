@@ -34,7 +34,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className=" relative bg-gradient-to-r  from-blue-950 via-violet-950 to-indigo-950  overflow-x-hidden bg-opacity-75  p-4 ">
+    <div className=" relative bg-gradient-to-r  from-black via-violet-950 to-black  overflow-x-hidden bg-opacity-75  p-4 ">
       {/* Header */}
       <ModalComponent/>
 
@@ -46,7 +46,7 @@ const HomePage = () => {
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="text-6xl z-30 max-lg:w-full max-md:w-screen max-md:  leading-[107%]  mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center  font-semibold  max-lg:text-3xl  max-md:text-3xl max-lg:font-bold "
+              className="text-6xl  z-30 max-lg:w-full max-md:w-screen max-md:  leading-[107%]  mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center  font-semibold  max-lg:text-3xl  max-md:text-3xl max-lg:font-bold "
             >
               <span className="text-6xl max-lg:text-4xl max-lg:font-bold max-md:text-3xl text-center p-2 font-extrabold text-cyan-300">
                 {" "}
@@ -91,7 +91,7 @@ const HomePage = () => {
       {/* features section of the website of homepage */}
       <section
         id="features"
-        className="py-10 px-6  rounded-md mb-6 shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950  to-blue-900  "
+        className="py-10 px-6  rounded-md mb-6 shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950 to-blue-950 "
       >
         <div className="container mx-auto">
           <h3 className="text-5xl max-md:text-3xl max-md:mb-10 font-bold text-center text-gray-200 mb-16 ">
