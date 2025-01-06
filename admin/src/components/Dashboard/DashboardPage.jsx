@@ -66,7 +66,7 @@ const DashboardPage = () => {
           {/* Upcoming Announcements */}
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
             <h2 className="text-2xl text-center font-semibold text-gray-700">
-              Upcoming Announcements
+              Announcements
             </h2>
             <p className="text-4xl font-bold text-red-600">2</p>
             <span className="text-sm text-gray-500">Check latest updates</span>
