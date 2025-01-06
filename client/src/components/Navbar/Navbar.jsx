@@ -25,7 +25,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-violet-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white max-md:shadow-sm shadow-lg p-3">
+    <nav className="bg-gray-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white max-md:shadow-sm shadow-lg p-3">
       <div className="container mx-auto max-md:m-2 flex justify-between items-center">
         {/* Logo */}
         <div className="text-3xl max-md:text-3xl flex items-center gap-2 font-extrabold">
@@ -89,7 +89,7 @@ const Navbar = () => {
           ) : ( */}
             <button
               onClick={()=> navigate("/MainLogin")}
-              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-3 rounded-md font-light max-md:px-2  max-md:text-sm  "
+              className="bg-gradient-to-r from-red-500  to-green-600 text-white px-5 py-3 rounded-md font-light max-md:px-2  max-md:text-sm  "
             >
               Create Account
             </button>

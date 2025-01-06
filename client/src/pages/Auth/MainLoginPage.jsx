@@ -21,6 +21,7 @@ import React, { useState } from 'react';
 import { LockKeyhole, GraduationCap, Waves } from 'lucide-react';
 import LoginOption from './LoginOption';
 import { useNavigate } from 'react-router-dom';
+import ModalComponent from "../../Modal/ModalComponent";
 
 const MainLoginPage = () => {
  
@@ -41,6 +42,7 @@ const navigate = useNavigate();
         overflow-hidden
       "
     >
+      <ModalComponent/>
       {/* Floating Decorative Circles */}
       <div 
         className="

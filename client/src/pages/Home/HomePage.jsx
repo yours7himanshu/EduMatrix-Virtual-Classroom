@@ -26,7 +26,6 @@ import Footer from "../../shared/Footer/Footer";
 import VideoSection from "./VideoSection";
 import DashboardSection from "./DashboardSection";
 
-import ModalComponent from "../../Modal/ModalComponent";
 import './HomePage.css'
 
 const HomePage = () => {
@@ -37,7 +36,7 @@ const HomePage = () => {
   return (
     <div className=" gradient-bg relative bg-gradient-to-r  overflow-x-hidden bg-opacity-75  p-4 ">
       {/* Header */}
-      <ModalComponent/>
+     
 
       {/* Hero  section of the website of the home page */}
         <img  className="absolute max-md:h-[12%] object-cover w-full bg-opacity-30 inset-0 " src="/images/pattern2.png" alt="pattern" />
