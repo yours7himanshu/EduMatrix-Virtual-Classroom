@@ -34,7 +34,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className=" relative bg-gradient-to-r overflow-x-hidden bg-opacity-75 from-black via-violet-950 to-black  p-4 ">
+    <div className=" relative bg-gradient-to-r  from-black via-violet-950 to-black  overflow-x-hidden bg-opacity-75  p-4 ">
       {/* Header */}
       <ModalComponent/>
 
@@ -80,7 +80,7 @@ const HomePage = () => {
                 title="Start Demo"
               />
               <Buttons
-                className="px-8 py-4 h-15 outline-none border-none bg-black text-white rounded-md  shadow-md hover:bg-gray-900"
+                className="px-8 py-4 h-15 outline-none border-none bg-red-600 text-white rounded-md  shadow-md hover:bg-red-500"
                 title="Get Started"
               />
             </div>
