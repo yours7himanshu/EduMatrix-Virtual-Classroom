@@ -34,7 +34,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className=" relative bg-gradient-to-r  from-black via-violet-950 to-black  overflow-x-hidden bg-opacity-75  p-4 ">
+    <div className=" relative bg-gradient-to-r  from-blue-950 via-violet-900 to-indigo-950  overflow-x-hidden bg-opacity-75  p-4 ">
       {/* Header */}
       <ModalComponent/>
 
