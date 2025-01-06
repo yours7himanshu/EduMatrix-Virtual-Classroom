@@ -20,7 +20,7 @@ import React from 'react'
 const DashboardSection = () => {
   return (
     <section  id="project-video"
-    className="py-10 px-6 mt-[10%] max-md:h-auto rounded-md mb-6 relative shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950  to-blue-900  " >
+    className="py-10 px-6 mt-[5%] max-md:h-auto rounded-md mb-6 relative shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950  to-blue-900  " >
         <div className="container  max-md:h-auto  mx-auto flex max-md:flex-col gap-8 max-md:gap-6  max-md:justify-start h-screen  w-full justify-center items-center ">
 
         <div className="right-portion relative h-screen max-md:h-auto w-1/2 max-md:w-full flex max-md:items-start items-center justify-center  ">

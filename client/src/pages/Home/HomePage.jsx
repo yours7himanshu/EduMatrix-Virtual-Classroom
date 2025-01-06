@@ -25,8 +25,9 @@ import Services from "../../constants/Services";
 import Footer from "../../shared/Footer/Footer";
 import VideoSection from "./VideoSection";
 import DashboardSection from "./DashboardSection";
-import Modal from "../../Modal/Modal";
+
 import ModalComponent from "../../Modal/ModalComponent";
+import './HomePage.css'
 
 const HomePage = () => {
   useEffect(() => {
@@ -34,7 +35,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className=" relative bg-gradient-to-r  from-black via-violet-950 to-black  overflow-x-hidden bg-opacity-75  p-4 ">
+    <div className=" gradient-bg relative bg-gradient-to-r  overflow-x-hidden bg-opacity-75  p-4 ">
       {/* Header */}
       <ModalComponent/>
 
