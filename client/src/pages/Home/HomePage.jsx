@@ -91,7 +91,7 @@ const HomePage = () => {
       {/* features section of the website of homepage */}
       <section
         id="features"
-        className="py-10 px-6  rounded-md mb-6 shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950 to-blue-950 "
+        className="py-10 px-6  rounded-md mb-6 shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950 to-blue-900 "
       >
         <div className="container mx-auto">
           <h3 className="text-5xl max-md:text-3xl max-md:mb-10 font-bold text-center text-gray-200 mb-16 ">
