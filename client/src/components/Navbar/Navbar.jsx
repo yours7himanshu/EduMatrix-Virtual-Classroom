@@ -35,7 +35,7 @@ const Navbar = () => {
 
         {/* Links */}
        
-          <div className="hidden md:flex mr-11 ml-5 space-x-6">
+          <div className="hidden md:flex mr-11 ml-5 space-x-6 border border-gray-700 outline-none rounded-md px-5 py-3">
             <Link to="/" className="hover:text-blue-300">
               Home
             </Link>
@@ -89,7 +89,7 @@ const Navbar = () => {
           ) : ( */}
             <button
               onClick={()=> navigate("/MainLogin")}
-              className="bg-gradient-to-r from-red-500  to-green-600 text-white px-5 py-3 rounded-md font-light max-md:px-2  max-md:text-sm  "
+              className="bg-zinc-200 font-medium text-black px-5 py-3 rounded-md  max-md:px-2  max-md:text-sm  "
             >
               Create Account
             </button>
