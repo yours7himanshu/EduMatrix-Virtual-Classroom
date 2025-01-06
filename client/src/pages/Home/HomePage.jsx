@@ -46,7 +46,7 @@ const HomePage = () => {
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="text-6xl z-30 max-lg:w-full max-md:w-screen max-md:  leading-[107%]  mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center  font-semibold  max-lg:text-3xl  max-md:text-3xl max-lg:font-semibold "
+              className="text-6xl z-30 max-lg:w-full max-md:w-screen max-md:  leading-[107%]  mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center  font-semibold  max-lg:text-3xl  max-md:text-3xl max-lg:font-bold "
             >
               <span className="text-6xl max-lg:text-4xl max-lg:font-bold max-md:text-3xl text-center p-2 font-extrabold text-cyan-300">
                 {" "}
