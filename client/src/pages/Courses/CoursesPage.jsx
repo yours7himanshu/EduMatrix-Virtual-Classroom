@@ -18,8 +18,8 @@ limitations under the License.
 
 import  { useState } from 'react';
 import { Search, Clock, ArrowRight, GraduationCap } from 'lucide-react';
-import courses from './courses';
-import categories from './categories';
+import courses from './utils/courses';
+import categories from './utils/categories';
 import Footer from '../../shared/Footer/Footer';
 
 const CoursesPage = () => {
