@@ -34,14 +34,14 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="  relative bg-gradient-to-b from-slate-950 w-[100%] to-indigo-950  overflow-x-hidden bg-opacity-75   ">
+    <div className=" gradient-bg relative bg-gradient-to-r  overflow-x-hidden bg-opacity-75  p-4 ">
       {/* Header */}
      
 
       {/* Hero  section of the website of the home page */}
         {/* <img  className="absolute max-md:h-[12%] object-cover w-full bg-opacity-70 backdrop-blur-xl inset-0 " src="/images/pattern2.png" alt="pattern" /> */}
-      <section className=" w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">
-        <div className="container max-md:w-full max-md:mx-1  h-screen max-md:h-[100%]  flex flex-col  items-center ">
+      <section className="bg-gradient-to-r  w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">
+        <div className="container max-md:w-full max-md:mx-1  h-screen max-md:h-[100%] mx-auto flex flex-col  items-center ">
           <div className=" w-[90%]  max-md:h-[90%] h-screen  max-lg:w-screen max-md:w-full max-md:mt-44 flex flex-col items-center mt-48 space-y-6 text-center   ">
             <h1
               data-aos="fade-down"
@@ -91,11 +91,11 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-   
+
       {/* features section of the website of homepage */}
       <section
         id="features"
-        className="py-10 px-32 max-md:px-4 h-screen max-md:h-auto mt-[10%] bg-slate-950  max-md:mt-[30%] rounded-md shadow-md "
+        className="py-10 px-6 mt-[10%]   max-md:mt-[30%] rounded-md mb-6 shadow-md bg-gradient-to-b gradient-bg1"
       >
         <div className="container mt-11  mx-auto">
           <h3 className="text-5xl max-md:text-3xl max-md:mb-10 font-bold text-center text-gray-200 mb-16 ">
@@ -108,16 +108,12 @@ const HomePage = () => {
       </section>
 
       {/* Section for Video feature */}
-<hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
-      <VideoSection />
 
-      <hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
+      <VideoSection />
 
       {/* Section for showing Admin features that already designed
        */}
        <DashboardSection/>
-
-       <hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
 
       {/* footer section of the website */}
       <div className="footer">

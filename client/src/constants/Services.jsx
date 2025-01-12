@@ -19,7 +19,7 @@ limitations under the License.
 import React from 'react'
 import { useEffect } from 'react';
 import AOS from "aos";
-import services from '../pages/About/utils/Services'
+import services from '../pages/About/seeders/Services'
 const Services = () => {
   useEffect(() => {
       AOS.init();

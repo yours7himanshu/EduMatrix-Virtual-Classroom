@@ -21,19 +21,19 @@ import './HomePage.css'
 const DashboardSection = () => {
   return (
     <section  id="project-video"
-    className="py-10  px-6  max-md:h-auto rounded-md  relative shadow-md bg-gray-950 " >
-        <div className="container  max-md:h-auto  mx-auto flex max-md:flex-col gap-8 max-md:gap-6  max-md:justify-start h-screen p-20 max-md:p-0 w-full justify-center items-center ">
+    className="py-10 gradient-bg1 px-6 mt-[5%] max-md:h-auto rounded-md mb-6 relative shadow-md bg-gradient-to-tr from-indigo-950 via-violet-950  to-blue-900  " >
+        <div className="container  max-md:h-auto  mx-auto flex max-md:flex-col gap-8 max-md:gap-6  max-md:justify-start h-screen  w-full justify-center items-center ">
 
-        <div className="right-portion relative h-screen max-md:h-auto w-[100%] max-md:w-full flex max-md:items-start items-center  justify-center  ">
+        <div className="right-portion relative h-screen max-md:h-auto w-1/2 max-md:w-full flex max-md:items-start items-center justify-center  ">
         
 
-                <img className='rounded-md max-md:w-full w-[100%] max-md:h-auto max-md:ml-0 ml-11 h-[50%]  ' src="/images/dashboard.png" alt="" />
+                <img className='rounded-md max-md:w-full max-md:h-auto max-md:ml-0 ml-11 h-[50%]  ' src="/images/dashboard.png" alt="" />
         
             </div>
 
-            <div className=" max-md:w-full  relative gap-8 flex max-md:mx-2 flex-col max-md:justify-start justify-center mx-4 w-[90%] ">
-                <h1 className='text-gray-200  w-full max-md:text-3xl max-md:w-full font-semibold text-4xl mx-3' > Interactive Admin Dashboard for College Faculty </h1>
-                <ul className='text-gray-200 max-md:text-sm w-full max-md:mx-1 gap-4 flex flex-col  text-wrap mx-3' >
+            <div className=" max-md:w-full  relative gap-8 flex max-md:mx-2 flex-col max-md:justify-start justify-center mx-4 w-[60%] ">
+                <h1 className='text-gray-200 max-md:text-3xl max-md:w-full font-semibold text-5xl mx-3' > Interactive Admin Dashboard for College Faculty </h1>
+                <ul className='text-gray-200 max-md:mx-1 gap-4 flex flex-col  text-wrap mx-3' >
                     <li  > 💎 Role based Admin features</li>
                     <li  > 💎 Add teachers and students in your Virtual College </li>
                     <li  > 💎 Upload Assignment and Quizes for your Students </li>

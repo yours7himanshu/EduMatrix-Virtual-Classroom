@@ -1,5 +1,5 @@
 import React from 'react'
-import values from "../utils/Values";
+import values from "./../seeders/Values";
 
 
 const MissionSection = () => {
