@@ -22,14 +22,23 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies for Client 
-        run: cd client && npm install
+    - name: Install dependencies for Client
+      run: |
+        cd client
+        npm install
 
-      - name: Build Client
-        run: cd client && npm run build
+    - name: Build Client
+      run: |
+        cd client
+        npm run build
 
-      - name: Install dependencies for Admin
-        run: cd admin && npm install
+    - name: Install dependencies for Admin
+      run: |
+        cd admin
+        npm install
 
-      - name: Build Admin
-        run: cd admin && npm run build
+    - name: Build Admin
+      run: |
+        cd admin
+        npm run build
+        
