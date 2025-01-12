@@ -1,5 +1,5 @@
 import React from 'react'
-import stats from "./../seeders/Stats";
+import stats from "../utils/Stats";
 
 const StatSection = () => {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import milestones from "./../seeders/milestones";
+import milestones from "../utils/milestones";
 
 const JourneySection = () => {
   return (

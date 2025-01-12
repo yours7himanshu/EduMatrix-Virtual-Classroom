@@ -19,7 +19,7 @@ import {Link} from 'react-router-dom'
 import React from 'react'
 import { useLocation } from 'react-router-dom'; // Import useLocation
 import './Footer.css'
-import { Mail, Phone, MapPin, Clock, Send, ChevronDown, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin} from 'lucide-react';
 
 
 
@@ -27,8 +27,13 @@ const Footer = () => {
   const location = useLocation(); // Get the current path using useLocation
   const isContactPage = location.pathname === '/contact'; // Check if the current path is "/contact"
   return (
+<<<<<<< HEAD
     <footer className={isContactPage ? 'bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow' :'bg-gradient-to-tr bg-gradient1 text-gray-400 py-12'}>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+=======
+    <footer className="bg-slate-950 text-gray-400 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-md:p-6 ">
+>>>>>>> 11dfa703de97d237e0eaa031798d7fe69ee831af
       <div className="grid grid-cols-2 md:grid-cols-4 max-md:gap-24 gap-36">
         <div>
           <div className="text-3xl max-md:text-2xl   flex items-center gap-2 font-extrabold">
