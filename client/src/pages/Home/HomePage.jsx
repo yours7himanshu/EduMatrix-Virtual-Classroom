@@ -99,7 +99,7 @@ const HomePage = () => {
       >
         <div className="container mt-11  mx-auto">
           <h3 className="text-5xl max-md:text-3xl max-md:mb-10 font-bold text-center text-gray-200 mb-16 ">
-            Why Choosing Us ???
+            Why Choose Us ?
           </h3>
 
           {/* resusing teh same service component again */}
