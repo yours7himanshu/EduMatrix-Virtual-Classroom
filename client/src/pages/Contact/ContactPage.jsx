@@ -97,53 +97,53 @@ const ContactPage = () => {
           {/* Contact Information Cards */}
           <div className="space-y-6">
             {/* Email Card */}
-            <div className="bg-gray-1000 bg-opacity-80 text-white p-6 rounded-lg shadow-lg  border border-gray-500/60 backdrop-blur-xl shadow-lg shadow-lg hover:ring-1 hover:ring-blue-800 hover:bg-white/100 transition-all duration-300">
+            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4 backdrop-opacity-0 ">
                 <div className="bg-blue-100 p-3 rounded-full">
-                  <Mail className="w-6 h-6 text-blue-600" />
+                  <Mail className="w-6 h-6 text-gray-900 font-extralight" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Email Us</h3>
-                  <p className="text-blue-600">support@smartedu.com</p>
+                  <h3 className="text-lg font-semibold text-white-300">Email Us</h3>
+                  <p className="text-white-100 font-extralight">support@smartedu.com</p>
                 </div>
               </div>
             </div>
 
             {/* Phone Card */}
-            <div className="bg-gray-1000 bg-opacity-80 text-white p-6 rounded-lg shadow-lg  border border-gray-500/60 backdrop-blur-xl shadow-lg shadow-lg hover:ring-1 hover:ring-blue-800 hover:bg-white/100 transition-all duration-300">
+            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4">
                 <div className="bg-green-100 p-3 rounded-full">
                   <Phone className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Call Us</h3>
-                  <p className="text-blue-600">+1 (555) 123-4567</p>
+                  <h3 className="text-lg font-semibold text-white-300">Call Us</h3>
+                  <p className="text-white-100 font-extralight">+1 (555) 123-4567</p>
                 </div>
               </div>
             </div>
 
             {/* Location Card */}
-            <div className="bg-gray-1000 bg-opacity-80 text-white p-6 rounded-lg shadow-lg  border border-gray-500/60 backdrop-blur-xl shadow-lg shadow-lg hover:ring-1 hover:ring-blue-800 hover:bg-white/100 transition-all duration-300">
+            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4">
                 <div className="bg-purple-100 p-3 rounded-full">
                   <MapPin className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Visit Us</h3>
-                  <p className="text-blue-600">123 Education Street, Tech Valley</p>
+                  <h3 className="text-lg font-semibold text-white-300">Visit Us</h3>
+                  <p className="text-white-100 font-extralight">123 Education Street, Tech Valley</p>
                 </div>
               </div>
             </div>
 
             {/* Hours Card */}
-            <div className="bg-gray-1000 bg-opacity-80 text-white p-6 rounded-lg shadow-lg  border border-gray-500/60 backdrop-blur-xl shadow-lg shadow-lg hover:ring-1 hover:ring-blue-800 hover:bg-white/100 transition-all duration-300">
+            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4">
                 <div className="bg-orange-100 p-3 rounded-full">
                   <Clock className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Business Hours</h3>
-                  <p className="text-blue-600">Mon - Fri: 9:00 AM - 6:00 PM</p>
+                  <h3 className="text-lg font-semibold text-white-300">Business Hours</h3>
+                  <p className="text-white-100 font-extralight">Mon - Fri: 9:00 AM - 6:00 PM</p>
                 </div>
               </div>
             </div>
