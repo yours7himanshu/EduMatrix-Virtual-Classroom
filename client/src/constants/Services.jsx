@@ -17,25 +17,33 @@ limitations under the License.
 
 
 import React from 'react'
-import services from '../pages/About/Services'
+import { useEffect } from 'react';
+import AOS from "aos";
+import services from '../pages/About/seeders/Services'
 const Services = () => {
+  useEffect(() => {
+      AOS.init();
+    }, []);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="bg-gray-200 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                <div className="flex justify-center mb-4">
+              <div key={index}
+              data-aos="fade-right"
+              data-aos-duration="1500"
+              className=" bg-indigo-950 text-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+                <div className="flex text-white justify-center mb-4">
                   {service.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3 text-center">
+                <h3 className="text-xl font-semibold  mb-3 text-center">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 mb-4 text-center">
+                <p className="text-gray-300 mb-4 text-center">
                   {service.description}
                 </p>
                 <ul className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center text-gray-600">
-                      <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2"></span>
+                    <li key={featureIndex} className="flex items-center text-gray-400">
+                      <span className="w-1.5 h-1.5 bg-gray-300 rounded-full mr-2"></span>
                       {feature}
                     </li>
                   ))}
