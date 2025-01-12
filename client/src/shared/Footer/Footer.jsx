@@ -17,12 +17,13 @@ limitations under the License.
 
 import {Link} from 'react-router-dom'
 import React from 'react'
+import './Footer.css'
 import { Mail, Phone, MapPin, Clock, Send, ChevronDown, ExternalLink } from 'lucide-react';
 
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-tr from-blue-950 via-violet-950 to-indigo-900 text-gray-400 py-12">
+    <footer className="bg-gradient-to-tr bg-gradient1 text-gray-400 py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-2 md:grid-cols-4 max-md:gap-24 gap-36">
         <div>

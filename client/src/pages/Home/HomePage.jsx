@@ -97,7 +97,7 @@ const HomePage = () => {
         id="features"
         className="py-10 px-6 mt-[10%]   max-md:mt-[30%] rounded-md mb-6 shadow-md bg-gradient-to-b gradient-bg1"
       >
-        <div className="container  mx-auto">
+        <div className="container mt-11  mx-auto">
           <h3 className="text-5xl max-md:text-3xl max-md:mb-10 font-bold text-center text-gray-200 mb-16 ">
             Why Choosing Us ???
           </h3>

@@ -8,4 +8,8 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
+.hero-section-image img{
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
 .gradient-bg1 { background: radial-gradient(circle, #190043 30%, #000230); }
