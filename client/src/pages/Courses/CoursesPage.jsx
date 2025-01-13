@@ -45,9 +45,9 @@ const CoursesPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-950 to-indigo-950">
       {/* Hero Section */}
       <div className="pt-20 pb-12 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl font-bold mb-4 text-gray-200">Professional Degree Programs</h1>
-          <p className="text-xl text-gray-300">Shape your future with our comprehensive range of professional courses</p>
+        <div className="max-w-7xl mx-auto text-center mt-16">
+          <h1 className="text-5xl font-bold mb-4 text-gray-300">Professional Degree Programs</h1>
+          <p className="text-sm text-gray-300">Shape your future with our comprehensive range of professional courses</p>
         </div>
       </div>
 
