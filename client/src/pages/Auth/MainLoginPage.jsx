@@ -30,9 +30,9 @@ const navigate = useNavigate();
     <div 
       className="
         min-h-screen 
-        bg-gradient-to-br 
-        from-blue-50 
-        to-blue-100 
+        bg-gradient-to-b 
+       from-slate-950
+       to-indigo-950
         flex 
         
         items-center 
