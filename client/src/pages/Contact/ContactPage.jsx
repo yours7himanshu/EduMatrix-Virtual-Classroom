@@ -57,14 +57,14 @@ const ContactPage = () => {
   
 
   return (
-    <div className="gradient-bg relative bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50">
+    <div className=" relative bg-gradient-to-b from-slate-950 to-indigo-950 ">
       {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-bl from-blue-200 to-transparent opacity-20 blur-3xl" />
-      <div className="absolute bottom-0 left-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-purple-200 to-transparent opacity-20 blur-3xl" />
+      <div className="absolute top-0 right-0 -z-10 h-96 w-96 m-11 rounded-full bg-gradient-to-bl from-blue-200 to-transparent opacity-20 blur-3xl" />
+      <div className="absolute bottom-0  left-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-purple-200 to-transparent opacity-20 blur-3xl" />
 
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mt-[5%] mb-16">
+        <div className="text-center mt-[6%] mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-300">
             Get in Touch
           </h1>
@@ -77,7 +77,7 @@ const ContactPage = () => {
           {/* Contact Information Cards */}
           <div className="space-y-6">
             {/* Email Card */}
-            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+            <div className="bg-indigo-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4 backdrop-opacity-0">
                 <div className="bg-blue-100 p-3 rounded-full">
                   <Mail className="w-6 h-6 text-gray-900 font-extralight" />
@@ -90,7 +90,7 @@ const ContactPage = () => {
             </div>
 
             {/* Phone Card */}
-            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+            <div className="bg-indigo-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4">
                 <div className="bg-green-100 p-3 rounded-full">
                   <Phone className="w-6 h-6 text-green-600" />
@@ -103,9 +103,9 @@ const ContactPage = () => {
             </div>
 
             {/* Location Card */}
-            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-center space-x-4">
-                <div className="bg-purple-100 p-3 rounded-full">
+            <div className="bg-indigo-950    text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center  space-x-4">
+                <div className="bg-purple-100 border  p-3 rounded-full">
                   <MapPin className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
@@ -116,7 +116,7 @@ const ContactPage = () => {
             </div>
 
             {/* Hours Card */}
-            <div className="bg-indigo-950 text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+            <div className="bg-indigo-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4">
                 <div className="bg-orange-100 p-3 rounded-full">
                   <Clock className="w-6 h-6 text-orange-600" />
@@ -130,7 +130,7 @@ const ContactPage = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-indigo-600 backdrop-blur-lg p-8 rounded-2xl shadow-xl">
+          <div className="bg-indigo-950  backdrop-blur-lg p-8 rounded-2xl shadow-xl">
             <h2 className="text-2xl font-semibold mb-6 text-gray-200">Send us a message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -180,7 +180,7 @@ const ContactPage = () => {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg hover:opacity-90 transition-opacity duration-300 flex items-center justify-center space-x-2"
+                className="w-full bg-indigo-800 text-white py-3 px-6 rounded-lg hover:opacity-90 transition-opacity duration-300 flex items-center justify-center space-x-2"
               >
                 <Send className="w-5 h-5" />
                 <span>Send Message</span>
