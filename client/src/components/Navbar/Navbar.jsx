@@ -25,10 +25,10 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-gray-950 fixed top-0 left-0 w-full z-50 h-[10%] text-white max-md:shadow-sm shadow-lg p-3">
+    <nav className="bg-gray-950 fixed top-0 left-0 w-full z-50 h-[11%] text-white max-md:shadow-sm shadow-lg p-3">
       <div className="container mx-auto max-md:m-2 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-3xl max-md:text-3xl flex items-center gap-2 font-extrabold">
+        <div className="text-3xl ml-3 max-md:text-3xl flex items-center gap-2 font-extrabold">
         <img className="rounded-full  h-10" src="/logo/EduMatrix2.png" alt="" />
           <Link to="/">EduMatrix</Link>
         </div>
@@ -89,7 +89,7 @@ const Navbar = () => {
           ) : ( */}
             <button
               onClick={()=> navigate("/MainLogin")}
-              className="bg-zinc-200 font-medium text-black px-5 py-3 rounded-md  max-md:px-2  max-md:text-sm  "
+              className="bg-zinc-200 mr-3 font-medium text-black px-5 py-3 rounded-md  max-md:px-2  max-md:text-sm  "
             >
               Create Account
             </button>

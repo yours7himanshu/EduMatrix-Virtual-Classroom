@@ -28,7 +28,7 @@ import TeamSection from "./components/TeamSection";
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen gradient-bg  mt-14 bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-indigo-950  mt-14 bg-white">
       {/* Previous sections remain unchanged */}
       {/* Hero Section */}
       <HeroSection />
@@ -49,6 +49,7 @@ const AboutPage = () => {
       {/* Team Section */}
 
       <TeamSection />
+      <hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
 
       {/* Footer */}
       <Footer />

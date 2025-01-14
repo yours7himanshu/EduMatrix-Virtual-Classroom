@@ -53,20 +53,20 @@ const CoursesPage = () => {
 
       {/* Search and Filter Section */}
       <div className="max-w-7xl mx-auto px-6 mb-12">
-        <div className="bg-slate-900/50 backdrop-blur-sm rounded-lg border border-gray-700 shadow-xl p-6">
+        <div className="bg-slate-900/50  backdrop-blur-sm rounded-lg  shadow-xl p-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search courses or specializations..."
-                className="w-full pl-10 pr-4 py-2 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                className="w-full pl-10 pr-4 py-2 bg-slate-900 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             <select
-              className="px-4 py-2 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="px-4 py-2 bg-slate-900 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
@@ -109,7 +109,7 @@ const CoursesPage = () => {
                         {course.specializations.map((spec, index) => (
                           <span
                             key={index}
-                            className="text-xs bg-violet-500/20 text-violet-300 px-2 py-1 rounded-full border border-violet-500/20"
+                            className="text-xs bg-purple-200 text-indigo-950 px-2 py-1 rounded-full border border-violet-400 shadow-lg"
                           >
                             {spec}
                           </span>
