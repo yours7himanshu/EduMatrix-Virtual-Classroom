@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Mail, Phone, MapPin, Clock, Send, ChevronDown, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, ChevronDown} from 'lucide-react';
 import Footer from '../../shared/Footer/Footer';
 import faqData from './faqData.js';
 
@@ -13,12 +13,12 @@ const FAQItem = ({ question, answer }) => {
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-lg font-medium text-gray-800">{question}</span>
+        <span className="text-lg font-medium text-gray-200">{question}</span>
         <ChevronDown 
-          className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''}`} 
+          className={`w-5 h-5 text-gray-200 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''}`} 
         />
       </button>
-      <div className={`mt-2 text-gray-600 transition-all duration-300 ${isOpen ? 'block opacity-100' : 'hidden opacity-0'}`}>
+      <div className={`mt-2 text-gray-200 transition-all duration-300 ${isOpen ? 'block opacity-100' : 'hidden opacity-0'}`}>
         {answer}
       </div>
     </div>
@@ -35,12 +35,7 @@ const ContactPage = () => {
 
 
 
-  const socialLinks = [
-    { name: 'Website', url: '#' },
-    { name: 'Support', url: '#' },
-    { name: 'Community', url: '#' },
-    { name: 'Resources', url: '#' }
-  ];
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,7 +72,7 @@ const ContactPage = () => {
           {/* Contact Information Cards */}
           <div className="space-y-6">
             {/* Email Card */}
-            <div className="bg-indigo-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+            <div className="bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4 backdrop-opacity-0">
                 <div className="bg-blue-100 p-3 rounded-full">
                   <Mail className="w-6 h-6 text-gray-900 font-extralight" />
@@ -90,7 +85,7 @@ const ContactPage = () => {
             </div>
 
             {/* Phone Card */}
-            <div className="bg-indigo-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+            <div className=" bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4">
                 <div className="bg-green-100 p-3 rounded-full">
                   <Phone className="w-6 h-6 text-green-600" />
@@ -103,7 +98,7 @@ const ContactPage = () => {
             </div>
 
             {/* Location Card */}
-            <div className="bg-indigo-950    text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+            <div className="bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center  space-x-4">
                 <div className="bg-purple-100 border  p-3 rounded-full">
                   <MapPin className="w-6 h-6 text-purple-600" />
@@ -116,7 +111,7 @@ const ContactPage = () => {
             </div>
 
             {/* Hours Card */}
-            <div className="bg-indigo-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
+            <div className=" bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center space-x-4">
                 <div className="bg-orange-100 p-3 rounded-full">
                   <Clock className="w-6 h-6 text-orange-600" />
@@ -130,7 +125,7 @@ const ContactPage = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-indigo-950  backdrop-blur-lg p-8 rounded-2xl shadow-xl">
+          <div className=" bg-gradient-to-r from-indigo-950 to-blue-950  backdrop-blur-lg p-8 rounded-xl shadow-xl">
             <h2 className="text-2xl font-semibold mb-6 text-gray-200">Send us a message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -190,8 +185,8 @@ const ContactPage = () => {
         </div>
 
         {/* FAQ Section */}
-        <div className="mt-24 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center ">
+        <div className="mt-24 bg-indigo-950 backdrop-blur-lg rounded-2xl shadow-xl p-8">
+          <h2 className="text-3xl font-bold text-gray-300 mb-8 text-center ">
             Frequently Asked Questions
           </h2>
           <div className="max-w-3xl mx-auto">
