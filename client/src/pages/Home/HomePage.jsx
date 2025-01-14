@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 
-import mainImage from "../../assets/What-is-a-Virtual-Classroom-3.png";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
@@ -39,7 +39,7 @@ const HomePage = () => {
      
 
       {/* Hero  section of the website of the home page */}
-        {/* <img  className="absolute max-md:h-[12%] object-cover w-full bg-opacity-70 backdrop-blur-xl inset-0 " src="/images/pattern2.png" alt="pattern" /> */}
+        <img  className="absolute hidden max-md:block max-md:h-[18%] object-cover w-full bg-opacity-70 backdrop-blur-xl inset-0 " src="/images/pattern2.png" alt="pattern" />
       <section className=" w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">
         <div className="container max-md:w-full max-md:mx-1  h-screen max-md:h-[100%]  flex flex-col  items-center ">
           <div className=" w-[90%]  max-md:h-[90%] h-screen  max-lg:w-screen max-md:w-full max-md:mt-44 flex flex-col items-center mt-48 space-y-6 text-center   ">
@@ -84,8 +84,8 @@ const HomePage = () => {
                 title="Get Started"
               />
             </div>
-          <div className="flex hero-section-image relative border max-md:w-screen max-md:hidden max-md:h-48  h-[328px] overflow-y-hidden  outline-none border-gray-600 w-[90%] justify-center items-start" >
-          <img className=" dashboard z-40 max-md:w-full  absolute outline-none border-none  -top-20 p-2  inset-0 object-contain max-md:h-full max-md:top-0 max-md:p-1  h-screen " src="/images/dashboard.png" alt="" />
+          <div className="flex hero-section-image relative border max-md:w-screen max-md:hidden max-md:h-48  h-[327px] overflow-y-hidden  outline-none border-gray-600  w-[90%] justify-center items-start" >
+          <img className=" dashboard pt-4  z-40 max-md:w-full  absolute outline-none border-none  -top-20 p-1   inset-0 object-contain max-md:h-full max-md:top-0 max-md:p-1  h-screen " src="/images/dashboard.png" alt="" />
 
           </div>
           </div>

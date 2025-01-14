@@ -29,8 +29,8 @@ const Navbar = () => {
       <div className="container mx-auto max-md:m-2 flex justify-between items-center">
         {/* Logo */}
         <div className="text-3xl ml-3 max-md:text-3xl flex items-center gap-2 font-extrabold">
-        <img className="rounded-full  h-10" src="/logo/EduMatrix2.png" alt="" />
-          <Link to="/">EduMatrix</Link>
+        <img className="rounded-full  h-11" src="/logo/EduMatrix2.png" alt="" />
+          <Link className="text-gray-300" to="/">EduMatrix</Link>
         </div>
 
         {/* Links */}
