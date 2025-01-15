@@ -43,7 +43,7 @@ const HomePage = () => {
       <section className=" w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">
         <div className="container max-md:w-full max-md:mx-1  h-screen max-md:h-[100%]  flex flex-col  items-center ">
           <div className=" w-[90%]  max-md:h-[90%] h-screen  max-lg:w-screen max-md:w-full max-md:mt-44 flex flex-col items-center mt-36 space-y-6 text-center   ">
-            <span className="p-1 px-3 border text-purple-200 cursor-pointer border-purple-400 rounded-3xl text-sm hover:text-gray-300 hover:bg-purple-800 hover:shadow-purple-300 " > Revolutionizing Digital Education </span>
+            <span className="p-1 px-3 border text-purple-200 shadow-purple-700/60  cursor-pointer border-purple-400 rounded-3xl text-sm hover:text-indigo-900 hover:bg-purple-400   shadow-lg transition-all duration-300  " > Revolutionizing Digital Education </span>
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
@@ -86,7 +86,7 @@ const HomePage = () => {
               />
             </div>
           <div className="flex hero-section-image relative border max-md:w-screen max-md:hidden max-md:h-48  h-[332px] overflow-y-hidden  outline-none border-gray-600  w-[90%] justify-center items-start" >
-          <img className=" dashboard pt-4  z-40 max-md:w-full  absolute outline-none border-none  -top-20 p-2   inset-0 object-contain max-md:h-full max-md:top-0 max-md:p-1  h-screen " src="/images/dashboard.png" alt="" />
+          <img className=" dashboard pt-4  z-40 max-md:w-full  absolute outline-none border-none  -top-20 p-1   inset-0 object-contain max-md:h-full max-md:top-0 max-md:p-1  h-screen " src="/images/dashboard.png" alt="" />
 
           </div>
           </div>
