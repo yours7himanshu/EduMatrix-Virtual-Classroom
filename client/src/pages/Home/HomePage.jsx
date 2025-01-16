@@ -43,7 +43,7 @@ const HomePage = () => {
       <section className=" w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">
         <div className="container max-md:w-full max-md:mx-1  h-screen max-md:h-[100%]  flex flex-col  items-center ">
           <div className=" w-[90%]  max-md:h-[90%] h-screen  max-lg:w-screen max-md:w-full max-md:mt-44 flex flex-col items-center mt-36 space-y-6 text-center   ">
-            <span className="p-1 px-3 border text-purple-200 shadow-purple-700/60  cursor-pointer border-purple-400 rounded-3xl text-sm hover:text-indigo-900 hover:bg-purple-400   shadow-lg transition-all duration-300  " > Revolutionizing Digital Education </span>
+            <span className="p-1 px-3 border text-purple-200 shadow-purple-700/60 border-purple-400 rounded-3xl text-sm   shadow-lg transition-all duration-300  " > Revolutionizing Digital Education </span>
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
