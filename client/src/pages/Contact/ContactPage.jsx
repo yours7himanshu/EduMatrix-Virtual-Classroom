@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, ChevronDown} from 'lucide-react';
 import Footer from '../../shared/Footer/Footer';
 import faqData from './faqData.js';
+import ServiceLayout from '../../layout/ServiceLayout.jsx';
 
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -199,9 +200,9 @@ const ContactPage = () => {
       </div>
 
       {/* Footer with conditional class */}
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };
 
-export default ContactPage;
+export default ServiceLayout()(ContactPage);

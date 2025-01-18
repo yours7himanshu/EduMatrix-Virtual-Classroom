@@ -21,6 +21,7 @@ import { Search, Clock, ArrowRight, GraduationCap } from 'lucide-react';
 import courses from './utils/courses';
 import categories from './utils/categories';
 import Footer from '../../shared/Footer/Footer';
+import ServiceLayout from '../../layout/ServiceLayout';
 
 const CoursesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -133,9 +134,9 @@ const CoursesPage = () => {
           </div>
         )}
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };
 
-export default CoursesPage;
+export default ServiceLayout()(CoursesPage);

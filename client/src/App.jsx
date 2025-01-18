@@ -49,7 +49,7 @@ import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx
 function App() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <ToastContainer/>
       <PeerProvider>
@@ -67,7 +67,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
 <Route path="/ai" element={<AiAssistent/>}/>
         <Route path="/MainLogin" element={<MainLoginPage/>}/>
-        <Route path="/StudentDashboard" element={<StudentDashboard/>}/>
+        <Route path="/StudentDashboard/dashboard" element={<StudentDashboard/>}/>
         <Route path="/displayAnnoncement"element={<Announcement/>}/>
 
       </Routes>

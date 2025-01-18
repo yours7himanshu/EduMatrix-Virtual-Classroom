@@ -15,18 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
-
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import Buttons from "../../shared/Buttons/Buttons";
 import Services from "../../constants/Services";
 import Footer from "../../shared/Footer/Footer";
-import VideoSection from "./VideoSection";
-import DashboardSection from "./DashboardSection";
+import VideoSection from "./components/VideoSection";
+import DashboardSection from "./components/DashboardSection";
 
-import './HomePage.css'
+import "./CSS/HomePage.css";
+import ServiceLayout from "../../layout/ServiceLayout";
 
 const HomePage = () => {
   useEffect(() => {
@@ -36,14 +35,24 @@ const HomePage = () => {
   return (
     <div className="  relative bg-gradient-to-b from-slate-950 w-[100%] to-indigo-950  overflow-x-hidden bg-opacity-75   ">
       {/* Header */}
-     
 
       {/* Hero  section of the website of the home page */}
-        <img  className="absolute hidden max-md:block max-md:h-[18%] object-cover w-full bg-opacity-70 backdrop-blur-xl inset-0 " src="/images/pattern2.png" alt="pattern" />
+      <img
+        className="absolute hidden max-md:block max-md:h-[18%] object-cover w-full bg-opacity-70 backdrop-blur-xl inset-0 "
+        src="/images/pattern2.png"
+        alt="pattern"
+      />
       <section className=" w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">
         <div className="container max-md:w-full max-md:mx-1  h-screen max-md:h-[100%]  flex flex-col  items-center ">
           <div className=" w-[90%]  max-md:h-[90%] h-screen  max-lg:w-screen max-md:w-full max-md:mt-44 flex flex-col items-center mt-36 space-y-6 text-center   ">
-            <span className="p-1 px-3 border text-purple-200 shadow-purple-700/60 border-purple-400 rounded-3xl text-sm   shadow-lg transition-all duration-300  " > Revolutionizing Digital Education </span>
+            <span
+              data-aos="fade-down"
+              data-aos-duration="1500"
+              className="p-1 px-3 border text-purple-200 shadow-purple-700/60 border-purple-400 rounded-3xl text-sm   shadow-lg transition-all duration-300  "
+            >
+              {" "}
+              Revolutionizing Digital Education{" "}
+            </span>
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
@@ -53,7 +62,7 @@ const HomePage = () => {
                 {" "}
                 Empowering
               </span>{" "}
-              Interactive and Seamless {" "}
+              Interactive and Seamless{" "}
               <span className="text-6xl  max-md:text-3xl  max-lg:text-4xl max-lg:font-bold ">
                 {" "}
                 Virtual Learning
@@ -68,8 +77,8 @@ const HomePage = () => {
               data-aos-duration="1500"
               className="text-sm max-md:w-full text-gray-300 font-medium max-md:mx-3 "
             >
-             <span className="max-md:hidden" > 💎</span> An AI-powered smart education system for a seamless virtual
-              classroom experience 💎
+              <span className="max-md:hidden"> 💎</span> An AI-powered smart
+              education system for a seamless virtual classroom experience 💎
             </p>
             <div
               data-aos="fade-down"
@@ -85,14 +94,17 @@ const HomePage = () => {
                 title="Get Started"
               />
             </div>
-          <div className="flex hero-section-image relative border max-md:w-screen max-md:hidden max-md:h-48  h-[332px] overflow-y-hidden  outline-none border-gray-600  w-[90%] justify-center items-start" >
-          <img className=" dashboard pt-4  z-40 max-md:w-full  absolute outline-none border-none  -top-20 p-1   inset-0 object-contain max-md:h-full max-md:top-0 max-md:p-1  h-screen " src="/images/dashboard.png" alt="" />
-
-          </div>
+            <div className="flex hero-section-image relative border max-md:w-screen max-md:hidden max-md:h-48  h-[332px] overflow-y-hidden  outline-none border-gray-600  w-[90%] justify-center items-start">
+              <img
+                className=" dashboard pt-4  z-40 max-md:w-full  absolute outline-none border-none  -top-20 p-1   inset-0 object-contain max-md:h-full max-md:top-0 max-md:p-1  h-screen "
+                src="/images/dashboard.png"
+                alt=""
+              />
+            </div>
           </div>
         </div>
       </section>
-   
+
       {/* features section of the website of homepage */}
       <section
         id="features"
@@ -109,24 +121,23 @@ const HomePage = () => {
       </section>
 
       {/* Section for Video feature */}
-<hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
+      <hr className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
       <VideoSection />
 
-      <hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
+      <hr className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
 
       {/* Section for showing Admin features that already designed
        */}
-       <DashboardSection/>
+      <DashboardSection />
 
-       <hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
+      <hr className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
 
       {/* footer section of the website */}
       <div className="footer">
-
-      <Footer/>
+        {/* <Footer /> */}
       </div>
     </div>
   );
 };
 
-export default HomePage;
+export default ServiceLayout()(HomePage);

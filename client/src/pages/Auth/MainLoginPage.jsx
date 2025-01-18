@@ -94,7 +94,7 @@ const navigate = useNavigate();
           description="Access academic resources, courses, and personal dashboard"
           bgColor="text-blue-500"
           borderColor="border-blue-500"
-          onClick={ ()=> navigate("/StudentDashboard")}
+          onClick={ ()=> navigate("/StudentDashboard/dashboard")}
           
         />
         <LoginOption 

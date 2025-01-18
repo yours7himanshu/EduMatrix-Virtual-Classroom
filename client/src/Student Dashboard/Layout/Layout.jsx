@@ -14,3 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+import React from 'react'
+import Sidebar from '../Sidebar/Sidebar'
+
+
+const Layout = () => (WrapLayoutComponent)=> {
+    return (props)=>{
+
+        return (
+          <div className='flex' >
+            <Sidebar/>
+            <WrapLayoutComponent {...props} />
+          </div>
+        )
+    }
+    }
+
+export default Layout

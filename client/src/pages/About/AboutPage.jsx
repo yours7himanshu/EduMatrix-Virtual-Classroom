@@ -25,6 +25,7 @@ import ServiceSection from "./components/ServiceSection";
 import MissionSection from "./components/MissionSection";
 import JourneySection from "./components/JourneySection";
 import TeamSection from "./components/TeamSection";
+import ServiceLayout from "../../layout/ServiceLayout";
 
 const AboutPage = () => {
   return (
@@ -52,9 +53,9 @@ const AboutPage = () => {
       <hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
 
       {/* Footer */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
 
-export default AboutPage;
+export default ServiceLayout()(AboutPage);

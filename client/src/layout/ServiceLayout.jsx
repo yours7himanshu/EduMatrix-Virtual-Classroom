@@ -18,15 +18,22 @@ limitations under the License.
 
 
 
-
 import React from 'react'
+import Navbar from '../components/Navbar/Navbar'
+import Footer from '../shared/Footer/Footer'
 
-const Layout = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+const ServiceLayout = () => (WrapLayoutComponent)=> {
+  return (props)=>{
 
-export default Layout
+    return (
+      <div className='flex flex-col' >
+        <Navbar/>
+        <WrapLayoutComponent {...props} />
+        <Footer/>
+      </div>
+    )
+  }
+  }
+
+export default ServiceLayout
+

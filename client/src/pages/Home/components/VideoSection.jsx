@@ -17,7 +17,7 @@ limitations under the License.
 
 
 import React from "react";
-import './HomePage.css'
+import '../CSS/HomePage.css'
 
 const VideoSection = () => {
   return (
