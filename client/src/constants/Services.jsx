@@ -30,7 +30,7 @@ const Services = () => {
               <div key={index}
               data-aos="fade-right"
               data-aos-duration="1500"
-              className=" bg-indigo-950 text-white rounded-lg p-6 shadow-indigo-800/60 shadow-lg hover:shadow-md transition-shadow">
+              className=" bg-indigo-950 text-white rounded-lg p-6  shadow-lg hover:shadow-md transition-shadow">
                 <div className="flex text-white justify-center mb-4">
                   {service.icon}
                 </div>
