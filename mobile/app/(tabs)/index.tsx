@@ -16,7 +16,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText style={{color:"yellow"}} type="title">You Are watching Himanshu Dinkar's first App</ThemedText>
+        <ThemedText style={{color:"red"}} type="title">Some thing okay</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>

@@ -32,7 +32,7 @@ const Footer = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 max-md:gap-24 gap-36">
         <div>
           <div className="text-3xl max-md:text-2xl   flex items-center gap-2 font-extrabold">
-                 <img className="rounded-full  h-10" src="/logo/EduMatrix2.png" alt="" />
+                 <img className="rounded-md  h-10" src="/logo/E.png" alt="" />
                    <Link className='text-white' to="/">EduMatrix</Link>
                  </div>
                  <ul className="space-y-2 max-md:w-56 max-md:text-sm ">
