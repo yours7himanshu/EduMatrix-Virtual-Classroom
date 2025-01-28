@@ -38,18 +38,18 @@ const courses = [
             'Aerospace Engineering'
           ]
         },
-        {
-          name: 'M.Tech',
-          fullName: 'Master of Technology',
-          duration: '2 Years',
-          specializations: [
-            'Data Science',
-            'AI & Robotics',
-            'VLSI Design',
-            'Structural Engineering',
-            'Power Systems'
-          ]
-        }
+        // {
+        //   name: 'M.Tech',
+        //   fullName: 'Master of Technology',
+        //   duration: '2 Years',
+        //   specializations: [
+        //     'Data Science',
+        //     'AI & Robotics',
+        //     'VLSI Design',
+        //     'Structural Engineering',
+        //     'Power Systems'
+        //   ]
+        // }
       ]
     },
     {

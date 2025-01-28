@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import { Mail, Phone, MapPin, Clock, Send, ChevronDown} from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, ChevronDown } from 'lucide-react';
 import Footer from '../../shared/Footer/Footer';
 import faqData from './faqData.js';
 import ServiceLayout from '../../layout/ServiceLayout.jsx';
@@ -9,17 +8,19 @@ const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b  border-gray-200 py-4">
+    <div className="border-b border-gray-700 py-6">
       <button
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-lg font-medium text-gray-200">{question}</span>
-        <ChevronDown 
-          className={`w-5 h-5 text-gray-200 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''}`} 
+        <span className="text-lg font-semibold text-gray-200">{question}</span>
+        <ChevronDown
+          className={`w-6 h-6 text-gray-200 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''}`}
         />
       </button>
-      <div className={`mt-2 text-gray-200 transition-all duration-300 ${isOpen ? 'block opacity-100' : 'hidden opacity-0'}`}>
+      <div
+        className={`mt-4 text-gray-300 transition-all duration-300 ${isOpen ? 'block opacity-100' : 'hidden opacity-0'}`}
+      >
         {answer}
       </div>
     </div>
@@ -31,12 +32,8 @@ const ContactPage = () => {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
-
-
-
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,91 +43,91 @@ const ContactPage = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  
-
   return (
-    <div className=" relative bg-gradient-to-b from-slate-950 to-indigo-950 ">
+    <div className="relative bg-gradient-to-b from-slate-950 to-indigo-950 min-h-screen">
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 -z-10 h-96 w-96 m-11 rounded-full bg-gradient-to-bl from-blue-200 to-transparent opacity-20 blur-3xl" />
-      <div className="absolute bottom-0  left-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-purple-200 to-transparent opacity-20 blur-3xl" />
+      <div className="absolute bottom-0 left-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-purple-200 to-transparent opacity-20 blur-3xl" />
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mt-11 mx-auto px-4 py-20">
         {/* Header */}
-        <div className="text-center mt-[6%] mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-300">
+        <div className="text-center mb-20">
+          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-violet-500 mb-4">
             Get in Touch
           </h1>
-          <p className="text-lg text-gray-200">
+          <p className="text-lg text-gray-300">
             We're here to help and answer any questions you might have
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information Cards */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Email Card */}
-            <div className="bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-center space-x-4 backdrop-opacity-0">
+            <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700 shadow-2xl hover:shadow-violet-500/20 transition-all duration-300 p-8">
+              <div className="flex items-center space-x-6">
                 <div className="bg-blue-100 p-3 rounded-full">
-                  <Mail className="w-6 h-6 text-gray-900 font-extralight" />
+                  <Mail className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white-300">Email Us</h3>
-                  <p className="text-white-100 font-extralight">support@smartedu.com</p>
+                  <h3 className="text-xl font-semibold text-gray-200">Email Us</h3>
+                  <p className="text-gray-400">support@smartedu.com</p>
                 </div>
               </div>
             </div>
 
             {/* Phone Card */}
-            <div className=" bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-center space-x-4">
+            <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700 shadow-2xl hover:shadow-violet-500/20 transition-all duration-300 p-8">
+              <div className="flex items-center space-x-6">
                 <div className="bg-green-100 p-3 rounded-full">
                   <Phone className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white-300">Call Us</h3>
-                  <p className="text-white-100 font-extralight">+1 (555) 123-4567</p>
+                  <h3 className="text-xl font-semibold text-gray-200">Call Us</h3>
+                  <p className="text-gray-400">+1 (555) 123-4567</p>
                 </div>
               </div>
             </div>
 
             {/* Location Card */}
-            <div className="bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-center  space-x-4">
-                <div className="bg-purple-100 border  p-3 rounded-full">
+            <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700 shadow-2xl hover:shadow-violet-500/20 transition-all duration-300 p-8">
+              <div className="flex items-center space-x-6">
+                <div className="bg-purple-100 p-3 rounded-full">
                   <MapPin className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white-300">Visit Us</h3>
-                  <p className="text-white-100 font-extralight">123 Education Street, Tech Valley</p>
+                  <h3 className="text-xl font-semibold text-gray-200">Visit Us</h3>
+                  <p className="text-gray-400">123 Education Street, Tech Valley</p>
                 </div>
               </div>
             </div>
 
             {/* Hours Card */}
-            <div className=" bg-gradient-to-r from-indigo-950 to-blue-950   text-white rounded-lg border/80 border-white-100 shadow-xl p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-center space-x-4">
+            <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700 shadow-2xl hover:shadow-violet-500/20 transition-all duration-300 p-8">
+              <div className="flex items-center space-x-6">
                 <div className="bg-orange-100 p-3 rounded-full">
                   <Clock className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white-300">Business Hours</h3>
-                  <p className="text-white-100 font-extralight">Mon - Fri: 9:00 AM - 6:00 PM</p>
+                  <h3 className="text-xl font-semibold text-gray-200">Business Hours</h3>
+                  <p className="text-gray-400">Mon - Fri: 9:00 AM - 6:00 PM</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className=" bg-gradient-to-r from-indigo-950 to-blue-950  backdrop-blur-lg p-8 rounded-xl shadow-xl">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-200">Send us a message</h2>
+          <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700 shadow-2xl p-8">
+            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-violet-600 mb-8">
+              Send us a message
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-gray-200 mb-2" htmlFor="name">
+                <label className="block text-gray-300 mb-2" htmlFor="name">
                   Full Name
                 </label>
                 <input
@@ -139,13 +136,13 @@ const ContactPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow duration-300"
+                  className="w-full px-4 py-3 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-300"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-200 mb-2" htmlFor="email">
+                <label className="block text-gray-300 mb-2" htmlFor="email">
                   Email Address
                 </label>
                 <input
@@ -154,13 +151,13 @@ const ContactPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow duration-300"
+                  className="w-full px-4 py-3 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-300"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-200 mb-2" htmlFor="message">
+                <label className="block text-gray-300 mb-2" htmlFor="message">
                   Message
                 </label>
                 <textarea
@@ -169,14 +166,14 @@ const ContactPage = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow duration-300"
+                  className="w-full px-4 py-3 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-300"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-indigo-800 text-white py-3 px-6 rounded-lg hover:opacity-90 transition-opacity duration-300 flex items-center justify-center space-x-2"
+                className="w-full bg-violet-500 text-white py-3 px-6 rounded-lg hover:bg-violet-600 transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 <Send className="w-5 h-5" />
                 <span>Send Message</span>
@@ -186,8 +183,8 @@ const ContactPage = () => {
         </div>
 
         {/* FAQ Section */}
-        <div className="mt-24 bg-indigo-950 backdrop-blur-lg rounded-2xl shadow-xl p-8">
-          <h2 className="text-3xl font-bold text-gray-300 mb-8 text-center ">
+        <div className="mt-24 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700 shadow-2xl p-8">
+          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-violet-600 mb-8 text-center">
             Frequently Asked Questions
           </h2>
           <div className="max-w-3xl mx-auto">
@@ -196,11 +193,9 @@ const ContactPage = () => {
             ))}
           </div>
         </div>
-
       </div>
 
-      {/* Footer with conditional class */}
-      {/* <Footer/> */}
+      
     </div>
   );
 };
