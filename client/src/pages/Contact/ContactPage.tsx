@@ -1,11 +1,17 @@
+import React from 'react';
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, ChevronDown } from 'lucide-react';
 
 import faqData from './faqData.ts';
 import ServiceLayout from '../../layout/ServiceLayout.jsx';
 
-const FAQItem = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = useState(false);
+interface FAQItemProps{
+  question:string;
+  answer:string;
+}
+
+const FAQItem = ({ question, answer } : FAQItemProps ) => {
+  const [isOpen, setIsOpen] = useState <boolean> (false);
 
   return (
     <div className="border-b border-gray-700 py-6">
@@ -27,8 +33,15 @@ const FAQItem = ({ question, answer }) => {
   );
 };
 
+interface formDataState{
+  name:string;
+  email:string;
+  subject:string;
+  message:string;
+}
+
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<formDataState>({
     name: '',
     email: '',
     subject: '',
@@ -165,7 +178,7 @@ const ContactPage = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  rows="4"
+                  rows={4}
                   className="w-full px-4 py-3 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-300"
                   required
                 />
