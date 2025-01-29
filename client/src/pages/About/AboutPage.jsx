@@ -16,8 +16,6 @@ limitations under the License.
 */
 
 import React from "react";
-
-import Footer from "../../shared/Footer/Footer";
 import "./css/AboutPage.css";
 import HeroSection from "./components/HeroSection";
 import StatSection from "./components/StatSection";

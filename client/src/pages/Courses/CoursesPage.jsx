@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Search, Clock, ArrowRight, GraduationCap } from 'lucide-react';
-import courses from './utils/courses';
-import categories from './utils/categories';
-import Footer from '../../shared/Footer/Footer';
+import courses from './utils/courses.ts';
+import categories from './utils/categories.ts';
 import ServiceLayout from '../../layout/ServiceLayout';
 
 const CoursesPage = () => {

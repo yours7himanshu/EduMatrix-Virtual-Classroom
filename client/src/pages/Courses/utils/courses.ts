@@ -15,9 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+interface Course{
+
+  name:string;
+  fullName:string;
+  duration:string;
+  specializations:string[]
+
+}
 
 
-const courses = [
+interface Category {
+  id:number;
+  category:string;
+  courses:Course[]
+}
+
+
+const courses : Category[] = [
     {
       id: 1,
       category: 'Engineering',

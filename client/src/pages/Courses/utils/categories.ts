@@ -1,4 +1,3 @@
-
 /*
 
 Copyright 2024 Himanshu Dinkar
@@ -17,21 +16,19 @@ limitations under the License.
 */
 
 
-import { 
-    
-    Users, 
-    BookOpen, 
-    Building, 
-    GraduationCap,
-    
-  } from 'lucide-react';
 
-const Stats = [
-    { number: "10K+", label: "Students Enrolled", icon: <Users className="w-6 h-6 text-purple-200" /> },
-    { number: "500+", label: "Expert Teachers", icon: <GraduationCap className="w-6 h-6 text-purple-200" /> },
-    { number: "100+", label: "Courses", icon: <BookOpen className="w-6 h-6 text-purple-200" /> },
-    { number: "50+", label: "Partner Institutions", icon: <Building className="w-6 h-6 text-purple-200" /> }
+
+
+const categories : string[] = [
+    'All',
+    'Engineering',
+    'Management',
+    'Medical & Pharmacy',
+    'Science & Technology',
+    'Arts & Humanities',
+    'Law',
+    'Commerce'
   ];
 
 
-  export default Stats
+  export default categories;

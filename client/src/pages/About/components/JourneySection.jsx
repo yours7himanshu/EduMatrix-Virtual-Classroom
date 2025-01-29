@@ -1,5 +1,5 @@
 import React from 'react';
-import milestones from "../utils/milestones";
+import milestones from "../utils/milestones.ts";
 
 const JourneySection = () => {
   return (

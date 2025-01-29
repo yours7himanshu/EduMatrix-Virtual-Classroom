@@ -15,24 +15,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
+import React,{ReactNode} from 'react';
 
 import { 
-  Award, 
-  Users, 
-  Globe, 
-  BookOpen, 
-  Building, 
-  GraduationCap,
+  
   Video,
   ClipboardCheck,
   HelpCircle,
-  LineChart,
-  MessageCircle,
-  Calendar
+  
 } from 'lucide-react';
 
-const Services = [
+
+interface serviceType{
+  title:string;
+  description:string;
+  features:string[];
+  icon:ReactNode;
+}
+
+const Services : serviceType[] = [
     {
       title: "Live Interactive Classes",
       description: "Engage in real-time with expert instructors through our interactive virtual classrooms. Experience dynamic learning with live discussions and instant doubt resolution.",

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, ChevronDown } from 'lucide-react';
-import Footer from '../../shared/Footer/Footer';
-import faqData from './faqData.js';
+
+import faqData from './faqData.ts';
 import ServiceLayout from '../../layout/ServiceLayout.jsx';
 
 const FAQItem = ({ question, answer }) => {

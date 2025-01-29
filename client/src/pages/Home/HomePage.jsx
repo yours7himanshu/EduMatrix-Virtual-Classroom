@@ -10,7 +10,7 @@ import ServiceLayout from "../../layout/ServiceLayout";
 
 import CardUtils from "./utils/CardUtils";
 import CardComponent from "./components/CardComponent";
-import testimonials from "./utils/testimonial";
+import testimonials from "./utils/testimonial.ts";
 import { TestimonialCard } from "./components/TestimonialCard";
 const HomePage = () => {
   useEffect(() => {
@@ -129,6 +129,7 @@ const HomePage = () => {
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {testimonials.map((testimonial, index) => (
+          
           <TestimonialCard
             key={index}
             quote={testimonial.quote}

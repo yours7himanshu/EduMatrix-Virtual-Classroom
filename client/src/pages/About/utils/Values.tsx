@@ -15,26 +15,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
+import React,{ReactNode} from 'react';
 
 import { 
     Award, 
     Users, 
     Globe, 
-    BookOpen, 
-    Building, 
-    GraduationCap,
-    Video,
-    ClipboardCheck,
-    HelpCircle,
-    LineChart,
-    MessageCircle,
-    Calendar
+    
   } from 'lucide-react';
   
+interface ValueType {
+  title:string;
+  description:string;
+  icon:ReactNode;
+}
 
-
-const Values = [
+const Values : ValueType[] = [
     {
       title: "Excellence in Education",
       description: "We strive to maintain the highest standards in digital education and learning methodologies.",
