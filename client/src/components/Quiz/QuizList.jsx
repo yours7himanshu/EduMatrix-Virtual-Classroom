@@ -29,7 +29,7 @@ const QuizList = () => {
     const fetchQuizzes = async () => {
       try {
         const res = await axios.get('http://localhost:3001/api/quizzes');
-        setQuizzes(res.data);  // Axios response data is directly available in res.data
+        setQuizzes(res.data);  
       } catch (error) {
         toast.error('Failed to fetch quizzes.', {
           

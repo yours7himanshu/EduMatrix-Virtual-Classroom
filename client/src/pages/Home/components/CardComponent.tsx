@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
-const CardComponent = ({title,discription,icon}) => {
+
+interface CardComponentProps{
+  title:string;
+  discription:string;
+  icon:ReactNode;
+}
+
+const CardComponent : React.FC<CardComponentProps> = ({title,discription,icon}) => {
   return (
     <div  data-aos="fade-up"
     data-aos-duration="1000"
@@ -13,4 +20,4 @@ const CardComponent = ({title,discription,icon}) => {
   )
 }
 
-export default CardComponent
+export default CardComponent;

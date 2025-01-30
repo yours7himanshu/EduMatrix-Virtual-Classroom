@@ -16,17 +16,27 @@ limitations under the License.
 
 
 
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useEffect } from 'react';
 import AOS from "aos";
 import services from '../pages/About/utils/Services'
-const Services = () => {
+
+interface serviceType{
+  title:string;
+  description:string;
+  features:string[];
+  icon:ReactNode;
+}
+
+const Services :React.FC = () => {
   useEffect(() => {
       AOS.init();
     }, []);
+
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2    lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
+            {services.map((service :serviceType , index:number) => (
               <div key={index}
               data-aos="fade-right"
               data-aos-duration="1500"
@@ -41,7 +51,7 @@ const Services = () => {
                   {service.description}
                 </p>
                 <ul className="space-y-2">
-                  {service.features.map((feature, featureIndex) => (
+                  {service.features.map((feature , featureIndex : number) => (
                     <li key={featureIndex} className="flex items-center text-gray-400">
                       <span className="w-1.5 h-1.5 bg-gray-300 rounded-full mr-2"></span>
                       {feature}

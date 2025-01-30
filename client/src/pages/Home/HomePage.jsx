@@ -7,9 +7,8 @@ import VideoSection from "./components/VideoSection";
 import DashboardSection from "./components/DashboardSection";
 import "./CSS/HomePage.css";
 import ServiceLayout from "../../layout/ServiceLayout";
-
 import CardUtils from "./utils/CardUtils";
-import CardComponent from "./components/CardComponent";
+import CardComponent from "./components/CardComponent.tsx";
 import testimonials from "./utils/testimonial.ts";
 import { TestimonialCard } from "./components/TestimonialCard";
 const HomePage = () => {
