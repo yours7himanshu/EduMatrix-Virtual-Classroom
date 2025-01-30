@@ -23,7 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import JoinLecture from "./components/JoinLectures.jsx";
-import AboutPage from "./pages/About/AboutPage.jsx";
+import AboutPage from "./pages/About/AboutPage.tsx";
 import ContactPage from "./pages/Contact/ContactPage.tsx";
 import CoursesPage from "./pages/Courses/CoursesPage.jsx";
 import NotesPage from "./pages/Notes/NotesPage.jsx";

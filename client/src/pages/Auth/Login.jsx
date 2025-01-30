@@ -29,7 +29,7 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl=import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const { token, setToken } = useAuth();
   const [errors,setErrors]=useState('');

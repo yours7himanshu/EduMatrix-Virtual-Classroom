@@ -1,7 +1,14 @@
 import React from 'react';
 import milestones from "../utils/milestones.ts";
 
-const JourneySection = () => {
+
+interface Milestone{
+  year:string;
+  event:string;
+}
+
+const JourneySection : React.FC = () => {
+
   return (
     <section className="py-20 bg-gradient-to-b from-indigo-950 to-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -9,7 +16,7 @@ const JourneySection = () => {
           Our Journey
         </h2>
         <div className="max-w-3xl mx-auto">
-          {milestones.map((milestone, index) => (
+          {milestones.map((milestone : Milestone, index : number) => (
             <div key={index} className="flex items-start mb-8 last:mb-0" data-aos="fade-up">
               <div className="flex-shrink-0 w-24">
                 <div className="font-bold text-purple-200">

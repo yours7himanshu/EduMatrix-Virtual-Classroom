@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import values from "../utils/Values";
 
-const MissionSection = () => {
+interface Value {
+
+  title:string;
+  icon:ReactNode;
+  description:string;
+
+}
+
+const MissionSection : React.FC = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-slate-950 to-indigo-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,7 +21,7 @@ const MissionSection = () => {
             To empower educational institutions with cutting-edge technology solutions that enhance learning experiences and improve educational outcomes. We believe in making quality education accessible, engaging, and effective for everyone.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map((value, index) => (
+            {values.map((value : Value, index:number) => (
               <div
                 key={index}
                 className="bg-slate-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:scale-105"

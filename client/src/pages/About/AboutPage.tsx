@@ -25,7 +25,7 @@ import JourneySection from "./components/JourneySection";
 import TeamSection from "./components/TeamSection";
 import ServiceLayout from "../../layout/ServiceLayout";
 
-const AboutPage = () => {
+const AboutPage : React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 to-indigo-950  mt-14 bg-white">
       {/* Previous sections remain unchanged */}

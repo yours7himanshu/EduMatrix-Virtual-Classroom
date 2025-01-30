@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import stats from "../utils/Stats";
 
-const StatSection = () => {
+interface Stat{
+number:string;
+label:string;
+icon:ReactNode
+}
+
+const StatSection : React.FC = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-slate-950 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
+          {stats.map((stat : Stat, index:number) => (
             <div
               key={index}
               className="text-center bg-slate-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:scale-105"

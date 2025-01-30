@@ -1,7 +1,7 @@
 import React from 'react';
 import Services from '../../../constants/Services';
 
-const ServiceSection = () => {
+const ServiceSection : React.FC = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-indigo-950 to-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
