@@ -22,6 +22,8 @@ import SendIcon from '@mui/icons-material/Send';
 import AssistantIcon from '@mui/icons-material/AssistantOutlined';
 import { FaSpinner } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, Brain, Copy, SendHorizontal } from 'lucide-react';
 
 const AiAssistent = () => {
   const [input, setInput] = useState("");
@@ -80,66 +82,106 @@ const AiAssistent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
-            <AssistantIcon className="w-10 h-10 text-blue-600" />
-            Classroom AI Assistant
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header Section */}
+        <motion.div 
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center justify-center p-3 mb-6 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-2xl border border-purple-500/20">
+            <Brain className="w-10 h-10 text-purple-400" />
+          </div>
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-4">
+            AI Classroom Assistant
           </h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Ask me anything about your course material, assignments, or schedule
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+            Your intelligent learning companion. Ask questions about your courses, assignments, or any academic topic.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Response Container - Above Input */}
-        {output && (
-          <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-gray-200 animate-fade-in">
-            <div className="flex items-start gap-3">
-              <AssistantIcon className="w-6 h-6 text-blue-600 mt-1" />
-              <div className="flex-1 min-w-0">
-                <div 
-                  className="text-gray-900 space-y-4"
-                  dangerouslySetInnerHTML={{ __html: formatResponse(output) }}
-                />
-              </div>
-            </div>
-          </div>
-        )}
 
-        {/* Input Form - Fixed at Bottom */}
-        <form onSubmit={handleSubmit} className="sticky bottom-0 bg-gray-50 pt-4 space-y-6">
-          <div className="relative">
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your question here..."
-              className="w-full px-6 py-4 text-gray-900 bg-white rounded-xl shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-200 placeholder-gray-500"
-              rows="3"
-              disabled={loading}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 ${
-              loading ? 'opacity-75 cursor-not-allowed' : ''
-            }`}
-          >
-            {loading ? (
-              <>
-                <FaSpinner className="animate-spin h-5 w-5 mr-2" />
-                Generating Response...
-              </>
-            ) : (
-              <>
-                <SendIcon className="w-5 h-5 mr-2" />
-                Ask Question
-              </>
+        {/* Chat Container */}
+        <div className="bg-slate-800/50 rounded-2xl border border-purple-500/20 backdrop-blur-sm text-gray-200 shadow-2xl mb-8">
+          {/* Response Display */}
+          <AnimatePresence>
+            {output && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="p-6 border-b border-gray-700"
+              >
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                  <div className="flex-grow space-y-4">
+                    <div 
+                      className="prose prose-invert max-w-none"
+                      dangerouslySetInnerHTML={{ __html: formatResponse(output) }}
+                    />
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(output);
+                        toast.success("Response copied to clipboard!");
+                      }}
+                      className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                      <Copy className="w-4 h-4" />
+                      Copy response
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
             )}
-          </button>
-        </form>
+          </AnimatePresence>
+
+          {/* Input Form */}
+          <form onSubmit={handleSubmit} className="p-6">
+            <div className="relative">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask your question here..."
+                className="w-full px-4 py-3 bg-slate-900/50 text-gray-100 rounded-xl
+                  border border-gray-700 focus:border-purple-500 focus:ring-2 
+                  focus:ring-purple-500 focus:ring-opacity-50 transition-all
+                  placeholder-gray-500 resize-none"
+                rows="3"
+                disabled={loading}
+              />
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              type="submit"
+              disabled={loading}
+              className={`mt-4 w-full flex items-center justify-center gap-2 px-6 py-3 
+                rounded-xl font-medium transition-all duration-200
+                ${loading 
+                  ? 'bg-gray-700 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600'
+                }`}
+            >
+              {loading ? (
+                <>
+                  <FaSpinner className="animate-spin w-5 h-5" />
+                  <span>Processing your question...</span>
+                </>
+              ) : (
+                <>
+                  <SendHorizontal className="w-5 h-5" />
+                  <span>Ask Question</span>
+                </>
+              )}
+            </motion.button>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -1,19 +1,37 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const HeroSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-slate-950 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-violet-500 mb-6">
-            About EduMatrix
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            We're on a mission to make quality education accessible to everyone through innovative technology and dedicated teaching.
-          </p>
+    <section className="relative   py-32 overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+      >
+        <div className="text-center space-y-4">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r 
+              from-purple-400 via-pink-500 to-violet-500  leading-tight"
+          >
+            Transforming Education Through Technology
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className=" text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed"
+          >
+            Building the future of learning with innovative virtual classrooms and AI-powered education.
+          </motion.p>
+         
         </div>
-      </div>
+      </motion.div>
     </section>
+    
   );
 };
 

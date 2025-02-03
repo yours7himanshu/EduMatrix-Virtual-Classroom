@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import milestones from "../utils/milestones.ts";
 
 
@@ -7,29 +8,47 @@ interface Milestone{
   event:string;
 }
 
-const JourneySection : React.FC = () => {
-
+const JourneySection: React.FC = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-indigo-950 to-slate-950">
+    <section className="py-32 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-violet-600 mb-12 text-center">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-5xl font-bold text-center bg-clip-text text-transparent 
+            bg-gradient-to-r from-purple-400 via-pink-500 to-violet-500 mb-16"
+        >
           Our Journey
-        </h2>
-        <div className="max-w-3xl mx-auto">
+        </motion.h2>
+
+        <div className="max-w-4xl mx-auto">
           {milestones.map((milestone : Milestone, index : number) => (
-            <div key={index} className="flex items-start mb-8 last:mb-0" data-aos="fade-up">
-              <div className="flex-shrink-0 w-24">
-                <div className="font-bold text-purple-200">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.2 }}
+              className="flex items-start mb-12 last:mb-0"
+            >
+              <div className="flex-shrink-0 w-32">
+                <div className="text-2xl font-bold bg-clip-text text-transparent 
+                  bg-gradient-to-r from-purple-400 to-pink-400">
                   {milestone.year}
                 </div>
               </div>
-              <div className="flex-grow pl-8 border-l-2 border-indigo-900 relative">
-                <div className="absolute -left-2.5 top-0 w-5 h-5 bg-indigo-900 rounded-full border-2 border-purple-400"></div>
-                <div className="bg-indigo-900 text-gray-300 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  {milestone.event}
-                </div>
+              <div className="flex-grow pl-8 border-l-2 border-purple-500/30 relative">
+                <div className="absolute -left-[9px] top-[10px] w-4 h-4 bg-purple-500 rounded-full 
+                  shadow-lg shadow-purple-500/50"></div>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="bg-gradient-to-br from-purple-500/10 to-violet-500/10 
+                    backdrop-blur-sm border border-purple-500/10 p-6 rounded-xl 
+                    shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+                >
+                  <p className="text-gray-300 text-lg">{milestone.event}</p>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

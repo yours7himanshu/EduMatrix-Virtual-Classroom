@@ -1,29 +1,63 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
-const TeamSection : React.FC = () => {
+const teamMembers = [
+  {
+    name: 'John Doe',
+    role: 'CEO & Founder',
+    image: '/path-to-image.jpg',
+    social: {
+      linkedin: '#',
+      twitter: '#'
+    }
+  },
+  // ...add more team members
+];
+
+const TeamSection: React.FC = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-indigo-950 to-slate-950">
+    <section className="py-32 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-violet-600 mb-6">
-            Our Team
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-5xl font-bold bg-clip-text text-transparent 
+            bg-gradient-to-r from-purple-400 via-pink-500 to-violet-500 mb-6">
+            Meet Our Team
           </h2>
-          <p className="text-lg text-gray-300 mb-12 max-w-3xl mx-auto">
-            We're a dedicated team of educators, technologists, and innovators working together to transform education.
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Passionate educators and innovators dedicated to transforming the future of education
           </p>
-        </div>
-        {/* Placeholder for team members */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((_, index:number) => (
-            <div
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {teamMembers.map((member, index) => (
+            <motion.div
               key={index}
-              className="bg-slate-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:scale-105"
-              data-aos="fade-up"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2 }}
+              className="group"
             >
-              <div className="w-24 h-24 bg-gray-700 rounded-full mx-auto mb-4"></div>
-              <h3 className="text-xl font-semibold text-gray-200 mb-2">Team Member {index + 1}</h3>
-              <p className="text-gray-400">Role</p>
-            </div>
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-purple-500/10 to-violet-500/10
+                backdrop-blur-sm border border-purple-500/10 p-8 hover:shadow-2xl
+                transition-all duration-300 hover:scale-105"
+              >
+                {/* Member content */}
+                <div className="relative z-10">
+                  <div className="w-32 h-32 mx-auto mb-6 overflow-hidden rounded-full 
+                    border-4 border-purple-500/30 group-hover:border-purple-500 transition-colors">
+                    <img src="/images/myImage.jpeg" alt="" className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-white mb-2">Himanshu Dinkar</h3>
+                  <p className="text-purple-400 mb-4">{member.role}</p>
+                  {/* Add social links */}
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

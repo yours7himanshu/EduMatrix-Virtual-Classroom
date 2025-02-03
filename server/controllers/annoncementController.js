@@ -21,42 +21,67 @@ const announcement = async (req, res) => {
     const { category, course, branch, description } = req.body;
 
     try {
-        const postAnnouncement = await Announcement.create({
+        // Input validation
+        if (!category || !course || !branch || !description) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required",
+                details: {
+                    category: !category ? "Category is required" : null,
+                    course: !course ? "Course is required" : null,
+                    branch: !branch ? "Branch is required" : null,
+                    description: !description ? "Description is required" : null
+                }
+            });
+        }
 
+        const postAnnouncement = await Announcement.create({
             category,
             course,
             branch,
-            description
+            description,
+            createdAt: new Date(),
+            lastModified: new Date()
         });
 
         return res.status(201).json({
             success: true,
-            postAnnouncement,
-            message: "Announcement Successfully posted"
+            data: postAnnouncement,
+            message: "Announcement successfully posted",
+            timestamp: new Date()
         });
     } catch (error) {
+        console.error('Announcement creation error:', error);
         return res.status(500).json({
             success: false,
-            message: "Error Posting the Announcement"
+            message: "Error posting the announcement",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };
 
 const displayAnnouncement = async (req, res) => { 
     try {
-        const getAnnouncement = await Announcement.find(); 
+        const getAnnouncement = await Announcement.find()
+            .sort({ createdAt: -1 })
+            .select('-__v')
+            .lean();
 
         return res.status(200).json({
             success: true,
-            getAnnouncement,
-            message: "Announcement Successfully displayed"
+            count: getAnnouncement.length,
+            data: getAnnouncement,
+            message: "Announcements successfully retrieved",
+            timestamp: new Date()
         });
     } catch (error) {
+        console.error('Announcement retrieval error:', error);
         return res.status(500).json({
             success: false,
-            message: "Some error occurred"
+            message: "Error retrieving announcements",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };
 
-module.exports = { announcement, displayAnnouncement }; 
+module.exports = { announcement, displayAnnouncement };

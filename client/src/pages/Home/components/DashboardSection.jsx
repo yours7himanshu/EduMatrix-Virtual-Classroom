@@ -15,44 +15,79 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import React from 'react'
-import '../CSS/HomePage.css'
+import React from 'react';
+import { motion } from 'framer-motion';
+import '../CSS/HomePage.css';
+
+const features = [
+  // { icon: "💎", text: "Role based Admin features" },
+  { icon: "💎", text: "Add teachers and students in your Virtual College" },
+  { icon: "💎", text: "Upload Assignment and Quizes for your Students" },
+  { icon: "💎", text: "Manage your College Timetable and Announcements" },
+  { icon: "💎", text: "View and Download your College Reports" },
+  { icon: "💎", text: "Go Live feature for teaching your Students" }
+];
 
 const DashboardSection = () => {
   return (
-    <section  id="project-video"
-    className="py-10  px-6  max-md:h-auto rounded-md  relative shadow-md bg-gray-950 " >
-        <div className="container  max-md:h-auto  mx-auto flex max-md:flex-col gap-8 max-md:gap-6  max-md:justify-start h-screen p-20 max-md:p-0 w-full justify-center items-center ">
+    <section className="py-20 px-6 bg-gradient-to-b from-gray-950 to-slate-900 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="grid lg:grid-cols-2 gap-16 items-center"
+        >
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            className="relative group"
+          >
+            <div className="absolute inset-0 h-full bg-blue-500/30 blur-3xl rounded-3xl group-hover:blur-2xl transition-all duration-300"></div>
+            <img 
+              className='rounded-2xl shadow-2xl relative  z-10 border border-blue-500/20 
+                transform transition-transform duration-500 group-hover:scale-[1.02]'
+              src="/images/dashboard.png" 
+              alt="Admin Dashboard" 
+            />
+          </motion.div>
 
-        <div className="right-portion relative h-screen max-md:h-auto w-[100%] max-md:w-full flex max-md:items-start items-center  justify-center  ">
-        
-
-                <img className='rounded-md max-md:w-full w-[100%] max-md:h-auto max-md:ml-0 ml-11 h-[50%]  ' src="/images/dashboard.png" alt="" />
-        
-            </div>
-
-            <div className=" max-md:w-full  relative gap-8 flex max-md:mx-2 flex-col max-md:justify-start justify-center mx-4 w-[90%] ">
-                <h1 className='text-gray-200  w-full max-md:text-3xl max-md:w-full font-semibold text-4xl mx-3' > Interactive Admin Dashboard for College Faculty </h1>
-                <ul className='text-gray-200 max-md:text-sm w-full max-md:mx-1 gap-4 flex flex-col  text-wrap mx-3' >
-                    <li  > 💎 Role based Admin features</li>
-                    <li  > 💎 Add teachers and students in your Virtual College </li>
-                    <li  > 💎 Upload Assignment and Quizes for your Students </li>
-                    <li  > 💎 Manage your College Timetable and Announcements </li>
-                    <li  > 💎 View and Download your College Reports </li>
-                    <li> 💎 Go Live feature for teaching your Students </li>
-                    {/* <li  > 💎 AI powered Smart Education System </li> */}
-
-                </ul>
-            </div>
+          <motion.div 
+            initial={{ x: 50, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            className="space-y-4"
+          >
+            <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-white'>
+              Interactive Admin Dashboard for College Faculty
+            </h2>
             
-            </div>
-            
-                {/* <img className="absolute top-0 left-[45%]  h-[10%] object-contain max-md:hidden w-full  inset-0" src="/images/pattern6.png" alt="pattern1" />
+            <motion.ul className='space-y-4'>
+              {features.map((feature, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ x: 50, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300"
+                >
+                  <span className="text-md">{feature.icon}</span>
+                  <span className="text-md">{feature.text}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
 
-                <img className="absolute top-0 -left-[45%]  h-[10%] object-contain max-md:hidden w-full  inset-0" src="/images/pattern6.png" alt="pattern1" /> */}
-        
+           
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Background decorations */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+      </div>
     </section>
-  )
-}
+  );
+};
 
-export default DashboardSection
+export default DashboardSection;

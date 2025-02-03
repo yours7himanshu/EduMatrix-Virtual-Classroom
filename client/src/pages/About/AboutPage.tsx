@@ -25,33 +25,34 @@ import JourneySection from "./components/JourneySection";
 import TeamSection from "./components/TeamSection";
 import ServiceLayout from "../../layout/ServiceLayout";
 
-const AboutPage : React.FC = () => {
+const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-indigo-950  mt-14 bg-white">
-      {/* Previous sections remain unchanged */}
-      {/* Hero Section */}
-      <HeroSection />
+    <div className="min-h-screen bg-[#0A0F1C] text-white overflow-hidden">
+      <div className="relative">
+        {/* Background gradient effects */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        </div>
 
-      {/* Stats Section */}
-      <StatSection />
-
-<hr className="outline-none mx-14 border-t-2 border-indigo-900" />
-      {/* New Services Section */}
-      <ServiceSection />
-
-      {/* Mission Section */}
-      <MissionSection />
-
-      {/* Journey Section */}
-      <JourneySection />
-
-      {/* Team Section */}
-
-      <TeamSection />
-      <hr  className="outline-none  border-t-2 border-indigo-900 max-md:mx-11 mx-24" />
-
-      {/* Footer */}
-      {/* <Footer /> */}
+        <div className="relative z-10">
+          <HeroSection />
+          <StatSection />
+          
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent my-16"></div>
+          </div>
+          
+          <ServiceSection />
+          <MissionSection />
+          <JourneySection />
+          <TeamSection />
+          
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent my-16"></div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

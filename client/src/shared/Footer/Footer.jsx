@@ -15,73 +15,147 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import React from 'react'
-import { useLocation } from 'react-router-dom'; // Import useLocation
+import { useLocation } from 'react-router-dom';
 import './Footer.css'
-import { Mail, Phone, MapPin} from 'lucide-react';
+// Fix: Update imports from lucide-react
+import { 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Facebook, 
+  Twitter, 
+  Linkedin, // Changed from LinkedIn to Linkedin
+  Instagram 
+} from 'lucide-react';
+import { motion } from 'framer-motion';
 
+const FooterLink = ({ href, children }) => (
+  <motion.li
+    whileHover={{ x: 5 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    <a 
+      href={href} 
+      className="hover:text-white transition-colors duration-300 flex items-center gap-2"
+    >
+      {children}
+    </a>
+  </motion.li>
+);
 
+const SocialButton = ({ Icon, href }) => (
+  <motion.a
+    whileHover={{ y: -3 }}
+    whileTap={{ scale: 0.95 }}
+    href={href}
+    className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors duration-300"
+  >
+    <Icon className="w-5 h-5" />
+  </motion.a>
+);
 
 const Footer = () => {
-  const location = useLocation(); // Get the current path using useLocation
-  const isContactPage = location.pathname === '/contacti'; // Check if the current path is "/contact"
-  return (
-    <footer className={isContactPage ? 'bg-slate-950 text-white  shadow-xl p-6 hover:shadow-md transition-shadow' :'bg-slate-950 text-gray-400 py-12'}>
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-2 md:grid-cols-4 max-md:gap-24 gap-36">
-        <div>
-          <div className="text-3xl max-md:text-2xl   flex items-center gap-2 font-extrabold">
-                 <img className="rounded-md  h-10" src="/logo/E.png" alt="" />
-                   <Link className='text-white' to="/">EduMatrix</Link>
-                 </div>
-                 <ul className="space-y-2 max-md:w-56 max-md:text-sm ">
-                  <li className="flex items-center mt-4 space-x-2">
-                    <Mail className="w-4  h-4 text-gray-400" />
-                    <span className="text-gray-400 block ">support@edumatrix.com</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <Phone className="w-4  h-4  text-gray-400" />
-                    <span className="text-gray-400 block w-[100%] max-md:w-24">+91639886545</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <MapPin className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-400 max-md:w-[100%]">123 Education Street, Tech Valley</span>
-                  </li>
-                </ul>
-        </div>
-       
-        <div className='max-md:ml-5'>
-          <h3 className="text-white font-semibold max-md:text-sm max-md:mt-3  mb-4">Resources</h3>
-          <ul className="space-y-2 text-sm  ">
-            <li><a href="#" className="hover:text-white ">Documentation</a></li>
-            <li><a href="#" className="hover:text-white">Guides</a></li>
-            <li><a href="#" className="hover:text-white">Support</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-white font-semibold mb-4">Company</h3>
-          <ul className="space-y-2">
-            <li><a href="#" className="hover:text-white">About</a></li>
-            <li><a href="#" className="hover:text-white">Careers</a></li>
-            <li><a href="#" className="hover:text-white">Contact</a></li>
-          </ul>
-        </div>
-        <div className='max-md:ml-5' >
-          <h3 className="text-white font-semibold mb-4">Legal</h3>
-          <ul className="space-y-2">
-            <li><a href="#" className="hover:text-white">Privacy</a></li>
-            <li><a href="#" className="hover:text-white">Terms</a></li>
-            <li><a href="#" className="hover:text-white">Security</a></li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-gray-800 mt-12 pt-8 text-center">
-        <p>&copy; 2024 EduMatrix. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-  )
-}
+  const location = useLocation();
+  const isContactPage = location.pathname === '/contacti';
 
-export default Footer
+  return (
+    <footer className={`relative overflow-hidden ${
+      isContactPage 
+        ? 'bg-gradient-to-b from-slate-900 to-slate-950 text-white shadow-xl' 
+        : 'bg-gradient-to-b from-slate-900 to-slate-950 text-gray-400'
+    } py-16`}>
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+          {/* Brand Section */}
+          <div className="space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-3"
+            >
+              <img className="h-12 w-auto rounded-lg" src="/logo/E.png" alt="EduMatrix Logo" />
+              <Link to="/" className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
+                EduMatrix
+              </Link>
+            </motion.div>
+
+            <ul className="space-y-4">
+              <FooterLink href="mailto:support@edumatrix.com">
+                <Mail className="w-4 h-4" />
+                support@edumatrix.com
+              </FooterLink>
+              <FooterLink href="tel:+91639886545">
+                <Phone className="w-4 h-4" />
+                +91 63988 86545
+              </FooterLink>
+              <FooterLink href="#">
+                <MapPin className="w-4 h-4" />
+                123 Education Street, Tech Valley
+              </FooterLink>
+            </ul>
+
+            {/* Social Links */}
+            <div className="flex gap-4">
+              <SocialButton Icon={Facebook} href="#" />
+              <SocialButton Icon={Twitter} href="#" />
+              <SocialButton Icon={Linkedin} href="#" />
+              <SocialButton Icon={Instagram} href="#" />
+            </div>
+          </div>
+
+          {/* Resources Section */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-6">Resources</h3>
+            <ul className="space-y-3">
+              <FooterLink href="#">Documentation</FooterLink>
+              <FooterLink href="#">Tutorials</FooterLink>
+              <FooterLink href="#">Support Center</FooterLink>
+              <FooterLink href="#">API Reference</FooterLink>
+            </ul>
+          </div>
+
+          {/* Company Section */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-6">Company</h3>
+            <ul className="space-y-3">
+              <FooterLink href="#">About Us</FooterLink>
+              <FooterLink href="#">Careers</FooterLink>
+              <FooterLink href="#">News & Blog</FooterLink>
+              <FooterLink href="#">Contact Us</FooterLink>
+            </ul>
+          </div>
+
+          {/* Legal Section */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-6">Legal</h3>
+            <ul className="space-y-3">
+              <FooterLink href="#">Privacy Policy</FooterLink>
+              <FooterLink href="#">Terms of Service</FooterLink>
+              <FooterLink href="#">Security</FooterLink>
+              <FooterLink href="#">Compliance</FooterLink>
+            </ul>
+          </div>
+        </div>
+
+        {/* Copyright Section */}
+        <div className="mt-16 pt-8 border-t border-gray-800">
+          <div className="text-center text-sm">
+            <p className="text-gray-400">
+              &copy; {new Date().getFullYear()} EduMatrix. All rights reserved.
+            </p>
+            <p className="mt-2 text-gray-500">
+              Empowering Education Through Technology
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

@@ -17,34 +17,72 @@ limitations under the License.
 
 
 import React from "react";
+import { motion } from "framer-motion";
 import '../CSS/HomePage.css'
 
 const VideoSection = () => {
   return (
-    <section
-      id="project-video"
-      className="py-10  relative px-6  p-8 rounded-md  shadow-md bg-gradient-to-b from-indigo-950 to-blue-950  "
-    >
-      <div className="container flex gap-3  max-md:h-auto h-[70%] mx-auto w-full justify-center max-md:flex-col-reverse max-md:w-full max-md:items-center p-16 max-md:p-0 ">
-        <div className="left-portion gap-8 mt-16 max-md:mt-0 flex flex-col justify-center max-md:items-start max-md:w-[100%] w-[60%] ">
-          <h1 className="text-gray-300 text-3xl max-md:mt-8 mx-3 max-md:text-2xl font-semibold max-md:w-full ">
-            {" "}
-            Supported Live Lecture And Live Chatting Features for Students and
-            Teachers{" "}
-          </h1>
-          <p className="text-gray-200 font-light text-md max-md:text-sm max-md:w-full max-md:h-auto h-36 w-[90%] text-wrap mx-3">
-          The platform enables live lecture streaming and interactive live chatting, promoting seamless communication between students and teachers for an enhanced, engaging, and collaborative learning experience in real time.
-          </p>
+    <section className="py-16 relative px-6 rounded-xl shadow-2xl bg-gradient-to-b from-indigo-950 via-blue-950 to-slate-900">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="container mx-auto flex gap-12 items-center max-w-7xl max-md:flex-col-reverse"
+      >
+        <div className="flex-1 space-y-8">
+          <motion.h1 
+            initial={{ x: -50 }}
+            whileInView={{ x: 0 }}
+            className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-white max-md:text-3xl"
+          >
+            Interactive Live Learning Experience
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ x: -50 }}
+            whileInView={{ x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-300 text-lg leading-relaxed"
+          >
+            Engage in real-time with interactive live lectures and dynamic chat features. 
+            Experience seamless communication between students and teachers in our 
+            state-of-the-art virtual classroom environment.
+          </motion.p>
+
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex gap-4"
+          >
+            <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md
+              transition-all duration-300 transform text-sm hover:scale-105">
+              Try Live Class
+            </button>
+            <button className="px-6 py-3 border text-sm border-blue-400 text-blue-400 
+              hover:bg-blue-400/10 rounded-lg transition-all duration-300">
+              Learn More
+            </button>
+          </motion.div>
         </div>
-        <div className="right-portion h-full items-center w-1/2   max-md:w-full flex max-md:items-start max-md:h-1/2  justify-center ">
-          <video
-            className="rounded-lg mt-10 w-[95%] "
-            src="/videos/project.mp4 "
-            autoPlay
-            muted
-          ></video>
-        </div>
-      </div>
+
+        <motion.div 
+          initial={{ scale: 0.8, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          className="flex-1"
+        >
+          <div className="relative">
+            <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full"></div>
+            <video
+              className="rounded-2xl shadow-2xl relative z-10 border border-blue-500/20"
+              src="/videos/project.mp4"
+              autoPlay
+              muted
+              loop
+            />
+          </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
