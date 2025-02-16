@@ -28,6 +28,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import QuizIcon from '@mui/icons-material/Quiz';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import Logo from "./Logo";
 // import Modal from "../components/Model";
 const Sidebar = () => {
  
@@ -53,7 +54,7 @@ const Sidebar = () => {
       {/* Sidebar */}
       <div className="sidebar fixed top-0  left-0 h-screen flex flex-col w-[20%] bg-gradient-to-tr from-indigo-800 to-blue-700 text-white">
         <ul className="flex flex-col ml-10 gap-5">
-          {/* <Logo /> */}
+          <Logo />
           <div className="flex gap-4" >
           <li
             onClick={() => handleNavigation("/dashboard")}
@@ -69,28 +70,7 @@ const Sidebar = () => {
           </div>
 
 
- <li
-            onClick={() => handleNavigation("/add-teachers")}
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/add-teachers")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            Add Teachers
-          </li> 
-         
-  <li
-            onClick={() => handleNavigation("/enroll-students")}
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/enroll-students")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            Enroll Students
-          </li>
-          
+ 
            <li
             onClick={() => handleNavigation("/announcement")}
             className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
@@ -100,7 +80,7 @@ const Sidebar = () => {
             }`}
           >
             <CampaignIcon/>
-            Announcement
+            Announcements
           </li>
          
 
@@ -126,7 +106,7 @@ const Sidebar = () => {
             }`}
           >
             <QuizIcon/>
-            Quiz
+            Quizes
           </li>
          
 
@@ -139,31 +119,23 @@ const Sidebar = () => {
             }`}
           >
             <AssignmentIcon/>
-            Assignment
+            Assignments
           </li>
          
 
           <li
-            onClick={() => handleNavigation("/student-detail")}
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/admin-live")
+            onClick={() => handleNavigation("/ai")}
+            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
+              isActive("/dashboard")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
           >
-            Student Details
+          <DashboardIcon/>
+            AI Assistent
           </li>
 
-          <li
-            onClick={() => handleNavigation("/teachers")}
-            className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/admin-live")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            Teacher Details
-          </li>
+        
 
          <div className="flex items-center gap-4" >
           <li
@@ -175,7 +147,7 @@ const Sidebar = () => {
             }`}
           >
           <LiveTvIcon  />
-            Go Live Class
+            Live Class
           </li>
           </div>
          
