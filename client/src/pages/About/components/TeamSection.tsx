@@ -11,7 +11,7 @@ const teamMembers = [
       twitter: '#'
     }
   },
-  // ...add more team members
+  
 ];
 
 const TeamSection: React.FC = () => {

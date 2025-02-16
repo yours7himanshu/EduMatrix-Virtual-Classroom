@@ -176,7 +176,7 @@ const AiAssistent = () => {
               ) : (
                 <>
                   <SendHorizontal className="w-5 h-5" />
-                  <span>Ask Question</span>
+                  <button type="submit" >Ask a Question</button>
                 </>
               )}
             </motion.button>

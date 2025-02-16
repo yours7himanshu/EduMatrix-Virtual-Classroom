@@ -66,105 +66,121 @@ const Announcement = () => {
   };
 
   return (
-    <>
-      <div className="announcement bg-gray-50 h-screen ml-[10%]  w-[100%] overflow-x-hidden ">
-        <div className="announcement justify-center flex flex-col items-center w-full mt-20  ">
-          <div className="heading flex text-violet-700 border border-gray-100 shadow-lg p-2 rounded-md gap-2">
-            <h1 className=" text-2xl  font-normal items-center flex">
-              Post Announcement for your college
-            </h1>
-            <img className="w-15 h-16 " src={scholar} alt="" />
-          </div>
-          <form
-            className="flex w-[40%] flex-col bg-white  gap-3 mt-5  rounded-md border border-gray-100 shadow-lg p-10"
-            onSubmit={handleSubmit}
-          >
-            <select
-              name="announcement category"
-              value={category}
-              className="p-2 border border-gray-300 rounded-md h-10 text-black"
-              onChange={(e) => setCategory(e.target.value)}
-              id="category"
-            >
-              <option value="chose">Choose Category </option>
-              <option value="Exams">Exams</option>
-              <option value="Timetables">Timetables</option>
-              <option value="Course Schedules">Course Schedules</option>
-              <option value="Results">Results</option>
-              <option value="Cultural and Sports ">Cultural and Sports </option>
-              <option value="Grades">Grades</option>
-              <option value="Academic Calendar">Academic Calendar</option>
-              <option value="Assignments and Deadlines">
-                Assignments and Deadlines
-              </option>
-              <option value="Workshops and Seminars">
-                Workshops and Seminars
-              </option>
-            </select>
-            <select
-              name="studentCourse"
-              id="studentCourse"
-              value={course}
-              onChange={(e) => setCourse(e.target.value)}
-              className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 transition duration-200 "
-              required
-            >
-              <option value="Branch">Choose Course For Announcement</option>
-              <option value="CSE">CSE</option>
-              <option value="CSE AI">CSE AI</option>
-              <option value="CSE IOT">CSE IOT</option>
-              <option value="CSE DATASCIENCE">CSE DATASCIENCE</option>
-              <option value="Mechanical Engineering">
-                Mechanical Engineering
-              </option>
-              <option value="Chemical Engineering">Chemical Engineering</option>
-              <option value="Electronics Engineering">
-                Electronics Engineering
-              </option>
-            </select>
-
-            <input
-              type="text"
-              placeholder="Title"
-              value={branch}
-              onChange={(e) => {
-                setBranch(e.target.value);
-              }}
-              className="border border-gray-300 h-10 p-2 focus:outline-none  rounded-md focus:ring-1 focus:ring-blue-600 transition duration-200"
-            />
-
-            <textarea
-              name="description"
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
-              className="border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-600 transition duration-200 rounded-md"
-              placeholder="Enter Announcement Description"
-              rows="4"
-              cols="50"
-            ></textarea>
-
-            <div className="button flex gap-2  justify-center">
-              <button
-                className="bg-green-600 hover:bg-green-500 w-[50%] flex gap-2 items-center justify-center text-white h-10 rounded-md"
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? "Posting" : "Post"}
-                <SendIcon sx={{ height: "18px" }} />
-              </button>
-              <button
-                onClick={handleClick}
-                className="bg-blue-600 hover:bg-blue-500 p-2 w-[50%] rounded-md text-white "
-              >
-                Clear
-              </button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-4xl ">
+        <div className="flex flex-col items-center justify-center">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-4 ml-36 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100">
+              <h1 className="text-3xl font-semibold text-violet-700">
+                Post College Announcement
+              </h1>
+              <img className="w-16 h-16 object-contain" src={scholar} alt="Scholar icon" />
             </div>
-          </form>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-xl border ml-64 border-gray-100 p-8 w-full">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-4">
+                <select
+                  name="announcement category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                >
+                  <option value="chose">Choose Category </option>
+                  <option value="Exams">Exams</option>
+                  <option value="Timetables">Timetables</option>
+                  <option value="Course Schedules">Course Schedules</option>
+                  <option value="Results">Results</option>
+                  <option value="Cultural and Sports ">Cultural and Sports </option>
+                  <option value="Grades">Grades</option>
+                  <option value="Academic Calendar">Academic Calendar</option>
+                  <option value="Assignments and Deadlines">
+                    Assignments and Deadlines
+                  </option>
+                  <option value="Workshops and Seminars">
+                    Workshops and Seminars
+                  </option>
+                </select>
+
+                <select
+                  name="studentCourse"
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  required
+                >
+                  <option value="Branch">Choose Course For Announcement</option>
+                  <option value="CSE">CSE</option>
+                  <option value="CSE AI">CSE AI</option>
+                  <option value="CSE IOT">CSE IOT</option>
+                  <option value="CSE DATASCIENCE">CSE DATASCIENCE</option>
+                  <option value="Mechanical Engineering">
+                    Mechanical Engineering
+                  </option>
+                  <option value="Chemical Engineering">Chemical Engineering</option>
+                  <option value="Electronics Engineering">
+                    Electronics Engineering
+                  </option>
+                </select>
+
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={branch}
+                  onChange={(e) => {
+                    setBranch(e.target.value);
+                  }}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                />
+
+                <textarea
+                  name="description"
+                  value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                  placeholder="Enter Announcement Description"
+                  rows="6"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 resize-none"
+                ></textarea>
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white py-3 px-6 rounded-lg font-medium hover:from-green-500 hover:to-green-400 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-70"
+                >
+                  {loading ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                      </svg>
+                      Posting...
+                    </span>
+                  ) : (
+                    <>
+                      Post Announcement
+                      <SendIcon sx={{ height: "20px" }} />
+                    </>
+                  )}
+                </button>
+                
+                <button
+                  onClick={handleClick}
+                  type="button"
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 px-6 rounded-lg font-medium hover:from-blue-500 hover:to-blue-400 transition-all duration-200"
+                >
+                  Clear Form
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

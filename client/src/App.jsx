@@ -35,7 +35,7 @@ import MainLoginPage from "./pages/Auth/MainLoginPage.jsx";
 
 import Announcement from "./components/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
-import AiAssistent from "./components/AI Powered Assistant/AiAssistent.jsx";
+import AiAssistent from "./Student Dashboard/AI Powered Assistant/AiAssistent.jsx";
 import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx";
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
