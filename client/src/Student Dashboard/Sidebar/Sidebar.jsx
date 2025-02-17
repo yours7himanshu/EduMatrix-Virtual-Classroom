@@ -16,7 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {  useState } from "react";
 import {  useLocation, useNavigate } from "react-router-dom";
 // import { ContextStore } from "../store/ContextStore";
 
@@ -57,9 +56,9 @@ const Sidebar = () => {
           <Logo />
           <div className="flex gap-4" >
           <li
-            onClick={() => handleNavigation("/dashboard")}
+            onClick={() => handleNavigation("/StudentDashboard/dashboard")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
-              isActive("/dashboard")
+              isActive("/StudentDashboard/dashboard")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
@@ -72,9 +71,9 @@ const Sidebar = () => {
 
  
            <li
-            onClick={() => handleNavigation("/announcement")}
+            onClick={() => handleNavigation("/StudentDashboard/announcement")}
             className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/announcement")
+              isActive("/StudentDashboard/announcement")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
@@ -98,9 +97,9 @@ const Sidebar = () => {
          
 
         <li
-            onClick={() => handleNavigation("/post-quiz")}
+            onClick={() => handleNavigation("/StudentDashboard/quiz")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/post-quiz")
+              isActive("/StudentDashboard/quiz")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
@@ -126,7 +125,7 @@ const Sidebar = () => {
           <li
             onClick={() => handleNavigation("/ai")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
-              isActive("/dashboard")
+              isActive("/ai")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}

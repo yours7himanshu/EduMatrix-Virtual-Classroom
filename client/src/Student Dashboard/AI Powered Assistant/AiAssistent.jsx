@@ -18,12 +18,11 @@ limitations under the License.
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import SendIcon from '@mui/icons-material/Send';
-import AssistantIcon from '@mui/icons-material/AssistantOutlined';
 import { FaSpinner } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Brain, Copy, SendHorizontal } from 'lucide-react';
+import Layout from "../Layout/Layout";
 
 const AiAssistent = () => {
   const [input, setInput] = useState("");
@@ -82,7 +81,7 @@ const AiAssistent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-b flex flex-col items-center ml-72 w-full from-blue-50 via-white to-blue-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <motion.div 
@@ -90,20 +89,19 @@ const AiAssistent = () => {
           animate={{ y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center p-3 mb-6 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-2xl border border-purple-500/20">
-            <Brain className="w-10 h-10 text-purple-400" />
+          <div className="inline-flex items-center justify-center p-3 mb-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl border border-blue-200">
+            <Brain className="w-10 h-10 text-blue-600" />
           </div>
-          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-4">
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
             AI Classroom Assistant
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <p className="text-gray-600 text-sm max-w-2xl mx-auto">
             Your intelligent learning companion. Ask questions about your courses, assignments, or any academic topic.
           </p>
         </motion.div>
 
-
         {/* Chat Container */}
-        <div className="bg-slate-800/50 rounded-2xl border border-purple-500/20 backdrop-blur-sm text-gray-200 shadow-2xl mb-8">
+        <div className="bg-white rounded-2xl border border-blue-100 shadow-lg mb-8">
           {/* Response Display */}
           <AnimatePresence>
             {output && (
@@ -111,17 +109,17 @@ const AiAssistent = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="p-6 border-b border-gray-700"
+                className="p-6 border-b border-gray-100"
               >
                 <div className="flex gap-4">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
                       <Sparkles className="w-4 h-4 text-white" />
                     </div>
                   </div>
                   <div className="flex-grow space-y-4">
                     <div 
-                      className="prose prose-invert max-w-none"
+                      className="prose max-w-none text-gray-700"
                       dangerouslySetInnerHTML={{ __html: formatResponse(output) }}
                     />
                     <button
@@ -129,7 +127,7 @@ const AiAssistent = () => {
                         navigator.clipboard.writeText(output);
                         toast.success("Response copied to clipboard!");
                       }}
-                      className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                      className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600 transition-colors"
                     >
                       <Copy className="w-4 h-4" />
                       Copy response
@@ -147,10 +145,10 @@ const AiAssistent = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask your question here..."
-                className="w-full px-4 py-3 bg-slate-900/50 text-gray-100 rounded-xl
-                  border border-gray-700 focus:border-purple-500 focus:ring-2 
-                  focus:ring-purple-500 focus:ring-opacity-50 transition-all
-                  placeholder-gray-500 resize-none"
+                className="w-full px-4 py-3 outline-none bg-gray-50 text-gray-900 rounded-xl
+                  border border-gray-200 focus:border-blue-500 focus:ring-2 
+                  focus:ring-blue-500 focus:ring-opacity-50 transition-all
+                  placeholder-gray-400 resize-none"
                 rows="3"
                 disabled={loading}
               />
@@ -162,10 +160,10 @@ const AiAssistent = () => {
               type="submit"
               disabled={loading}
               className={`mt-4 w-full flex items-center justify-center gap-2 px-6 py-3 
-                rounded-xl font-medium transition-all duration-200
+                rounded-xl font-medium text-white transition-all duration-200
                 ${loading 
-                  ? 'bg-gray-700 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600'
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
                 }`}
             >
               {loading ? (
@@ -176,7 +174,7 @@ const AiAssistent = () => {
               ) : (
                 <>
                   <SendHorizontal className="w-5 h-5" />
-                  <button type="submit" >Ask a Question</button>
+                  <span>Ask a Question</span>
                 </>
               )}
             </motion.button>
@@ -187,4 +185,4 @@ const AiAssistent = () => {
   );
 };
 
-export default AiAssistent;
+export default Layout()(AiAssistent);

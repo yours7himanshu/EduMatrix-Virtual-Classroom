@@ -19,6 +19,8 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
+import Layout from '../Layout/Layout';
+
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -98,10 +100,10 @@ const QuizList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen flex w-full flex-wrap justify-center ml-48 bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">Available Quizzes</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <h1 className="text-4xl font-bold text-center text-indigo-900 ml-20 mb-8">Available Quizzes</h1>
+        <div className="grid grid-cols-1 w-full ml-12 p-4 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {quizzes.map((quiz) => (
             <div
               key={quiz._id}
@@ -170,4 +172,4 @@ const QuizList = () => {
   );
 };
 
-export default QuizList;
+export default Layout()(QuizList);

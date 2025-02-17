@@ -17,32 +17,43 @@ limitations under the License.
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Layout from "../Layout/Layout";
 
 function Announcement() {
   const [announcement, setAnnouncement] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchAnnouncement = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/v3/displayAnnouncement`);
+        const response = await axios.get(`${backendUrl}/api/v3/displayAnnouncement`,{
+          signal:controller.signal,
+        });
         if (response.data.success) {
           console.log(response.data.getAnnouncement);
           setAnnouncement(response.data.getAnnouncement);
         }
       } catch (error) {
-        console.log("Error fetching Announcement", error);
+        if(error.response?.data?.message){
+          console.log(error.response.data.message);
+        }
       }
     };
     fetchAnnouncement();
-  }, []);
+
+    // writing a clean up function
+    return ()=>{
+      controller.abort();
+    };
+  }, [backendUrl]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br w-full ml-72 from-gray-50 to-blue-100 p-8">
       <h1 className="text-4xl font-bold text-center text-blue-700 mb-10">
         College Announcements
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+     {announcement ? ( <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {announcement.map((value, index) => (
           <div
             key={index}
@@ -66,9 +77,15 @@ function Announcement() {
             </div>
           </div>
         ))}
-      </div>
+      </div>):(
+        <div className="flex ml-72 rounded-md justify-center w-[50%] px-2 py-3 border border-red-500 text-red-600" >
+
+       There is no announcement to show currently
+
+        </div>
+      )}
     </div>
   );
 }
 
-export default Announcement;
+export default Layout()(Announcement)

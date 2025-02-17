@@ -69,8 +69,8 @@ const Announcement = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-4xl ">
         <div className="flex flex-col items-center justify-center">
-          <div className="text-center mb-4">
-            <div className="inline-flex items-center gap-4 ml-56 bg-white px-6 py-2 rounded-xl shadow-md border border-violet-100">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-4 ml-36 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100">
               <h1 className="text-3xl font-semibold text-violet-700">
                 Post College Announcement
               </h1>
@@ -85,7 +85,7 @@ const Announcement = () => {
                   name="announcement category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
                 >
                   <option value="chose">Choose Category </option>
                   <option value="Exams">Exams</option>
@@ -107,7 +107,7 @@ const Announcement = () => {
                   name="studentCourse"
                   value={course}
                   onChange={(e) => setCourse(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
                   required
                 >
                   <option value="Branch">Choose Course For Announcement</option>
@@ -131,7 +131,7 @@ const Announcement = () => {
                   onChange={(e) => {
                     setBranch(e.target.value);
                   }}
-                  className="w-full outline-none p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
                 />
 
                 <textarea
@@ -142,7 +142,7 @@ const Announcement = () => {
                   }}
                   placeholder="Enter Announcement Description"
                   rows="6"
-                  className="w-full p-3 outline-none border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 resize-none"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 resize-none"
                 ></textarea>
               </div>
 

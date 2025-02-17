@@ -50,7 +50,7 @@ function Login () {
       setToken(userToken);
       localStorage.setItem('token',userToken);
       toast.success("Login Successfully");
-      navigate('/')
+      navigate('/Student/Dashboard')
 
     }
     }
@@ -73,7 +73,7 @@ function Login () {
   }
 useEffect(()=>{
   if(token){
-    navigate('/');
+    navigate('/StudentDashboard/dashboard');
   }
 },[token,navigate]);
   return (
