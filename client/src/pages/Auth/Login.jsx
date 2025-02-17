@@ -15,138 +15,154 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import React from 'react';
-import axios from 'axios';
-import { useState, useEffect } from 'react'
-import { useAuth } from '../../context/AuthContext';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { FaSpinner } from 'react-icons/fa';
+import { motion } from "framer-motion";
+import { User, Lock, ArrowRight } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
-
-
-
-function Login () {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const backendUrl=import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const { token, setToken } = useAuth();
-  const [errors,setErrors]=useState('');
-  const [loading,setLoading]=useState(false);
+  const [errors, setErrors] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    try{
-    const response = await axios.post(`${backendUrl}/api/v1/login`,{
-      email,
-      password
-    });
-    
-    if(response.data.success){
-      const userToken  = response.data.token;
-      setToken(userToken);
-      localStorage.setItem('token',userToken);
-      toast.success("Login Successfully");
-      navigate('/Student/Dashboard')
+    try {
+      const response = await axios.post(`${backendUrl}/api/v1/login`, {
+        email,
+        password
+      });
 
-    }
-    }
-    catch(error){
-     if(error.response?.data?.message){
-      setErrors(error.response.data.message);
-      toast.error(error.response.data.message);
-      console.log(error.response.data.message);
-     }
-     else{
-      setErrors("Some unexpected error has occured");
-      toast.error("Some unexpected error has occured");
-     }
-    
-    }
-    finally{
+      if (response.data.success) {
+        const userToken = response.data.token;
+        setToken(userToken);
+        localStorage.setItem('token', userToken);
+        toast.success("Login Successfully");
+        navigate('/Student/Dashboard'); // Ensure this path matches your route configuration
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setErrors(error.response.data.message);
+        toast.error(error.response.data.message);
+        console.log(error.response.data.message);
+      } else {
+        setErrors("Some unexpected error has occured");
+        toast.error("Some unexpected error has occured");
+      }
+    } finally {
       setLoading(false);
     }
-  
   }
-useEffect(()=>{
-  if(token){
-    navigate('/StudentDashboard/dashboard');
-  }
-},[token,navigate]);
+
+  useEffect(() => {
+    if (token) {
+      navigate('/Student/Dashboard'); // Update this path to match the handleSubmit navigation
+    }
+  }, [token, navigate]);
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
-      <div className="max-w-md w-full space-y-4">
-        
-         {errors && <p className="border border-red-700 flex items-center justify-center p-3 h-[8%] w-full text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium" > {errors} </p> }
-        <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-          <h1 className="text-3xl font-semibold text-center mb-8">
-            Student Portal Login
-          </h1>
-
-         
-          <form onSubmit={handleSubmit} className="space-y-4">
-          
-            <div className="relative">
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded text-sm focus:outline-none focus:border-gray-400"
-                placeholder="College ID or Email"
-              />
-            </div>
-
-           
-            <div className="relative">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded text-sm focus:outline-none focus:border-gray-400"
-                placeholder="Password"
-              />
-            </div>
-
-           
-            <button
-            disabled={loading}
-              type="submit"
-              className="w-full bg-blue-500  text-white py-2 rounded font-medium hover:bg-blue-600"
-            >
-              {loading ? "Logging to your account...": "login"}
-            </button>
-
-
-            <div className="flex items-center my-4">
-              <div className="flex-1 border-t border-gray-300"></div>
-              <span className="px-4 text-sm text-gray-500">OR</span>
-              <div className="flex-1 border-t border-gray-300"></div>
-            </div>
-
-  
-            <div className="text-center">
-              <a href="#" className="text-sm text-blue-900">
-                Forgot password?
-              </a>
-            </div>
-          </form>
-        </div>
-
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          <p className="text-sm text-center">
-            Don not have an account?{' '}
-            <Link to="/signup" className="text-blue-500 font-semibold">
-              Sign up
-            </Link>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            Welcome Back!
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Sign in to continue your learning journey
           </p>
-        </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="bg-white p-8 rounded-2xl shadow-xl border border-blue-100"
+        >
+          {errors && <p className="border border-red-700 flex items-center justify-center p-3 h-[8%] w-full text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium" > {errors} </p> }
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="space-y-4">
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  required
+                />
+              </div>
+
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label className="ml-2 block text-sm text-gray-600">Remember me</label>
+              </div>
+              <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-500">
+                Forgot password?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-70"
+            >
+              {loading ? (
+                <FaSpinner className="animate-spin h-5 w-5" />
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight className="h-5 w-5" />
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-gray-600">
+              Don't have an account?{' '}
+              <span  className="text-red-400 block text-sm mt-1 hover:text-red-500 font-medium">
+               Ask your college admin to create an account for you
+              </span>
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
 
