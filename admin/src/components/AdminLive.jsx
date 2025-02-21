@@ -42,7 +42,7 @@ const AdminLive = () => {
       video: true,
     });
     setMyStream(stream);
-    sendStream(stream); // Automatically send stream on joining
+    sendStream(stream); 
   }, [setMyStream, sendStream]);
 
   const handleNewUserJoined = useCallback(
@@ -54,6 +54,7 @@ const AdminLive = () => {
       setRemoteEmailId(emailId);
     },
     [createOffer, socket]
+   
   );
 
   const handleIncommingCall = useCallback(

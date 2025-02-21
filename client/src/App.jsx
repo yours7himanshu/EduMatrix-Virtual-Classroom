@@ -37,6 +37,7 @@ import Announcement from "./Student Dashboard/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
 import AiAssistent from "./Student Dashboard/AI Powered Assistant/AiAssistent.jsx";
 import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx";
+import GenAITesting from "./components/genAITesting.jsx";
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
 function App() {
@@ -49,6 +50,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage/>} />
+        <Route path="/genAI" element={<GenAITesting/>} />
+
         <Route path="/signup" element={<Signup />} />
         <Route path="/liveLecture" element={<JoinLecture />} />
         <Route path="/aboutUs" element={<AboutPage/>} />

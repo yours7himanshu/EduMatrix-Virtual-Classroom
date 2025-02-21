@@ -30,7 +30,7 @@ import {
   export const PeerProvider = (props) => {
     const [remoteStream, setRemoteStream] = useState(null);
   
-  
+  // setting up new connection
     const peer = useMemo(
       () =>
         new RTCPeerConnection({
@@ -51,7 +51,8 @@ import {
       await peer.setLocalDescription(offer);
       return offer;
     };
-  
+    
+  // accepting offer
     const createAnswer = async (offer) => {
       await peer.setRemoteDescription(offer);
       const answer = await peer.createAnswer();
