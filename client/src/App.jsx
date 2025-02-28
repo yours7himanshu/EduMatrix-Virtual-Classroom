@@ -29,7 +29,7 @@ import CoursesPage from "./pages/Courses/CoursesPage.jsx";
 import NotesPage from "./pages/Notes/NotesPage.jsx";
 import SyllabusPage from "./pages/Syllabus/SyllabusPage.jsx";
 import QuizList from "./Student Dashboard/Quiz/QuizList.jsx";
-import Login  from "./pages/Auth/Login.jsx"
+import Login from "./pages/Auth/Login.jsx";
 import { PeerProvider } from "./providers/Peer.jsx";
 import MainLoginPage from "./pages/Auth/MainLoginPage.jsx";
 
@@ -37,7 +37,7 @@ import Announcement from "./Student Dashboard/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
 import AiAssistent from "./Student Dashboard/AI Powered Assistant/AiAssistent.jsx";
 import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx";
-import GenAITesting from "./components/genAITesting.jsx";
+
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
 function App() {
@@ -45,28 +45,31 @@ function App() {
     <>
       {/* <Navbar /> */}
 
-      <ToastContainer/>
+      <ToastContainer />
       <PeerProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-      <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/genAI" element={<GenAITesting/>} />
-
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/liveLecture" element={<JoinLecture />} />
-        <Route path="/aboutUs" element={<AboutPage/>} />
-        <Route path="/contact" element={<ContactPage/>} />
-        <Route path="/courses" element={<CoursesPage/>} />
-        <Route path="/notes" element={<NotesPage/>} />
-        <Route path="/syllabus" element={<SyllabusPage/>} />
-        <Route path="/StudentDashboard/quiz" element={<QuizList/>} />
-        <Route path="/login" element={<Login/>} />
-<Route path="/ai" element={<AiAssistent/>}/>
-        <Route path="/MainLogin" element={<MainLoginPage/>}/>
-        <Route path="/StudentDashboard/dashboard" element={<StudentDashboard/>}/>
-        <Route path="/StudentDashboard/announcement"element={<Announcement/>}/>
-
-      </Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/liveLecture" element={<JoinLecture />} />
+          <Route path="/aboutUs" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/notes" element={<NotesPage />} />
+          <Route path="/syllabus" element={<SyllabusPage />} />
+          <Route path="/StudentDashboard/quiz" element={<QuizList />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/ai" element={<AiAssistent />} />
+          <Route path="/MainLogin" element={<MainLoginPage />} />
+          <Route
+            path="/StudentDashboard/dashboard"
+            element={<StudentDashboard />}
+          />
+          <Route
+            path="/StudentDashboard/announcement"
+            element={<Announcement />}
+          />
+        </Routes>
       </PeerProvider>
     </>
   );
