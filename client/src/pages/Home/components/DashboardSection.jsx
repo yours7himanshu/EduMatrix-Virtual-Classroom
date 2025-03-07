@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
+import classroomImage from '../../../assets/classroomImage.jpg';
 import React from 'react';
 import { motion } from 'framer-motion';
 import '../CSS/HomePage.css';
@@ -30,8 +30,8 @@ const features = [
 
 const DashboardSection = () => {
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-gray-950 to-slate-900 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20 px-6 flex items-center justify-center bg-gradient-to-b min-h-screen from-gray-950 to-slate-900 relative overflow-hidden ">
+      <div className="max-w-7xl mx-auto flex items-center justify-center">
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -45,9 +45,9 @@ const DashboardSection = () => {
           >
             <div className="absolute inset-0 h-full bg-blue-500/30 blur-3xl rounded-3xl group-hover:blur-2xl transition-all duration-300"></div>
             <img 
-              className='rounded-2xl shadow-2xl relative  z-10 border border-blue-500/20 
+              className='rounded-2xl shadow-2xl relative h-[450px] object-cover w-[100%] z-10 border border-blue-500/20 
                 transform transition-transform duration-500 group-hover:scale-[1.02]'
-              src="/images/dashboard.png" 
+              src={classroomImage} 
               alt="Admin Dashboard" 
             />
           </motion.div>
@@ -57,11 +57,11 @@ const DashboardSection = () => {
             whileInView={{ x: 0, opacity: 1 }}
             className="space-y-4"
           >
-            <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-white'>
+            <h2 className='text-7xl mb-6 font-bold text-blue-200'>
               Interactive Admin Dashboard for College Faculty
             </h2>
             
-            <motion.ul className='space-y-4'>
+            <motion.ul className='space-y-2 text-sm'>
               {features.map((feature, index) => (
                 <motion.li
                   key={index}

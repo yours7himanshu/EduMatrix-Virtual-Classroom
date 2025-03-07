@@ -12,11 +12,14 @@ import CardComponent from "./components/CardComponent.tsx";
 import testimonials from "./utils/testimonial.ts";
 import { TestimonialCard } from "./components/TestimonialCard";
 import gallery4 from "../../assets/gallery4.png";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   useEffect(() => {
     AOS.init();
   }, []);
+
+  const navigate = useNavigate();
 
   return (
     <div className="relative bg-gradient-to-b from-slate-950 to-indigo-950 w-full overflow-x-hidden">
@@ -32,7 +35,7 @@ const HomePage = () => {
             <span
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="p-1 px-3 border text-purple-200 shadow-purple-700/60 border-purple-400 rounded-3xl text-sm shadow-lg transition-all duration-300 hover:bg-purple-500/10"
+              className="p-1 px-3 border text-purple-200 shadow-purple-700/40 border-purple-400 rounded-3xl text-sm shadow-lg transition-all duration-300 hover:bg-purple-500/10"
             >
               Revolutionizing Digital Education
             </span>
@@ -60,10 +63,12 @@ const HomePage = () => {
               <Buttons
                 className="px-8 outline-none border-none h-13 bg-zinc-300 text-indigo-950 rounded-md font-medium shadow-md hover:bg-gray-100 hover:scale-105 transition-transform duration-300"
                 title="Start Demo"
+                onClick={()=>navigate('#video')}
               />
               <Buttons
                 className="px-8 py-4 h-15 outline-none border-none bg-violet-500 text-white rounded-md shadow-md hover:bg-violet-600 hover:scale-105 transition-transform duration-300"
                 title="Get Started"
+                onClick={()=>navigate('/MainLogin')}
               />
             </div>
             <div className="flex hero-section-image relative border max-md:w-screen max-md:hidden max-md:h-48 h-[332px] overflow-y-hidden outline-none border-gray-600 w-[90%] justify-center items-start">
@@ -93,7 +98,7 @@ const HomePage = () => {
 
       <section className="py-20 px-32 max-md:px-4 min-h-[70vh]  bg-indigo-950">
         <div className="container mx-auto">
-          <h3 className="text-5xl max-md:text-3xl font-bold text-center text-gray-200 mb-10 font-sans">
+          <h3 className="text-5xl max-md:text-3xl font-bold text-center text-gray-200  mb-10 font-sans">
             Explore Our Features
           </h3>
 
@@ -116,7 +121,7 @@ const HomePage = () => {
       </section>
 
       {/* video section for my hero section */}
-      <section className="py-20 px-32 max-md:px-4 min-h-[90vh] bg-gradient-to-b from-slate-950 to-indigo-950 ">
+      <section id="video" className="py-20 px-32 max-md:px-4 min-h-[90vh] bg-gradient-to-b from-slate-950 to-indigo-950 ">
         <VideoSection />
       </section>
 

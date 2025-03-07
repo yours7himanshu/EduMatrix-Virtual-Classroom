@@ -18,9 +18,9 @@ limitations under the License.
 import React from "react";
 import clsx from 'clsx'
 
-const Buttons = ( {title,className} ) => {
+const Buttons = ( {title,className,onClick} ) => {
   return (
-    <button className={clsx(className )} >
+    <button onClick={onClick} className={clsx(className )} >
       {title}
     </button>
   );
