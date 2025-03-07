@@ -11,6 +11,8 @@ import CardUtils from "./utils/CardUtils";
 import CardComponent from "./components/CardComponent.tsx";
 import testimonials from "./utils/testimonial.ts";
 import { TestimonialCard } from "./components/TestimonialCard";
+import gallery4 from "../../assets/gallery4.png";
+
 const HomePage = () => {
   useEffect(() => {
     AOS.init();
@@ -39,11 +41,8 @@ const HomePage = () => {
               data-aos-duration="1500"
               className="text-6xl font-semibold z-30 max-lg:w-full max-md:w-screen leading-[107%] mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center max-lg:text-4xl max-md:text-3xl max-lg:font-bold text-gray-300"
             >
-              
-              Empowering Interactive and Seamless Virtual Learning{" "}
-             
-              through EduMatrix{" "}
-              
+              Empowering Interactive and Seamless Virtual Learning through
+              EduMatrix{" "}
             </h1>
             <p
               data-aos="fade-down"
@@ -81,7 +80,7 @@ const HomePage = () => {
       {/* Features Section */}
       <section
         id="features"
-        className="py-20 px-32 max-md:px-4 min-h-[90vh] bg-gradient-to-b from-black mt-[10%]  rounded-md shadow-md"
+        className="py-20 px-32 max-md:px-4 min-h-[100vh] bg-gradient-to-b from-black mt-[10%]  rounded-md shadow-md"
       >
         <div className="container mt-3 mx-auto">
           <h3 className="text-5xl max-md:text-3xl max-md:mb-10 font-bold text-center text-gray-200 mb-16">
@@ -92,52 +91,55 @@ const HomePage = () => {
       </section>
 
 
-      <section className="py-20 px-32 max-md:px-4 min-h-[70vh] bg-gradient-to-b from-indigo-950 ">
+      <section className="py-20 px-32 max-md:px-4 min-h-[70vh]  bg-indigo-950">
         <div className="container mx-auto">
-          <h3 className="text-5xl max-md:text-3xl font-bold text-center text-gray-200 mb-16">
+          <h3 className="text-5xl max-md:text-3xl font-bold text-center text-gray-200 mb-10 font-sans">
             Explore Our Features
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-           
-           {CardUtils.map((props)=>(
-           <CardComponent{...props} />
-           ))}
-            
+
+          <div className="flex gap-5 justify-center items-center">
+            <div className="flex flex-col gap-3 cursor-pointer">
+              {CardUtils.map((props) => (
+                <CardComponent {...props} />
+              ))}
+            </div>
+
+            <div className="image-part ">
+              <img
+                className="h-[450px]  rounded-lg shadow-lg"
+                src={gallery4}
+                alt="image of a student"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-     
-
-    {/* video section for my hero section */}
+      {/* video section for my hero section */}
       <section className="py-20 px-32 max-md:px-4 min-h-[90vh] bg-gradient-to-b from-slate-950 to-indigo-950 ">
         <VideoSection />
       </section>
 
-
-     
-    
       {/* Dashboard Section */}
       <DashboardSection />
 
-     {/* My review section of the website */}
+      {/* My review section of the website */}
       <section className="py-20 px-32 max-md:px-4 min-h-[90vh]  bg-indigo-950">
-    <div className="container mt-12 mx-auto">
-      <h3 className="text-5xl max-md:text-3xl font-bold text-center text-gray-200 mb-16">
-        What Our Users Say
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {testimonials.map((testimonial, index) => (
-          
-          <TestimonialCard
-            key={index}
-            quote={testimonial.quote}
-            author={testimonial.author}
-          />
-        ))}
-      </div>
-    </div>
-  </section>
+        <div className="container mt-12 mx-auto">
+          <h3 className="text-5xl max-md:text-3xl font-bold text-center text-gray-200 mb-16">
+            What Our Users Say
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard
+                key={index}
+                quote={testimonial.quote}
+                author={testimonial.author}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
