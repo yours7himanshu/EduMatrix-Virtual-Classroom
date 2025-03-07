@@ -18,7 +18,7 @@ limitations under the License.
 import { Link } from 'react-router-dom'
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import './Footer.css'
+
 // Fix: Update imports from lucide-react
 import { 
   Mail, 
@@ -79,7 +79,7 @@ const Footer = () => {
               className="flex items-center gap-3"
             >
               <img className="h-12 w-auto rounded-lg" src="/logo/E.png" alt="EduMatrix Logo" />
-              <Link to="/" className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
+              <Link to="/" className="text-3xl font-bold text-gray-300 ">
                 EduMatrix
               </Link>
             </motion.div>

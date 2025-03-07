@@ -22,7 +22,7 @@ import '../CSS/HomePage.css'
 
 const VideoSection = () => {
   return (
-    <section className="py-16 relative px-6 rounded-xl shadow-2xl bg-gradient-to-b from-indigo-950 via-blue-950 to-slate-900">
+    <section className="py-28 relative h-[100%] p-4 flex items-center  px-14 rounded-xl shadow-2xl  bg-indigo-950 ">
       <motion.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -42,7 +42,7 @@ const VideoSection = () => {
             initial={{ x: -50 }}
             whileInView={{ x: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-gray-300 text-lg leading-relaxed"
+            className="text-gray-300 text-sm leading-relaxed"
           >
             Engage in real-time with interactive live lectures and dynamic chat features. 
             Experience seamless communication between students and teachers in our 
@@ -55,11 +55,11 @@ const VideoSection = () => {
             transition={{ delay: 0.4 }}
             className="flex gap-4"
           >
-            <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md
+            <button className="px-6 py-3 bg-gray-300 text-black font-medium rounded-md
               transition-all duration-300 transform text-sm hover:scale-105">
-              Try Live Class
+               Live Class
             </button>
-            <button className="px-6 py-3 border text-sm border-blue-400 text-blue-400 
+            <button className="px-6 py-3 border text-sm border-gray-300 text-gray-300 
               hover:bg-blue-400/10 rounded-lg transition-all duration-300">
               Learn More
             </button>

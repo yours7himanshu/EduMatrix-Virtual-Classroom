@@ -121,7 +121,7 @@ const HomePage = () => {
       </section>
 
       {/* video section for my hero section */}
-      <section id="video" className="py-20 px-32 max-md:px-4 min-h-[90vh] bg-gradient-to-b from-slate-950 to-indigo-950 ">
+      <section id="video" className="py-20 px-32  flex items-center max-md:px-4 min-h-screen bg-gradient-to-b from-slate-950 to-indigo-950 ">
         <VideoSection />
       </section>
 
