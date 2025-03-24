@@ -1,9 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, ChevronDown } from 'lucide-react';
-
+import axios from 'axios'
 import faqData from './faqData.ts';
 import ServiceLayout from '../../layout/ServiceLayout.jsx';
+import {toast} from 'react-toastify'
 
 interface FAQItemProps{
   question:string;
@@ -12,6 +13,7 @@ interface FAQItemProps{
 
 const FAQItem = ({ question, answer } : FAQItemProps ) => {
   const [isOpen, setIsOpen] = useState <boolean> (false);
+  
 
   return (
     <div className="border-b border-gray-700 py-6">
@@ -34,29 +36,45 @@ const FAQItem = ({ question, answer } : FAQItemProps ) => {
 };
 
 interface formDataState{
-  name:string;
+  fullName:string;
   email:string;
-  subject:string;
-  message:string;
+  description:string;
 }
 
 const ContactPage = () => {
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [formData, setFormData] = useState<formDataState>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    fullName:'',
+    email:'',
+    description:'',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    try{
+      const response = await axios.post(`${backendURL}/api/feedback`,formData);
+      if(response.data.success){
+        toast.success(response.data.message);
+      
+      }
+    }catch(error){
+      console.log("Some error occured on sending feedback to the admin",error);
+      if(error.response?.data?.message){
+        toast.error(error.response.data.message);
+      }
+
+      else{
+        toast.error("Internal Server Error")
+      }
+    }
   };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+     
+
     });
   };
 
@@ -146,8 +164,8 @@ const ContactPage = () => {
                 <input
                   type="text"
                   id="name"
-                  name="name"
-                  value={formData.name}
+                  name="fullName"
+                  value={formData.fullName}
                   onChange={handleChange}
                   className="w-full px-4 py-3 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-300"
                   required
@@ -175,8 +193,8 @@ const ContactPage = () => {
                 </label>
                 <textarea
                   id="message"
-                  name="message"
-                  value={formData.message}
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
                   rows={4}
                   className="w-full px-4 py-3 bg-slate-800 text-gray-200 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-300"
