@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const axios = require('axios');
+
 const {GoogleGenerativeAI} = require('@google/generative-ai')
 const aiAssistent = async (req, res) => {
     const { input } = req.body;

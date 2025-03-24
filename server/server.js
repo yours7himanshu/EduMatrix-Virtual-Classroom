@@ -35,6 +35,7 @@ const connectCloudinary = require('./config/cloudinary');
 const cookieParser = require('cookie-parser');
 const socketService = require('./middlewares/socketService');
 const localAIRoutes = require('./routes/aiRoutes');
+const feedbackRouter = require('./routes/feedbackRoute');
 // Initialize Express app and setup middlewares
 const app = express();
 connectDb(); // Connect database
@@ -70,6 +71,9 @@ app.use('/api/v5', studentRoutes);
 app.use('/api', quizRoutes);
 app.use('/api/v7', assignmentRoutes);
 app.use("/api/ai", localAIRoutes);
+app.use('/api',feedbackRouter);
+
+
 // Health check route
 app.get('/', (req, res) => {
   res.send('Welcome to my Server');
