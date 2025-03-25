@@ -4,6 +4,13 @@ import { Search, Clock, ArrowRight, GraduationCap } from 'lucide-react';
 import courses from './utils/courses.ts';
 import categories from './utils/categories.ts';
 import ServiceLayout from '../../layout/ServiceLayout.jsx';
+import degree from '../../assets/degree.png';
+import degree2 from '../../assets/degree2.jpg';
+import degree3 from '../../assets/degree3.jpg';
+import degree4 from '../../assets/degree4.jpg';
+
+import './CoursesPage.css'
+
 
 const CoursesPage:React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,18 +33,30 @@ const CoursesPage:React.FC = () => {
       {/* Hero Section */}
       <div className="pt-24 pb-4 mt-10 px-6 ">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-7xl decoration-from-font font-extrabold text-gray-300 mt-2 mb-4">
-            Professional Degree Programs
+          <h1 className="text-7xl decoration-from-font font-extrabold text-gray-300 mt-2 ">
+            Professional Degree 
           </h1>
-          <p className="text-sm text-gray-300">
+          <span className='text-7xl decoration-from-font font-extrabold text-gray-300 block mb-5' >Programs</span>
+          {/* <p className="text-lg text-gray-300">
             Shape your future with our comprehensive range of professional courses
-          </p>
+          </p> */}
+          <div className='flex justify-center' >
+          <div className='w-[80%] flex justify-center items-center' >
+          <img className='h-60 image-left' src={degree} alt="education degree" />
+          <img className='h-60 ' src={degree2} alt="education degree" />
+          <img className='h-60 ' src={degree4} alt="education degree" />
+          <img className='h-60 image-right ' src={degree3} alt="education degree" />
+
+
+          </div>
+          </div>
+        
         </div>
       </div>
 
       {/* Search and Filter Section */}
-      <div className="max-w-7xl mx-auto px-6 mb-16">
-        <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl shadow-2xl p-8">
+      <div className="max-w-7xl mx-auto px-6 flex justify-center mb-16">
+        <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl w-[88%] shadow-2xl p-8">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
