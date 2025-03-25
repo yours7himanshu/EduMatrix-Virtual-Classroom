@@ -66,7 +66,7 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      navigate('/Student/Dashboard'); // Update this path to match the handleSubmit navigation
+      navigate('/StudentDashboard/dashboard'); 
     }
   }, [token, navigate]);
 
