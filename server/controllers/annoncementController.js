@@ -63,23 +63,20 @@ const announcement = async (req, res) => {
 const displayAnnouncement = async (req, res) => { 
     try {
         const getAnnouncement = await Announcement.find()
-            .sort({ createdAt: -1 })
-            .select('-__v')
-            .lean();
+            
 
         return res.status(200).json({
             success: true,
-            count: getAnnouncement.length,
-            data: getAnnouncement,
+            getAnnouncement,
             message: "Announcements successfully retrieved",
-            timestamp: new Date()
+            
         });
     } catch (error) {
         console.error('Announcement retrieval error:', error);
         return res.status(500).json({
             success: false,
             message: "Error retrieving announcements",
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        
         });
     }
 };

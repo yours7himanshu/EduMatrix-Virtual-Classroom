@@ -81,7 +81,7 @@ const AiAssistent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b flex flex-col items-center ml-72 w-full from-blue-50 via-white to-blue-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-b flex flex-col items-center w-[80%]  from-blue-50 via-white to-blue-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <motion.div 

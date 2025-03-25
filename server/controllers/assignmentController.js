@@ -52,7 +52,7 @@ const postAssignment = async (req, res) => {
 // code for getting the assignment in the student server
 const getAssignment = async (req, res) => {
   try {
-    const studentAssignment = await Assignment.find({});
+    const studentAssignment = await Assignment.find();
 
     if (!studentAssignment) {
       return res.status(404).json({

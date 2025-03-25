@@ -138,7 +138,7 @@ const Announcement = () => {
                   name="description"
                   value={description}
                   onChange={(e) => {
-                    setDescription(e.target.value);
+                    setDescription(`${e.target.value}`);
                   }}
                   placeholder="Enter Announcement Description"
                   rows="6"
