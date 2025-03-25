@@ -37,6 +37,7 @@ import Announcement from "./Student Dashboard/Announcement/Announcement.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
 import AiAssistent from "./Student Dashboard/AI Powered Assistant/AiAssistent.jsx";
 import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx";
+import Assignment from "./Student Dashboard/Assignments/Assignment.tsx";
 
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
@@ -68,6 +69,10 @@ function App() {
           <Route
             path="/StudentDashboard/announcement"
             element={<Announcement />}
+          />
+          <Route
+            path="/StudentDashboard/assignment"
+            element={<Assignment />}
           />
         </Routes>
       </PeerProvider>

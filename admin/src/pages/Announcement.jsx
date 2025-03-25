@@ -69,9 +69,9 @@ const Announcement = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-4xl ">
         <div className="flex flex-col items-center justify-center">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-4 ml-36 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100">
-              <h1 className="text-3xl font-semibold text-violet-700">
+          <div className="text-center mb-5">
+            <div className="inline-flex  justify-center items-center gap-4 ml-56 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100">
+              <h1 className="text-3xl  font-semibold text-violet-700">
                 Post College Announcement
               </h1>
               <img className="w-16 h-16 object-contain" src={scholar} alt="Scholar icon" />

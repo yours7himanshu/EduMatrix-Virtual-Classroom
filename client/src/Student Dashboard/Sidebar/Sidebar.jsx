@@ -110,7 +110,7 @@ const Sidebar = () => {
          
 
           <li
-            onClick={() => handleNavigation("/post-assignment")}
+            onClick={() => handleNavigation("/StudentDashboard/assignment")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/post-assignment")
                 ? "bg-white text-black border rounded-md"
