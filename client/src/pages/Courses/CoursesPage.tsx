@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import React from 'react';
 import { Search, Clock, ArrowRight, GraduationCap } from 'lucide-react';
 import courses from './utils/courses.ts';
 import categories from './utils/categories.ts';
-import ServiceLayout from '../../layout/ServiceLayout';
+import ServiceLayout from '../../layout/ServiceLayout.jsx';
 
-const CoursesPage = () => {
+const CoursesPage:React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -23,9 +24,9 @@ const CoursesPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 to-indigo-950">
       {/* Hero Section */}
-      <div className="pt-24 pb-16 px-6 ">
+      <div className="pt-24 pb-4 mt-10 px-6 ">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-violet-600 mt-2 mb-4">
+          <h1 className="text-7xl decoration-from-font font-extrabold text-gray-300 mt-2 mb-4">
             Professional Degree Programs
           </h1>
           <p className="text-sm text-gray-300">

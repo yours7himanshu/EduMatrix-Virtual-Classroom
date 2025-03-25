@@ -25,7 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 import JoinLecture from "./components/JoinLectures.jsx";
 import AboutPage from "./pages/About/AboutPage.tsx";
 import ContactPage from "./pages/Contact/ContactPage.tsx";
-import CoursesPage from "./pages/Courses/CoursesPage.jsx";
+import CoursesPage from "./pages/Courses/CoursesPage.tsx";
 import NotesPage from "./pages/Notes/NotesPage.jsx";
 import SyllabusPage from "./pages/Syllabus/SyllabusPage.jsx";
 import QuizList from "./Student Dashboard/Quiz/QuizList.jsx";

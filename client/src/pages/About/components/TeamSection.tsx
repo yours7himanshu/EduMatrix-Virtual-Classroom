@@ -24,11 +24,10 @@ const TeamSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-bold bg-clip-text text-transparent 
-            bg-gradient-to-r from-purple-400 via-pink-500 to-violet-500 mb-6">
+          <h2 className="text-5xl font-bold text-gray-300 mb-6">
             Meet Our Team
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Passionate educators and innovators dedicated to transforming the future of education
           </p>
         </motion.div>

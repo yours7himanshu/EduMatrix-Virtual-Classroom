@@ -15,8 +15,7 @@ const JourneySection: React.FC = () => {
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-5xl font-bold text-center bg-clip-text text-transparent 
-            bg-gradient-to-r from-purple-400 via-pink-500 to-violet-500 mb-16"
+          className="text-5xl font-bold text-center text-gray-300 mb-16"
         >
           Our Journey
         </motion.h2>

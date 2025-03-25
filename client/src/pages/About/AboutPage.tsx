@@ -24,6 +24,7 @@ import MissionSection from "./components/MissionSection";
 import JourneySection from "./components/JourneySection";
 import TeamSection from "./components/TeamSection";
 import ServiceLayout from "../../layout/ServiceLayout";
+import Hr from "../../constants/Hr";
 
 const AboutPage: React.FC = () => {
   return (
@@ -39,18 +40,18 @@ const AboutPage: React.FC = () => {
           <HeroSection />
           <StatSection />
           
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent my-16"></div>
-          </div>
+          <Hr/>
           
           <ServiceSection />
+          <Hr/>
           <MissionSection />
+          <Hr/>
+
           <JourneySection />
+          <Hr/>
+
           <TeamSection />
-          
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent my-16"></div>
-          </div>
+        
         </div>
       </div>
     </div>
