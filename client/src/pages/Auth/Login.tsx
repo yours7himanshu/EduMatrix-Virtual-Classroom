@@ -25,13 +25,13 @@ import { User, Lock, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const { token, setToken } = useAuth();
-  const [errors, setErrors] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const Login = () => {
         setToken(userToken);
         localStorage.setItem('token', userToken);
         toast.success("Login Successfully");
-        navigate('/Student/Dashboard'); // Ensure this path matches your route configuration
+        navigate('/StudentDashboard/dashboard'); // Ensure this path matches your route configuration
       }
     } catch (error) {
       if (error.response?.data?.message) {
