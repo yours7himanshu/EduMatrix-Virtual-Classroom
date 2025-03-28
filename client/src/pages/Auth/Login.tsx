@@ -24,7 +24,7 @@ import { motion } from "framer-motion";
 import { User, Lock, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const Login = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -33,7 +33,7 @@ const Login = () => {
   const [errors, setErrors] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setLoading(true);
 
