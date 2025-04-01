@@ -101,6 +101,9 @@ const Announcement = () => {
                   <option value="Workshops and Seminars">
                     Workshops and Seminars
                   </option>
+                  <option value="Suggestions">
+                    Suggestions
+                  </option>
                 </select>
 
                 <select
@@ -121,6 +124,9 @@ const Announcement = () => {
                   <option value="Chemical Engineering">Chemical Engineering</option>
                   <option value="Electronics Engineering">
                     Electronics Engineering
+                  </option>
+                  <option value="All">
+                    All
                   </option>
                 </select>
 
