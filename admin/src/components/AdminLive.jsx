@@ -136,12 +136,12 @@ const handleUserLeft = useCallback(({ emailId }) => {
         console.log("Remote track received:", ev.streams);
         
     };
-    peer.addEventListener('track', handleTrack);
+    // peer.addEventListener('track', handleTrack);
 
     return () => {
       peer.removeEventListener('icecandidate', handleIceCandidate);
       peer.removeEventListener('negotiationneeded', handleNegotiationNeeded);
-      peer.removeEventListener('track', handleTrack);
+      // peer.removeEventListener('track', handleTrack);
     };
   }, [peer, handleIceCandidate, handleNegotiationNeeded]); 
 
@@ -174,7 +174,7 @@ socket.on('user-left', handleUserLeft);
       socket.off("call-accepted", handleCallAccepted);
       socket.off("ice-candidate", handleIceCandidateEvent);
       socket.off("renegotiate", handleRenegotiateEvent);
-socket.on('user-left', handleUserLeft);
+socket.off('user-left', handleUserLeft);
     };
    
   }, [socket, peer, handleNewUserJoined, handleIncommingCall, handleCallAccepted, createAnswer, remoteEmailId]);
