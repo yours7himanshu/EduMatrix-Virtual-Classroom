@@ -106,7 +106,7 @@ const CreateQuiz = () => {
             value={quiz.description}
             onChange={(e) => setQuiz({ ...quiz, description: e.target.value })}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 border p-3 focus:border-indigo-500 sm:text-sm"
-            rows={4}
+            rows={100}
             required
           ></textarea>
         </div>
