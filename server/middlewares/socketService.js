@@ -15,15 +15,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 const jwt = require("jsonwebtoken");
 const Message = require("../models/messageModel");
+
+// Helper function to parse cookies
+const parseCookies = (cookieString) => {
+  if (!cookieString) return {};
+  
+  return cookieString.split(';')
+    .map(cookie => cookie.trim().split('='))
+    .reduce((cookies, [key, value]) => {
+      cookies[key] = value;
+      return cookies;
+    }, {});
+};
 
 const socketService = (io) => {
 
   const emailToSocketMapping = new Map();
-const socketToEmailMapping = new Map();
-
+  const socketToEmailMapping = new Map();
 
   io.on("connection", (socket) => {
     console.log(`User Connected : ${socket.id}`);
@@ -33,20 +43,22 @@ const socketToEmailMapping = new Map();
       console.log("Received message:", message);
 
       try {
-        // Extract token from cookies
-        const token = socket.handshake.headers.cookie?.split("=")[1]; // Extract token from cookies
+        // Extract token from cookies properly
+        const cookies = parseCookies(socket.handshake.headers.cookie);
+        const token = cookies.token || cookies['auth-token'] || cookies.jwt;
+        
         if (!token) {
-          console.error("Token is missing in cookies.");
-          return; // Exit early if no token
+          console.error("JWT token not found in cookies.");
+          console.log("Available cookies:", socket.handshake.headers.cookie);
+          socket.emit("messageError", { error: "Authentication failed. No token provided." });
+          return;
         }
 
         console.log("Token from client:", token);
 
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded token:", decoded); // Log the decoded token for debugging
-
-        console.log("Cookies from handshake:", socket.handshake.headers.cookie);
+        console.log("Decoded token:", decoded);
 
         // Save message to the database
         const newMessage = await Message.create({
@@ -64,7 +76,7 @@ const socketToEmailMapping = new Map();
         });
       } catch (error) {
         console.error("Error sending the message:", error);
-        socket.emit("Failed to send message");
+        socket.emit("messageError", { error: "Failed to send message: " + error.message });
       }
     });
 
