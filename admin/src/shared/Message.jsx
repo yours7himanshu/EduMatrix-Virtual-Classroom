@@ -16,89 +16,143 @@ limitations under the License.
 */
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import socket from "../socket";
 import SendIcon from "@mui/icons-material/Send";
-import { TextField, IconButton } from "@mui/material";
+import { TextField, IconButton, Paper, Typography, Divider } from "@mui/material";
 
 const Message = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Socket connected:", socket.id);
     });
 
-    // Listen for receiving the event
     socket.on("receiveMessage", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    // Clean up the socket connection when the component unmounts
     return () => {
       socket.off("connect");
       socket.off("receiveMessage");
     };
   }, []);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const sendMessage = () => {
     if (inputMessage.trim()) {
-      socket.emit("sendMessage", { content: inputMessage }); // Send the message
+      socket.emit("sendMessage", { content: inputMessage });
       setMessages((prevMessages) => [
         ...prevMessages,
         { sender: "You", content: inputMessage, timestamp: new Date() },
-      ]); // Add the sent message to local state
-      setInputMessage(""); // Clear the input field
+      ]);
+      setInputMessage("");
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const formatTime = (timestamp) => {
+    return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
-    <div className="max-w-lg mx-auto p-4 w-[30%] h-[90%] bg-gray-50  rounded-lg">
-      <h1 className="text-2xl font-bold text-center text-red-600 mb-4">Live Chat</h1>
-      <div className="border h-[93%] border-gray-300 rounded-md p-4  overflow-y-scroll ">
+    <Paper elevation={3} className="max-w-lg mx-auto p-4 h-screen w-[30%]  bg-white   flex flex-col">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-3 rounded-t-lg -mt-4 -mx-4 mb-3">
+        <Typography variant="h5" className="font-bold text-center text-white">
+          Live Chat
+        </Typography>
+      </div>
+      
+      <Divider className="mb-3" />
+      
+      <div className="flex-grow border border-gray-200 rounded-md p-3 overflow-y-auto bg-gray-50 custom-scrollbar">
         {messages.length > 0 ? (
           messages.map((msg, index) => (
             <div
               key={index}
-              className={`mb-2 pl-3 pr-3 p-1 rounded-lg max-w-[80%] ${
-                msg.sender === "You"
-                  ? "ml-auto bg-violet-700 text-white text-right"
-                  : "mr-auto p-1  bg-gray-200 text-gray-900 text-left"
+              className={`mb-3 ${
+                msg.sender === "You" ? "flex justify-end" : "flex justify-start"
               }`}
             >
-              <strong className={msg.sender === "You" ? "block text-sm" : "block text-blue-500"}>
-                {msg.sender}
-              </strong>
-              <span>{msg.content}</span>
-              <span className="block text-xs text-gray-200">
-                {new Date(msg.timestamp).toLocaleTimeString()}
-              </span>
+              <div
+                className={`px-3 py-2 text-sm rounded-md max-w-[100%] shadow-sm  ${
+                  msg.sender === "You"
+                    ? "bg-indigo-600 text-white"
+                    : "bg-white border border-gray-200 text-gray-800"
+                }`}
+              >
+                <div className={`text-xs font-medium  ${msg.sender === "You" ? "text-indigo-200" : "text-blue-600"}`}>
+                  {msg.sender}
+                </div>
+                <div className="text-sm">{msg.content}</div>
+                <div className={`text-xs mt-1 text-right ${msg.sender === "You" ? "text-indigo-200" : "text-gray-500"}`}>
+                  {formatTime(msg.timestamp)}
+                </div>
+              </div>
             </div>
           ))
         ) : (
-          <p className="text-gray-500  text-center">No messages yet.</p>
+          <div className="h-full flex items-center justify-center">
+            <Typography variant="body2" className="text-gray-500 italic">
+              No messages yet. Start the conversation!
+            </Typography>
+          </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
-      <div className="flex items-center mt-2 gap-2">
+      
+      <div className="flex items-center mt-3 gap-2 bg-gray-50 p-2 rounded-lg border border-gray-200">
         <TextField
           variant="outlined"
           size="small"
-          className="flex-grow"
+          fullWidth
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Type a message..."
+          className="bg-white rounded-md"
+          sx={{
+            '& fieldset': { borderColor: 'rgb(209, 213, 219)' },
+            '&:hover fieldset': { borderColor: 'rgb(79, 70, 229) !important' }
+          }}
         />
         <IconButton
-          type="submit"
           color="primary"
           onClick={sendMessage}
-          className="focus:outline-none"
+          disabled={!inputMessage.trim()}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white p-2"
+          sx={{ 
+            backgroundColor: 'rgb(79, 70, 229)',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'rgb(67, 56, 202)',
+            },
+            '&.Mui-disabled': {
+              backgroundColor: 'rgb(229, 231, 235)',
+              color: 'rgb(156, 163, 175)'
+            }
+          }}
         >
           <SendIcon />
         </IconButton>
       </div>
-    </div>
+    </Paper>
   );
 };
 

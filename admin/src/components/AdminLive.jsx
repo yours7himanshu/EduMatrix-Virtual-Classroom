@@ -21,6 +21,7 @@ import { useSocket } from "../providers/Socket";
 import { usePeer } from "../providers/Peer";
 
 import Message from '../shared/Message';
+import TabMonitor from "./TabMonitor/TabMonitor";
 
 const AdminLive = () => {
   const { socket } = useSocket();
@@ -117,6 +118,10 @@ const AdminLive = () => {
       socket.off("renegotiate");
     };
   }, [handleNewUserJoined, handleIncommingCall, handleCallAccepted, socket, peer]);
+  
+  useEffect(()=>{
+
+  })
 
   useEffect(() => {
     getUserMediaStream();
@@ -128,6 +133,7 @@ const AdminLive = () => {
         <h2 className="text-xl text-green-600 font-semibold mb-4">
           Admin Live Stream
         </h2>
+        <TabMonitor/>
         <div className="relative w-full h-[60vh] grid grid-cols-2 gap-4">
           <video
             className="w-full h-full rounded-lg border-2 border-green-500 shadow-md"
