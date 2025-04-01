@@ -29,7 +29,7 @@ import CoursesPage from "./pages/Courses/CoursesPage.tsx";
 import NotesPage from "./pages/Notes/NotesPage.jsx";
 import SyllabusPage from "./pages/Syllabus/SyllabusPage.jsx";
 import QuizList from "./Student Dashboard/Quiz/QuizList.jsx";
-import Login from "./pages/Auth/Login.jsx";
+import Login from "./pages/Auth/Login.tsx";
 import { PeerProvider } from "./providers/Peer.jsx";
 import MainLoginPage from "./pages/Auth/MainLoginPage.jsx";
 
@@ -38,6 +38,7 @@ import HomePage from "./pages/Home/HomePage.jsx";
 import AiAssistent from "./Student Dashboard/AI Powered Assistant/AiAssistent.jsx";
 import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx";
 import Assignment from "./Student Dashboard/Assignments/Assignment.tsx";
+import NotFound from "./pages/NotFound/NotFound.jsx";
 
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
@@ -74,6 +75,7 @@ function App() {
             path="/StudentDashboard/assignment"
             element={<Assignment />}
           />
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </PeerProvider>
     </>
