@@ -125,8 +125,8 @@ const Announcement = () => {
                   <option value="Electronics Engineering">
                     Electronics Engineering
                   </option>
-                  <option value="All">
-                    All
+                  <option value="All Departments">
+                    All Departments
                   </option>
                 </select>
 

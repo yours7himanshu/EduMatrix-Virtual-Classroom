@@ -92,12 +92,13 @@ const collegeLogin = async(req,res)=>{
         {expiresIn:"1d"}
        );
 
-       res.cookie("token",token,{
-        httpOnly:true,
-        secure: false,
-        sameSite:"lax"
-        
-       })
+       res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // true in production, false in development
+        sameSite: process.env.NODE_ENV === 'production' ? "none" : "none", // 'none' allows cross-site cookies in production
+        domain: process.env.NODE_ENV === 'production' ? process.env.COOKIE_DOMAIN : undefined, // Set domain in production
+        path: '/' // Ensure cookie is available across your application
+    });
 
        return res.status(200).json({
         success:true,
