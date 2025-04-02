@@ -90,22 +90,7 @@ const AdminLive = () => {
          console.error("Peer connection not available for setting remote answer");
          return;
       }
-            try {
-        await setRemoteAns(ans);
-        console.log("Remote answer set successfully.");
-
-        // ---> TRY SENDING THE STREAM HERE <---
-        if (myStream) {
-          console.log("Attempting to send stream after call accepted...");
-          // Make sure sendStream is available from usePeer()
-          sendStream(myStream);
-          console.log("sendStream called.");
-        } else {
-          console.warn("Cannot send stream: myStream is not ready yet.");
-        }
-    } catch (error) {
-        console.error("Error setting remote answer or sending stream:", error);
-    }
+       await setRemoteAns(ans);
     },
     [setRemoteAns, peer, myStream, sendStream] 
   );
