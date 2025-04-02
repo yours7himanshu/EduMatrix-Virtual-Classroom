@@ -24,6 +24,7 @@ import { TextField, IconButton, Paper, Typography, Divider } from "@mui/material
 const Message = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
+  const [error, setError] = useState("");
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -33,15 +34,22 @@ const Message = () => {
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Socket connected:", socket.id);
+      setError("");
     });
 
     socket.on("receiveMessage", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
+    socket.on("messageError", (errorData) => {
+      console.error("Message error:", errorData);
+      setError(errorData.error || "Error sending message");
+    });
+
     return () => {
       socket.off("connect");
       socket.off("receiveMessage");
+      socket.off("messageError");
     };
   }, []);
 
@@ -80,6 +88,12 @@ const Message = () => {
       </div>
       
       <Divider className="mb-3" />
+      
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-3 text-sm">
+          {error}
+        </div>
+      )}
       
       <div className="flex-grow border border-gray-200 rounded-md p-3 overflow-y-auto bg-gray-50 custom-scrollbar">
         {messages.length > 0 ? (

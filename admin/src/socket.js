@@ -18,11 +18,30 @@ limitations under the License.
 
 import { io } from 'socket.io-client';
 
-// Connect to your backend server
-const socket = io(import.meta.env.VITE_BACKEND_URL,{
-    withCredentials: true, 
-   
+// Get token from localStorage if available
+const getAuthToken = () => {
+  // Try to get from localStorage first
+  return localStorage.getItem('token') || sessionStorage.getItem('token');
+};
 
-  },console.log('connection establised'));
+// Connect to your backend server
+const socket = io(import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001', {
+  withCredentials: true,
+  auth: {
+    token: getAuthToken()
+  },
+  query: {
+    token: getAuthToken()
+  }
+});
+
+// Log connection status
+socket.on('connect', () => {
+  console.log('Socket connected with ID:', socket.id);
+});
+
+socket.on('connect_error', (error) => {
+  console.error('Socket connection error:', error.message);
+});
 
 export default socket;
