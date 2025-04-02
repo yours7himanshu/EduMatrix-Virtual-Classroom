@@ -15,10 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+
 const jwt = require("jsonwebtoken");
 const Message = require("../models/messageModel");
 
-// Helper function to parse cookies
+// Helper function to properly parse cookies
 const parseCookies = (cookieString) => {
   if (!cookieString) return {};
   
@@ -30,31 +31,52 @@ const parseCookies = (cookieString) => {
     }, {});
 };
 
-const socketService = (io) => {
+// Helper function to extract token from multiple sources
+const extractToken = (socket) => {
+  // Try to get from auth object
+  if (socket.handshake.auth && socket.handshake.auth.token) {
+    return socket.handshake.auth.token;
+  }
+  
+  // Try to get from query params
+  if (socket.handshake.query && socket.handshake.query.token) {
+    return socket.handshake.query.token;
+  }
+  
+  // Try to get from cookies
+  if (socket.handshake.headers.cookie) {
+    const cookies = parseCookies(socket.handshake.headers.cookie);
+    return cookies.token || cookies['auth-token'] || cookies.jwt;
+  }
+  
+  return null;
+};
 
+const socketService = (io) => {
   const emailToSocketMapping = new Map();
   const socketToEmailMapping = new Map();
 
   io.on("connection", (socket) => {
     console.log(`User Connected : ${socket.id}`);
+    console.log("Auth object:", socket.handshake.auth);
+    console.log("Query params:", socket.handshake.query);
+    console.log("Cookies:", socket.handshake.headers.cookie);
 
     // Listen for the 'sendMessage' event from the client
     socket.on("sendMessage", async (message) => {
       console.log("Received message:", message);
 
       try {
-        // Extract token from cookies properly
-        const cookies = parseCookies(socket.handshake.headers.cookie);
-        const token = cookies.token || cookies['auth-token'] || cookies.jwt;
+        // Extract token using the helper function
+        const token = extractToken(socket);
         
         if (!token) {
-          console.error("JWT token not found in cookies.");
-          console.log("Available cookies:", socket.handshake.headers.cookie);
-          socket.emit("messageError", { error: "Authentication failed. No token provided." });
+          console.error("No valid authentication token found");
+          socket.emit("messageError", { error: "Authentication failed. No valid token provided." });
           return;
         }
 
-        console.log("Token from client:", token);
+        console.log("Found token:", token);
 
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
