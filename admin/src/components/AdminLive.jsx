@@ -40,15 +40,15 @@ const AdminLive = () => {
       console.log("User media obtained:", stream);
       setMyStream(stream);
 
-      if (peer && stream) {
-          console.log("Sending stream to peer");
-          sendStream(stream);
-      }
+      // if (peer && stream) {
+      //     console.log("Sending stream to peer");
+      //     sendStream(stream);
+      // }
     } catch (err) {
       console.error("Error accessing media devices:", err);
       setAlertMsg("Error: Could not access camera or microphone. Please check permissions.");
     }
-  }, [setMyStream, sendStream, peer]); 
+  }, [setMyStream]); 
 
   // 
 
@@ -90,14 +90,24 @@ const AdminLive = () => {
          console.error("Peer connection not available for setting remote answer");
          return;
       }
-      await setRemoteAns(ans);
-      // Maybe trigger sending the stream *after* call is accepted and connection established
-      // if (myStream) {
-      //     console.log("Resending stream after call accepted");
-      //     sendStream(myStream);
-      // }
+            try {
+        await setRemoteAns(ans);
+        console.log("Remote answer set successfully.");
+
+        // ---> TRY SENDING THE STREAM HERE <---
+        if (myStream) {
+          console.log("Attempting to send stream after call accepted...");
+          // Make sure sendStream is available from usePeer()
+          sendStream(myStream);
+          console.log("sendStream called.");
+        } else {
+          console.warn("Cannot send stream: myStream is not ready yet.");
+        }
+    } catch (error) {
+        console.error("Error setting remote answer or sending stream:", error);
+    }
     },
-    [setRemoteAns, peer] 
+    [setRemoteAns, peer, myStream, sendStream] 
   );
 
   const handleNegotiationNeeded = useCallback(async () => {

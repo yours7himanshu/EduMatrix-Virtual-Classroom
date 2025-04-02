@@ -78,8 +78,20 @@ import {
     
   
     const handleTrackEvent = useCallback((ev) => {
-      console.log("Track event", ev.streams);
-      setRemoteStream(ev.streams[0]);
+      console.log("Track event fired:", ev);
+      if (ev.streams && ev.streams[0]) {
+          console.log("Received remote stream:", ev.streams[0].id, ev.streams[0]);
+          console.log("Tracks on received stream:", ev.streams[0].getTracks());
+          setRemoteStream(ev.streams[0]);
+      } else if (ev.track) {
+           console.warn("Track event received, but no streams array. Track:", ev.track);
+           // Fallback: Sometimes streams array isn't populated immediately
+           // You might need to construct a new MediaStream if necessary
+           // const newStream = new MediaStream([ev.track]);
+           // setRemoteStream(newStream); // Use with caution, might miss other tracks
+      } else {
+          console.error("Track event received without streams or track.");
+      }
     }, []);
   
   
