@@ -40,15 +40,15 @@ const AdminLive = () => {
       console.log("User media obtained:", stream);
       setMyStream(stream);
 
-      // if (peer && stream) {
-      //     console.log("Sending stream to peer");
-      //     sendStream(stream);
-      // }
+      if (peer && stream) {
+          console.log("Sending stream to peer");
+          sendStream(stream);
+      }
     } catch (err) {
       console.error("Error accessing media devices:", err);
       setAlertMsg("Error: Could not access camera or microphone. Please check permissions.");
     }
-  }, [setMyStream]); 
+  }, [setMyStream,sendStream,peer]); 
 
   // 
 
