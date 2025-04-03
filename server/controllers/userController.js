@@ -15,49 +15,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const User = require("../models/userModels");
+const Students = require("../models/studentModels");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const register = async (req, res) => {
-  const { name, username, email, password } = req.body;
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "User already Exists",
-      });
-    }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
-
-    const user = await User.create({
-      name,
-      username,
-      email,
-      password: hashPassword,
-    });
-
-    return res.status(201).json({
-      success: true,
-      user,
-      message: "Account Successfully Created",
-    });
-  } catch (error) {
-    console.log("Some error occurred", error);
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-    });
-  }
-};
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await Students.findOne({ email });
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -95,4 +62,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { register, loginUser };
+module.exports = {  loginUser };

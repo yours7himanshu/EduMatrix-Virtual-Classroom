@@ -20,12 +20,15 @@ import React, { useState, useEffect, useRef } from "react";
 import socket from "../socket";
 import SendIcon from "@mui/icons-material/Send";
 import { TextField, IconButton, Paper, Typography, Divider } from "@mui/material";
+import { div } from "@tensorflow/tfjs";
+import {MessageSquare} from "lucide-react";
 
 const Message = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [error, setError] = useState("");
   const messagesEndRef = useRef(null);
+  const [toggleChat,setToggleChat]=useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -52,6 +55,11 @@ const Message = () => {
       socket.off("messageError");
     };
   }, []);
+
+  const hideChat = (e)=>{
+    e.preventDefault();
+    setToggleChat((prev)=>!prev);
+  }
 
   useEffect(() => {
     scrollToBottom();
@@ -80,10 +88,13 @@ const Message = () => {
   };
 
   return (
-    <Paper elevation={3} className="max-w-lg mx-auto p-4 h-screen w-[30%]  bg-white   flex flex-col">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-3 rounded-t-lg -mt-4 -mx-4 mb-3">
-        <Typography variant="h5" className="font-bold text-center text-white">
+    <div>
+      {toggleChat ? <MessageSquare onClick={hideChat} className="absolute border h-16 w-16 rounded-full p-2 left-[50%] top-[77%] text-white bg-gradient-to-tr from-pink-700 to bg-indigo-600 font-bold cursor-pointer  z-99"/ >: 
+        <Paper elevation={3} className="max-w-lg mx-auto  p-4 h-screen overflow-hidden w-[350px]  bg-white   flex flex-col">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-3  -mt-4 -mx-4 mb-3">
+        <Typography variant="h5" className="font-bold text-center flex justify-between text-white">
           Live Chat
+          <button cl onClick={hideChat} className=" h-10 w-10 rounded-md bg-red-700 border" >x</button>
         </Typography>
       </div>
       
@@ -167,6 +178,8 @@ const Message = () => {
         </IconButton>
       </div>
     </Paper>
+}
+    </div>
   );
 };
 
