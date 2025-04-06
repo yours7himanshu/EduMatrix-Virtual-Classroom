@@ -1,5 +1,4 @@
 /*
-
 Copyright 2024 Himanshu Dinkar
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,3 +13,45 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+import { useContext, createContext, useEffect, useState, useMemo } from "react";
+
+const AuthContext = createContext();
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthContextProvider");
+    }
+    return context;
+};
+
+const AuthContextProvider = ({ children }) => {
+    const [token, setToken] = useState("");
+
+    useEffect(() => {
+        const localToken = localStorage.getItem("token");
+        if (localToken) {
+            setToken(localToken);
+        }
+    }, []);
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        setToken("");
+    };
+
+    const value = useMemo(
+        () => ({
+            token,
+            setToken,
+            isAuthenticated: !!token,
+            logout,
+        }),
+        [token]
+    );
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export default AuthContextProvider;
