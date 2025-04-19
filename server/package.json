@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "For Hackathon of our college",
   "main": "server.js",
-
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
