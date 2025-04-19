@@ -36,6 +36,7 @@ const cookieParser = require('cookie-parser');
 const socketService = require('./middlewares/socketService');
 const localAIRoutes = require('./routes/aiRoutes');
 const feedbackRouter = require('./routes/feedbackRoute');
+const notesUpload = require('./routes/notesUpload');
 
 // Initialize Express app and setup middlewares
 const app = express();
@@ -73,7 +74,7 @@ app.use('/api', quizRoutes);
 app.use('/api/v7', assignmentRoutes);
 app.use("/api/ai", localAIRoutes);
 app.use('/api',feedbackRouter);
-
+app.use('/api',notesUpload);
 
 
 // Health check route

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Upload, FilePlus, FileText, X, CheckCircle2 } from "lucide-react";
-
+import AppLayout from "../layout/AppLayout";
 const NotesUpload = () => {
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -14,6 +14,7 @@ const NotesUpload = () => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setPdfFile(file);
+      console.log("Selected file:", file);
       setFileName(file.name);
     } else {
       toast.error("Please select a valid PDF file");
@@ -56,7 +57,7 @@ const NotesUpload = () => {
       const formData = new FormData();
       formData.append("pdf", pdfFile);
 
-      const response = await axios.post(`${backendUrl}`, formData, {
+      const response = await axios.post(`${backendUrl}/api/notesUpload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -70,6 +71,7 @@ const NotesUpload = () => {
 
       if (response.data.success) {
         toast.success("File uploaded successfully");
+        console.log(response.data.pdfUrl)
         resetFileSelection();
       } else {
         toast.error("Upload failed");
@@ -83,7 +85,7 @@ const NotesUpload = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl flex flex-col  mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">Upload Course Notes</h1>
         <p className="text-gray-600">
@@ -221,4 +223,4 @@ const NotesUpload = () => {
   );
 };
 
-export default NotesUpload;
+export default AppLayout()(NotesUpload);
