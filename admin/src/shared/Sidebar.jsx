@@ -112,6 +112,8 @@ const Sidebar = () => {
         Announcement
       </li>}
 
+      
+
       {userRole === 'Teacher' && <li
         onClick={() => handleNavigation("/timetable")}
         className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
@@ -124,6 +126,17 @@ const Sidebar = () => {
         Time Table
       </li>}
 
+      {userRole === 'Teacher' && <li
+        onClick={() => handleNavigation("/notes-upload")}
+        className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          isActive("/notes-upload")
+            ? "bg-white text-black border rounded-md"
+            : "text-white"
+        }`}
+      >
+        <EventNoteIcon />
+        Notes Upload
+      </li>}
       {userRole === 'Teacher' && <li
         onClick={() => handleNavigation("/post-quiz")}
         className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
