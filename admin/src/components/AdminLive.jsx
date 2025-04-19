@@ -6,7 +6,7 @@ import "@tensorflow/tfjs";
 import Message from "../shared/Message";
 import TabMonitor from "./TabMonitor/TabMonitor";
 import { useNavigate } from "react-router-dom";
-import CallEndIcon from '@mui/icons-material/CallEnd';
+import CallEndIcon from "@mui/icons-material/CallEnd";
 const AdminLive = () => {
   const [alertMsg, setAlertMsg] = useState("");
   const navigate = useNavigate();
@@ -548,8 +548,11 @@ const AdminLive = () => {
             </div>
           )}
         </div>
-        <CallEndIcon style={{height:"60px",width:"60px"}} onClick={handleMeeting} className="relative bottom-20 right-10 bg-red-700 p-2 rounded-full border font-bold cursor-pointer"/>
-         
+        <CallEndIcon
+          style={{ height: "60px", width: "60px" }}
+          onClick={handleMeeting}
+          className="relative bottom-20 right-10 bg-red-700 p-2 rounded-full border font-bold cursor-pointer"
+        />
       </div>
       <Message />
     </div>

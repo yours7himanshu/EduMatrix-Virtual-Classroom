@@ -14,3 +14,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import { createContext, useContext, useMemo, useState, useEffect } from "React";
+
+const AuthContext = createContext();
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("there is useparams in a wrapper");
+  }
+
+  return context;
+};
+
+const AuthContextProvider = ({ children }) => {
+  const [token, settoken] = useState("");
+  useEffect(() => {
+    const userToken = localStorage.getItem("token");
+    settoken(userToken);
+  });
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    settoken("");
+  };
+
+  const value = useMemo(() => ({
+    token,
+    setToken,
+    logout,
+    isAuthenticated: !!token,
+  }));
+};
