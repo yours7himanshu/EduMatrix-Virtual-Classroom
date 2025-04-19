@@ -41,7 +41,7 @@ const app = express();
 connectDb(); // Connect database
 connectCloudinary(); // Initialize Cloudinary
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174","https://virtual-classroom-admin.vercel.app","https://virtual-classroom-application.vercel.app"],
+  origin: ["http://localhost:5173", "http://localhost:5174","http://localhost:8081","https://virtual-classroom-admin.vercel.app","https://virtual-classroom-application.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
@@ -73,13 +73,14 @@ app.use('/api/v7', assignmentRoutes);
 app.use("/api/ai", localAIRoutes);
 app.use('/api',feedbackRouter);
 
-
 // Health check route
 app.get('/', (req, res) => {
   res.send('Welcome to my Server');
 });
 
+
 // Start server
 server.listen(process.env.PORT, () => {
   console.log(`Server is listening on port: ${process.env.PORT}`);
 });
+
