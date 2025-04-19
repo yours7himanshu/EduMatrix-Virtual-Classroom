@@ -42,6 +42,7 @@ const Teachers = lazy(() => import("./components/Teachers/Teachers"));
 const StudentDetail = lazy(() => import("./components/Student/StudentDetail"));
 import { PeerProvider } from "./providers/Peer";
 import { SocketProvider } from "./providers/Socket";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const Loader = () => {
   return (
@@ -79,17 +80,17 @@ function App() {
               <Routes>
                 <Route path="/" element={<AdminLogin />} />
                 <Route path="/sign-up" element={<AdminSignUp />} />
-                <Route path="/teachers" element={<Teachers />} />
-                <Route path="/enroll-students" element={<Students />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/add-teachers" element={<AddTeacher />} />
-                <Route path="/announcement" element={<Announcement />} />
-                <Route path="/timetable" element={<TimeTable />} />
-                <Route path="/admin-live/:roomId" element={<AdminLive />} />
-                <Route path="/post-quiz" element={<CreateQuiz />} />
-                <Route path="/post-assignment" element={<Assignment />} />
-                <Route path="/student-detail" element={<StudentDetail />} />
-                <Route path="/messages" element={<Message />} />
+                <Route path="/teachers" element={<ProtectedRoute element={<Teachers/>} />} />
+                <Route path="/enroll-students" element={<ProtectedRoute element={<Students/>} />} />
+                <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage/>}/>} />
+                <Route path="/add-teachers" element={<ProtectedRoute element={<AddTeacher/>} />} />
+                <Route path="/announcement" element={<ProtectedRoute element={<Announcement/>} />} />
+                <Route path="/timetable" element={<ProtectedRoute element={<TimeTable/>} />} />
+                <Route path="/admin-live/:roomId" element={<ProtectedRoute element={<AdminLive/>} />} />
+                <Route path="/post-quiz" element={<ProtectedRoute element={<CreateQuiz/>} />} />
+                <Route path="/post-assignment" element={<ProtectedRoute element={<Assignment/>} />} />
+                <Route path="/student-detail" element={<ProtectedRoute element={<StudentDetail/>} />} />
+                <Route path="/messages" element={<ProtectedRoute element={<Message/>} />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

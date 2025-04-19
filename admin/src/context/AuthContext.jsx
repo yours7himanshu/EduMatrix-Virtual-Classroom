@@ -19,39 +19,39 @@ import { useContext, createContext, useEffect, useState, useMemo } from "react";
 const AuthContext = createContext();
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthContextProvider");
-  }
-  return context;
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthContextProvider");
+    }
+    return context;
 };
 
 const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState("");
+    const [token, setToken] = useState("");
 
-  useEffect(() => {
-    const localToken = localStorage.getItem("token");
-    if (localToken) {
-      setToken(localToken);
-    }
-  }, []);
+    useEffect(() => {
+        const localToken = localStorage.getItem("token");
+        if (localToken) {
+            setToken(localToken);
+        }
+    }, []);
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken("");
-  };
+    const logout = () => {
+        localStorage.removeItem("token");
+        setToken("");
+    };
 
-  const value = useMemo(
-    () => ({
-      token,
-      setToken,
-      isAuthenticated: !!token,
-      logout,
-    }),
-    [token]
-  );
+    const value = useMemo(
+        () => ({
+            token,
+            setToken,
+            isAuthenticated: !!token,
+            logout,
+        }),
+        [token]
+    );
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;

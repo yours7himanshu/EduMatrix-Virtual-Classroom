@@ -22,13 +22,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthSidebar from "../shared/AuthSidebar";
 import clsx from 'clsx';
+import { useAuth } from "../context/AuthContext";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
   const [errors,setErrors]=useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [token,setToken]=useState('');
+  const {token,setToken}=useAuth();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
