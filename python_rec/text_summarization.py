@@ -33,7 +33,7 @@ def text_summarizer(pdfUrl):
         messages=[
             {
                 "role": "system",
-                "content": "You are helpful teacher assistant which summarises the content in the most precise way"
+                "content": "Act as the best AI teacher assistant and give me the most important questions that can be form from this."
             },
             {
                 "role": "user",
