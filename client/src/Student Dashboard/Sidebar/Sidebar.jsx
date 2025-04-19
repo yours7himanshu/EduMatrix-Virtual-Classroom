@@ -1,4 +1,3 @@
-
 /*
 
 Copyright 2024 Himanshu Dinkar
@@ -16,35 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { ContextStore } from "../store/ContextStore";
 
-
-
-import LiveTvIcon from '@mui/icons-material/LiveTv';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import QuizIcon from '@mui/icons-material/Quiz';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import LiveTvIcon from "@mui/icons-material/LiveTv";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import CampaignIcon from "@mui/icons-material/Campaign";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import QuizIcon from "@mui/icons-material/Quiz";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import Logo from "./Logo";
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 // import Modal from "../components/Model";
 const Sidebar = () => {
- 
-  
   const location = useLocation();
-//   const [isModalOpen, setIsModalOpen] = useState(false);
+  //   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  
-
-  
   const isActive = (path) => location.pathname === path;
-
 
   const handleNavigation = (path) => {
     if (location.pathname !== path) {
-     navigate(path);
+      navigate(path);
     }
   };
 
@@ -54,23 +46,21 @@ const Sidebar = () => {
       <div className="sidebar fixed top-0  left-0 h-screen flex flex-col w-[20%] bg-gradient-to-tr from-indigo-800 to-blue-700 text-white">
         <ul className="flex flex-col ml-10 gap-5">
           <Logo />
-          <div className="flex gap-4" >
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/dashboard")}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
-              isActive("/StudentDashboard/dashboard")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-          <DashboardIcon/>
-            Dashboard
-          </li>
+          <div className="flex gap-4">
+            <li
+              onClick={() => handleNavigation("/StudentDashboard/dashboard")}
+              className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
+                isActive("/StudentDashboard/dashboard")
+                  ? "bg-white text-black border rounded-md"
+                  : "text-white"
+              }`}
+            >
+              <DashboardIcon />
+              Dashboard
+            </li>
           </div>
-
-
- 
-           <li
+   
+          <li
             onClick={() => handleNavigation("/StudentDashboard/announcement")}
             className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/StudentDashboard/announcement")
@@ -78,12 +68,11 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            <CampaignIcon/>
+            <CampaignIcon />
             Announcements
           </li>
-         
 
-         <li
+          <li
             onClick={() => handleNavigation("/timetable")}
             className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/timetable")
@@ -91,12 +80,11 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            <EventNoteIcon/>
+            <EventNoteIcon />
             Time Table
           </li>
-         
 
-        <li
+          <li
             onClick={() => handleNavigation("/StudentDashboard/quiz")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/StudentDashboard/quiz")
@@ -104,10 +92,9 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            <QuizIcon/>
+            <QuizIcon />
             Quizes
           </li>
-         
 
           <li
             onClick={() => handleNavigation("/StudentDashboard/assignment")}
@@ -117,10 +104,22 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            <AssignmentIcon/>
+            <AssignmentIcon />
             Assignments
           </li>
-         
+
+          <li
+            onClick={() => handleNavigation("/StudentDashboard/library")}
+            className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+              isActive("/StudentDashboard/library")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            <LocalLibraryIcon />
+              Library
+          </li>
+
 
           <li
             onClick={() => handleNavigation("/ai")}
@@ -130,24 +129,24 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-          <DashboardIcon/>
+            <DashboardIcon />
             AI Assistent
           </li>
 
-        
-
-         <div className="flex items-center gap-4" >
-          <li
-             onClick={() => setIsModalOpen(true)}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/admin-live")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-          <LiveTvIcon  />
+          <div className="flex items-center gap-4">
+            <li
+              onClick={() => setIsModalOpen(true)}
+              className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+                isActive("/admin-live")
+                  ? "bg-white text-black border rounded-md"
+                  : "text-white"
+              }`}
+            >
+             <LiveTvIcon  />
             Live Class
+
           </li>
+
           </div>
          
         </ul>
@@ -165,7 +164,6 @@ const Sidebar = () => {
       /> */}
 
       {/* Loader */}
-     
     </div>
   );
 };
