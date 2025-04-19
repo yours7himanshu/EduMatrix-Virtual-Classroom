@@ -1,14 +1,32 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Upload, FilePlus, FileText, X, CheckCircle2 } from "lucide-react";
+import { Upload, FilePlus, FileText, X, CheckCircle2, Copy } from "lucide-react";
 import AppLayout from "../layout/AppLayout";
+
 const NotesUpload = () => {
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [summary, setSummary] = useState("");
+  const [showSummary, setShowSummary] = useState(false);
+
+  // Function to convert markdown to HTML for display
+  const formatMarkdown = (text) => {
+    if (!text) return "";
+    
+    // Replace bold markdown with span elements
+    let formatted = text.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold">$1</span>');
+    
+    // Convert newlines to paragraphs
+    formatted = formatted.split('\n\n').map((paragraph, index) => 
+      paragraph.trim() ? `<p key=${index} class="mb-3">${paragraph}</p>` : ''
+    ).join('');
+    
+    return formatted;
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -72,6 +90,10 @@ const NotesUpload = () => {
       if (response.data.success) {
         toast.success("File uploaded successfully");
         console.log(response.data.pdfUrl)
+        console.log(response.data.summary)
+        setSummary(response.data.summary);
+        setShowSummary(true);
+
         resetFileSelection();
       } else {
         toast.error("Upload failed");
@@ -93,7 +115,7 @@ const NotesUpload = () => {
         </p>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white rounded-xl shadow-md ">
         <div className="p-6">
           <div
             className={`border-2 border-dashed rounded-lg p-8 mb-6 text-center ${
@@ -196,28 +218,32 @@ const NotesUpload = () => {
         </div>
       </div>
 
-      <div className="mt-8 bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Upload Guidelines</h2>
-          <ul className="space-y-2 text-gray-600">
-            <li className="flex items-start">
-              <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-500 mr-2">1</span>
-              Ensure files are in PDF format only
-            </li>
-            <li className="flex items-start">
-              <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-500 mr-2">2</span>
-              Maximum file size: 10MB
-            </li>
-            <li className="flex items-start">
-              <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-500 mr-2">3</span>
-              Name your files descriptively for easy identification
-            </li>
-            <li className="flex items-start">
-              <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-500 mr-2">4</span>
-              Uploaded files will be immediately available to students
-            </li>
-          </ul>
-        </div>
+      <div className="mt-8 bg-white rounded-xl shadow-md">
+        {showSummary && summary ? (
+          <div className="p-6">
+            <div className="flex items-center mb-4">
+              <FileText className="h-6 w-6 text-blue-500 mr-2" />
+              <h2 className="text-xl font-semibold text-gray-800">Document Summary</h2>
+            </div>
+            
+            <div className="bg-gray-50 p-5 rounded-lg border border-gray-100">
+              <div 
+                className="prose max-w-none text-gray-700 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: formatMarkdown(summary) }}
+              />
+            </div>
+            
+            <div className="mt-4 flex justify-end">
+              <button
+                className="flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                onClick={() => {navigator.clipboard.writeText(summary); toast.success("Summary copied to clipboard");}}
+              >
+                <Copy className="h-4 w-4 mr-1" />
+                Copy to clipboard
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );

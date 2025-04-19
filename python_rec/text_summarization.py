@@ -3,15 +3,19 @@ import requests
 from io import BytesIO
 from dotenv import load_dotenv
 import os
+import sys
+import json
+
 load_dotenv(dotenv_path='.env')
 GROQ_API_KEY= os.getenv("GROQ_API_KEY")
 from groq import Groq
-import json
 
 client = Groq(api_key=GROQ_API_KEY)
 
 
 def text_summarizer(pdfUrl):
+    try:
+        print(f"Attempting to download PDF from: {pdfUrl}", file=sys.stderr)
         response = requests.get(pdfUrl)
         if response.status_code == 200:
             file_data = BytesIO(response.content) 
@@ -19,62 +23,49 @@ def text_summarizer(pdfUrl):
             text = ""
             for page in reader.pages:
                 text += page.extract_text()
+            print(f"Successfully extracted text from PDF: {len(text)} characters", file=sys.stderr)
         else:
-            print("Failed to download file.")
+            print(f"Failed to download file: Status code {response.status_code}", file=sys.stderr)
+            return f"Failed to download file: Status code {response.status_code}"
       
-
         chat_completion = client.chat.completions.create(
     
         messages=[
-            # Set an optional system message. This sets the behavior of the
-            # assistant and can be used to provide specific instructions for
-            # how it should behave throughout the conversation.
             {
                 "role": "system",
                 "content": "You are helpful teacher assistant which summarises the content in the most precise way"
             },
-            # Set a user message for the assistant to respond to.
             {
                 "role": "user",
                 "content": text,
             }
         ],
-
-        # The language model which will generate the completion.
         model="llama-3.3-70b-versatile",
-
-        #
-        # Optional parameters
-        #
-
-        # Controls randomness: lowering results in less random completions.
-        # As the temperature approaches zero, the model will become deterministic
-        # and repetitive.
         temperature=0.5,
+        max_completion_tokens=32000,
+        
+        )
 
-        # The maximum number of tokens to generate. Requests can use up to
-        # 32,768 tokens shared between prompt and completion.
-        max_completion_tokens=1024,
-
-        # Controls diversity via nucleus sampling: 0.5 means half of all
-        # likelihood-weighted options are considered.
-        top_p=1,
-
-        # A stop sequence is a predefined or user-specified text string that
-        # signals an AI to stop generating content, ensuring its responses
-        # remain focused and concise. Examples include punctuation marks and
-        # markers like "[end]".
-        stop=None,
-
-        # If set, partial message deltas will be sent.
-        stream=False,
-)
-
-# Print the completion returned by the LLM.
-        return chat_completion.choices[0].message.content
+        summary = chat_completion.choices[0].message.content
+        print(f"Successfully generated summary: {len(summary)} characters", file=sys.stderr)
+        return summary
+    except Exception as e:
+        error_message = f"Error in text_summarizer: {str(e)}"
+        print(error_message, file=sys.stderr)
+        return error_message
 
 if __name__ == "__main__":
-    prompt = sys.argv[1]  # Get input from Node.js
-    output = text_summarizer(prompt)   
-    print(json.dumps({"result": output}))  
-
+    try:
+        if len(sys.argv) > 1:
+            pdf_url = sys.argv[1]  # Get PDF URL from Node.js
+            print(f"PDF URL received: {pdf_url}", file=sys.stderr)
+            output = text_summarizer(pdf_url)   
+            # Return result in JSON format for the controller to parse
+            print(json.dumps({"result": output}))
+        else:
+            print(f"No PDF URL provided in command-line arguments", file=sys.stderr)
+            print(json.dumps({"error": "No PDF URL provided"}))
+    except Exception as e:
+        error_message = f"Error in main: {str(e)}"
+        print(error_message, file=sys.stderr)
+        print(json.dumps({"error": error_message}))
