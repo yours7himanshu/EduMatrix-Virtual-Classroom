@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import os
-load_dotenv(dotenv_path='server/.env')
+load_dotenv(dotenv_path='./env')
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
 db = client["test"]
