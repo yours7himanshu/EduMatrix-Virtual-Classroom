@@ -127,15 +127,15 @@ const Sidebar = () => {
       </li>}
 
       {userRole === 'Teacher' && <li
-        onClick={() => handleNavigation("/notes-upload")}
+        onClick={() => handleNavigation("/question-generator")}
         className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/notes-upload")
+          isActive("/question-generator")
             ? "bg-white text-black border rounded-md"
             : "text-white"
         }`}
       >
         <EventNoteIcon />
-        Notes Upload
+        Question Generator
       </li>}
       {userRole === 'Teacher' && <li
         onClick={() => handleNavigation("/post-quiz")}

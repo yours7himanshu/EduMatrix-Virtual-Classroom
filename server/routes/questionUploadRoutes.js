@@ -1,6 +1,6 @@
 const express = require("express");
 const Notesrouter = express.Router();
-const {UploadPdfFile} = require("../controllers/notesUploadController");
+const {UploadPdfFile} = require("../controllers/questionUploadController");
 const upload = require("../middlewares/multer");
 
 

@@ -43,7 +43,8 @@ const StudentDetail = lazy(() => import("./components/Student/StudentDetail"));
 import { PeerProvider } from "./providers/Peer";
 import { SocketProvider } from "./providers/Socket";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import NotesUpload from "./pages/NotesUpload";
+import QuestionGenerator from "./pages/QuestionGenerator";
+
 
 const Loader = () => {
   return (
@@ -81,7 +82,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<AdminLogin />} />
                 <Route path="/sign-up" element={<AdminSignUp />} />
-                <Route path='/notes-upload' element={<NotesUpload/>}/>
+                <Route path='/question-generator' element={<QuestionGenerator/>}/>
                 <Route path="/teachers" element={<ProtectedRoute element={<Teachers/>} />} />
                 <Route path="/enroll-students" element={<ProtectedRoute element={<Students/>} />} />
                 <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage/>}/>} />
