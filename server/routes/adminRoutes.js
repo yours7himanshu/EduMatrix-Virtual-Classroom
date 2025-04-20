@@ -16,13 +16,13 @@ limitations under the License.
 */
 
 const express = require('express');
-const {collegeRegister,collegeLogin} = require('../controllers/adminController');
+const {collegeRegister,collegeLogin, adminLogout} = require('../controllers/adminController');
 
 const adminRouter = express.Router();
 
 
 adminRouter.post('/admin-login',collegeLogin);
 adminRouter.post('/admin-register',collegeRegister);
-
+adminRouter.post('/admin-logout',adminLogout);
 
 module.exports=adminRouter;

@@ -13,10 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
+import {toast} from 'react-toastify'
 import { useContext, createContext, useEffect, useState, useMemo } from "react";
-
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 const AuthContext = createContext();
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
@@ -28,6 +30,7 @@ export const useAuth = () => {
 
 const AuthContextProvider = ({ children }) => {
     const [token, setToken] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const localToken = localStorage.getItem("token");
@@ -36,9 +39,21 @@ const AuthContextProvider = ({ children }) => {
         }
     }, []);
 
-    const logout = () => {
+    const logout = async() => {
         localStorage.removeItem("token");
         setToken("");
+
+        try {
+            const response = await axios.post(`${backendUrl}/api/v2/admin-logout`,{ },{
+                withCredentials:true
+            })
+            if(response.data.success){
+            toast.success(response.data.message);
+            navigate('/')
+            }
+        }catch(error){
+            console.log("Internal server error",error)
+        }
     };
 
     const value = useMemo(

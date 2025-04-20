@@ -30,7 +30,9 @@ import QuizIcon from '@mui/icons-material/Quiz';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Modal from "../components/Model";
+import { useAuth } from "../context/AuthContext";
 
 const Sidebar = () => {
 
@@ -39,6 +41,7 @@ const Sidebar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {logout} = useAuth();
 
   // Loader state
   const [isLoading, setIsLoading] = useState(false);
@@ -196,6 +199,16 @@ const Sidebar = () => {
           Go Live Class
         </li>
       </div>}
+
+      {/* Logout Button */}
+      <div onClick={logout} className="mt-5 mr-4 mb-8">
+        <li
+          className="list-style-none flex items-center gap-4 font-medium p-3 w-[80%] cursor-pointer transition-all duration-300 bg-white hover:bg-gray-100 text-indigo-800 rounded-lg shadow-md hover:shadow-lg border border-indigo-100"
+        >
+          <LogoutIcon className="text-indigo-800" />
+          <span>Logout</span>
+        </li>
+      </div>
     </ul>
   );
 
