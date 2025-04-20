@@ -39,7 +39,7 @@ import AiAssistent from "./Student Dashboard/AI Powered Assistant/AiAssistent.js
 import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx";
 import Assignment from "./Student Dashboard/Assignments/Assignment.tsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
-import Library from "./Student Dashboard/library management/library.jsx";
+import Library from "./Student Dashboard/library management/Library.jsx";
 
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
