@@ -3,34 +3,86 @@ import pandas as pd
 from pymongo import MongoClient
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
+import seaborn as sns
 import os
-load_dotenv(dotenv_path='./env')
+load_dotenv(dotenv_path='EduMatrix-Virtual-Classroom/server/.env')
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
 db = client["test"]
 collection = db["demo"]
 cursor = collection.find()
 df = pd.DataFrame(list(cursor))
-# print(df.groupby('Branch')['Attendance (%)'].mean())
-grouped = df.groupby("Branch")[["Attendance (%)", "Marks (%)"]].mean().sort_values("Marks (%)", ascending=False)
+branches=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Branch']
+att_mean=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Attendance (%)']
+marks_mean=df.groupby("Branch")['Marks (%)'].mean().reset_index()['Marks (%)']
 
-plt.style.use('fivethirtyeight')  # You can also try: 'ggplot', 'fivethirtyeight', 'bmh'
 
-# Set up the plot
-fig, ax = plt.subplots(1, 2, figsize=(14, 6))
-
-# Bar plot for Attendance
-grouped["Attendance (%)"].plot(kind="bar", ax=ax[0], color='#4682B4')
-ax[0].set_title("Average Attendance by Branch", fontsize=14, weight='bold')
-ax[0].set_ylabel("Attendance (%)")
-ax[0].tick_params(axis='x', rotation=45)
-
-# Bar plot for Marks
-grouped["Marks (%)"].plot(kind="bar", ax=ax[1], color='#FF7F50')
-ax[1].set_title("Average Marks by Branch", fontsize=14, weight='bold')
-ax[1].set_ylabel("Marks (%)")
-ax[1].tick_params(axis='x', rotation=45)
-
-plt.suptitle("Branch-wise Mean Attendance and Marks", fontsize=16, weight='bold')
-plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.show()
+import io
+import base64
+import json
+import sys
+
+def create_bar_plot(x, y,title,xlabel):
+    buf = io.BytesIO()
+    plt.figure(figsize=(6,4))
+    bars=plt.barh(x,y, color='skyblue', edgecolor='black')
+    max_index =  np.argmax(y.values)
+    min_index = np.argmin(y.values)
+    bars[max_index].set_color('limegreen')
+    bars[min_index].set_color('red')
+    for bar in bars:
+        width = bar.get_width()
+        plt.text(width + 0.5, bar.get_y() + bar.get_height() / 2,
+                f'{width:.2f}', va='center', fontsize=10, color='black')
+    plt.title(title, fontsize=16, fontweight='bold')
+    plt.xlabel(xlabel, fontsize=12)
+    plt.xlim(0, 100)
+    plt.tight_layout()
+    plt.gca().invert_yaxis()  
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode('utf-8')
+
+def top_students():
+    buf = io.BytesIO()
+    x=df.loc[df.groupby('Branch')['Marks (%)'].idxmax()][['Branch', 'Marks (%)', 'Name']]
+    name=x['Name']
+    marks=x['Marks (%)']
+    branch=x['Branch']
+    plt.figure(figsize=(12,5))
+    plot=sns.barplot(data=df, x=name, y=marks, hue=branch)
+    for p in plot.patches:
+        height = p.get_height()
+        plot.annotate(f'{height:.1f}',
+                    (p.get_x() + p.get_width() / 2., height),
+                    ha='center', va='bottom',
+                    fontsize=9, color='black')
+    plt.legend(title='Branch', loc='center left', bbox_to_anchor=(1, 0.5), fontsize='small', title_fontsize='small')
+    plt.xticks(rotation=45)
+    plt.title("Student Marks by Branch")
+    plt.tight_layout()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode('utf-8')
+def pieplot():
+        buf = io.BytesIO()
+        df['Branch'].value_counts().plot(kind='pie', autopct='%1.1f%%')
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        return base64.b64encode(buf.read()).decode('utf-8')
+
+    
+
+plots = []
+# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+# plots.append(create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"))
+# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+
+
+
+# # Send JSON to Node.js
+# sys.stdout.write(json.dumps({'images': plots}))
