@@ -1,0 +1,7 @@
+PyPDF2
+requests
+dotenv
+pandas
+numpy
+matplotlib
+seaborn

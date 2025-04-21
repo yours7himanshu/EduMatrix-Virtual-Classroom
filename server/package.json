@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "For Hackathon of our college",
   "main": "server.js",
-
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
@@ -26,6 +25,7 @@
     "multer": "^1.4.5-lts.1",
     "newrelic": "^12.9.0",
     "node-cron": "^3.0.3",
+    "nodejs-base64-converter": "^1.0.5",
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.7",
     "socket.io": "^4.8.1",

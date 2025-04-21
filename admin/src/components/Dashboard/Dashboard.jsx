@@ -15,103 +15,81 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { Bar, Line } from "react-chartjs-2";
-
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 // Register the components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const Dashboard = () => {
-  const attendanceData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "Attendance (%)",
-        data: [90, 85, 80, 88, 95, 92],
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
- 
-  const marksData = {
-    labels: ["Math", "Science", "History", "English", "Arts"],
-    datasets: [
-      {
-        label: "Marks",
-        data: [85, 90, 80, 88, 95],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [barplot1, setbarplot1] = useState("");
+  const [barplot2, setbarplot2] = useState("");
+  const [scatter, setScatter] = useState("");
+  const [topStudents, setTopStudents] = useState("");
+  const [pieplot, setPieplot] = useState("");
+  useEffect(() => {
+    const fetchCharts = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/api/test`);
+        if (response.data.success) {
+          setbarplot1(
+            `data:image/png;base64,${response.data.analysis.result.barplot1}`
+          );
+          setbarplot2(
+            `data:image/png;base64,${response.data.analysis.result.barplot2}`
+          );
+          setScatter(
+            `data:image/png;base64,${response.data.analysis.result.scatter}`
+          );
+          setTopStudents(
+            `data:image/png;base64,${response.data.analysis.result.top_students}`
+          );
+          setPieplot(
+            `data:image/png;base64,${response.data.analysis.result.pieplot}`
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCharts();
+  });
 
   return (
     <div className="dashboard flex ">
-      
       <div className="p-8 bg-gray-100  w-[100%]">
-      
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Attendance Overview
             </h2>
-            <Bar
-              data={attendanceData}
-              options={{
-                responsive: true,
-                plugins: { legend: { position: "top" } },
-              }}
-            />
+            <img src={barplot1} alt="" />
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Marks Overview
             </h2>
-            <Line
-              data={marksData}
-              options={{
-                responsive: true,
-                plugins: { legend: { position: "top" } },
-              }}
-            />
+            <img src={barplot2} alt="" />
+          </div>
+
+          {/* <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Marks and Attendance Relation
+            </h2>
+            <img src={scatter} alt="" />
+          </div> */}
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Branchwise Student Distribution
+            </h2>
+            <img className="w-200 h-72" src={pieplot} alt="" />
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Top Students
+            </h2>
+            <img className="w-200 h-72" src={topStudents} alt="" />
           </div>
         </div>
       </div>

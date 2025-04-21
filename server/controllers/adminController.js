@@ -115,4 +115,17 @@ const collegeLogin = async(req,res)=>{
     }
 }
 
-module.exports={collegeRegister,collegeLogin};
+const adminLogout = (req,res)=>{
+    res.clearCookie("token",{
+        httpOnly:true,
+        secure:true,
+        sameSite: 'None',
+    })
+
+    return res.status(200).json({
+        success:true,
+        message:"logout successful"
+    })
+}
+
+module.exports={collegeRegister,collegeLogin,adminLogout};

@@ -17,16 +17,15 @@ limitations under the License.
 */
 
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import {  useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { ContextStore } from "../store/ContextStore";
 import AuthSidebar from "../shared/AuthSidebar";
 import clsx from 'clsx';
 
 function AdminSignUp() {
-  const { collegeName, setCollegeName } = useContext(ContextStore);
+  const [collegeName,setCollegeName]=useState('');
   const [directorName, setDirectorName] = useState("");
   const [errors,setErrors]=useState("");
   const [email, setEmail] = useState("");
