@@ -37,7 +37,7 @@ const socketService = require('./middlewares/socketService');
 const localAIRoutes = require('./routes/aiRoutes');
 const feedbackRouter = require('./routes/feedbackRoute');
 const questionUploadRoutes = require('./routes/questionUploadRoutes');
-
+const analysisRoutes = require('./routes/analysisRoute')
 // Initialize Express app and setup middlewares
 const app = express();
 connectDb(); // Connect database
@@ -75,7 +75,7 @@ app.use('/api/v7', assignmentRoutes);
 app.use("/api/ai", localAIRoutes);
 app.use('/api',feedbackRouter);
 app.use('/api',questionUploadRoutes);
-
+app.use('/api',analysisRoutes)
 // Health check route
 app.get('/', (req, res) => {
   res.send('Welcome to my Server');
