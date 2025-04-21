@@ -1,3 +1,7 @@
+import io
+import base64
+import json
+import sys
 import numpy as np
 import pandas as pd
 from pymongo import MongoClient
@@ -15,13 +19,7 @@ df = pd.DataFrame(list(cursor))
 branches=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Branch']
 att_mean=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Attendance (%)']
 marks_mean=df.groupby("Branch")['Marks (%)'].mean().reset_index()['Marks (%)']
-
-
-plt.show()
-import io
-import base64
-import json
-import sys
+df[df['fees']>30000]=60000
 
 def create_bar_plot(x, y,title,xlabel):
     buf = io.BytesIO()
@@ -72,17 +70,43 @@ def pieplot():
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
 
-    
+def scatter():
+    buf = io.BytesIO()
+    new_df=df[['Attendance (%)','Marks (%)','Branch']]
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(data=new_df, x=df['Attendance (%)'], y=new_df['Marks (%)'], hue=new_df['Branch'], s=100)
+
+    plt.title("Attendance vs Marks")
+    plt.xlabel("Attendance (%)")
+    plt.ylabel("Marks (%)")
+    plt.grid(True)
+    plt.tight_layout()
+    return base64.b64decode(buf.read()).decode('utf-8')
+
+# def fees_plot():
+#     status_counts = df['fees_status'].value_counts()
+
+# # Bar Chart
+#     plt.figure(figsize=(6, 4))
+#     plt.bar(status_counts.index, status_counts.values, color=['green', 'red'])
+#     plt.title('Fee Status: Paid vs Unpaid')
+#     plt.xlabel('Fee Status')
+#     plt.ylabel('Number of Students')
+#     plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+#     # Optional: Show numbers on top of bars
+#     for i, val in enumerate(status_counts.values):
+#         plt.text(i, val + 0.1, str(val), ha='center', fontweight='bold')
+#     plt.show()
+# print(fees_plot)
 
 plots = []
-# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# plots.append(create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"))
-# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+plots.append(create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"))
+plots.append(top_students())
+plots.append(pieplot())
+
+plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
 
 
-
-# # Send JSON to Node.js
-# sys.stdout.write(json.dumps({'images': plots}))
+print(json.dumps({'result':plots}))
