@@ -42,6 +42,7 @@ const Teachers = lazy(() => import("./components/Teachers/Teachers"));
 const StudentDetail = lazy(() => import("./components/Student/StudentDetail"));
 import { PeerProvider } from "./providers/Peer";
 import { SocketProvider } from "./providers/Socket";
+import MainLayout from "./components/library_dashboard/MainLayout";
 
 const Loader = () => {
   return (
@@ -90,6 +91,7 @@ function App() {
                 <Route path="/post-assignment" element={<Assignment />} />
                 <Route path="/student-detail" element={<StudentDetail />} />
                 <Route path="/messages" element={<Message />} />
+                <Route path="/MainLayout" element={<MainLayout />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>
