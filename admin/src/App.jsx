@@ -42,8 +42,12 @@ const Teachers = lazy(() => import("./components/Teachers/Teachers"));
 const StudentDetail = lazy(() => import("./components/Student/StudentDetail"));
 import { PeerProvider } from "./providers/Peer";
 import { SocketProvider } from "./providers/Socket";
+
+import MainLayout from "./components/library_dashboard/MainLayout";
+
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import QuestionGenerator from "./pages/QuestionGenerator";
+
 
 
 
@@ -83,6 +87,10 @@ function App() {
               <Routes>
                 <Route path="/" element={<AdminLogin />} />
                 <Route path="/sign-up" element={<AdminSignUp />} />
+
+                <Route path="/MainLayout" element={<MainLayout />} />
+
+
                 <Route path='/question-generator' element={<QuestionGenerator/>}/>
                 <Route path="/teachers" element={<ProtectedRoute element={<Teachers/>} />} />
                 <Route path="/enroll-students" element={<ProtectedRoute element={<Students/>} />} />
@@ -95,6 +103,7 @@ function App() {
                 <Route path="/post-assignment" element={<ProtectedRoute element={<Assignment/>} />} />
                 <Route path="/student-detail" element={<ProtectedRoute element={<StudentDetail/>} />} />
                 <Route path="/messages" element={<ProtectedRoute element={<Message/>} />} />
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </PeerProvider>
