@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import seaborn as sns
 import os
-load_dotenv(dotenv_path='EduMatrix-Virtual-Classroom/server/.env')
+load_dotenv(dotenv_path='.env')
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
 db = client["test"]
@@ -19,6 +19,7 @@ df = pd.DataFrame(list(cursor))
 branches=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Branch']
 att_mean=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Attendance (%)']
 marks_mean=df.groupby("Branch")['Marks (%)'].mean().reset_index()['Marks (%)']
+
 def create_bar_plot(x, y,title,xlabel):
     buf = io.BytesIO()
     plt.figure(figsize=(6,4))
@@ -39,6 +40,7 @@ def create_bar_plot(x, y,title,xlabel):
     plt.savefig(buf, format='png')
     buf.seek(0)
     return base64.b64encode(buf.read()).decode('utf-8')
+
 
 def top_students():
     buf = io.BytesIO()
@@ -68,6 +70,9 @@ def pieplot():
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
 
+
+
+
 def scatter():
     buf = io.BytesIO()
     new_df=df[['Attendance (%)','Marks (%)','Branch']]
@@ -88,7 +93,10 @@ plots.append(create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Ma
 plots.append(top_students())
 plots.append(pieplot())
 
-plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+plots.append(scatter())
+
+
 
 
 print(json.dumps({'result':plots}))
+

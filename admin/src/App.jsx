@@ -46,6 +46,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import QuestionGenerator from "./pages/QuestionGenerator";
 
 
+
 const Loader = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
@@ -94,7 +95,6 @@ function App() {
                 <Route path="/post-assignment" element={<ProtectedRoute element={<Assignment/>} />} />
                 <Route path="/student-detail" element={<ProtectedRoute element={<StudentDetail/>} />} />
                 <Route path="/messages" element={<ProtectedRoute element={<Message/>} />} />
-
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </PeerProvider>
