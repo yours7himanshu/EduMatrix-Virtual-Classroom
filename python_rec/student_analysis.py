@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import seaborn as sns
 import os
-load_dotenv(dotenv_path='.env')
+load_dotenv(dotenv_path='python_rec/.env')
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
 db = client["test"]
@@ -84,19 +84,21 @@ def scatter():
     plt.ylabel("Marks (%)")
     plt.grid(True)
     plt.tight_layout()
-    return base64.b64decode(buf.read()).decode('utf-8')
-
-
-plots = []
-plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-plots.append(create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"))
-plots.append(top_students())
-plots.append(pieplot())
-
-plots.append(scatter())
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    return base64.b64decode(buf.read()).decode('latin-1')
 
 
 
 
-print(json.dumps({'result':plots}))
+
+
+
+print(json.dumps({'result':{
+     'barplot1':create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"),
+     'barplot2':create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"),
+     'scatter':scatter(),
+     'top_students':top_students(),
+     'pieplot':pieplot()
+}}))
 

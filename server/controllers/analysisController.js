@@ -36,7 +36,7 @@ pythonProces.on("close",(code)=>{
             res.json({
                 success:true,
                 message:"image string base64 found",
-                result:result.image
+                analysis:result
             })
             console.log(result);
         }catch(error){
