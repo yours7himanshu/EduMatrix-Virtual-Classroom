@@ -1,3 +1,7 @@
+import io
+import base64
+import json
+import sys
 import numpy as np
 import pandas as pd
 from pymongo import MongoClient
@@ -15,116 +19,84 @@ df = pd.DataFrame(list(cursor))
 branches=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Branch']
 att_mean=df.groupby("Branch")['Attendance (%)'].mean().reset_index()['Attendance (%)']
 marks_mean=df.groupby("Branch")['Marks (%)'].mean().reset_index()['Marks (%)']
-# import io
-# import base64
-# import json
-# import sys
-df[df['fees']>30000]=60000
 
-# def create_bar_plot(x, y,title,xlabel):
-#     buf = io.BytesIO()
-#     plt.figure(figsize=(6,4))
-#     bars=plt.barh(x,y, color='skyblue', edgecolor='black')
-#     max_index =  np.argmax(y.values)
-#     min_index = np.argmin(y.values)
-#     bars[max_index].set_color('limegreen')
-#     bars[min_index].set_color('red')
-#     for bar in bars:
-#         width = bar.get_width()
-#         plt.text(width + 0.5, bar.get_y() + bar.get_height() / 2,
-#                 f'{width:.2f}', va='center', fontsize=10, color='black')
-#     plt.title(title, fontsize=16, fontweight='bold')
-#     plt.xlabel(xlabel, fontsize=12)
-#     plt.xlim(0, 100)
-#     plt.tight_layout()
-#     plt.gca().invert_yaxis()  
-#     plt.savefig(buf, format='png')
-#     buf.seek(0)
-#     return base64.b64encode(buf.read()).decode('utf-8')
+def create_bar_plot(x, y,title,xlabel):
+    buf = io.BytesIO()
+    plt.figure(figsize=(6,4))
+    bars=plt.barh(x,y, color='skyblue', edgecolor='black')
+    max_index =  np.argmax(y.values)
+    min_index = np.argmin(y.values)
+    bars[max_index].set_color('limegreen')
+    bars[min_index].set_color('red')
+    for bar in bars:
+        width = bar.get_width()
+        plt.text(width + 0.5, bar.get_y() + bar.get_height() / 2,
+                f'{width:.2f}', va='center', fontsize=10, color='black')
+    plt.title(title, fontsize=16, fontweight='bold')
+    plt.xlabel(xlabel, fontsize=12)
+    plt.xlim(0, 100)
+    plt.tight_layout()
+    plt.gca().invert_yaxis()  
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode('utf-8')
 
-# def top_students():
-#     buf = io.BytesIO()
-#     x=df.loc[df.groupby('Branch')['Marks (%)'].idxmax()][['Branch', 'Marks (%)', 'Name']]
-#     name=x['Name']
-#     marks=x['Marks (%)']
-#     branch=x['Branch']
-#     plt.figure(figsize=(12,5))
-#     plot=sns.barplot(data=df, x=name, y=marks, hue=branch)
-#     for p in plot.patches:
-#         height = p.get_height()
-#         plot.annotate(f'{height:.1f}',
-#                     (p.get_x() + p.get_width() / 2., height),
-#                     ha='center', va='bottom',
-#                     fontsize=9, color='black')
-#     plt.legend(title='Branch', loc='center left', bbox_to_anchor=(1, 0.5), fontsize='small', title_fontsize='small')
-#     plt.xticks(rotation=45)
-#     plt.title("Student Marks by Branch")
-#     plt.tight_layout()
-#     plt.savefig(buf, format='png')
-#     buf.seek(0)
-#     return base64.b64encode(buf.read()).decode('utf-8')
-# def pieplot():
-#         buf = io.BytesIO()
-#         df['Branch'].value_counts().plot(kind='pie', autopct='%1.1f%%')
-#         plt.savefig(buf, format='png')
-#         buf.seek(0)
-#         return base64.b64encode(buf.read()).decode('utf-8')
 
-# def scatter():
-#     new_df=df[['Attendance (%)','Marks (%)','Branch']]
-#     plt.figure(figsize=(8, 6))
-#     sns.scatterplot(data=new_df, x=df['Attendance (%)'], y=new_df['Marks (%)'], hue=new_df['Branch'], s=100)
-
-#     plt.title("Attendance vs Marks")
-#     plt.xlabel("Attendance (%)")
-#     plt.ylabel("Marks (%)")
-#     plt.grid(True)
-#     plt.tight_layout()
-#     plt.show()
-# print(scatter())
-import matplotlib.pyplot as plt
-import io
-import base64
-import sys
-import json
-
-# Generate the plot
-plt.figure()
-plt.plot([1, 2, 3], [4, 5, 6])
-plt.title("My Live Plot")
-
-# Save to in-memory buffer
-buf = io.BytesIO()
-plt.savefig(buf, format='png')
-buf.seek(0)
-
-# Encode as base64
-img_base64 = base64.b64encode(buf.read()).decode('utf-8')
-
-# Output the base64 string to stdout (so Node can capture it)
-print(json.dumps({'image': img_base64}))
-
-# status_counts = df['fees_status'].value_counts()
-# plt.figure(figsize=(6, 4))
-# plt.bar(status_counts.index, status_counts.values, color=['green', 'red'])
-# plt.title('Fee Status: Paid vs Unpaid')
-# plt.xlabel('Fee Status')
-# plt.ylabel('Number of Students')
-# plt.grid(axis='y', linestyle='--', alpha=0.7)
-# for i, val in enumerate(status_counts.values):
-#     plt.text(i, val + 0.1, str(val), ha='center', fontweight='bold')
-# plt.show()
-    
-
-# plots = []
-# # plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# # plots.append(create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"))
-# # plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# # plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# # plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
-# # plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+def top_students():
+    buf = io.BytesIO()
+    x=df.loc[df.groupby('Branch')['Marks (%)'].idxmax()][['Branch', 'Marks (%)', 'Name']]
+    name=x['Name']
+    marks=x['Marks (%)']
+    branch=x['Branch']
+    plt.figure(figsize=(12,5))
+    plot=sns.barplot(data=df, x=name, y=marks, hue=branch)
+    for p in plot.patches:
+        height = p.get_height()
+        plot.annotate(f'{height:.1f}',
+                    (p.get_x() + p.get_width() / 2., height),
+                    ha='center', va='bottom',
+                    fontsize=9, color='black')
+    plt.legend(title='Branch', loc='center left', bbox_to_anchor=(1, 0.5), fontsize='small', title_fontsize='small')
+    plt.xticks(rotation=45)
+    plt.title("Student Marks by Branch")
+    plt.tight_layout()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode('utf-8')
+def pieplot():
+        buf = io.BytesIO()
+        df['Branch'].value_counts().plot(kind='pie', autopct='%1.1f%%')
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        return base64.b64encode(buf.read()).decode('utf-8')
 
 
 
-# # # Send JSON to Node.js
-# # sys.stdout.write(json.dumps({'images': plots}))
+
+def scatter():
+    buf = io.BytesIO()
+    new_df=df[['Attendance (%)','Marks (%)','Branch']]
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(data=new_df, x=df['Attendance (%)'], y=new_df['Marks (%)'], hue=new_df['Branch'], s=100)
+
+    plt.title("Attendance vs Marks")
+    plt.xlabel("Attendance (%)")
+    plt.ylabel("Marks (%)")
+    plt.grid(True)
+    plt.tight_layout()
+    return base64.b64decode(buf.read()).decode('utf-8')
+
+
+plots = []
+plots.append(create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"))
+plots.append(create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"))
+plots.append(top_students())
+plots.append(pieplot())
+
+plots.append(scatter())
+
+
+
+
+print(json.dumps({'result':plots}))
+
