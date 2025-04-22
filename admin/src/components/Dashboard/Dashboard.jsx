@@ -27,11 +27,18 @@ const Dashboard = () => {
   const [scatter, setScatter] = useState("");
   const [topStudents, setTopStudents] = useState("");
   const [pieplot, setPieplot] = useState("");
+  const [fees_status, setfees_status] = useState("");
+
+
   useEffect(() => {
     const fetchCharts = async () => {
       try {
         const response = await axios.get(`${backendUrl}/api/test`);
         if (response.data.success) {
+
+          console.log(response.data.analysis);
+
+
           setbarplot1(
             `data:image/png;base64,${response.data.analysis.result.barplot1}`
           );
@@ -47,6 +54,11 @@ const Dashboard = () => {
           setPieplot(
             `data:image/png;base64,${response.data.analysis.result.pieplot}`
           );
+
+          setfees_status(
+            `data:image/png;base64,${response.data.analysis.result.fees_status}`
+          );
+
         }
       } catch (error) {
         console.log(error);
@@ -73,12 +85,12 @@ const Dashboard = () => {
             <img src={barplot2} alt="" />
           </div>
 
-          {/* <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Marks and Attendance Relation
             </h2>
             <img src={scatter} alt="" />
-          </div> */}
+          </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Branchwise Student Distribution
@@ -90,6 +102,12 @@ const Dashboard = () => {
               Top Students
             </h2>
             <img className="w-200 h-72" src={topStudents} alt="" />
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Fees Analysis
+            </h2>
+            <img className="w-200 h-72" src={fees_status} alt="" />
           </div>
         </div>
       </div>

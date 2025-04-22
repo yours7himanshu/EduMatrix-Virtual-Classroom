@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import seaborn as sns
 import os
+
 load_dotenv(dotenv_path='.env')
+
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
 db = client["test"]
@@ -22,7 +24,7 @@ marks_mean=df.groupby("Branch")['Marks (%)'].mean().reset_index()['Marks (%)']
 
 def create_bar_plot(x, y,title,xlabel):
     buf = io.BytesIO()
-    plt.figure(figsize=(6,4))
+    plt.figure(figsize=(8,6))
     bars=plt.barh(x,y, color='skyblue', edgecolor='black')
     max_index =  np.argmax(y.values)
     min_index = np.argmin(y.values)
@@ -38,6 +40,7 @@ def create_bar_plot(x, y,title,xlabel):
     plt.tight_layout()
     plt.gca().invert_yaxis()  
     plt.savefig(buf, format='png')
+    plt.close()
     buf.seek(0)
     return base64.b64encode(buf.read()).decode('utf-8')
 
@@ -61,12 +64,15 @@ def top_students():
     plt.title("Student Marks by Branch")
     plt.tight_layout()
     plt.savefig(buf, format='png')
+    plt.close()
     buf.seek(0)
     return base64.b64encode(buf.read()).decode('utf-8')
 def pieplot():
         buf = io.BytesIO()
+        plt.figure(figsize=(6,4))
         df['Branch'].value_counts().plot(kind='pie', autopct='%1.1f%%')
         plt.savefig(buf, format='png')
+        plt.close()
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
 
@@ -78,7 +84,6 @@ def scatter():
     new_df=df[['Attendance (%)','Marks (%)','Branch']]
     plt.figure(figsize=(8, 6))
     sns.scatterplot(data=new_df, x=df['Attendance (%)'], y=new_df['Marks (%)'], hue=new_df['Branch'], s=100)
-
     plt.title("Attendance vs Marks")
     plt.xlabel("Attendance (%)")
     plt.ylabel("Marks (%)")
@@ -86,11 +91,27 @@ def scatter():
     plt.tight_layout()
     plt.savefig(buf, format='png')
     buf.seek(0)
-    return base64.b64decode(buf.read()).decode('latin-1')
+    plt.close()
+    return base64.b64encode(buf.read()).decode('utf-8')
 
 
 
-
+def fees_status():
+    
+    buf = io.BytesIO()
+    grouped = df.groupby(['Branch', 'fees_status']).size().reset_index(name='count')
+    plt.figure(figsize=(10, 6))
+    sns.barplot(data=grouped, x='Branch', y='count', hue='fees_status', palette='Set2')
+    plt.title('Fee Status by Branch')
+    plt.xlabel('Branch')
+    plt.ylabel('Number of Students')
+    plt.legend(title='Fees Status')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode('utf-8')
 
 
 
@@ -99,6 +120,7 @@ print(json.dumps({'result':{
      'barplot2':create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"),
      'scatter':scatter(),
      'top_students':top_students(),
-     'pieplot':pieplot()
+     'pieplot':pieplot(),
+     'fees_status':fees_status()
 }}))
 
