@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import seaborn as sns
 import os
-load_dotenv(dotenv_path='EduMatrix-Virtual-Classroom/python_rec/.env')
+
+load_dotenv(dotenv_path='.env')
+
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
 db = client["test"]

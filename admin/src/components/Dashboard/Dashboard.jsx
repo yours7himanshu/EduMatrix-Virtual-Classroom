@@ -28,12 +28,17 @@ const Dashboard = () => {
   const [topStudents, setTopStudents] = useState("");
   const [pieplot, setPieplot] = useState("");
   const [fees_status, setfees_status] = useState("");
+=======
+
   useEffect(() => {
     const fetchCharts = async () => {
       try {
         const response = await axios.get(`${backendUrl}/api/test`);
         if (response.data.success) {
+
           console.log(response.data.analysis);
+=======
+
           setbarplot1(
             `data:image/png;base64,${response.data.analysis.result.barplot1}`
           );
@@ -49,9 +54,11 @@ const Dashboard = () => {
           setPieplot(
             `data:image/png;base64,${response.data.analysis.result.pieplot}`
           );
+
           setfees_status(
             `data:image/png;base64,${response.data.analysis.result.fees_status}`
           );
+
         }
       } catch (error) {
         console.log(error);
