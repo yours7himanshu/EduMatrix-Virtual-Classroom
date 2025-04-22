@@ -48,6 +48,7 @@ import MainLayout from "./components/library_dashboard/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import QuestionGenerator from "./pages/QuestionGenerator";
 import StudentMarksAttendance from "./components/Teachers/StudentMarksAttendance";
+import RegistrarStudent from "./components/Registrar/RegistrarStudent";
 
 
 
@@ -105,6 +106,7 @@ function App() {
                 <Route path="/student-detail" element={<ProtectedRoute element={<StudentDetail/>} />} />
                 <Route path="/messages" element={<ProtectedRoute element={<Message/>} />} />
                 <Route path="/student-marks-attendance" element={<ProtectedRoute element={<StudentMarksAttendance/>} />} />
+                <Route path="/registrar-student" element={<ProtectedRoute element={<RegistrarStudent/>} />} />
 
 
                 <Route path="*" element={<NotFound />} />

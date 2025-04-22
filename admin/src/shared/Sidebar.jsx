@@ -188,6 +188,17 @@ const Sidebar = () => {
       </li>}
 
       {userRole === 'Registrar' && <li
+        onClick={() => handleNavigation("/registrar-student")}
+        className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          isActive("/registrar-student")
+            ? "bg-white text-black border rounded-md"
+            : "text-white"
+        }`}
+      >
+        Student Fees Details
+      </li>}
+
+      {userRole === 'Registrar' && <li
         onClick={() => handleNavigation("/teachers")}
         className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
           isActive("/admin-live")

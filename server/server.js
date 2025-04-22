@@ -40,6 +40,7 @@ const questionUploadRoutes = require('./routes/questionUploadRoutes');
 const analysisRoutes = require('./routes/analysisRoute');
 const summarizationRoutes = require('./routes/summarizationRoutes');
 const studentMarksAttendanceRoutes = require('./routes/studentMarksAttendanceRoutes');
+const registrarStudentRoute = require('./routes/registrarStudentRoute');
 // Initialize Express app and setup middlewares
 const app = express();
 connectDb(); // Connect database
@@ -80,6 +81,10 @@ app.use('/api',questionUploadRoutes);
 app.use('/api',analysisRoutes)
 app.use('/api',summarizationRoutes);
 app.use('/api/v6',studentMarksAttendanceRoutes);
+app.use('/api/v8',registrarStudentRoute);
+
+
+
 // Health check route
 app.get('/', (req, res) => {
   res.send('Welcome to my Server');
