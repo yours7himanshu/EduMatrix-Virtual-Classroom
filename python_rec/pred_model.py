@@ -45,11 +45,18 @@ transform_x=transformer.fit_transform(X)
 x_train,x_test,y_train,y_test=train_test_split(transform_x,Y,test_size=0.2,random_state=42)
 model=RandomForestClassifier(n_estimators=100).fit(x_train,y_train)
 def predictor(arr):
-    input_text=pd.DataFrame(arr,columns=['Adjusted Marks','Adjusted Attendance','Branch'])
+    arr = list(arr)
+    input_text=pd.DataFrame([arr],columns=['Adjusted Marks','Adjusted Attendance','Branch'])
     y_pred=model.predict(transformer.transform(input_text))
-    return y_pred[0]
-
+    if(y_pred[0]==1):
+        return "Placed"
+    else:
+        return "Not Placed"
+    
 if __name__ == "__main__":
-    prompt = sys.argv[1] 
+    prompt1 = sys.argv[1]
+    prompt2 = sys.argv[2]
+    prompt3 = sys.argv[3] 
+    prompt = [prompt1,prompt2,prompt3]
     output = predictor(prompt)
     print(json.dumps({"result": output})) 

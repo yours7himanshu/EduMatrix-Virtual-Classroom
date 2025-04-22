@@ -130,6 +130,18 @@ const Sidebar = () => {
       </li>}
 
       {userRole === 'Teacher' && <li
+        onClick={() => handleNavigation("/ai-predictor")}
+        className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          isActive("/ai-predictor")
+            ? "bg-white text-black border rounded-md"
+            : "text-white"
+        }`}
+      >
+        <EventNoteIcon />
+        AI Predictor
+      </li>}
+
+      {userRole === 'Teacher' && <li
         onClick={() => handleNavigation("/question-generator")}
         className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
           isActive("/question-generator")

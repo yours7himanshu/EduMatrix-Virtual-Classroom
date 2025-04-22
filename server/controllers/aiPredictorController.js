@@ -2,11 +2,11 @@ const {spawn} = require('child_process');
 
 
 const AiPredictorController = async(req,res)=>{
-    const {marks,attendace,branch}=req.body;
+    const {marks,attendance,branch}=req.body;
 
-    console.log(marks,attendace,branch);
+    console.log([marks,attendance,branch]);
 
-    const pythonProcess = spawn("python",["python_rec/pred_model.py",marks,attendace,branch]);
+    const pythonProcess = spawn("python",["../python_rec/pred_model.py",marks,attendance,branch]);
 
     let output = "";
     let errorOutput = "";
@@ -14,10 +14,12 @@ const AiPredictorController = async(req,res)=>{
 
     pythonProcess.stdout.on("data",(data)=>{
         output+=data.toString();
+       
     })
 
     pythonProcess.stderr.on("data",(data)=>{
         errorOutput+=data.toString();
+       
     })
 
     pythonProcess.on("close",(code)=>{
@@ -33,10 +35,11 @@ const AiPredictorController = async(req,res)=>{
         }
         else{
             try{
-                const result = JSON.parse(output);
 
+                const result = JSON.parse(output);
+                console.log("result",result)
                 return res.status(200).json({
-                    sucess:true,
+                    success:true,
                     prediction:result,
                     message:"Prediction recieved from the model"
                 })
