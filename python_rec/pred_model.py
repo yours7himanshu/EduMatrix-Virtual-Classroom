@@ -8,10 +8,12 @@ import pandas as pd
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
+
 import os
 import sys
 import json
 load_dotenv(dotenv_path='EduMatrix-Virtual-Classroom/python_rec/.env')
+
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
 db = client["test"]
