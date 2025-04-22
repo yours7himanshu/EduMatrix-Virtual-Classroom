@@ -37,7 +37,9 @@ const socketService = require('./middlewares/socketService');
 const localAIRoutes = require('./routes/aiRoutes');
 const feedbackRouter = require('./routes/feedbackRoute');
 const questionUploadRoutes = require('./routes/questionUploadRoutes');
-const analysisRoutes = require('./routes/analysisRoute')
+const analysisRoutes = require('./routes/analysisRoute');
+const summarizationRoutes = require('./routes/summarizationRoutes');
+const studentMarksAttendanceRoutes = require('./routes/studentMarksAttendanceRoutes');
 // Initialize Express app and setup middlewares
 const app = express();
 connectDb(); // Connect database
@@ -76,6 +78,8 @@ app.use("/api/ai", localAIRoutes);
 app.use('/api',feedbackRouter);
 app.use('/api',questionUploadRoutes);
 app.use('/api',analysisRoutes)
+app.use('/api',summarizationRoutes);
+app.use('/api/v6',studentMarksAttendanceRoutes);
 // Health check route
 app.get('/', (req, res) => {
   res.send('Welcome to my Server');

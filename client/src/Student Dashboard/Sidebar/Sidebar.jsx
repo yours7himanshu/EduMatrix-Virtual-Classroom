@@ -73,6 +73,31 @@ const Sidebar = () => {
           </li>
 
           <li
+            onClick={() => handleNavigation("/StudentDashboard/notes")}
+            className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+              isActive("/StudentDashboard/notes")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            <CampaignIcon />
+          Summarizer
+          </li>
+
+          <li
+            onClick={() => handleNavigation("/StudentDashboard/teachersNotes")}
+            className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+              isActive("/StudentDashboard/teachersNotes")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            <CampaignIcon />
+          Teachers Notes
+          </li>
+
+
+          <li
             onClick={() => handleNavigation("/timetable")}
             className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
               isActive("/timetable")

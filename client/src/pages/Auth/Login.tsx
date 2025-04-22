@@ -52,13 +52,10 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        setErrors(error.response.data.message);
-        toast.error(error.response.data.message);
-        console.log(error.response.data.message);
-      } else {
-        setErrors("Some unexpected error has occured");
-        toast.error("Some unexpected error has occured");
-      }
+        setErrors(error.response?.data?.message);
+        toast.error(error.response?.data?.message);
+        console.log(error.response?.data?.message);
+      } 
     } finally {
       setLoading(false);
     }

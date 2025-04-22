@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2;
+const Notes = require('../models/notesModels');
 
 const { spawn } = require("child_process");
 const UploadPdfFile = async (req, res) => {
@@ -24,10 +25,12 @@ const UploadPdfFile = async (req, res) => {
     });
     // for python script reading
     pdfUrl = result.secure_url;
-   
+    const notes = await Notes.create({
+      notes: pdfUrl,
+    });
 
     const pythonProcess = spawn("python", [
-      "../python_rec/text_summarization.py",
+      "../python_rec/question_generation.py",
       pdfUrl,
     ]);
     pythonProcess.stdout.on("data", (data) => {

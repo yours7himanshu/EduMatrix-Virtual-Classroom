@@ -164,6 +164,18 @@ const Sidebar = () => {
         Assignment
       </li>}
 
+      {userRole === 'Teacher' && <li
+        onClick={() => handleNavigation("/student-marks-attendance")}
+        className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          isActive("/student-marks-attendance")
+            ? "bg-white text-black border rounded-md"
+            : "text-white"
+        }`}
+      >
+        <AssignmentIcon />
+        Fill Student Details
+      </li>}
+
       {userRole === 'Registrar' && <li
         onClick={() => handleNavigation("/student-detail")}
         className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${

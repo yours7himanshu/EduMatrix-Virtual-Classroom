@@ -40,6 +40,8 @@ import StudentDashboard from "./Student Dashboard/Dashboard/StudentDashboard.jsx
 import Assignment from "./Student Dashboard/Assignments/Assignment.tsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
 import Library from "./Student Dashboard/library management/Library.jsx";
+import Notes from "./Student Dashboard/Notes/Notes.jsx";
+import TeachersNotes from "./Student Dashboard/Notes/TeachersNotes.jsx";
 
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
@@ -79,6 +81,14 @@ function App() {
           <Route
             path="/StudentDashboard/library"
             element={<Library/>}
+          />
+          <Route
+            path="/StudentDashboard/notes"
+            element={<ProtectedRoute element={<Notes/>} />}
+          />
+          <Route
+            path="/StudentDashboard/teachersNotes"
+            element={<ProtectedRoute element={<TeachersNotes/>} />}
           />
           <Route path="*" element={<NotFound/>}/>
         </Routes>
