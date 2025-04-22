@@ -28,7 +28,7 @@ const Dashboard = () => {
   const [topStudents, setTopStudents] = useState("");
   const [pieplot, setPieplot] = useState("");
   const [fees_status, setfees_status] = useState("");
-=======
+
 
   useEffect(() => {
     const fetchCharts = async () => {
@@ -37,7 +37,7 @@ const Dashboard = () => {
         if (response.data.success) {
 
           console.log(response.data.analysis);
-=======
+
 
           setbarplot1(
             `data:image/png;base64,${response.data.analysis.result.barplot1}`
