@@ -19,6 +19,9 @@ limitations under the License.
 import { createContext, useContext, useMemo } from "react";
 import {io} from 'socket.io-client'
 
+// Retrieve auth token from storage
+const getAuthToken = () => localStorage.getItem('token') || sessionStorage.getItem('token');
+
 const SocketContext = createContext(null);
 
 export const useSocket = ()=>{
@@ -26,11 +29,17 @@ export const useSocket = ()=>{
 }
 
 export const SocketProvider = (props)=>{
-    const socket = useMemo(
-        ()=> io(import.meta.env.VITE_BACKEND_URL, {
+    const socket = useMemo(() => {
+        const s = io(import.meta.env.VITE_BACKEND_URL, {
             withCredentials: true,
-        }), []
-    )
+            auth: { token: getAuthToken() },
+            query: { token: getAuthToken() },
+        });
+        // Connection status logs
+        s.on('connect', () => console.log('Socket connected with ID:', s.id));
+        s.on('connect_error', (error) => console.error('Socket connection error:', error.message));
+        return s;
+    }, []);
 
     return (
         <SocketContext.Provider value={{socket}} >
