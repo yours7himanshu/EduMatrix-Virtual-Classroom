@@ -27,7 +27,9 @@ export const useSocket = ()=>{
 
 export const SocketProvider = (props)=>{
     const socket = useMemo(
-        ()=> io(import.meta.env.VITE_BACKEND_URL),[]
+        ()=> io(import.meta.env.VITE_BACKEND_URL, {
+            withCredentials: true,
+        }), []
     )
 
     return (
@@ -36,4 +38,3 @@ export const SocketProvider = (props)=>{
         </SocketContext.Provider>
       )
 };
-

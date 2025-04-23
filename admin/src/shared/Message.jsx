@@ -17,13 +17,14 @@ limitations under the License.
 
 
 import React, { useState, useEffect, useRef } from "react";
-import socket from "../socket";
+import { useSocket } from "../providers/Socket";
 import SendIcon from "@mui/icons-material/Send";
 import { TextField, IconButton, Paper, Typography, Divider } from "@mui/material";
 import { div } from "@tensorflow/tfjs";
 import {MessageSquare} from "lucide-react";
 
 const Message = () => {
+  const { socket } = useSocket();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [error, setError] = useState("");
