@@ -54,10 +54,10 @@ def predictor(arr):
     else:
         return "Not Placed"
     
-# if __name__ == "__main__":
-#     prompt1 = sys.argv[1]
-#     prompt2 = sys.argv[2]
-#     prompt3 = sys.argv[3] 
-#     prompt = [prompt1,prompt2,prompt3]
-#     output = predictor(prompt)
-#     print(json.dumps({"result": output})) 
+if __name__ == "__main__":
+    prompt1 = sys.argv[1]
+    prompt2 = sys.argv[2]
+    prompt3 = sys.argv[3] 
+    prompt = [prompt1,prompt2,prompt3]
+    output = predictor(prompt)
+    print(json.dumps({"result": output})) 

@@ -42,7 +42,7 @@ marks_mean=df.groupby("Branch")['Marks'].mean().reset_index()['Marks']
 
 def create_bar_plot(x, y,title,xlabel):
     buf = io.BytesIO()
-    plt.figure(figsize=(8,6))
+    plt.figure(figsize=(10,6))
     bars=plt.barh(x,y, color='skyblue', edgecolor='black')
     max_index =  np.argmax(y.values)
     min_index = np.argmin(y.values)
@@ -51,9 +51,10 @@ def create_bar_plot(x, y,title,xlabel):
     for bar in bars:
         width = bar.get_width()
         plt.text(width + 0.5, bar.get_y() + bar.get_height() / 2,
-                f'{width:.2f}', va='center', fontsize=10, color='black')
+                f'{width:.2f}', va='center', fontsize=15, color='black')
     plt.title(title, fontsize=16, fontweight='bold')
-    plt.xlabel(xlabel, fontsize=12)
+    plt.xlabel(xlabel, fontsize=21,fontweight='bold', color='#34495e', labelpad=10, family='serif')
+   
     plt.xlim(0, 100)
     plt.tight_layout()
     plt.gca().invert_yaxis()  
@@ -69,16 +70,16 @@ def top_students():
     name=x['Name_x']
     marks=x['Marks']
     branch=x['Branch']
-    plt.figure(figsize=(12,5))
+    plt.figure(figsize=(12,7))
     plot=sns.barplot(data=df, x=name, y=marks, hue=branch)
     for p in plot.patches:
         height = p.get_height()
         plot.annotate(f'{height:.1f}',
                     (p.get_x() + p.get_width() / 2., height),
                     ha='center', va='bottom',
-                    fontsize=9, color='black')
-    plt.legend(title='Branch', loc='center left', bbox_to_anchor=(1, 0.5), fontsize='small', title_fontsize='small')
-    plt.xticks(rotation=45)
+                    color='black', fontsize=12, fontweight='bold')
+    plt.legend(title='Branch', loc='center left', bbox_to_anchor=(1, 0.5), title_fontsize='medium')
+    plt.xticks(rotation=70,fontsize=16,fontweight='bold',family='serif')
     plt.title("Student Marks by Branch")
     plt.tight_layout()
     plt.savefig(buf, format='png')
@@ -103,8 +104,8 @@ def scatter():
     plt.figure(figsize=(8, 6))
     sns.scatterplot(data=new_df, x=df['Attendance'], y=new_df['Marks'], hue=new_df['Branch'], s=100)
     plt.title("Attendance vs Marks")
-    plt.xlabel("Attendance")
-    plt.ylabel("Marks")
+    plt.xlabel("Attendance",fontsize=17,fontweight='bold')
+    plt.ylabel("Marks",fontsize=17,fontweight='bold')
     plt.grid(True)
     plt.tight_layout()
     plt.savefig(buf, format='png')
@@ -118,28 +119,34 @@ def fees_status():
     
     buf = io.BytesIO()
     grouped = df.groupby(['Branch', 'Fees_status']).size().reset_index(name='count')
-    plt.figure(figsize=(10, 6))
-    sns.barplot(data=grouped, x='Branch', y='count', hue='Fees_status', palette='Set2')
+    plt.figure(figsize=(10,7))
+    sns.barplot(data=grouped, x='Branch', y='count', hue='Fees_status', palette='Set2',)
     plt.title('Fee Status by Branch')
-    plt.xlabel('Branch')
-    plt.ylabel('Number of Students')
-    plt.legend(title='Fees Status')
-    plt.xticks(rotation=45)
+    plt.xlabel('Branch',fontsize=17,fontweight='bold')
+    plt.ylabel('Number of Students',fontsize=17,fontweight='bold')
+    plt.legend(title='Fees Status',loc='upper right')
+    plt.xticks(rotation=80, fontsize=12,fontweight='bold', color='#34495e', family='serif')
+    for p in plt.gca().patches:
+                plt.gca().annotate(f'{int(p.get_height())}', 
+                                (p.get_x() + p.get_width() / 2., p.get_height()), 
+                                ha='center', va='bottom', fontsize=12, fontweight='bold')
+            
     plt.tight_layout()
+    plt.grid(True)
     plt.savefig(buf, format='png')
     plt.close()
     buf.seek(0)
     return base64.b64encode(buf.read()).decode('utf-8')
 def placement_status():
             buf = io.BytesIO()
-            plt.figure(figsize=(6,4))
+            plt.figure(figsize=(6,5))
             sns.set(style="whitegrid")
             palette = {'Placed': "#1f77b4", 'Unplaced': "#ff7f0e"}
             sns.countplot(data=df, x='Placed',palette=palette,width=0.3)
             plt.legend(title='Placement Status', loc='upper right', labels=['Placed', 'Unplaced'], fontsize=12)
             plt.title("Number of Students Placed vs Unplaced", fontsize=16, fontweight='bold')
-            plt.xlabel("Placement Status", fontsize=12)
-            plt.ylabel("Number of Students", fontsize=12)
+            plt.xlabel("Placement Status",fontsize=17,fontweight='bold')
+            plt.ylabel("Number of Students",fontsize=17,fontweight='bold')
             for p in plt.gca().patches:
                 plt.gca().annotate(f'{int(p.get_height())}', 
                                 (p.get_x() + p.get_width() / 2., p.get_height()), 
@@ -159,9 +166,9 @@ def branch_placement():
             sns.countplot(data=df, x='Branch', hue='Placed', palette=palette)
 
             plt.title("Branch-wise Placement Status", fontsize=16, fontweight='bold')
-            plt.xlabel("Branch", fontsize=12)
-            plt.ylabel("Number of Students", fontsize=12)
-            plt.xticks(rotation=45)
+            plt.xlabel("Branch", fontsize=17,fontweight='bold')
+            plt.ylabel("Number of Students", fontsize=17,fontweight='bold')
+            plt.xticks(rotation=45,fontsize=12,fontweight='bold', color='#34495e', family='serif')
             for p in plt.gca().patches:
                 height = p.get_height()
                 if height > 0:
@@ -181,8 +188,8 @@ def branch_placement():
 
 
 print(json.dumps({'result':{
-     'barplot1':create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance"),
-     'barplot2':create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks"),
+     'barplot1':create_bar_plot(branches,att_mean,"Engineering Branch Scores","Attendance (Mean)"),
+     'barplot2':create_bar_plot(branches,marks_mean,"Engineering Branch Scores","Marks (Mean)"),
      'scatter':scatter(),
      'top_students':top_students(),
      'pieplot':pieplot(),
