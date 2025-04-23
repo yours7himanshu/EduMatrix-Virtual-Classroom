@@ -71,7 +71,7 @@ const Announcement = () => {
         <div className="flex flex-col items-center justify-center">
           <div className="text-center mb-5">
             <div className="inline-flex  justify-center items-center gap-4 ml-56 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100">
-              <h1 className="text-3xl  font-semibold text-violet-700">
+              <h1 className="text-3xl ml-10 font-semibold text-violet-700">
                 Post College Announcement
               </h1>
               <img className="w-16 h-16 object-contain" src={scholar} alt="Scholar icon" />
@@ -137,7 +137,7 @@ const Announcement = () => {
                   onChange={(e) => {
                     setBranch(e.target.value);
                   }}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  className="w-full outline-none p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
                 />
 
                 <textarea
@@ -148,7 +148,7 @@ const Announcement = () => {
                   }}
                   placeholder="Enter Announcement Description"
                   rows="6"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 resize-none"
+                  className="w-full outline-none p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 resize-none"
                 ></textarea>
               </div>
 

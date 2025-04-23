@@ -88,15 +88,15 @@ const collegeLogin = async(req,res)=>{
         }
 
        const token = jwt.sign({email:email,collegeId:college._id,role:college.role},
-        process.env.JWT_SECRET,
-        {expiresIn:"1d"}
+        process.env.JWT_SECRET
+      
        );
 
        res.cookie("token",token,{
         httpOnly:true,
         secure:process.env.NODE_ENV==="production"?true:false,
         sameSite:process.env.NODE_ENV==="production"?"none":"lax",
-        maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+        // maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
         path: '/', // Apply to all paths
         overwrite: true // Ensure it overwrites any existing token cookie
        })
