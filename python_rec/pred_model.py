@@ -23,14 +23,15 @@ df = pd.DataFrame(list(cursor))
 def adjust_placement(row):
     if (
         row['Adjusted Marks'] >= 60 and
-        row['Adjusted Attendance'] >= 70 and
-        row['Branch'] in ['Computer Science', 'Information Technology', 'Electronics and Communication','Electrical Engineering','Biotechnology']
+        row['Adjusted Attendance'] >= 60 
+   
     ):
         return 1
     else:
         return 0
 
 df['Placed'] = df.apply(adjust_placement, axis=1)
+print(df['Placed'].value_counts())
 df=df[['Adjusted Marks','Adjusted Attendance','Branch','Placed']]
 X=df.drop('Placed',axis=1)
 Y=df['Placed']
@@ -53,10 +54,10 @@ def predictor(arr):
     else:
         return "Not Placed"
     
-if __name__ == "__main__":
-    prompt1 = sys.argv[1]
-    prompt2 = sys.argv[2]
-    prompt3 = sys.argv[3] 
-    prompt = [prompt1,prompt2,prompt3]
-    output = predictor(prompt)
-    print(json.dumps({"result": output})) 
+# if __name__ == "__main__":
+#     prompt1 = sys.argv[1]
+#     prompt2 = sys.argv[2]
+#     prompt3 = sys.argv[3] 
+#     prompt = [prompt1,prompt2,prompt3]
+#     output = predictor(prompt)
+#     print(json.dumps({"result": output})) 

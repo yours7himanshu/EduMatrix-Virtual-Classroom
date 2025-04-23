@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import seaborn as sns
 import os
 
-load_dotenv(dotenv_path='.env')
+load_dotenv(dotenv_path='EduMatrix-Virtual-Classroom/python_rec/.env')
 
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")
@@ -22,6 +22,19 @@ cursor2 = collection2.find()
 registrar = pd.DataFrame(list(cursor1))
 teacher= pd.DataFrame(list(cursor2))
 df=registrar.merge(teacher,on='RollNumber')
+
+def adjust_placement(row):
+    if (
+        row['Marks'] >= 60 and
+        row['Attendance'] >= 60 
+   
+    ):
+        return 'Placed'
+    else:
+        return 'Unplaced'
+
+df['Placed'] = df.apply(adjust_placement, axis=1)
+df['Placed']=df['Placed'].astype('category')
 
 branches=df.groupby("Branch")['Attendance'].mean().reset_index()['Branch']
 att_mean=df.groupby("Branch")['Attendance'].mean().reset_index()['Attendance']
@@ -117,6 +130,53 @@ def fees_status():
     plt.close()
     buf.seek(0)
     return base64.b64encode(buf.read()).decode('utf-8')
+def placement_status():
+            buf = io.BytesIO()
+            plt.figure(figsize=(6,4))
+            sns.set(style="whitegrid")
+            palette = {'Placed': "#1f77b4", 'Unplaced': "#ff7f0e"}
+            sns.countplot(data=df, x='Placed',palette=palette,width=0.3)
+            plt.legend(title='Placement Status', loc='upper right', labels=['Placed', 'Unplaced'], fontsize=12)
+            plt.title("Number of Students Placed vs Unplaced", fontsize=16, fontweight='bold')
+            plt.xlabel("Placement Status", fontsize=12)
+            plt.ylabel("Number of Students", fontsize=12)
+            for p in plt.gca().patches:
+                plt.gca().annotate(f'{int(p.get_height())}', 
+                                (p.get_x() + p.get_width() / 2., p.get_height()), 
+                                ha='center', va='bottom', fontsize=12, fontweight='bold')
+            plt.tight_layout()
+            plt.savefig(buf, format='png')
+            plt.close()
+            buf.seek(0)
+            return base64.b64encode(buf.read()).decode('utf-8')
+
+def branch_placement():
+            buf=io.BytesIO()
+            plt.figure(figsize=(10, 6))
+
+            palette = {'Placed': "#5B21B6", 'Unplaced': "#f78fb3"}
+
+            sns.countplot(data=df, x='Branch', hue='Placed', palette=palette)
+
+            plt.title("Branch-wise Placement Status", fontsize=16, fontweight='bold')
+            plt.xlabel("Branch", fontsize=12)
+            plt.ylabel("Number of Students", fontsize=12)
+            plt.xticks(rotation=45)
+            for p in plt.gca().patches:
+                height = p.get_height()
+                if height > 0:
+                    plt.gca().annotate(f'{int(height)}',
+                                    (p.get_x() + p.get_width() / 2., height),
+                                    ha='center', va='bottom',
+                                    fontsize=10, fontweight='bold')
+
+
+            plt.legend(title='Placement Status', loc='upper right', fontsize=11)
+            plt.tight_layout()
+            plt.savefig(buf,format='png')
+            plt.close()
+            buf.seek(0)
+            return base64.b64encode(buf.read()).decode('utf-8')
 
 
 
@@ -126,6 +186,8 @@ print(json.dumps({'result':{
      'scatter':scatter(),
      'top_students':top_students(),
      'pieplot':pieplot(),
-     'fees_status':fees_status()
+     'fees_status':fees_status(),
+     'placement_status':placement_status(),
+     'branch_placement':branch_placement()
 }}))
 
