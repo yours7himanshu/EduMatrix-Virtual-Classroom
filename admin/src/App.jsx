@@ -50,6 +50,7 @@ import QuestionGenerator from "./pages/QuestionGenerator";
 import StudentMarksAttendance from "./components/Teachers/StudentMarksAttendance";
 import RegistrarStudent from "./components/Registrar/RegistrarStudent";
 import AIPredictor from "./pages/AI Predictor/AIPredictor";
+import DirectorFeedback from "./components/Director/DirectorFeedback";
 
 
 
@@ -109,6 +110,7 @@ function App() {
                 <Route path="/student-marks-attendance" element={<ProtectedRoute element={<StudentMarksAttendance/>} />} />
                 <Route path="/registrar-student" element={<ProtectedRoute element={<RegistrarStudent/>} />} />
                 <Route path="/ai-predictor" element={<ProtectedRoute element={<AIPredictor/>} />} />
+                <Route path="/director-feedback" element={<ProtectedRoute element={<DirectorFeedback/>} />} />
 
 
                 <Route path="*" element={<NotFound />} />

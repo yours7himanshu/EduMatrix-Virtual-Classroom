@@ -107,6 +107,18 @@ const Sidebar = () => {
           <span>Add Teachers</span>
         </li>}
 
+        {userRole === 'Director' && <li
+          onClick={() => handleNavigation("/director-feedback")}
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/director-feedback")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <QuestionAnswerIcon />
+          <span>User Feedbacks</span>
+        </li>}
+
         {userRole === 'Registrar' && <li
           onClick={() => handleNavigation("/enroll-students")}
           className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${

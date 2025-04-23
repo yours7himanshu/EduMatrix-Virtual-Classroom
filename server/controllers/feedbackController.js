@@ -26,4 +26,20 @@ const feedbackController = async(req,res)=>{
     }
 }
 
-module.exports = feedbackController;
+
+const getFeedback = async(req,res)=>{
+  try{
+    const feedbackreport = await Feedback.find();
+    return res.status(200).json({
+        success:true,
+        feedbackreport
+    })
+  } catch(error){
+    return res.status(500).json({
+        success:false,
+        message:"Cannot able to fetch the feedbacks"
+    })
+  }
+}
+
+module.exports = {feedbackController,getFeedback};

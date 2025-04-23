@@ -18,11 +18,12 @@ limitations under the License.
 
 
 const express = require('express');
-const feedbackController = require('../controllers/feedbackController');
+const {feedbackController, getFeedback} = require('../controllers/feedbackController');
 const feedbackRouter =  express.Router();
 
 
-feedbackRouter.post('/feedback',feedbackController)
+feedbackRouter.post('/feedback',feedbackController);
+feedbackRouter.get('/getfeedback',getFeedback)
 
 
 module.exports = feedbackRouter;
