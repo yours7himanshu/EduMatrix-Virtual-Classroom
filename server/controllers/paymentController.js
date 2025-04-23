@@ -5,7 +5,7 @@ import FeesModel from "../models/feesModel.js";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 export const payfees = async(req,res)=>{
-  const frontend_url = "http://localhost:5173";
+  const frontend_url = "http://localhost:5174";
   try {
    
     const {studentId,amount,rollno,email,year} = req.body

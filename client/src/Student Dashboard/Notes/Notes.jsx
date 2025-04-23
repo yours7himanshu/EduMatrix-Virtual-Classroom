@@ -94,7 +94,7 @@ const Notes = () => {
       });
 
       if (response.data.success) {
-        toast.success("Questions generated successfully");
+        toast.success("Summary generated successfully");
         setSummary(response.data.summary);
         setShowSummary(true);
 
@@ -123,11 +123,11 @@ const Notes = () => {
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight mb-3">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            PDF to Questions: Smart Question Generator
+            Topic Summarizer for Students
             </span>
           </h1>
           <p className="text-sm text-gray-600 max-w-2xl mx-auto">
-            Quickly generate questions from your PDF notes with our AI-powered question generator.
+            Quickly generate summaries from your PDF notes with our AI-powered summarizer.
 
           </p>
         </div>

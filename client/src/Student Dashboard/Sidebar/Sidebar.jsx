@@ -27,6 +27,10 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import PaymentIcon from "@mui/icons-material/Payment";
 import Logo from "./Logo";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import DescriptionIcon from '@mui/icons-material/Description';
+import AssistantIcon from '@mui/icons-material/Assistant';
+import './Sidebar.css';
 // import Modal from "../components/Model";
 const Sidebar = () => {
   const location = useLocation();
@@ -45,9 +49,13 @@ const Sidebar = () => {
     <div className="flex max-md:hidden w-[20%] ">
       {/* Sidebar */}
       <div className="sidebar fixed top-0  left-0 h-screen flex flex-col w-[20%] bg-gradient-to-tr from-indigo-800 to-blue-700 text-white">
-        <ul className="flex flex-col ml-10 gap-5">
+      <div className="sticky  top-0 z-20 w-[90%] ml-7 ">
           <Logo />
-          <div className="flex gap-4">
+
+          </div>
+        <ul className="flex flex-col ml-10 gap-5 overflow-y-auto hide-scrollbar">
+         
+          <div className="flex gap-4 ">
             <li
               onClick={() => handleNavigation("/StudentDashboard/dashboard")}
               className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
@@ -81,7 +89,7 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            <CampaignIcon />
+            <SummarizeIcon />
             Summarizer
           </li>
 
@@ -93,10 +101,10 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            <CampaignIcon />
+            <DescriptionIcon />
             Teachers Notes
           </li>
-
+{/* 
           <li
             onClick={() => handleNavigation("/timetable")}
             className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
@@ -107,7 +115,7 @@ const Sidebar = () => {
           >
             <EventNoteIcon />
             Time Table
-          </li>
+          </li> */}
 
           <li
             onClick={() => handleNavigation("/StudentDashboard/quiz")}
@@ -124,7 +132,7 @@ const Sidebar = () => {
           <li
             onClick={() => handleNavigation("/StudentDashboard/assignment")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/post-assignment")
+              isActive("/StudentDashboard/assignment")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
             }`}
@@ -163,7 +171,7 @@ const Sidebar = () => {
                 : "text-white"
             }`}
           >
-            <DashboardIcon />
+            <AssistantIcon />
             AI Assistent
           </li>
 

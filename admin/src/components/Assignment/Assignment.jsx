@@ -162,4 +162,4 @@ const Assignment = () => {
   );
 };
 
-export default AppLayout(Assignment);
+export default AppLayout()(Assignment);

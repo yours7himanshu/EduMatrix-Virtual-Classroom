@@ -31,7 +31,6 @@ def adjust_placement(row):
         return 0
 
 df['Placed'] = df.apply(adjust_placement, axis=1)
-print(df['Placed'].value_counts())
 df=df[['Adjusted Marks','Adjusted Attendance','Branch','Placed']]
 X=df.drop('Placed',axis=1)
 Y=df['Placed']
@@ -61,3 +60,4 @@ if __name__ == "__main__":
     prompt = [prompt1,prompt2,prompt3]
     output = predictor(prompt)
     print(json.dumps({"result": output})) 
+
