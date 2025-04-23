@@ -14,7 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-export  const authStudent = (req,res)=>{
+import jwt from "jsonwebtoken";
+export  const authStudent = (req,res,next)=>{
+   // console.log("hello")
+  // console.log(req.headers);
     const {token} = req.headers;
     console.log(token);
     if(!token){
@@ -26,7 +29,7 @@ export  const authStudent = (req,res)=>{
     try{
         const decodedData = jwt.verify(token,process.env.JWT_SECRET);
         console.log(decodedData);
-       // req.user = decodedData;
+        req.body.studentId = decodedData.userId;
         next();
     }
     catch(error){
