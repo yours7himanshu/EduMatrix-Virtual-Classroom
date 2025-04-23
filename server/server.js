@@ -42,7 +42,8 @@ const summarizationRoutes = require('./routes/summarizationRoutes');
 const studentMarksAttendanceRoutes = require('./routes/studentMarksAttendanceRoutes');
 const registrarStudentRoute = require('./routes/registrarStudentRoute');
 // const aiPredictRoutes = require('./routes/aiPredictorRoutes');
-const aiPredictRoutes = require('./routes/aiPredictorRoutes')
+const aiPredictRoutes = require('./routes/aiPredictorRoutes');
+const { paymentRouter } = require('./routes/paymentRoutes');
 
 
 
@@ -88,6 +89,7 @@ app.use('/api',summarizationRoutes);
 app.use('/api/v6',studentMarksAttendanceRoutes);
 app.use('/api/v8',registrarStudentRoute);
 app.use('/api/v9',aiPredictRoutes);
+app.use('/api/v10',paymentRouter)
 
 
 

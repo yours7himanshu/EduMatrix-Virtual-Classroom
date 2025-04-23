@@ -24,6 +24,7 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import QuizIcon from "@mui/icons-material/Quiz";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import PaymentIcon from "@mui/icons-material/Payment";
 import Logo from "./Logo";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 // import Modal from "../components/Model";
@@ -59,7 +60,7 @@ const Sidebar = () => {
               Dashboard
             </li>
           </div>
-   
+
           <li
             onClick={() => handleNavigation("/StudentDashboard/announcement")}
             className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
@@ -81,7 +82,7 @@ const Sidebar = () => {
             }`}
           >
             <CampaignIcon />
-          Summarizer
+            Summarizer
           </li>
 
           <li
@@ -93,9 +94,8 @@ const Sidebar = () => {
             }`}
           >
             <CampaignIcon />
-          Teachers Notes
+            Teachers Notes
           </li>
-
 
           <li
             onClick={() => handleNavigation("/timetable")}
@@ -132,7 +132,17 @@ const Sidebar = () => {
             <AssignmentIcon />
             Assignments
           </li>
-
+          <li
+            onClick={() => handleNavigation("/StudentDashboard/payfees")}
+            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
+              isActive("/StudentDashboard/payfees")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            <PaymentIcon />
+            Pay Fees
+          </li>
           <li
             onClick={() => handleNavigation("/StudentDashboard/library")}
             className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
@@ -142,9 +152,8 @@ const Sidebar = () => {
             }`}
           >
             <LocalLibraryIcon />
-              Library
+            Library
           </li>
-
 
           <li
             onClick={() => handleNavigation("/ai")}
@@ -167,13 +176,10 @@ const Sidebar = () => {
                   : "text-white"
               }`}
             >
-             <LiveTvIcon  />
-            Live Class
-
-          </li>
-
+              <LiveTvIcon />
+              Live Class
+            </li>
           </div>
-         
         </ul>
       </div>
 

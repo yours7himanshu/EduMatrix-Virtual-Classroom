@@ -14,3 +14,26 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+export  const authStudent = (req,res)=>{
+    const {token} = req.headers;
+    console.log(token);
+    if(!token){
+        return res.status(401).json({
+            success:false,
+            message:"You are not authorized"
+        })
+    }
+    try{
+        const decodedData = jwt.verify(token,process.env.JWT_SECRET);
+        console.log(decodedData);
+       // req.user = decodedData;
+        next();
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Some error occured during authentication"
+        })
+    }
+}

@@ -42,6 +42,7 @@ import NotFound from "./pages/NotFound/NotFound.jsx";
 import Library from "./Student Dashboard/library management/Library.jsx";
 import Notes from "./Student Dashboard/Notes/Notes.jsx";
 import TeachersNotes from "./Student Dashboard/Notes/TeachersNotes.jsx";
+import Payfees from "./Student Dashboard/Payment/Payfees.jsx";
 
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
@@ -56,41 +57,48 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           <Route path="/signup" element={<Signup />} />
-          <Route path="/liveLecture" element={<ProtectedRoute element={<JoinLecture/>} />} />
+          <Route
+            path="/liveLecture"
+            element={<ProtectedRoute element={<JoinLecture />} />}
+          />
           <Route path="/aboutUs" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/syllabus" element={<SyllabusPage />} />
-          <Route path="/StudentDashboard/quiz" element={<ProtectedRoute element={<QuizList/>} />} />
+          <Route
+            path="/StudentDashboard/quiz"
+            element={<ProtectedRoute element={<QuizList />} />}
+          />
           <Route path="/login" element={<Login />} />
-          <Route path="/ai" element={<ProtectedRoute element={<AiAssistent/>}  />} />
+          <Route
+            path="/ai"
+            element={<ProtectedRoute element={<AiAssistent />} />}
+          />
           <Route path="/MainLogin" element={<MainLoginPage />} />
           <Route
             path="/StudentDashboard/dashboard"
-            element={<ProtectedRoute element={<StudentDashboard/>} />}
+            element={<ProtectedRoute element={<StudentDashboard />} />}
           />
           <Route
             path="/StudentDashboard/announcement"
-            element={<ProtectedRoute element={<Announcement/>} />}
+            element={<ProtectedRoute element={<Announcement />} />}
           />
           <Route
             path="/StudentDashboard/assignment"
-            element={<ProtectedRoute element={<Assignment/>} />}
+            element={<ProtectedRoute element={<Assignment />} />}
           />
-          <Route
-            path="/StudentDashboard/library"
-            element={<Library/>}
-          />
+          <Route path="/StudentDashboard/library" element={<Library />} />
+          <Route path="/StudentDashboard/payfees" element={<Payfees />} />
           <Route
             path="/StudentDashboard/notes"
-            element={<ProtectedRoute element={<Notes/>} />}
+            element={<ProtectedRoute element={<Notes />} />}
           />
           <Route
             path="/StudentDashboard/teachersNotes"
-            element={<ProtectedRoute element={<TeachersNotes/>} />}
+            element={<ProtectedRoute element={<TeachersNotes />} />}
           />
-          <Route path="*" element={<NotFound/>}/>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </PeerProvider>
     </>
