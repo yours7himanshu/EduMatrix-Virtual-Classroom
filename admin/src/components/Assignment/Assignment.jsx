@@ -22,26 +22,36 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import AppLayout from "../../layout/AppLayout";
 
-
 const Assignment = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState("");
   const [deadline, setDeadline] = useState("");
   const [loading, setLoading] = useState(false);
+  const [pdfFile, setPdfFile] = useState(null);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setTimeout(setLoading(true), 2000);
+    if (!pdfFile) {
+      toast.error("Please upload a PDF file for the assignment.");
+      return;
+    }
+    setLoading(true);
+    // Prepare form data
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("questions", questions);
+    formData.append("deadline", deadline);
+    formData.append("pdfFile", pdfFile);
 
     try {
-      const response = await axios.post(`${backendUrl}/api/v7/postAssignment`, {
-        title,
-        description,
-        questions,
-        deadline,
-      });
+      const response = await axios.post(
+        `${backendUrl}/api/v7/postAssignment`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
       if (response.data.success) {
         toast.success(response.data.message);
       }
@@ -61,86 +71,95 @@ const Assignment = () => {
     <div className="min-h-screen w-full  flex ml-[23%]">
       <div className="flex w-full  gap-8">
         {/* Sidebar */}
-        
 
-       <div className="form-details flex justify-center items-center h-screen w-[70%]">
-       <form
-          onSubmit={handleSubmit}
-          className="w-full h-[90%] lg:w-3/4 p-6 bg-white rounded-lg shadow-md"
-        >
-          <div className="space-y-6">
-            <h1 className="text-3xl font-semibold text-gray-800 text-center">
-              Post New Assignment: Empower Your Students with Engaging Challenges!
-            </h1>
+        <div className="form-details flex justify-center items-center h-screen w-[70%]">
+          <form
+            onSubmit={handleSubmit}
+            className="w-full h-[90%] lg:w-3/4 p-6 bg-white rounded-lg shadow-md"
+          >
+            <div className="space-y-6">
+              <h1 className="text-3xl font-semibold text-gray-800 text-center">
+                Post New Assignment: Empower Your Students with Engaging Challenges!
+              </h1>
 
-            {/* Title Input */}
-            <div>
-              <label className="block text-gray-600 font-medium">Title</label>
-              <input
-                type="text"
-                placeholder="Enter assignment title"
-                value={title}
-                required
-                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                onChange={(e) => setTitle(e.target.value)}
-              />
+              {/* Title Input */}
+              <div>
+                <label className="block text-gray-600 font-medium">Title</label>
+                <input
+                  type="text"
+                  placeholder="Enter assignment title"
+                  value={title}
+                  required
+                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              {/* Description Input */}
+              <div>
+                <label className="block text-gray-600 font-medium">Description</label>
+                <input
+                  type="text"
+                  placeholder="Enter assignment description"
+                  value={description}
+                  required
+                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+
+              {/* Questions Input */}
+              <div>
+                <label className="block text-gray-600 font-medium">Questions</label>
+                <input
+                  type="text"
+                  placeholder="Enter assignment questions"
+                  value={questions}
+                  required
+                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  onChange={(e) => setQuestions(e.target.value)}
+                />
+              </div>
+
+              {/* Deadline Input */}
+              <div>
+                <label className="block text-gray-600 font-medium">Deadline</label>
+                <input
+                  type="date"
+                  value={deadline}
+                  required
+                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  onChange={(e) => setDeadline(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-600 font-medium">Upload PDF</label>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  required
+                  onChange={(e) => setPdfFile(e.target.files[0])}
+                  className="mt-2 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex justify-center">
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="w-full p-3 bg-green-500 text-white font-medium rounded-md  disabled:opacity-50"
+                >
+                  {loading ? "Posting..." : "Post Assignment"}
+                </button>
+              </div>
             </div>
-
-            {/* Description Input */}
-            <div>
-              <label className="block text-gray-600 font-medium">Description</label>
-              <input
-                type="text"
-                placeholder="Enter assignment description"
-                value={description}
-                required
-                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-
-            {/* Questions Input */}
-            <div>
-              <label className="block text-gray-600 font-medium">Questions</label>
-              <input
-                type="text"
-                placeholder="Enter assignment questions"
-                value={questions}
-                required
-                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                onChange={(e) => setQuestions(e.target.value)}
-              />
-            </div>
-
-            {/* Deadline Input */}
-            <div>
-              <label className="block text-gray-600 font-medium">Deadline</label>
-              <input
-                type="date"
-                value={deadline}
-                required
-                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                onChange={(e) => setDeadline(e.target.value)}
-              />
-            </div>
-
-            {/* Submit Button */}
-            <div className="flex justify-center">
-              <button
-                disabled={loading}
-                type="submit"
-                className="w-full p-3 bg-green-500 text-white font-medium rounded-md  disabled:opacity-50"
-              >
-                {loading ? "Posting..." : "Post Assignment"}
-              </button>
-            </div>
-          </div>
-        </form>
-       </div>
-     
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default AppLayout()(Assignment);
+export default AppLayout(Assignment);

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../Layout/Layout";
 
@@ -9,6 +8,7 @@ type Assignment = {
   description: string;
   questions: string;
   deadline: string;
+  pdfUrl: string;
 };
 
 const Assignment: React.FC = () => {
@@ -96,9 +96,14 @@ const Assignment: React.FC = () => {
                   </div>
                 </div>
                 <div className="bg-gray-50 px-5 py-3">
-                  <button className="w-full text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200">
-                    View Assignment →
-                  </button>
+                  <a
+                    href={assignment.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block w-full text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors duration-200"
+                  >
+                    Download PDF
+                  </a>
                 </div>
               </div>
             ))}

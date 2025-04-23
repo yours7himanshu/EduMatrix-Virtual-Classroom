@@ -18,8 +18,8 @@ limitations under the License.
 const express = require('express');
 const {postAssignment,getAssignment,deleteAssignment}=require("../controllers/assignmentController")
 const assignmentRouter = express.Router();
-
-assignmentRouter.post('/postAssignment',postAssignment);
+const upload = require('../middlewares/multer');
+assignmentRouter.post('/postAssignment',upload.single("pdfFile"),postAssignment);
 assignmentRouter.get('/getAssignment',getAssignment);
 assignmentRouter.delete('/assignment/:id',deleteAssignment);
 

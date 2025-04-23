@@ -36,6 +36,10 @@ const assignmentSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  pdfUrl: {
+    type: String,
+    required: true,
+  },
 });
 
 const Assignment = mongoose.model("assignment", assignmentSchema);

@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
+const cloudinary = require('cloudinary').v2;
 const Assignment = require("../models/assignmentModels");
 
 // code for posting the assignment from the admin panel to the student server
@@ -22,6 +22,14 @@ const postAssignment = async (req, res) => {
   const { title, description, questions, deadline } = req.body;
 
   try {
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Pdf file is required",
+      });
+    }
+
     const existingAssignment = await Assignment.findOne({ title });
     if (existingAssignment) {
       return res.status(409).json({
@@ -29,11 +37,39 @@ const postAssignment = async (req, res) => {
         message: "Assignment already exist",
       });
     }
+
+    let pdfUrl;
+
+    // Upload avatar to Cloudinary
+    try {
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: "image" },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(req.file.buffer); // Pass the buffer to the stream
+      });
+
+      pdfUrl = result.secure_url;
+    } catch (uploadError) {
+      console.error("Error uploading avatar to Cloudinary:", uploadError);
+      return res.status(500).json({
+        success: false,
+        message: "Error uploading avatar",
+        error: uploadError.message,
+      });
+    }
+
+
     const assignment = await Assignment.create({
       title,
       description,
       questions,
-      deadline
+      deadline,
+      pdfUrl,
     });
 
     return res.status(201).json({
