@@ -127,6 +127,27 @@ catch(error){
 }
 
 }
+const getStudentById = async(req,res)=>{
+  try{
+    const {studentId} = req.body;
+    const studentdetails = await Student.findById(studentId);
+    if(!studentdetails){
+      return res.status(404).json({
+        success:false,
+        message:"Student not found"
+      })
+    }
+    return res.json({
+      success:true,
+      studentdetails,
+      message:"Here are the details of the student",
+    })
+  }catch(error){
+    return res.status(500).json({
+      success:false,
+      message:"Some error occured on fetching the student details"
+    })
+  }
+}
 
-
-module.exports = { enrollStudent ,getStudents};
+module.exports = { enrollStudent ,getStudents,getStudentById};

@@ -17,11 +17,13 @@ limitations under the License.
 
 
 const express = require('express');
-const {enrollStudent,getStudents} = require('../controllers/studentController');
+const {enrollStudent,getStudents, getStudentById} = require('../controllers/studentController');
 const studentRouter = express.Router();
 const upload = require('../middlewares/multer');
+const { authStudent } = require('../middlewares/auth');
 
 studentRouter.post("/enroll-student", upload.single("avatar"), enrollStudent);
 studentRouter.get('/student-detail',getStudents);
+studentRouter.post('/student-byid',authStudent,getStudentById)
 
 module.exports=studentRouter;
