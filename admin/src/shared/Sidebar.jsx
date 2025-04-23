@@ -31,8 +31,17 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import EditAttributesIcon from '@mui/icons-material/EditAttributes';
+import PeopleIcon from '@mui/icons-material/People';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import PersonIcon from '@mui/icons-material/Person';
 import Modal from "../components/Model";
 import { useAuth } from "../context/AuthContext";
+import "./Sidebar.css";
 
 const Sidebar = () => {
 
@@ -65,176 +74,184 @@ const Sidebar = () => {
 
   // Sidebar content component to avoid repetition
   const SidebarContent = () => (
-    <ul className="flex flex-col md:ml-10 gap-5 w-full">
-      <Logo />
-      <div className="flex gap-4">
-        <li
-          onClick={() => handleNavigation("/dashboard")}
-          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
-            isActive("/dashboard")
+    <ul className="flex flex-col md:ml-10 w-full h-full">
+      {/* Fixed Logo */}
+      <div className="sticky top-0 z-20 ">
+        <Logo />
+      </div>
+      {/* Scrollable nav items */}
+      <div className="flex flex-col gap-5 overflow-y-auto hide-scrollbar flex-1 px-4 py-2">
+        <div className="flex gap-4">
+          <li
+            onClick={() => handleNavigation("/dashboard")}
+            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
+              isActive("/dashboard")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            <DashboardIcon />
+            <span>Dashboard</span>
+          </li>
+        </div>
+
+        {userRole === 'Director' && <li
+          onClick={() => handleNavigation("/add-teachers")}
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/add-teachers")
               ? "bg-white text-black border rounded-md"
               : "text-white"
           }`}
         >
-          <DashboardIcon />
-          Dashboard
-        </li>
-      </div>
+          <PersonAddIcon />
+          <span>Add Teachers</span>
+        </li>}
 
-      {userRole === 'Director' && <li
-        onClick={() => handleNavigation("/add-teachers")}
-        className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/add-teachers")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        Add Teachers
-      </li>}
+        {userRole === 'Registrar' && <li
+          onClick={() => handleNavigation("/enroll-students")}
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/enroll-students")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <GroupAddIcon />
+          <span>Enroll Students</span>
+        </li>}
 
-      {userRole === 'Registrar' && <li
-        onClick={() => handleNavigation("/enroll-students")}
-        className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/enroll-students")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        Enroll Students
-      </li>}
+        {(userRole === 'Teacher' || userRole === 'Director') && <li
+          onClick={() => handleNavigation("/announcement")}
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/announcement")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <CampaignIcon />
+          <span>Announcement</span>
+        </li>}
 
-      {(userRole === 'Teacher' || userRole === 'Director') && <li
-        onClick={() => handleNavigation("/announcement")}
-        className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/announcement")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        <CampaignIcon />
-        Announcement
-      </li>}
+        {userRole === 'Teacher' && <li
+          onClick={() => handleNavigation("/timetable")}
+          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/timetable")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <EventNoteIcon />
+          <span>Time Table</span>
+        </li>}
 
-      
+        {userRole === 'Teacher' && <li
+          onClick={() => handleNavigation("/ai-predictor")}
+          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/ai-predictor")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <TrendingUpIcon />
+          <span>AI Predictor</span>
+        </li>}
 
-      {userRole === 'Teacher' && <li
-        onClick={() => handleNavigation("/timetable")}
-        className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/timetable")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        <EventNoteIcon />
-        Time Table
-      </li>}
-
-      {userRole === 'Teacher' && <li
-        onClick={() => handleNavigation("/ai-predictor")}
-        className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/ai-predictor")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        <EventNoteIcon />
-        AI Predictor
-      </li>}
-
-      {userRole === 'Teacher' && <li
-        onClick={() => handleNavigation("/question-generator")}
-        className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/question-generator")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        <EventNoteIcon />
-        Question Generator
-      </li>}
-      {userRole === 'Teacher' && <li
-        onClick={() => handleNavigation("/post-quiz")}
-        className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/post-quiz")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        <QuizIcon />
-        Quiz
-      </li>}
-
-      {userRole === 'Teacher' && <li
-        onClick={() => handleNavigation("/post-assignment")}
-        className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/post-assignment")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        <AssignmentIcon />
-        Assignment
-      </li>}
-
-      {userRole === 'Teacher' && <li
-        onClick={() => handleNavigation("/student-marks-attendance")}
-        className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/student-marks-attendance")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        <AssignmentIcon />
-        Fill Student Details
-      </li>}
-
-      {userRole === 'Registrar' && <li
-        onClick={() => handleNavigation("/student-detail")}
-        className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/admin-live")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        Student Details
-      </li>}
-
-      {userRole === 'Registrar' && <li
-        onClick={() => handleNavigation("/registrar-student")}
-        className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/registrar-student")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        Student Fees Details
-      </li>}
-
-      {userRole === 'Registrar' && <li
-        onClick={() => handleNavigation("/teachers")}
-        className={`list-style-none font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-          isActive("/admin-live")
-            ? "bg-white text-black border rounded-md"
-            : "text-white"
-        }`}
-      >
-        Teacher Details
-      </li>}
-
-      {(userRole === 'Teacher' || userRole === 'Director') && <div className="flex items-center gap-4">
-        <li
-          onClick={() => setIsModalOpen(true)}
+        {userRole === 'Teacher' && <li
+          onClick={() => handleNavigation("/question-generator")}
+          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/question-generator")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <QuestionAnswerIcon />
+          <span>Question Generator</span>
+        </li>}
+        {userRole === 'Teacher' && <li
+          onClick={() => handleNavigation("/post-quiz")}
           className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/post-quiz")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <QuizIcon />
+          <span>Quiz</span>
+        </li>}
+
+        {userRole === 'Teacher' && <li
+          onClick={() => handleNavigation("/post-assignment")}
+          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/post-assignment")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <AssignmentIcon />
+          <span>Assignment</span>
+        </li>}
+
+        {userRole === 'Teacher' && <li
+          onClick={() => handleNavigation("/student-marks-attendance")}
+          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/student-marks-attendance")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <EditAttributesIcon />
+          <span>Fill Student Details</span>
+        </li>}
+
+        {userRole === 'Registrar' && <li
+          onClick={() => handleNavigation("/student-detail")}
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
             isActive("/admin-live")
               ? "bg-white text-black border rounded-md"
               : "text-white"
           }`}
         >
-          <LiveTvIcon />
-          Go Live Class
-        </li>
-      </div>}
+          <PeopleIcon />
+          <span>Student Details</span>
+        </li>}
 
+        {userRole === 'Registrar' && <li
+          onClick={() => handleNavigation("/registrar-student")}
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/registrar-student")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <AccountBalanceWalletIcon />
+          <span>Student Fees Details</span>
+        </li>}
+
+        {userRole === 'Registrar' && <li
+          onClick={() => handleNavigation("/teachers")}
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            isActive("/admin-live")
+              ? "bg-white text-black border rounded-md"
+              : "text-white"
+          }`}
+        >
+          <PersonIcon />
+          <span>Teacher Details</span>
+        </li>}
+
+        {(userRole === 'Teacher' || userRole === 'Director') && <div className="flex items-center gap-4">
+          <li
+            onClick={() => setIsModalOpen(true)}
+            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+              isActive("/admin-live")
+                ? "bg-white text-black border rounded-md"
+                : "text-white"
+            }`}
+          >
+            <LiveTvIcon />
+            <span>Go Live Class</span>
+          </li>
+        </div>}
+      </div>
       {/* Logout Button */}
       <div onClick={logout} className="mt-5 mr-4 mb-8">
         <li

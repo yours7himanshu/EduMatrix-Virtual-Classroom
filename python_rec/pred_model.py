@@ -12,7 +12,7 @@ import os
 import os
 import sys
 import json
-load_dotenv(dotenv_path='EduMatrix-Virtual-Classroom/python_rec/.env')
+load_dotenv(dotenv_path='python_rec/.env')
 
 mongo_URI = os.getenv("MONGO_URI")
 client = MongoClient(f"{mongo_URI}")

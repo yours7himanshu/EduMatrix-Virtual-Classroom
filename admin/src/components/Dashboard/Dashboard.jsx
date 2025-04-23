@@ -17,6 +17,7 @@ limitations under the License.
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Loader } from "lucide-react";
 
 // Register the components
 
@@ -79,7 +80,13 @@ const Dashboard = () => {
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Marks and Attendance Relation
             </h2>
-            {scatter ? <img src={scatter} alt="" /> : <p>Loading.....</p>}
+            {scatter ? (
+              <img src={scatter} alt="" />
+            ) : (
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-blue-500 h-10 w-10" />
+              </div>
+            )}
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
@@ -88,21 +95,35 @@ const Dashboard = () => {
             {pieplot ? (
               <img className="w-200 h-72" src={pieplot} alt="" />
             ) : (
-              <p>Loading.....</p>
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-blue-500 h-10 w-10" />
+              </div>
             )}
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Attendance Overview
             </h2>
-            {barplot1 ? <img src={barplot1} alt="" /> : <p>Loading.....</p>}
+            {barplot1 ? (
+              <img src={barplot1} alt="" />
+            ) : (
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-blue-500 h-10 w-10" />
+              </div>
+            )}
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Marks Overview
             </h2>
-            {barplot2 ? <img src={barplot2} alt="" /> : <p>Loading.....</p>}
+            {barplot2 ? (
+              <img src={barplot2} alt="" />
+            ) : (
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-blue-500 h-10 w-10" />
+              </div>
+            )}
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
@@ -112,7 +133,9 @@ const Dashboard = () => {
             {topStudents ? (
               <img className="w-200 h-72" src={topStudents} alt="" />
             ) : (
-              <p>Loading.....</p>
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-gray-500 h-10 w-10" />
+              </div>
             )}
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
@@ -122,7 +145,9 @@ const Dashboard = () => {
             {fees_status ? (
               <img className="w-200 h-72" src={fees_status} alt="" />
             ) : (
-              <p>Loading.....</p>
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-gray-500 h-10 w-10" />
+              </div>
             )}
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
@@ -132,7 +157,9 @@ const Dashboard = () => {
             {branch_placement ? (
               <img className="w-200 h-72" src={branch_placement} alt="" />
             ) : (
-              <p>Loading.....</p>
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-gray-500 h-10 w-10" />
+              </div>
             )}
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
@@ -142,7 +169,9 @@ const Dashboard = () => {
             {placement_status ? (
               <img className="w-200 h-72" src={placement_status} alt="" />
             ) : (
-              <p>Loading.....</p>
+              <div className="flex justify-center items-center py-10">
+                <Loader className="animate-spin text-gray-500 h-10 w-10" />
+              </div>
             )}
           </div>
         </div>
