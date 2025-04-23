@@ -7,6 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 export const payfees = async(req,res)=>{
   const frontend_url = "http://localhost:5173";
   try {
+   
     const {studentId,amount,rollno,email,year} = req.body
     const feesObject = new FeesModel({
       studentId,
@@ -20,9 +21,9 @@ export const payfees = async(req,res)=>{
       price_data:{
         currency:"inr",
         product_data:{
-          name:`${rollno} fees`,
+          name:`Tuition fees`,
           description:"Fees Payment",
-          images:["https://example.com/image.png"]
+
         },
         unit_amount:amount*100
       },
@@ -43,15 +44,15 @@ export const payfees = async(req,res)=>{
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode:"payment",
-      success_url:`${frontend_url}/verify?success=true&orderId=${feesObject._id}`,
-      cancel_url:`${frontend_url}/verify?success=false&orderId=${feesObject._id}`,
+      success_url:`${frontend_url}/verify?success=true&paymentId=${feesObject._id}`,
+      cancel_url:`${frontend_url}/verify?success=false&paymentId=${feesObject._id}`,
     })
     res.json({
       success:true,
       url:session.url
     })
   }catch(error){
-    console.log(error)
+    //console.log(error)
     res.status(500).json({
       success:false,
       message:"Internal server error"

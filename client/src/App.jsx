@@ -43,6 +43,7 @@ import Library from "./Student Dashboard/library management/Library.jsx";
 import Notes from "./Student Dashboard/Notes/Notes.jsx";
 import TeachersNotes from "./Student Dashboard/Notes/TeachersNotes.jsx";
 import Payfees from "./Student Dashboard/Payment/Payfees.jsx";
+import Verify from "./Student Dashboard/Payment/Verify.jsx";
 
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
@@ -90,6 +91,7 @@ function App() {
           />
           <Route path="/StudentDashboard/library" element={<Library />} />
           <Route path="/StudentDashboard/payfees" element={<Payfees />} />
+          <Route path="/verify" element={<Verify />} />
           <Route
             path="/StudentDashboard/notes"
             element={<ProtectedRoute element={<Notes />} />}

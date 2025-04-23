@@ -16,10 +16,9 @@ limitations under the License.
 */
 import jwt from "jsonwebtoken";
 export  const authStudent = (req,res,next)=>{
-   // console.log("hello")
-  // console.log(req.headers);
+  
     const {token} = req.headers;
-    console.log(token);
+    //console.log(token);
     if(!token){
         return res.status(401).json({
             success:false,
@@ -28,12 +27,12 @@ export  const authStudent = (req,res,next)=>{
     }
     try{
         const decodedData = jwt.verify(token,process.env.JWT_SECRET);
-        console.log(decodedData);
+     //   console.log(decodedData);
         req.body.studentId = decodedData.userId;
         next();
     }
     catch(error){
-        console.log(error);
+       // console.log(error);
         return res.status(500).json({
             success:false,
             message:"Some error occured during authentication"

@@ -19,13 +19,19 @@ const Payfees = () => {
     try {
       setLoading(true);
       const url = import.meta.env.VITE_BACKEND_URL + "/api/v10/payfees";
-      const response = await axios.post(url, {
-        studentId: student._id,
-        amount: fees[student.branch.toLowerCase()],
-        rollno: student.rollno,
-        email: student.email,
-        year,
-      });
+      const response = await axios.post(
+        url,
+        {
+          studentId: student._id,
+          amount: fees[student.branch.toLowerCase()],
+          rollno: student.rollNo,
+          email: student.email,
+          year,
+        },
+        {
+          headers: { token: localStorage.getItem("token") },
+        }
+      );
       if (response.data.success) {
         window.location.replace(response.data.url);
       }
@@ -118,10 +124,10 @@ const Payfees = () => {
                     className="block w-full px-4 py-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
                   >
                     <option value="">-- Select Year --</option>
-                    <option value="1st">1st Year</option>
-                    <option value="2nd">2nd Year</option>
-                    <option value="3rd">3rd Year</option>
-                    <option value="4th">4th Year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                     <svg
