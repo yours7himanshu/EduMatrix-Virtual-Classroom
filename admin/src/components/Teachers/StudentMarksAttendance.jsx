@@ -60,7 +60,7 @@ const StudentMarksAttendance = () => {
                 placeholder="Enter Student Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border outline-none border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -73,7 +73,7 @@ const StudentMarksAttendance = () => {
                 placeholder="Enter Student Roll Number"
                 value={rollNo}
                 onChange={(e) => setRollNo(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border outline-none border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div className="flex flex-col">
@@ -85,7 +85,7 @@ const StudentMarksAttendance = () => {
                 placeholder="Enter Student Marks"
                 value={marks}
                 onChange={(e) => setStudentMarks(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border outline-none border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -98,7 +98,7 @@ const StudentMarksAttendance = () => {
                 placeholder="Enter Student Attendance"
                 value={attendance}
                 onChange={(e) => setAttendance(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border outline-none border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -111,7 +111,7 @@ const StudentMarksAttendance = () => {
                 placeholder="Enter Student Year"
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border outline-none border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -124,7 +124,7 @@ const StudentMarksAttendance = () => {
                 placeholder="Enter Student Section"
                 value={section}
                 onChange={(e) => setSection(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border outline-none border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>

@@ -68,95 +68,89 @@ const Assignment = () => {
   };
 
   return (
-    <div className="min-h-screen w-full  flex ml-[23%]">
-      <div className="flex w-full  gap-8">
-        {/* Sidebar */}
+    <div className="min-h-screen ml-[20%] bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-3xl bg-white p-8 rounded-xl shadow-xl">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="space-y-6">
+            <h1 className="text-4xl font-bold text-indigo-600 text-center">
+              Create New Assignment
+            </h1>
 
-        <div className="form-details flex justify-center items-center h-screen w-[70%]">
-          <form
-            onSubmit={handleSubmit}
-            className="w-full h-[90%] lg:w-3/4 p-6 bg-white rounded-lg shadow-md"
-          >
-            <div className="space-y-6">
-              <h1 className="text-3xl font-semibold text-gray-800 text-center">
-                Post New Assignment: Empower Your Students with Engaging Challenges!
-              </h1>
-
-              {/* Title Input */}
-              <div>
-                <label className="block text-gray-600 font-medium">Title</label>
-                <input
-                  type="text"
-                  placeholder="Enter assignment title"
-                  value={title}
-                  required
-                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-
-              {/* Description Input */}
-              <div>
-                <label className="block text-gray-600 font-medium">Description</label>
-                <input
-                  type="text"
-                  placeholder="Enter assignment description"
-                  value={description}
-                  required
-                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-
-              {/* Questions Input */}
-              <div>
-                <label className="block text-gray-600 font-medium">Questions</label>
-                <input
-                  type="text"
-                  placeholder="Enter assignment questions"
-                  value={questions}
-                  required
-                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  onChange={(e) => setQuestions(e.target.value)}
-                />
-              </div>
-
-              {/* Deadline Input */}
-              <div>
-                <label className="block text-gray-600 font-medium">Deadline</label>
-                <input
-                  type="date"
-                  value={deadline}
-                  required
-                  className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  onChange={(e) => setDeadline(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-600 font-medium">Upload PDF</label>
-                <input
-                  type="file"
-                  accept="application/pdf"
-                  required
-                  onChange={(e) => setPdfFile(e.target.files[0])}
-                  className="mt-2 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-                />
-              </div>
-
-              {/* Submit Button */}
-              <div className="flex justify-center">
-                <button
-                  disabled={loading}
-                  type="submit"
-                  className="w-full p-3 bg-green-500 text-white font-medium rounded-md  disabled:opacity-50"
-                >
-                  {loading ? "Posting..." : "Post Assignment"}
-                </button>
-              </div>
+            {/* Title */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Title</label>
+              <input
+                type="text"
+                placeholder="Enter assignment title"
+                value={title}
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
-          </form>
-        </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Description</label>
+              <input
+                type="text"
+                placeholder="Enter assignment description"
+                value={description}
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+
+            {/* Questions */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Subject</label>
+              <input
+                type="text"
+                placeholder="Enter subject name"
+                value={questions}
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                onChange={(e) => setQuestions(e.target.value)}
+                rows={4}
+              />
+            </div>
+
+            {/* Deadline */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Deadline</label>
+              <input
+                type="date"
+                value={deadline}
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                onChange={(e) => setDeadline(e.target.value)}
+              />
+            </div>
+
+            {/* PDF Upload */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Upload PDF</label>
+              <input
+                type="file"
+                accept="application/pdf"
+                required
+                onChange={(e) => setPdfFile(e.target.files[0])}
+                className="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+              />
+            </div>
+
+            <div className="pt-4">
+              <button
+                disabled={loading}
+                type="submit"
+                className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md transition-colors duration-200 disabled:opacity-50"
+              >
+                {loading ? "Posting..." : "Post Assignment"}
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );
