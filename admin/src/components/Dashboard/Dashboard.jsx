@@ -28,16 +28,15 @@ const Dashboard = () => {
   const [topStudents, setTopStudents] = useState("");
   const [pieplot, setPieplot] = useState("");
   const [fees_status, setfees_status] = useState("");
-
+  const [placement_status, setplacement_status] = useState("");
+  const [branch_placement, setbranch_placement] = useState("");
 
   useEffect(() => {
     const fetchCharts = async () => {
       try {
         const response = await axios.get(`${backendUrl}/api/test`);
         if (response.data.success) {
-
           console.log(response.data.analysis);
-
 
           setbarplot1(
             `data:image/png;base64,${response.data.analysis.result.barplot1}`
@@ -58,7 +57,12 @@ const Dashboard = () => {
           setfees_status(
             `data:image/png;base64,${response.data.analysis.result.fees_status}`
           );
-
+          setplacement_status(
+            `data:image/png;base64,${response.data.analysis.result.placement_status}`
+          );
+          setbranch_placement(
+            `data:image/png;base64,${response.data.analysis.result.branch_placement}`
+          );
         }
       } catch (error) {
         console.log(error);
@@ -81,7 +85,11 @@ const Dashboard = () => {
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Branchwise Student Distribution
             </h2>
-           {pieplot ? <img className="w-200 h-72" src={pieplot} alt="" /> : <p>Loading.....</p>}
+            {pieplot ? (
+              <img className="w-200 h-72" src={pieplot} alt="" />
+            ) : (
+              <p>Loading.....</p>
+            )}
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
@@ -94,20 +102,48 @@ const Dashboard = () => {
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Marks Overview
             </h2>
-           {barplot2 ? <img src={barplot2} alt="" /> : <p>Loading.....</p>}
+            {barplot2 ? <img src={barplot2} alt="" /> : <p>Loading.....</p>}
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Top Students
             </h2>
-            {topStudents ? <img className="w-200 h-72" src={topStudents} alt="" /> : <p>Loading.....</p>}
+            {topStudents ? (
+              <img className="w-200 h-72" src={topStudents} alt="" />
+            ) : (
+              <p>Loading.....</p>
+            )}
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Fees Analysis
             </h2>
-            {fees_status ? <img className="w-200 h-72" src={fees_status} alt="" /> : <p>Loading.....</p>}
+            {fees_status ? (
+              <img className="w-200 h-72" src={fees_status} alt="" />
+            ) : (
+              <p>Loading.....</p>
+            )}
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Branchwise Placement Analysis
+            </h2>
+            {branch_placement ? (
+              <img className="w-200 h-72" src={branch_placement} alt="" />
+            ) : (
+              <p>Loading.....</p>
+            )}
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Placement Analysis
+            </h2>
+            {placement_status ? (
+              <img className="w-200 h-72" src={placement_status} alt="" />
+            ) : (
+              <p>Loading.....</p>
+            )}
           </div>
         </div>
       </div>
