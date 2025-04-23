@@ -22,34 +22,45 @@ const Message = require("../models/messageModel");
 // Helper function to properly parse cookies
 const parseCookies = (cookieString) => {
   if (!cookieString) return {};
-  
   return cookieString.split(';')
-    .map(cookie => cookie.trim().split('='))
-    .reduce((cookies, [key, value]) => {
-      cookies[key] = value;
-      return cookies;
-    }, {});
+    .map(cookie => {
+      const parts = cookie.trim().split('=');
+      if (parts.length < 2) {
+        const ws = cookie.trim().split(/\s+/);
+        return [ws[0].toLowerCase(), ws[1] || ''];
+      }
+      return [parts[0].toLowerCase(), parts.slice(1).join('=')];
+    })
+    .reduce((cookies, [key, value]) => { cookies[key] = value; return cookies; }, {});
 };
 
 // Helper function to extract token from multiple sources
 const extractToken = (socket) => {
-  // Try to get from auth object
+  // Try Authorization header
+  const authHeader = socket.handshake.headers.authorization;
+  if (authHeader) {
+    return authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+  }
+  let token = null;
+
+  // Try from auth object
   if (socket.handshake.auth && socket.handshake.auth.token) {
-    return socket.handshake.auth.token;
-  }
-  
-  // Try to get from query params
-  if (socket.handshake.query && socket.handshake.query.token) {
-    return socket.handshake.query.token;
-  }
-  
-  // Try to get from cookies
-  if (socket.handshake.headers.cookie) {
+    token = socket.handshake.auth.token;
+  } else if (socket.handshake.query && socket.handshake.query.token) {
+    // Try from query params
+    token = socket.handshake.query.token;
+  } else if (socket.handshake.headers.cookie) {
+    // Try from cookies
     const cookies = parseCookies(socket.handshake.headers.cookie);
-    return cookies.token || cookies['auth-token'] || cookies.jwt;
+    token = cookies.token || cookies.jwt;
   }
-  
-  return null;
+
+  // Invalidate literal 'null', 'undefined', or empty
+  if (!token || token === 'null' || token === 'undefined') {
+    return null;
+  }
+
+  return token;
 };
 
 const socketService = (io) => {
