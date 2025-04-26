@@ -23,7 +23,9 @@ const DirectorFeedback = ()=>{
     }, []);
 
     return (
-        <div className="p-6 bg-gray-100 min-h-screen">
+     <div>
+        {data && data.length>0 ? <div>
+            <div className="p-6 bg-gray-100 min-h-screen">
             <div className="space-y-4  ml-[23%] ">
             <h2 className="text-2xl font-semibold mb-6 ml-2 text-gray-800">User Feedbacks</h2>
                 {data.map((value,index)=>(
@@ -44,6 +46,8 @@ const DirectorFeedback = ()=>{
                 ))}
             </div>
         </div>
+        </div> : <div>Loading Please wait .....</div>}
+     </div>
     )
 }
 

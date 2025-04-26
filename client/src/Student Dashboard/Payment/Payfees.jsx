@@ -5,6 +5,7 @@ const Payfees = () => {
   const [student, setStudent] = useState(null);
   const [year, setYear] = useState("");
   const [loading, setLoading] = useState(false);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const fees = {
     cse: 150000,
@@ -45,9 +46,9 @@ const Payfees = () => {
 
   const fetchStudent = async () => {
     try {
-      const url = import.meta.env.VITE_BACKEND_URL + "/api/v5/student-byid";
+      // const url = import.meta.env.VITE_BACKEND_URL + "/api/v5/student-byid";
       const response = await axios.post(
-        url,
+        `${backendUrl}/api/v5/student-byid`,
         {},
         {
           headers: { token: localStorage.getItem("token") },
