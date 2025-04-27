@@ -122,6 +122,17 @@ const socketService = (io) => {
       socket.emit("joined-room", { roomId });
       socket.broadcast.to(roomId).emit("user-joined", { emailId });
     });
+    
+    socket.on("leave-room", (data) => {
+      const { roomId } = data;
+      const emailId = socketToEmailMapping.get(socket.id);
+      console.log("User", emailId, "Left Room", roomId);
+      
+      if (roomId && emailId) {
+        socket.leave(roomId);
+        socket.broadcast.to(roomId).emit("user-left", { emailId });
+      }
+    });
   
     socket.on('call-user', (data) => {
       const { emailId, offer } = data;
@@ -159,6 +170,24 @@ const socketService = (io) => {
     // Handle disconnection
     socket.on("disconnect", () => {
       console.log(`User disconnected: ${socket.id}`);
+      
+      // Get the email of the disconnected user
+      const emailId = socketToEmailMapping.get(socket.id);
+      
+      if (emailId) {
+        console.log(`User ${emailId} disconnected`);
+        
+        // Clean up maps
+        socketToEmailMapping.delete(socket.id);
+        emailToSocketMapping.delete(emailId);
+        
+        // Notify other users in all rooms this socket was part of
+        socket.rooms.forEach(roomId => {
+          if (roomId !== socket.id) { // Skip the default room (socket.id)
+            socket.to(roomId).emit("user-left", { emailId });
+          }
+        });
+      }
     });
   });
 };

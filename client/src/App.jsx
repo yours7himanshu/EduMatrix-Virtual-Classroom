@@ -44,6 +44,7 @@ import Notes from "./Student Dashboard/Notes/Notes.jsx";
 import TeachersNotes from "./Student Dashboard/Notes/TeachersNotes.jsx";
 import Payfees from "./Student Dashboard/Payment/Payfees.jsx";
 import Verify from "./Student Dashboard/Payment/Verify.jsx";
+import StudentLive from "./Student Dashboard/Live/StudentLive.jsx";
 
 // import ModalComponent from "./Modal/ModalComponent.jsx";
 
@@ -99,6 +100,10 @@ function App() {
           <Route
             path="/StudentDashboard/teachersNotes"
             element={<ProtectedRoute element={<TeachersNotes />} />}
+          />
+          <Route
+            path="/live-class"
+            element={<ProtectedRoute element={<StudentLive />} />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

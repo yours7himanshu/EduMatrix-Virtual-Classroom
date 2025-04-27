@@ -22,13 +22,17 @@ import './index.css';
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
 import AuthContextProvider from './context/AuthContext'; 
+import { SocketProvider } from './providers/Socket.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+    <SocketProvider>
+
       <AuthContextProvider>  
         <App />
       </AuthContextProvider>
+    </SocketProvider>
     </BrowserRouter>
   </StrictMode>
 );

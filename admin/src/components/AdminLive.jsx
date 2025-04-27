@@ -7,8 +7,14 @@ import Message from "../shared/Message";
 import TabMonitor from "./TabMonitor/TabMonitor";
 import { useNavigate } from "react-router-dom";
 import CallEndIcon from "@mui/icons-material/CallEnd";
+
+// Room ID for consistent room joining
+const DEFAULT_ROOM_ID = "admin-classroom-live";
+
 const AdminLive = () => {
   const [alertMsg, setAlertMsg] = useState("");
+  const [roomId, setRoomId] = useState(DEFAULT_ROOM_ID);
+  const [isConnected, setIsConnected] = useState(false);
   const navigate = useNavigate();
   const { socket } = useSocket();
   const {
@@ -475,6 +481,22 @@ const AdminLive = () => {
       // console.log(`Stream not sent: Peer: ${!!peer}, Stream: ${!!myStream}, SendStreamFn: ${!!sendStream}, PeerState: ${peer?.connectionState}`);
     }
   }, [peer, myStream, sendStream]);
+
+  useEffect(() => {
+    if (socket && !isConnected) {
+      console.log("Joining room:", roomId);
+      socket.emit("join-room", { roomId });
+      setIsConnected(true);
+    }
+
+    return () => {
+      if (socket && isConnected) {
+        console.log("Leaving room:", roomId);
+        socket.emit("leave-room", { roomId });
+        setIsConnected(false);
+      }
+    };
+  }, [socket, roomId, isConnected]);
 
   return (
     <div className="video-call flex h-auto w-full bg-gray-900 text-white">

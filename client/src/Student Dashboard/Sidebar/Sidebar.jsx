@@ -31,10 +31,9 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import './Sidebar.css';
-// import Modal from "../components/Model";
+
 const Sidebar = () => {
   const location = useLocation();
-  //   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const isActive = (path) => location.pathname === path;
@@ -49,12 +48,10 @@ const Sidebar = () => {
     <div className="flex max-md:hidden w-[20%] ">
       {/* Sidebar */}
       <div className="sidebar fixed top-0  left-0 h-screen flex flex-col w-[20%] bg-gradient-to-tr from-indigo-800 to-blue-700 text-white">
-      <div className="sticky  top-0 z-20 w-[90%] ml-7 ">
+        <div className="sticky  top-0 z-20 w-[90%] ml-7 ">
           <Logo />
-
-          </div>
+        </div>
         <ul className="flex flex-col ml-10 gap-5 overflow-y-auto hide-scrollbar">
-         
           <div className="flex gap-4 ">
             <li
               onClick={() => handleNavigation("/StudentDashboard/dashboard")}
@@ -104,18 +101,6 @@ const Sidebar = () => {
             <DescriptionIcon />
             Teachers Notes
           </li>
-{/* 
-          <li
-            onClick={() => handleNavigation("/timetable")}
-            className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/timetable")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <EventNoteIcon />
-            Time Table
-          </li> */}
 
           <li
             onClick={() => handleNavigation("/StudentDashboard/quiz")}
@@ -177,9 +162,9 @@ const Sidebar = () => {
 
           <div className="flex items-center gap-4">
             <li
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => navigate("/live-class")}
               className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-                isActive("/admin-live")
+                isActive("/live-class")
                   ? "bg-white text-black border rounded-md"
                   : "text-white"
               }`}
@@ -190,19 +175,6 @@ const Sidebar = () => {
           </div>
         </ul>
       </div>
-
-      {/* <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={() => console.log("Handle Room Join")}
-        email=""
-        setEmail={() => {}}
-        roomId=""
-        setRoomId={() => {}}
-        loading={false}
-      /> */}
-
-      {/* Loader */}
     </div>
   );
 };
