@@ -22,7 +22,6 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
-import JoinLecture from "./components/JoinLectures.jsx";
 import AboutPage from "./pages/About/AboutPage.tsx";
 import ContactPage from "./pages/Contact/ContactPage.tsx";
 import CoursesPage from "./pages/Courses/CoursesPage.tsx";
@@ -59,10 +58,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/liveLecture"
-            element={<ProtectedRoute element={<JoinLecture />} />}
-          />
+       
           <Route path="/aboutUs" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/courses" element={<CoursesPage />} />
