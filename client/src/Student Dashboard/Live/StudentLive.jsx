@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { useSocket } from "../../providers/Socket";
 import { usePeer } from "../../providers/Peer";
 import { useNavigate } from "react-router-dom";
-import Layout from "../Layout/Layout";
 import CallEndIcon from "@mui/icons-material/CallEnd";
 
 // Room ID for consistent room joining - must match AdminLive's DEFAULT_ROOM_ID
@@ -272,7 +271,7 @@ const StudentLive = () => {
   const handleLeaveMeeting = (e) => {
     e.preventDefault();
     socket.off("user-left", handleUserLeft);
-    navigate("/dashboard");
+    navigate("/StudentDashboard/dashboard");
   };
 
   return (

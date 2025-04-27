@@ -31,7 +31,7 @@ const DashboardPage = () => {
           <h1 className="text-xl max-md:ml-1  max-md:w-[90%] font-semibold text-gray-800">
             Dashboard Overview
           </h1>
-          <div className="text-gray-600">Welcome, Admin!</div>
+          
         </div>
 
         

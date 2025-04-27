@@ -73,8 +73,8 @@ const Dashboard = () => {
   });
 
   return (
-    <div className="dashboard flex ">
-      <div className="p-8 bg-gray-100  w-[100%]">
+    <div className="dashboard flex max-md:w-screen ">
+      <div className=" bg-gray-100  w-[100%]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
@@ -93,7 +93,7 @@ const Dashboard = () => {
               Branchwise Student Distribution
             </h2>
             {pieplot ? (
-              <img className="w-200 h-72" src={pieplot} alt="" />
+              <img className="w-400 h-400" src={pieplot} alt="" />
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-blue-500 h-10 w-10" />
