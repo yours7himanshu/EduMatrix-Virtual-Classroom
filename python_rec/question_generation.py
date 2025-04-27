@@ -1,13 +1,17 @@
 import PyPDF2
 import requests
 from io import BytesIO
-from dotenv import load_dotenv
 import os
 import sys
 import json
+import os.path
 
-load_dotenv(dotenv_path='.env')
-GROQ_API_KEY= os.getenv("GROQ_API_KEY")
+# Load .env only in development
+if os.getenv("ENV", "development") != "production":
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
+
+GROQ_API_KEY = os.environ["GROQ_API_KEY"]
 from groq import Groq
 
 client = Groq(api_key=GROQ_API_KEY)

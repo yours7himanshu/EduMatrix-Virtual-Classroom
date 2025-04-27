@@ -6,16 +6,17 @@ from sklearn.metrics import accuracy_score,recall_score,f1_score
 import numpy as np
 import pandas as pd
 from pymongo import MongoClient
-from dotenv import load_dotenv
-import os
-
 import os
 import sys
 import json
-load_dotenv(dotenv_path='python_rec/.env')
 
-mongo_URI = os.getenv("MONGO_URI")
-client = MongoClient(f"{mongo_URI}")
+# Load .env only in development
+if os.getenv("ENV", "development") != "production":
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
+
+mongo_URI = os.environ["MONGO_URI"]
+client = MongoClient(mongo_URI)
 db = client["test"]
 collection = db["demo"]
 cursor = collection.find()
@@ -60,4 +61,3 @@ if __name__ == "__main__":
     prompt = [prompt1,prompt2,prompt3]
     output = predictor(prompt)
     print(json.dumps({"result": output})) 
-
