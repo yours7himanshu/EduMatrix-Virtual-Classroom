@@ -42,6 +42,10 @@ const UploadPdfFile = async (req, res) => {
       errorOutput += data.toString();
     });
     pythonProcess.on("close", (code) => {
+
+      if(errorOutput){
+        console.log("Some error occured",errorOutput);
+      }
      
       
       if (code !== 0) {
