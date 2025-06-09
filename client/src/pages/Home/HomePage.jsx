@@ -24,11 +24,7 @@ const HomePage = () => {
   return (
     <div className="relative bg-gradient-to-b from-slate-950 to-indigo-950 w-full overflow-x-hidden">
       {/* Hero Section */}
-      <img
-        className="absolute hidden max-md:block max-md:h-[18%] object-cover w-full bg-opacity-70 backdrop-blur-xl inset-0"
-        src="/images/pattern2.png"
-        alt="pattern"
-      />
+   
       <section className="w-full h-screen max-md:h-auto text-white py-10 px-6 mb-6">
         <div className="container max-md:w-full max-md:mx-1 h-screen max-md:h-[100%] flex flex-col items-center">
           <div className="w-[90%] max-md:h-[90%] h-screen max-lg:w-screen max-md:w-full max-md:mt-44 flex flex-col items-center mt-36 space-y-6 text-center">
@@ -42,7 +38,7 @@ const HomePage = () => {
             <h1
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="text-6xl font-semibold z-30 max-lg:w-full max-md:w-screen leading-[107%] mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center max-lg:text-4xl max-md:text-3xl max-lg:font-bold text-gray-300"
+              className="text-6xl  font-semibold z-30 max-lg:w-full max-md:w-screen leading-[107%] mb-2 max-md:tracking-tight max-lg:tracking-tighter text-center max-lg:text-4xl max-md:text-3xl max-lg:font-bold text-gray-300"
             >
               Empowering Interactive and Seamless Virtual Learning through
               EduMatrix{" "}
@@ -58,15 +54,15 @@ const HomePage = () => {
             <div
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="flex max-md:flex-col max-md:space-y-4 max-md:space-x-0 max-md:text-sm justify-center space-x-4"
+              className="flex gap-3 w-full justify-center"
             >
               <Buttons
-                className="px-8 outline-none border-none h-13 bg-zinc-300 text-indigo-950 rounded-md font-medium shadow-md hover:bg-gray-100 hover:scale-105 transition-transform duration-300"
+                className="px-8  py-4  outline-none border-none h-15 bg-zinc-300 text-indigo-950 rounded-md shadow-md hover:bg-gray-100 hover:scale-105 transition-transform duration-300"
                 title="Start Demo"
                 onClick={()=>navigate('#video')}
               />
               <Buttons
-                className="px-8 py-4 h-15 outline-none border-none bg-violet-500 text-white rounded-md shadow-md hover:bg-violet-600 hover:scale-105 transition-transform duration-300"
+                className="px-8 py-4  h-15 outline-none border-none bg-violet-500 text-white rounded-md shadow-md hover:bg-violet-600 hover:scale-105 transition-transform duration-300"
                 title="Get Started"
                 onClick={()=>navigate('/MainLogin')}
               />
@@ -102,7 +98,7 @@ const HomePage = () => {
             Explore Our Features
           </h3>
 
-          <div className="flex gap-5 justify-center items-center">
+          <div className="flex gap-5 max-md:flex-col-reverse justify-center items-center">
             <div className="flex flex-col gap-3 cursor-pointer">
               {CardUtils.map((props) => (
                 <CardComponent {...props} />
@@ -111,7 +107,7 @@ const HomePage = () => {
 
             <div className="image-part ">
               <img
-                className="h-[450px]  rounded-lg shadow-lg"
+                className="h-[450px] max-md:h-[390px] max-md:w-[350px] rounded-lg shadow-lg"
                 src={gallery4}
                 alt="image of a student"
               />
