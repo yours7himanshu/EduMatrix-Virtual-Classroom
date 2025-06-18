@@ -77,7 +77,7 @@ const Sidebar = () => {
     <ul className="flex flex-col px-3 w-full h-full"> {/* Removed md:ml-10, added px-3 */}
       {/* Fixed Logo */}
       {/* Added p-4 and background to this sticky div. Note: p-4 on this div inside a px-3 ul means logo area has more effective padding. This could be adjusted if needed. */}
-      <div className="sticky top-0 z-20 p-4 bg-gradient-to-tr from-indigo-800 to-blue-700 -mx-3"> {/* Added -mx-3 to make this div full-bleed against parent's px-3 */}
+      <div className="sticky top-3 z-20 p-3 max-md:mt-10 max-md:w-[300px] rounded-full mb-8 border-blue-500  border  "> {/* Added -mx-3 to make this div full-bleed against parent's px-3 */}
         <Logo />
       </div>
       {/* Scrollable nav items */}
@@ -285,7 +285,7 @@ const Sidebar = () => {
           onClick={toggleMobileMenu}
           className="p-2 rounded-md bg-blue-700 text-white"
         >
-          {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+          {isMobileMenuOpen ? <CloseIcon className="text-white bg-red-700 rounded-md w-6 h-6" /> : <MenuIcon className="text-white" />}
         </button>
       </div>
 

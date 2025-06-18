@@ -25,7 +25,7 @@ const DashboardPage = () => {
   return (
     <div className="dashboard flex">
    
-      <div className="flex flex-col max-md:w-full max-md:ml-0  ml-[20%] w-[80%]  p-4   py-6 bg-gray-100">
+      <div className="flex flex-col max-md:w-full max-md:ml-0  w-screen  p-4   py-6 bg-gray-100">
      
         <div className="flex w-[100%]  items-center justify-between mb-6">
           <h1 className="text-xl max-md:ml-1  max-md:w-[90%] font-semibold text-gray-800">

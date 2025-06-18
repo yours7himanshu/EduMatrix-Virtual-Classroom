@@ -100,8 +100,8 @@ const HomePage = () => {
 
           <div className="flex gap-5 max-md:flex-col-reverse justify-center items-center">
             <div className="flex flex-col gap-3 cursor-pointer">
-              {CardUtils.map((props) => (
-                <CardComponent {...props} />
+              {CardUtils.map((props, index) => (
+                <CardComponent key={index} {...props} />
               ))}
             </div>
 

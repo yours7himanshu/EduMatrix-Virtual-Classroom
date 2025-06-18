@@ -217,7 +217,7 @@ function Students() {
           </form>
         </div>
       </div>
-    </div>
+    
   );
 }
 
