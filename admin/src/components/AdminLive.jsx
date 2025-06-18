@@ -499,11 +499,11 @@ const AdminLive = () => {
   }, [socket, roomId, isConnected]);
 
   return (
-    <div className="video-call flex h-auto w-full bg-gray-900 text-white">
+    <div className="video-call flex min-h-full w-full bg-gray-900 text-white"> {/* Changed h-auto to min-h-full */}
       {" "}
       {/* Added text-white for base color */}
-      <div className="flex w-full  h-screen flex-col  items-center bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg  m-2">
-        <h2 className="text-xl text-green-400 font-semibold ">
+      <div className="flex w-full h-full flex-col items-center bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg"> {/* Changed h-screen to h-full, removed m-2 */}
+        <h2 className="text-xl text-green-400 font-semibold mb-2 md:mb-4"> {/* Added mb for spacing */}
           Admin Live Stream
         </h2>
 

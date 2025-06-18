@@ -71,13 +71,15 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="  ml-[25%] flex justifiy-center items-center   h-screen  rounded-lg shadow-xl w-screen border border-gray-50 gap-20  ">
+    // Removed ml-[25%], changed w-screen to w-full. Added p-4 for some spacing.
+    <div className="w-full flex justify-center items-center h-screen p-4">
      
       <form
         onSubmit={handleSubmit}
-        className="w-[70%] justify-center h-[95%]  flex flex-col bg-gray-100 shadow-lg rounded-lg p-8 space-y-6"
+        // Changed w-[70%] to w-full max-w-3xl. Removed h-[95%], added max-h-[90vh] and overflow-y-auto
+        className="w-full max-w-3xl flex flex-col bg-gray-100 shadow-lg rounded-lg p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto"
       >
-        <h2 className="text-2xl font-bold text-gray-800">Create a New Quiz</h2>
+        <h2 className="text-2xl font-bold text-gray-800 text-center md:text-left">Create a New Quiz</h2>
 
         {/* Title Input */}
         <div>
@@ -132,7 +134,8 @@ const CreateQuiz = () => {
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border p-2 "
               required
             />
-            <div className="grid grid-cols-2 gap-4">
+            {/* Responsive grid for options */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {q.options.map((option, i) => (
                 <input
                   key={i}

@@ -60,16 +60,17 @@ function AddTeacher() {
     }
   };
   return (
-    <div className="addTeacher ml-[30%] flex">
+    <div className="addTeacher flex w-full"> {/* Removed ml-[30%] */}
      
-      <div className="addteachers w-[80%] flex-col items-center justify-center ">
+      <div className="addteachers w-full flex flex-col items-center justify-center p-4"> {/* Changed w-[80%] to w-full, added flex and padding */}
         <TeacherRole />
-        <div className="teachers-section flex flex-col items-center justify-center gap-5 h-screen w-[100%]">
+        {/* Adjusted teachers-section to remove h-screen for natural height, added py for spacing */}
+        <div className="teachers-section flex flex-col items-center justify-center gap-5 w-full py-8">
           <form
-            className="flex flex-col gap-2 w-[60%] border border-gray-100 shadow-lg p-10 rounded-lg"
+            className="flex flex-col gap-4 w-full max-w-xl border border-gray-200 shadow-lg p-6 md:p-10 rounded-lg bg-white" // Changed w-[60%], gap, padding and added bg
             onSubmit={handleSubmit}
           >
-            <h1 className="text-violet-800 font-semibold mb-3 text-3xl">
+            <h1 className="text-violet-800 font-semibold mb-4 text-2xl md:text-3xl text-center md:text-left"> {/* Adjusted text size and alignment */}
               Add Teachers of your College to help Students!!
             </h1>
 

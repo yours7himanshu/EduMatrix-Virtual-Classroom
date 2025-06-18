@@ -36,7 +36,7 @@ const AIPredictor = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center ml-[18%] bg-gray-100 p-4">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-100 p-4"> {/* Removed ml-[18%], ensured w-full */}
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-indigo-600 mb-6">
           AI Predictor

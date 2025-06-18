@@ -45,11 +45,11 @@ const RegistrarStudent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100  flex-1 flex-col items-center w-screen justify-center py-24 ">
-      <div className="max-w-3xl mx-auto ml-[34%] bg-white shadow-lg rounded-lg p-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Student Fees Details</h2>
+    <div className="min-h-screen bg-gray-100 w-full flex flex-col items-center justify-center py-12 md:py-16 px-4"> {/* Changed w-screen, py, added px-4 and flex for centering */}
+      <div className="max-w-3xl w-full mx-auto bg-white shadow-lg rounded-lg p-6 md:p-8"> {/* Removed ml-[34%], added w-full, adjusted padding */}
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center md:text-left">Student Fees Details</h2> {/* Centered text on mobile */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"> {/* Adjusted gap */}
             <div className="flex flex-col">
               <label className="text-gray-700 mb-1 flex items-center">
                 <User className="w-5 h-5 mr-2 text-blue-500" /> Student Name

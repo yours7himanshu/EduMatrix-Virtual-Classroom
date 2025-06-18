@@ -70,10 +70,10 @@ const Dashboard = () => {
       }
     };
     fetchCharts();
-  });
+  }, []);
 
   return (
-    <div className="dashboard flex max-md:w-screen ">
+    <div className="dashboard flex">
       <div className=" bg-gray-100  w-[100%]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full">
@@ -81,7 +81,7 @@ const Dashboard = () => {
               Marks and Attendance Relation
             </h2>
             {scatter ? (
-              <img src={scatter} alt="" />
+              <img src={scatter} alt="Marks and Attendance Relation" className="w-full h-auto object-contain"/>
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-blue-500 h-10 w-10" />
@@ -93,7 +93,7 @@ const Dashboard = () => {
               Branchwise Student Distribution
             </h2>
             {pieplot ? (
-              <img className="w-400 h-400" src={pieplot} alt="" />
+              <img className="w-full h-auto object-contain" src={pieplot} alt="Branchwise Student Distribution" />
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-blue-500 h-10 w-10" />
@@ -105,7 +105,7 @@ const Dashboard = () => {
               Attendance Overview
             </h2>
             {barplot1 ? (
-              <img src={barplot1} alt="" />
+              <img src={barplot1} alt="Attendance Overview" className="w-full h-auto object-contain"/>
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-blue-500 h-10 w-10" />
@@ -118,7 +118,7 @@ const Dashboard = () => {
               Marks Overview
             </h2>
             {barplot2 ? (
-              <img src={barplot2} alt="" />
+              <img src={barplot2} alt="Marks Overview" className="w-full h-auto object-contain"/>
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-blue-500 h-10 w-10" />
@@ -131,7 +131,7 @@ const Dashboard = () => {
               Top Students
             </h2>
             {topStudents ? (
-              <img className="w-200 h-72" src={topStudents} alt="" />
+              <img className="w-full h-auto object-contain" src={topStudents} alt="Top Students" />
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-gray-500 h-10 w-10" />
@@ -143,7 +143,7 @@ const Dashboard = () => {
               Fees Analysis
             </h2>
             {fees_status ? (
-              <img className="w-200 h-72" src={fees_status} alt="" />
+              <img className="w-full h-auto object-contain" src={fees_status} alt="Fees Analysis" />
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-gray-500 h-10 w-10" />
@@ -155,7 +155,7 @@ const Dashboard = () => {
               Branchwise Placement Analysis
             </h2>
             {branch_placement ? (
-              <img className="w-200 h-72" src={branch_placement} alt="" />
+              <img className="w-full h-auto object-contain" src={branch_placement} alt="Branchwise Placement Analysis" />
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-gray-500 h-10 w-10" />
@@ -167,7 +167,7 @@ const Dashboard = () => {
               Placement Analysis
             </h2>
             {placement_status ? (
-              <img className="w-200 h-72" src={placement_status} alt="" />
+              <img className="w-full h-auto object-contain" src={placement_status} alt="Placement Analysis" />
             ) : (
               <div className="flex justify-center items-center py-10">
                 <Loader className="animate-spin text-gray-500 h-10 w-10" />
