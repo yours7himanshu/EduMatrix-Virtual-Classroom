@@ -74,13 +74,14 @@ const Sidebar = () => {
 
   // Sidebar content component to avoid repetition
   const SidebarContent = () => (
-    <ul className="flex flex-col md:ml-10 w-full h-full">
+    <ul className="flex flex-col px-3 w-full h-full"> {/* Removed md:ml-10, added px-3 */}
       {/* Fixed Logo */}
-      <div className="sticky top-0 z-20 ">
+      {/* Added p-4 and background to this sticky div. Note: p-4 on this div inside a px-3 ul means logo area has more effective padding. This could be adjusted if needed. */}
+      <div className="sticky top-0 z-20 p-4 bg-gradient-to-tr from-indigo-800 to-blue-700 -mx-3"> {/* Added -mx-3 to make this div full-bleed against parent's px-3 */}
         <Logo />
       </div>
       {/* Scrollable nav items */}
-      <div className="flex flex-col gap-5 overflow-y-auto hide-scrollbar flex-1 px-4 py-2">
+      <div className="flex flex-col gap-5 overflow-y-auto hide-scrollbar flex-1 py-2"> {/* Removed px-4 */}
         <div className="flex gap-4">
           <li
             onClick={() => handleNavigation("/dashboard")}
@@ -265,7 +266,7 @@ const Sidebar = () => {
         </div>}
       </div>
       {/* Logout Button */}
-      <div onClick={logout} className="mt-5 mr-4 mb-8">
+      <div onClick={logout} className="mt-5 mb-8"> {/* Removed mr-4 */}
         <li
           className="list-style-none flex items-center gap-4 font-medium p-3 w-full cursor-pointer transition-all duration-300 bg-white hover:bg-gray-100 text-indigo-800 rounded-lg shadow-md hover:shadow-lg border border-indigo-100"
         >
