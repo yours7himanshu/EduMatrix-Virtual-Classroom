@@ -15,13 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 import React from "react";
 const Logo = () => {
   return (
-    <div className="flex items-center gap-2 p-3 w-full shadow-md mb-4 border border-blue-200 rounded-lg">
-      <img src="/logo/EduMatrix2.png" className="h-10 w-auto object-contain" alt="EduMatrix Logo" />
-      <p className="font-bold text-xl text-gray-800">EduMatrix</p>
+    <div className="flex items-center gap-2"> {/* Removed styling classes and w-full */}
+      <img src="/logo/EduMatrix2.png" className="h-14 w-auto object-contain" alt="EduMatrix Logo" /> {/* Increased height to h-14 */}
+      <p className="font-bold text-2xl text-gray-800">EduMatrix</p> {/* Increased text size to text-2xl */}
     </div>
   );
 };
