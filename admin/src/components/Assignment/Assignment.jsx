@@ -68,7 +68,7 @@ const Assignment = () => {
   };
 
   return (
-    <div className="min-h-screen ml-[20%] bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"> {/* Removed ml-[20%], ensured w-full */}
       <div className="w-full max-w-3xl bg-white p-8 rounded-xl shadow-xl">
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-6">

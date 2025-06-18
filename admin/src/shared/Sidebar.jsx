@@ -84,7 +84,7 @@ const Sidebar = () => {
         <div className="flex gap-4">
           <li
             onClick={() => handleNavigation("/dashboard")}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
+            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer hover:text-gray-700 transition-all duration-75 ${
               isActive("/dashboard")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -97,7 +97,7 @@ const Sidebar = () => {
 
         {userRole === 'Director' && <li
           onClick={() => handleNavigation("/add-teachers")}
-          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/add-teachers")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -109,7 +109,7 @@ const Sidebar = () => {
 
         {userRole === 'Director' && <li
           onClick={() => handleNavigation("/director-feedback")}
-          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/director-feedback")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -121,7 +121,7 @@ const Sidebar = () => {
 
         {userRole === 'Registrar' && <li
           onClick={() => handleNavigation("/enroll-students")}
-          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/enroll-students")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -133,7 +133,7 @@ const Sidebar = () => {
 
         {(userRole === 'Teacher' || userRole === 'Director') && <li
           onClick={() => handleNavigation("/announcement")}
-          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/announcement")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -145,7 +145,7 @@ const Sidebar = () => {
 
         {userRole === 'Teacher' && <li
           onClick={() => handleNavigation("/timetable")}
-          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/timetable")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -157,7 +157,7 @@ const Sidebar = () => {
 
         {userRole === 'Teacher' && <li
           onClick={() => handleNavigation("/ai-predictor")}
-          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/ai-predictor")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -169,7 +169,7 @@ const Sidebar = () => {
 
         {userRole === 'Teacher' && <li
           onClick={() => handleNavigation("/question-generator")}
-          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex gap-4 items-center font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/question-generator")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -180,7 +180,7 @@ const Sidebar = () => {
         </li>}
         {userRole === 'Teacher' && <li
           onClick={() => handleNavigation("/post-quiz")}
-          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/post-quiz")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -192,7 +192,7 @@ const Sidebar = () => {
 
         {userRole === 'Teacher' && <li
           onClick={() => handleNavigation("/post-assignment")}
-          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/post-assignment")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -204,7 +204,7 @@ const Sidebar = () => {
 
         {userRole === 'Teacher' && <li
           onClick={() => handleNavigation("/student-marks-attendance")}
-          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/student-marks-attendance")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -216,7 +216,7 @@ const Sidebar = () => {
 
         {userRole === 'Registrar' && <li
           onClick={() => handleNavigation("/student-detail")}
-          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/admin-live")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -228,7 +228,7 @@ const Sidebar = () => {
 
         {userRole === 'Registrar' && <li
           onClick={() => handleNavigation("/registrar-student")}
-          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/registrar-student")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -240,7 +240,7 @@ const Sidebar = () => {
 
         {userRole === 'Registrar' && <li
           onClick={() => handleNavigation("/teachers")}
-          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+          className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
             isActive("/admin-live")
               ? "bg-white text-black border rounded-md"
               : "text-white"
@@ -253,7 +253,7 @@ const Sidebar = () => {
         {(userRole === 'Teacher' || userRole === 'Director') && <div className="flex items-center gap-4">
           <li
             onClick={() => setIsModalOpen(true)}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
+            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
               isActive("/admin-live")
                 ? "bg-white text-black border rounded-md"
                 : "text-white"
@@ -267,7 +267,7 @@ const Sidebar = () => {
       {/* Logout Button */}
       <div onClick={logout} className="mt-5 mr-4 mb-8">
         <li
-          className="list-style-none flex items-center gap-4 font-medium p-3 w-[80%] cursor-pointer transition-all duration-300 bg-white hover:bg-gray-100 text-indigo-800 rounded-lg shadow-md hover:shadow-lg border border-indigo-100"
+          className="list-style-none flex items-center gap-4 font-medium p-3 w-full cursor-pointer transition-all duration-300 bg-white hover:bg-gray-100 text-indigo-800 rounded-lg shadow-md hover:shadow-lg border border-indigo-100"
         >
           <LogoutIcon className="text-indigo-800" />
           <span>Logout</span>

@@ -23,7 +23,7 @@ import AppLayout from "../../layout/AppLayout";
 
 const DashboardPage = () => {
   return (
-    <div className="dashboard flex max-md:w-screen  ">
+    <div className="dashboard flex">
    
       <div className="flex flex-col max-md:w-full max-md:ml-0  ml-[20%] w-[80%]  p-4   py-6 bg-gray-100">
      

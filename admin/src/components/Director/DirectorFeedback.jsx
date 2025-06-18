@@ -23,13 +23,14 @@ const DirectorFeedback = ()=>{
     }, []);
 
     return (
-     <div>
+     <div className="w-full"> {/* Ensure the root div takes full width */}
         {data && data.length>0 ? <div>
-            <div className="p-6 bg-gray-100 min-h-screen">
-            <div className="space-y-4  ml-[23%] ">
-            <h2 className="text-2xl font-semibold mb-6 ml-2 text-gray-800">User Feedbacks</h2>
+            <div className="p-4 md:p-6 bg-gray-100 min-h-screen"> {/* Adjusted padding */}
+            <div className="space-y-6"> {/* Removed ml-[23%], adjusted space-y */}
+            <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center md:text-left">User Feedbacks</h2> {/* Removed ml-2, added responsive text align */}
                 {data.map((value,index)=>(
-                    <div key={index} className="bg-white shadow cursor-pointer rounded-lg p-5 w-[50%] hover:shadow-lg transition-shadow">
+                    // Changed w-[50%] to w-full max-w-2xl mx-auto for responsive and centered cards
+                    <div key={index} className="bg-white shadow cursor-pointer rounded-lg p-5 w-full max-w-2xl mx-auto hover:shadow-lg transition-shadow">
                         <div className="flex items-center mb-2">
                             <User className="w-5 h-5 text-blue-500 mr-2" />
                             <span className="text-lg font-medium text-gray-900">{value.fullName}</span>

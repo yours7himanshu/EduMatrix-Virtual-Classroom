@@ -61,9 +61,9 @@ const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg p-6 shadow-lg w-96">
-        <h2 className="text-lg font-semibold mb-4">Join Live Room</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4"> {/* Added p-4 for overall padding from screen edges */}
+      <div className="bg-white rounded-lg p-6 sm:p-8 shadow-lg w-full max-w-md sm:max-w-lg max-h-[90vh] overflow-y-auto"> {/* Responsive width and padding, Added max-h and overflow */}
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Join Live Room</h2> {/* Responsive text and margin */}
         <form
           onSubmit={(e) => {
             e.preventDefault();

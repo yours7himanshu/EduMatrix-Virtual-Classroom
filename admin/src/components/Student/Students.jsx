@@ -84,12 +84,12 @@ function Students() {
   };
 
   return (
-    <div className=" min-h-screen bg-gray-100">
-    
-      <div className="flex-1 h-[80%] p-8 bg-gray-50 ml-[19%]">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-violet-700 text-center mb-4">
-            Enroll Students for Your College:)
+    // Removed ml-[19%] from the inner div, adjusted padding and removed fixed height h-[80%]
+    // The outer div already has min-h-screen. The AppLayout provides the main structure.
+    <div className="w-full bg-gray-100 p-4 md:p-8">
+        <div className="max-w-4xl mx-auto"> {/* This div centers the content below it */}
+          <h1 className="text-2xl md:text-3xl font-bold text-violet-700 text-center mb-6 md:mb-8">
+            Enroll Students
           </h1>
 
           <form className="bg-white p-8 rounded-lg shadow-lg" onSubmit={handleSubmit}>
@@ -120,7 +120,8 @@ function Students() {
               </Stack>
             </div>
 
-            <div className="flex flex-col gap-2">
+            {/* Ensured consistent gap and mb for form elements */}
+            <div className="flex flex-col gap-4">
               <input
                 type="text"
                 placeholder="Student Name"
@@ -171,7 +172,8 @@ function Students() {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+            {/* Consistent mt for this grid section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mt-4">
               <select
                 name="studentBranch"
                 id="studentBranch"

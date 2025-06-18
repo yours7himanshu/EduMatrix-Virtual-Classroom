@@ -66,19 +66,19 @@ const Announcement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 w-full"> {/* Ensure w-full on root, added flex-col */}
       <div className="w-full max-w-4xl ">
-        <div className="flex flex-col items-center justify-center">
-          <div className="text-center mb-5">
-            <div className="inline-flex  justify-center items-center gap-4 ml-56 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100">
-              <h1 className="text-3xl ml-10 font-semibold text-violet-700">
+        <div className="flex flex-col items-center justify-center"> {/* This parent ensures children can be centered or full width as needed */}
+          <div className="text-center mb-5 w-full"> {/* Added w-full to allow content below to be properly centered or max-width constrained */}
+            <div className="inline-flex flex-col sm:flex-row justify-center items-center gap-4 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100 max-w-xl mx-auto"> {/* Removed ml-56, added max-w-xl mx-auto, responsive flex direction */}
+              <h1 className="text-2xl sm:text-3xl font-semibold text-violet-700"> {/* Removed ml-10, responsive text */}
                 Post College Announcement
               </h1>
-              <img className="w-16 h-16 object-contain" src={scholar} alt="Scholar icon" />
+              <img className="w-12 h-12 sm:w-16 sm:h-16 object-contain" src={scholar} alt="Scholar icon" /> {/* Responsive image size */}
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border ml-64 border-gray-100 p-8 w-full">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8 w-full"> {/* Removed ml-64, adjusted padding */}
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <select

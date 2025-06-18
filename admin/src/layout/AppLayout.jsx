@@ -29,7 +29,7 @@ const AppLayout = () => (WrapLayoutComponent)=> {
 
               <Sidebar />
               </RoleProvider>
-              <div className='w-full h-screen overflow-x-hidden  ' >
+              <div className='w-full md:ml-[20%] h-screen overflow-x-hidden  ' >
 
               <WrapLayoutComponent {...props} />
               </div>
