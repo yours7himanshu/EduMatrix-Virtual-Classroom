@@ -77,12 +77,12 @@ const Sidebar = () => {
     <ul className="flex flex-col px-3 w-full h-full"> {/* Removed md:ml-10, added px-3 */}
       {/* Fixed Logo */}
       {/* Added p-4 and background to this sticky div. Note: p-4 on this div inside a px-3 ul means logo area has more effective padding. This could be adjusted if needed. */}
-      <div className="sticky top-3 z-20 p-3 max-md:mt-10 max-md:w-[300px] rounded-full mb-8 border-blue-500  border  "> {/* Added -mx-3 to make this div full-bleed against parent's px-3 */}
+      <div className="sticky top-3 z-20 p-3 rounded-full mb-8 border-blue-500  border max-md:hidden "> {/* Added -mx-3 to make this div full-bleed against parent's px-3 */}
         <Logo />
       </div>
       {/* Scrollable nav items */}
-      <div className="flex flex-col gap-5 overflow-y-auto hide-scrollbar flex-1 py-2"> {/* Removed px-4 */}
-        <div className="flex gap-4">
+      <div className="flex flex-col gap-5 overflow-y-auto hide-scrollbar flex-1 py-2 "> {/* Removed px-4 */}
+        <div className="flex gap-4 max-md:mt-20 ">
           <li
             onClick={() => handleNavigation("/dashboard")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer hover:text-gray-700 transition-all duration-75 ${

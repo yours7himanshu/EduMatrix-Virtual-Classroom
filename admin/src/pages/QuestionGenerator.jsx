@@ -121,19 +121,19 @@ const NotesUpload = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight mb-3">
+          <h1 className="text-3xl  max-md:mt-10 font-extrabold text-gray-900 sm:text-4xl tracking-tight mb-3">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
             PDF to Questions: Smart Question Generator
             </span>
           </h1>
-          <p className="text-sm text-gray-600 max-w-2xl mx-auto">
+          <p className="text-sm max-md:m-3 text-gray-600 max-w-2xl mx-auto">
             Quickly generate questions from your PDF notes with our AI-powered question generator.
 
           </p>
         </div>
 
         {/* Main Content */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white rounded-2xl max-md:h-[calc(100vh-300px)] shadow-xl overflow-hidden">
           {/* Upload Section */}
           <div className="p-8">
             <div
@@ -149,9 +149,9 @@ const NotesUpload = () => {
               onDrop={handleDrop}
             >
               {!pdfFile ? (
-                <div className="space-y-6">
-                  <div className="flex justify-center">
-                    <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+                <div className="space-y-6 ">
+                  <div className="flex justify-center   ">
+                    <div className="w-20 h-20 max-md:h-[50%] rounded-full bg-blue-100 flex items-center justify-center">
                       <Upload
                         size={40}
                         className="text-blue-600"
@@ -159,7 +159,7 @@ const NotesUpload = () => {
                     </div>
                   </div>
                   <div>
-                    <p className="text-xl font-semibold text-gray-800">
+                    <p className="text-xl m font-semibold text-gray-800">
                       Drag and drop your PDF file here
                     </p>
                     <p className="text-gray-500 mt-2">or</p>

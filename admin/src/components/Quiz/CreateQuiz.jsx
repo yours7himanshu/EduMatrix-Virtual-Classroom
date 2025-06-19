@@ -72,7 +72,7 @@ const CreateQuiz = () => {
 
   return (
     // Removed ml-[25%], changed w-screen to w-full. Added p-4 for some spacing.
-    <div className="w-full flex justify-center items-center h-screen p-4">
+    <div className="w-full flex justify-center items-center max-md:mt-10 h-screen p-4">
      
       <form
         onSubmit={handleSubmit}

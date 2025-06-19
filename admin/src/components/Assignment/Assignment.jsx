@@ -72,7 +72,7 @@ const Assignment = () => {
       <div className="w-full max-w-3xl bg-white p-8 rounded-xl shadow-xl">
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-6">
-            <h1 className="text-4xl font-bold text-indigo-600 text-center">
+            <h1 className="text-4xl max-md:text-2xl font-bold text-indigo-600 text-center">
               Create New Assignment
             </h1>
 

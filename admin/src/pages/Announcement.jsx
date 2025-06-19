@@ -20,7 +20,7 @@ import { useState } from "react";
 import scholar from "../assets/scholar.png";
 import axios from "axios";
 import { toast } from "react-toastify";
-import SendIcon from "@mui/icons-material/Send";
+// import SendIcon from "@mui/icons-material/Send";
 import AppLayout from "../layout/AppLayout";
 const Announcement = () => {
   const [category, setCategory] = useState("");
@@ -71,10 +71,10 @@ const Announcement = () => {
         <div className="flex flex-col items-center justify-center"> {/* This parent ensures children can be centered or full width as needed */}
           <div className="text-center mb-5 w-full"> {/* Added w-full to allow content below to be properly centered or max-width constrained */}
             <div className="inline-flex flex-col sm:flex-row justify-center items-center gap-4 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100 max-w-xl mx-auto"> {/* Removed ml-56, added max-w-xl mx-auto, responsive flex direction */}
-              <h1 className="text-2xl sm:text-3xl font-semibold text-violet-700"> {/* Removed ml-10, responsive text */}
+              <h1 className="text-2xl sm:text-3xl font-semibold text-black max-md:text-xl"> {/* Removed ml-10, responsive text */}
                 Post College Announcement
               </h1>
-              <img className="w-12 h-12 sm:w-16 sm:h-16 object-contain" src={scholar} alt="Scholar icon" /> {/* Responsive image size */}
+              <img className="w-12 max-md:hidden h-12 sm:w-16 sm:h-16 object-contain" src={scholar} alt="Scholar icon" /> {/* Responsive image size */}
             </div>
           </div>
 
@@ -85,7 +85,7 @@ const Announcement = () => {
                   name="announcement category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 outline-none"
                 >
                   <option value="chose">Choose Category </option>
                   <option value="Exams">Exams</option>
@@ -110,7 +110,7 @@ const Announcement = () => {
                   name="studentCourse"
                   value={course}
                   onChange={(e) => setCourse(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 outline-none"
                   required
                 >
                   <option value="Branch">Choose Course For Announcement</option>
@@ -137,7 +137,7 @@ const Announcement = () => {
                   onChange={(e) => {
                     setBranch(e.target.value);
                   }}
-                  className="w-full outline-none p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  className="w-full outline-none p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 "
                 />
 
                 <textarea
@@ -148,7 +148,7 @@ const Announcement = () => {
                   }}
                   placeholder="Enter Announcement Description"
                   rows="6"
-                  className="w-full outline-none p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 resize-none"
+                  className="w-full outline-none p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100 resize-none"
                 ></textarea>
               </div>
 
@@ -156,7 +156,7 @@ const Announcement = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white py-3 px-6 rounded-lg font-medium hover:from-green-500 hover:to-green-400 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-70"
+                  className="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white py-3 px-6 rounded-lg font-medium hover:from-green-500 hover:to-green-400 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-70 max-md:p-2 "
                 >
                   {loading ? (
                     <span className="flex items-center gap-2">
@@ -168,8 +168,8 @@ const Announcement = () => {
                     </span>
                   ) : (
                     <>
-                      Post Announcement
-                      <SendIcon sx={{ height: "20px" }} />
+                      Post 
+                      {/* <SendIcon sx={{ height: "20px" }} className="max-md:hidden" /> */}
                     </>
                   )}
                 </button>
@@ -177,7 +177,7 @@ const Announcement = () => {
                 <button
                   onClick={handleClick}
                   type="button"
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 px-6 rounded-lg font-medium hover:from-blue-500 hover:to-blue-400 transition-all duration-200"
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 text-white  py-3 px-6 rounded-lg font-medium hover:from-blue-500 hover:to-blue-400 transition-all duration-200  max-md:p-2 max-md:h-14"
                 >
                   Clear Form
                 </button>

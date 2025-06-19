@@ -46,9 +46,9 @@ const StudentMarksAttendance = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 w-full flex flex-col items-center justify-center py-12 md:py-16 px-4"> {/* Changed w-screen, py, added px-4 and flex for centering */}
-      <div className="max-w-3xl w-full mx-auto bg-white shadow-lg rounded-lg p-6 md:p-8"> {/* Removed ml-[34%], added w-full, adjusted padding */}
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center md:text-left">Student Marks & Attendance</h2> {/* Centered text on mobile */}
+    <div className="min-h-screen  bg-gray-100 w-full flex flex-col items-center justify-center py-12 md:py-16 px-4"> {/* Changed w-screen, py, added px-4 and flex for centering */}
+      <div className="max-w-3xl w-full max-md:mt-10 mx-auto bg-white shadow-lg rounded-lg p-6 md:p-8"> {/* Removed ml-[34%], added w-full, adjusted padding */}
+        <h2 className="text-2xl max-md:text-xl font-semibold text-gray-800 mb-6 text-center md:text-left">Student Marks & Attendance</h2> {/* Centered text on mobile */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"> {/* Adjusted gap */}
             <div className="flex flex-col">
