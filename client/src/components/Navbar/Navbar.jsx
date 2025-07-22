@@ -17,6 +17,7 @@ limitations under the License.
 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { FaUserPlus } from "react-icons/fa";
 // import profilePic from "../../assets/pp.png";
 // import dropdown from "../../assets/dropdown.png";
 
@@ -26,7 +27,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-950 fixed top-0 left-0 w-full z-50 h-[11%] text-white max-md:shadow-sm shadow-lg p-3">
-      <div className="container mx-auto max-md:m-2 flex justify-between items-center">
+      <div className="container mx-auto max-md:m-2 flex max-md:justify-between justify-around items-center">
         {/* Logo */}
         <div className="text-3xl ml-3 max-md:ml-0 max-md:text-3xl flex items-center gap-2 font-extrabold">
         <img className="rounded-md object-cover   h-11" src="/logo/E.png" alt="" />
@@ -35,7 +36,7 @@ const Navbar = () => {
 
         {/* Links */}
        
-          <div className="hidden md:flex mr-11 ml-5 space-x-6 border border-gray-700 outline-none rounded-md px-5 py-3">
+          <div className="hidden md:flex mr-44 ml-10 space-x-6 border border-gray-700 outline-none rounded-md px-5 py-3">
             <Link to="/" className="hover:text-blue-300">
               Home
             </Link>
@@ -87,12 +88,7 @@ const Navbar = () => {
               </div>
             </div>
           ) : ( */}
-            <button
-              onClick={()=> navigate("/MainLogin")}
-              className="bg-zinc-200 mr-3 max-md:mr-0 font-medium text-black px-5 py-3 rounded-md  max-md:px-2  max-md:text-sm  "
-            >
-              Create Account
-            </button>
+            <FaUserPlus className="text-3xl max-md:mr-6 mb-1 mr-16 text-gray-300 cursor-pointer" onClick={()=>navigate("/MainLogin")}/>
           {/* )} */}
         </div>
       </div>

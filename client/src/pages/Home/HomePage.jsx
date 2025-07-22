@@ -31,9 +31,11 @@ const HomePage = () => {
             <span
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="p-1 px-3 border text-purple-200 shadow-purple-700/40 border-purple-400 rounded-3xl text-sm shadow-lg transition-all duration-300 hover:bg-purple-500/10"
+              className="relative p-[2px] bg-gradient-to-r from-purple-400 via-blue-500 to-purple-700 bg-[length:200%_200%] animate-gradient rounded-3xl text-sm transition-all duration-300"
             >
-              Revolutionizing Digital Education
+              <span className="block bg-slate-950 px-3 py-1 rounded-3xl text-purple-200 hover:bg-purple-500/10 transition-all duration-300">
+                Revolutionizing Digital Education
+              </span>
             </span>
             <h1
               data-aos="fade-down"
