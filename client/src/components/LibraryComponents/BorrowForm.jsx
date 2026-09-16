@@ -1,88 +1,96 @@
 import React, { useState } from "react";
-import { Book, User, ArrowDownCircle, AlertCircle } from "lucide-react";
+import { Book, ArrowDownCircle, Hash, User } from "lucide-react";
 import FormField from "./FormField";
 import StatusMessage from "./StatusMessage";
+import { Button } from "../../Student Dashboard/Shared/ui";
 
 const BorrowForm = ({ books, onBorrowBook }) => {
-  const [borrowForm, setBorrowForm] = useState({ 
-    studentName: "", 
-    studentId: "", 
-    title: "" 
+  const [borrowForm, setBorrowForm] = useState({
+    studentName: "",
+    studentId: "",
+    title: "",
   });
-  const [borrowMsg, setBorrowMsg] = useState({ 
-    text: "", 
-    isError: false 
-  });
+  const [borrowMsg, setBorrowMsg] = useState({ text: "", isError: false });
 
   const handleBorrow = () => {
-    // Validate form
     if (!borrowForm.title || !borrowForm.studentName || !borrowForm.studentId) {
-      setBorrowMsg({ 
-        text: "Please fill all required fields", 
-        isError: true 
-      });
+      setBorrowMsg({ text: "Please fill all required fields.", isError: true });
       return;
     }
-    
-    // Check if book exists and is available
-    const bookExists = books.find(b => 
-      b.title.toLowerCase() === borrowForm.title.toLowerCase() && b.available
+
+    const bookExists = books.find(
+      (b) => b.title.toLowerCase() === borrowForm.title.toLowerCase() && b.available
     );
-    
+
     if (!bookExists) {
-      setBorrowMsg({ 
-        text: "This book is not available for borrowing", 
-        isError: true 
+      setBorrowMsg({
+        text: "This book is not available for borrowing.",
+        isError: true,
       });
       return;
     }
-    
-    // Process borrowing
+
     const success = onBorrowBook(borrowForm);
-    
+
     if (success) {
-      setBorrowMsg({ 
-        text: `Book "${borrowForm.title}" borrowed successfully by ${borrowForm.studentName}`,
-        isError: false 
+      setBorrowMsg({
+        text: `“${borrowForm.title}” was borrowed successfully by ${borrowForm.studentName}.`,
+        isError: false,
       });
       setBorrowForm({ studentName: "", studentId: "", title: "" });
     }
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-xl">
+      <div className="mb-5">
+        <h3 className="font-display text-[15px] font-bold text-ink-900">
+          Borrow a book
+        </h3>
+        <p className="mt-1 text-[12.5px] leading-relaxed text-ink-500">
+          Enter the exact catalog title. Active loans are recorded against your
+          student ID.
+        </p>
+      </div>
+
       <div className="space-y-4">
         <FormField
-          label="Student Name"
+          id="borrow-name"
+          label="Student name"
           placeholder="Enter your full name"
           value={borrowForm.studentName}
-          onChange={(e) => setBorrowForm({ ...borrowForm, studentName: e.target.value })}
-          icon={<User size={18} />}
+          onChange={(event) =>
+            setBorrowForm({ ...borrowForm, studentName: event.target.value })
+          }
+          icon={<User size={16} />}
         />
         <FormField
+          id="borrow-id"
           label="Student ID"
           placeholder="Enter your student ID"
           value={borrowForm.studentId}
-          onChange={(e) => setBorrowForm({ ...borrowForm, studentId: e.target.value })}
-          icon={<div className="text-xs font-bold">ID</div>}
+          onChange={(event) =>
+            setBorrowForm({ ...borrowForm, studentId: event.target.value })
+          }
+          icon={<Hash size={16} />}
         />
         <FormField
-          label="Book Title"
+          id="borrow-title"
+          label="Book title"
           placeholder="Enter the exact book title"
           value={borrowForm.title}
-          onChange={(e) => setBorrowForm({ ...borrowForm, title: e.target.value })}
-          icon={<Book size={18} />}
+          onChange={(event) =>
+            setBorrowForm({ ...borrowForm, title: event.target.value })
+          }
+          icon={<Book size={16} />}
         />
-        <div className="pt-2">
-          <button
-            className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2"
-            onClick={handleBorrow}
-          >
-            <ArrowDownCircle size={18} />
-            <span>Borrow Book</span>
-          </button>
-        </div>
-        <StatusMessage message={borrowMsg} isError={borrowMsg.isError} />
+
+        <Button className="w-full" onClick={handleBorrow}>
+          <ArrowDownCircle size={15} />
+          Confirm borrow
+        </Button>
+
+        <StatusMessage message={borrowMsg} />
       </div>
     </div>
   );

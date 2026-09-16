@@ -18,17 +18,25 @@ limitations under the License.
 
 
 const Teacher = require('../models/teachersModels');
+const Admin = require('../models/adminModels');
 const bcrypt = require('bcrypt');
 
 const addTeacher = async(req,res)=>{
     const {name,qualification,subject,experience,email,password}=req.body;
 
     try{
-        const existingTeacher = await Teacher.findOne({name});
+        const existingTeacher = await Teacher.findOne({ email });
         if(existingTeacher){
             return res.status(400).json({
                 success:false,
-                message:"Teacher already exists"
+                message:"Teacher with this email already exists"
+            })
+        }
+        const existingAdmin = await Admin.findOne({ email }).catch(() => null);
+        if(existingAdmin){
+            return res.status(400).json({
+                success:false,
+                message:"Teacher with this email already exists"
             })
         }
         const salt = await bcrypt.genSalt(10);
@@ -41,6 +49,18 @@ const addTeacher = async(req,res)=>{
             email,
             password:hashPassword
         })
+
+        // Also create an authenticable Admin record with role: 'Teacher'
+        const institutionId = req.user?.institutionId || null;
+        await Admin.create({
+            directorName: name,
+            collegeName: req.user?.collegeName || "Faculty",
+            centerCode: req.user?.centerCode || 0,
+            email,
+            password: hashPassword,
+            role: 'Teacher',
+            institutionId: institutionId,
+        }).catch(() => null);
 
         return res.status(201).json({
             success:true,
@@ -60,7 +80,7 @@ const addTeacher = async(req,res)=>{
 
 const teacherDetail = async(req,res)=>{
    try{
-    const teacherDetail = await Teacher.find();
+    const teacherDetail = await Teacher.find().select('-password');
     return res.status(200).json({
         success:true,
         teacherDetail,

@@ -17,9 +17,16 @@ limitations under the License.
 
 const express = require('express');
 const {loginUser}=require('../controllers/userController');
+const { createRateLimiter } = require('../middlewares/rateLimiter');
 const userRouter = express.Router();
 
+const userLoginLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: "Too many login attempts. Please try again after 15 minutes.",
+});
 
-userRouter.post('/login',loginUser);
+userRouter.post('/login', userLoginLimiter, loginUser);
 
-module.exports=userRouter;
+module.exports = userRouter;
+module.exports.userLoginLimiter = userLoginLimiter;

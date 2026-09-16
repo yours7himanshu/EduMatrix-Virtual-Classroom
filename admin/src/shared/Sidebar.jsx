@@ -39,7 +39,6 @@ import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PersonIcon from '@mui/icons-material/Person';
-import Modal from "../components/Model";
 import { useAuth } from "../context/AuthContext";
 import "./Sidebar.css";
 
@@ -47,7 +46,6 @@ const Sidebar = () => {
 
   const { userRole } = useContext(RoleContext);
   const location = useLocation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {logout} = useAuth();
@@ -253,7 +251,7 @@ const Sidebar = () => {
 
         {(userRole === 'Teacher' || userRole === 'Director') && <div className="flex items-center gap-4">
           <li
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => handleNavigation("/admin-live")}
             className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-full cursor-pointer ${
               isActive("/admin-live")
                 ? "bg-white text-black border rounded-md"
@@ -300,17 +298,6 @@ const Sidebar = () => {
           <SidebarContent />
         </div>
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={() => console.log("Handle Room Join")}
-        email=""
-        setEmail={() => {}}
-        roomId=""
-        setRoomId={() => {}}
-        loading={false}
-      />
 
       {/* Loader */}
       {isLoading && (

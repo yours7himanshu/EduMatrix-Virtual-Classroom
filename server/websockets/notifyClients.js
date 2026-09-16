@@ -17,16 +17,28 @@ limitations under the License.
 
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 8080 });
 const clients = new Set();
+let wss = null;
 
-wss.on('connection', (ws) => {
-  clients.add(ws);
+const initWss = () => {
+  if (!wss && process.env.NODE_ENV !== 'test') {
+    try {
+      wss = new WebSocket.Server({ port: process.env.WS_PORT || 8080 });
+      wss.on('connection', (ws) => {
+        clients.add(ws);
+        ws.on('close', () => {
+          clients.delete(ws);
+        });
+      });
+    } catch (e) {
+      console.error('Failed to start WebSocket server:', e.message);
+    }
+  }
+  return wss;
+};
 
-  ws.on('close', () => {
-    clients.delete(ws);
-  });
-});
+// Initialize server if not in test environment
+initWss();
 
 const notifyClients = (quiz) => {
   clients.forEach((client) => {
@@ -36,4 +48,11 @@ const notifyClients = (quiz) => {
   });
 };
 
-module.exports = { notifyClients };
+const closeWss = () => {
+  if (wss) {
+    wss.close();
+    wss = null;
+  }
+};
+
+module.exports = { notifyClients, closeWss, initWss };

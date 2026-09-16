@@ -1,36 +1,38 @@
-const { spawn } = require("child_process");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-exports.generateContent = (req, res) => {
-  const prompt = req.body.prompt || "Default prompt";
-  const pythonProcess = spawn("python", ["../genAI/ai_script.py", prompt]);
-
-  let output = "";
-  let errorOutput = "";
-
-  pythonProcess.stdout.on("data", (data) => {
-    output += data.toString(); // Capture the generated text
-  });
-
-  pythonProcess.stderr.on("data", (data) => {
-    errorOutput += data.toString(); // Capture informational messages
-  });
-
-  pythonProcess.on("close", (code) => {
-    if (errorOutput) {
-      console.warn(`Python stderr: ${errorOutput}`); // Log warnings, not errors
+exports.generateContent = async (req, res) => {
+  try {
+    const prompt = req.body?.prompt;
+    if (!prompt || typeof prompt !== "string" || prompt.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: "Valid prompt string is required",
+      });
     }
 
-    if (code !== 0) {
-      // Real failure: Python exited with an error
-      res.status(500).json({ error: "AI processing failed", details: errorOutput });
-    } else {
-      // Success: Process the output
-      try {
-        const result = JSON.parse(output);
-        res.json({ generatedText: result.result });
-      } catch (error) {
-        res.status(500).json({ error: "Failed to parse output", details: output });
-      }
+    const apiKey = process.env.GIMINI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(503).json({
+        success: false,
+        error: "AI service is currently unavailable: GEMINI_API_KEY is not configured",
+      });
     }
-  });
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const result = await model.generateContent(prompt.trim());
+    const text = result?.response?.text ? result.response.text() : "";
+
+    return res.status(200).json({
+      success: true,
+      generatedText: text,
+    });
+  } catch (error) {
+    console.error("AI Controller generation error:", error.message);
+    return res.status(500).json({
+      success: false,
+      error: "AI processing failed",
+      details: error.message,
+    });
+  }
 };

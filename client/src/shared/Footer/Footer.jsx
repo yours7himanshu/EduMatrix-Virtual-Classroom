@@ -1,161 +1,161 @@
-/*
-
-Copyright 2024 Himanshu Dinkar
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-import { Link } from 'react-router-dom'
-import React from 'react'
-import { useLocation } from 'react-router-dom';
-
-// Fix: Update imports from lucide-react
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Facebook, 
-  Twitter, 
-  Linkedin, // Changed from LinkedIn to Linkedin
-  Instagram 
+import { Link } from 'react-router-dom';
+import {
+  Github,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Heart
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
-const FooterLink = ({ href, children }) => (
-  <motion.li
-    whileHover={{ x: 5 }}
-    whileTap={{ scale: 0.95 }}
-  >
-    <a 
-      href={href} 
-      className="hover:text-white transition-colors duration-300 flex items-center gap-2"
-    >
-      {children}
-    </a>
-  </motion.li>
-);
+const learningLinks = [
+  { label: 'All Courses', to: '/courses' },
+  { label: 'Live Classes', to: '/live-class' },
+  { label: 'AI Assistant', to: '/ai' },
+  { label: 'Study Notes', to: '/notes' },
+  { label: 'Syllabus Guide', to: '/syllabus' },
+];
 
-const SocialButton = ({ Icon, href }) => (
-  <motion.a
-    whileHover={{ y: -3 }}
-    whileTap={{ scale: 0.95 }}
-    href={href}
-    className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors duration-300"
-  >
-    <Icon className="w-5 h-5" />
-  </motion.a>
-);
+const portalLinks = [
+  { label: 'Student Dashboard', to: '/StudentDashboard/dashboard' },
+  { label: 'Student Login', to: '/login' },
+  { label: 'Admin Console', to: '/MainLogin' },
+  { label: 'Assignments', to: '/StudentDashboard/assignment' },
+  { label: 'Digital Library', to: '/StudentDashboard/library' },
+];
 
-const Footer = () => {
-  const location = useLocation();
-  const isContactPage = location.pathname === '/contacti';
+const companyLinks = [
+  { label: 'About Us', to: '/aboutUs' },
+  { label: 'Contact Us', to: '/contact' },
+  { label: 'Join as Teacher', to: '/contact' },
+  { label: 'Privacy Policy', to: '/contact' },
+  { label: 'Terms of Service', to: '/contact' },
+];
 
+const socials = [
+  { icon: Github, label: 'GitHub', href: 'https://github.com/yours7himanshu/EduMatrix-Virtual-Classroom' },
+  { icon: Twitter, label: 'Twitter', href: '#' },
+  { icon: Linkedin, label: 'LinkedIn', href: '#' },
+  { icon: Instagram, label: 'Instagram', href: '#' },
+];
+
+export default function Footer() {
   return (
-    <footer className={`relative overflow-hidden ${
-      isContactPage 
-        ? 'bg-gradient-to-b from-slate-900 to-slate-950 text-white shadow-xl' 
-        : 'bg-gradient-to-b from-slate-900 to-slate-950 text-gray-400'
-    } py-16`}>
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-white/[0.02] pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
-          {/* Brand Section */}
-          <div className="space-y-6">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3"
-            >
-              <img className="h-12 w-auto rounded-lg" src="/logo/E.png" alt="EduMatrix Logo" />
-              <Link to="/" className="text-3xl font-bold text-gray-300 ">
-                EduMatrix
-              </Link>
-            </motion.div>
+    <footer className="relative bg-paper text-ink-900 border-t border-ink-900/[0.08] antialiased">
+      {/* Subtle Dot-Grid Background & Ambient Lighting */}
+      <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
+      <div className="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-brand-100/35 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 right-1/4 h-72 w-72 rounded-full bg-accent-lime/20 blur-3xl pointer-events-none" />
 
-            <ul className="space-y-4">
-              <FooterLink href="mailto:support@edumatrix.com">
-                <Mail className="w-4 h-4" />
-                support@edumatrix.com
-              </FooterLink>
-              <FooterLink href="tel:+91639886545">
-                <Phone className="w-4 h-4" />
-                +91 63988 86545
-              </FooterLink>
-              <FooterLink href="#">
-                <MapPin className="w-4 h-4" />
-                123 Education Street, Tech Valley
-              </FooterLink>
-            </ul>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 pt-16 pb-12">
+        {/* ─── Main Footer Columns ─── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
+          {/* Brand & Mission Column (Span 2) */}
+          <div className="lg:col-span-2">
+            <Link to="/" className="group inline-flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105">
+                <span className="text-lg font-bold font-display">E</span>
+              </span>
+              <span className="leading-tight">
+                <span className="block text-lg font-extrabold tracking-tight text-ink-900 font-display">
+                  EduMatrix
+                </span>
+                <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-ink-400">
+                  Virtual Classroom
+                </span>
+              </span>
+            </Link>
+
+            <p className="mt-4 text-sm leading-relaxed text-ink-500 max-w-sm">
+              An AI-powered virtual classroom for live teaching, smart quizzes, automated attendance, and interactive study. Set up your college in minutes and teach from anywhere.
+            </p>
 
             {/* Social Links */}
-            <div className="flex gap-4">
-              <SocialButton Icon={Facebook} href="#" />
-              <SocialButton Icon={Twitter} href="#" />
-              <SocialButton Icon={Linkedin} href="#" />
-              <SocialButton Icon={Instagram} href="#" />
+            <div className="mt-6 flex items-center gap-3">
+              {socials.map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-ink-900/10 bg-white text-ink-500 shadow-soft transition-all hover:border-ink-900/30 hover:bg-ink-900 hover:text-white hover:shadow-card hover:-translate-y-0.5"
+                >
+                  <Icon size={15} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Resources Section */}
+          {/* Learning Column */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Resources</h3>
-            <ul className="space-y-3">
-              <FooterLink href="#">Documentation</FooterLink>
-              <FooterLink href="#">Tutorials</FooterLink>
-              <FooterLink href="#">Support Center</FooterLink>
-              <FooterLink href="#">API Reference</FooterLink>
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
+              Learning
+            </h4>
+            <ul className="mt-5 space-y-3">
+              {learningLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.to}
+                    className="text-sm text-ink-500 font-medium transition-colors hover:text-ink-900 hover:translate-x-0.5 inline-block"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Company Section */}
+          {/* Portals Column */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Company</h3>
-            <ul className="space-y-3">
-              <FooterLink href="#">About Us</FooterLink>
-              <FooterLink href="#">Careers</FooterLink>
-              <FooterLink href="#">News & Blog</FooterLink>
-              <FooterLink href="#">Contact Us</FooterLink>
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
+              Portals
+            </h4>
+            <ul className="mt-5 space-y-3">
+              {portalLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.to}
+                    className="text-sm text-ink-500 font-medium transition-colors hover:text-ink-900 hover:translate-x-0.5 inline-block"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Legal Section */}
+          {/* Company Column */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Legal</h3>
-            <ul className="space-y-3">
-              <FooterLink href="#">Privacy Policy</FooterLink>
-              <FooterLink href="#">Terms of Service</FooterLink>
-              <FooterLink href="#">Security</FooterLink>
-              <FooterLink href="#">Compliance</FooterLink>
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
+              Company
+            </h4>
+            <ul className="mt-5 space-y-3">
+              {companyLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.to}
+                    className="text-sm text-ink-500 font-medium transition-colors hover:text-ink-900 hover:translate-x-0.5 inline-block"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Copyright Section */}
-        <div className="mt-16 pt-8 border-t border-gray-800">
-          <div className="text-center text-sm">
-            <p className="text-gray-400">
-              &copy; {new Date().getFullYear()} EduMatrix. All rights reserved.
-            </p>
-            <p className="mt-2 text-gray-500">
-              Empowering Education Through Technology
-            </p>
-          </div>
+        {/* ─── Bottom Copyright Bar ─── */}
+        <div className="mt-14 pt-8 border-t border-ink-900/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-400">
+          <p className="text-center sm:text-left">
+            © {new Date().getFullYear()} EduMatrix Virtual Classroom. All rights reserved.
+          </p>
+
+          <p className="inline-flex items-center gap-1.5 font-medium text-ink-400">
+            Where learning feels alive
+            <Heart size={13} className="fill-brand-500 text-brand-500" />
+          </p>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

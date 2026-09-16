@@ -1,5 +1,4 @@
 /*
-
 Copyright 2024 Himanshu Dinkar
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,167 +14,155 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { ContextStore } from "../store/ContextStore";
-
-import LiveTvIcon from "@mui/icons-material/LiveTv";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import CampaignIcon from "@mui/icons-material/Campaign";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import QuizIcon from "@mui/icons-material/Quiz";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import PaymentIcon from "@mui/icons-material/Payment";
+import {
+  ClipboardList,
+  CreditCard,
+  FileText,
+  HelpCircle,
+  LayoutDashboard,
+  Library,
+  LogOut,
+  Megaphone,
+  Video,
+  X,
+} from "lucide-react";
 import Logo from "./Logo";
-import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
-import SummarizeIcon from '@mui/icons-material/Summarize';
-import DescriptionIcon from '@mui/icons-material/Description';
-import AssistantIcon from '@mui/icons-material/Assistant';
-import './Sidebar.css';
+import "./Sidebar.css";
 
-const Sidebar = () => {
+const NAV_GROUPS = [
+  {
+    label: "Overview",
+    items: [
+      { path: "/StudentDashboard/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { path: "/StudentDashboard/announcement", label: "Announcements", icon: Megaphone },
+    ],
+  },
+  {
+    label: "Academics",
+    items: [
+      { path: "/StudentDashboard/assignment", label: "Assignments", icon: ClipboardList },
+      { path: "/StudentDashboard/quiz", label: "Quizzes", icon: HelpCircle },
+      { path: "/StudentDashboard/teachersNotes", label: "Teachers' notes", icon: FileText },
+      { path: "/StudentDashboard/library", label: "Library", icon: Library },
+    ],
+  },
+  {
+    label: "Services & tools",
+    items: [
+      { path: "/StudentDashboard/notes", label: "PDF summarizer", icon: FileText },
+      { path: "/ai", label: "AI Assistant", icon: HelpCircle },
+      { path: "/live-class", label: "Live classroom", icon: Video },
+      { path: "/StudentDashboard/payfees", label: "Pay fees", icon: CreditCard },
+    ],
+  },
+];
+
+const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isActive = (path) => location.pathname === path;
-
   const handleNavigation = (path) => {
-    if (location.pathname !== path) {
-      navigate(path);
-    }
+    if (location.pathname !== path) navigate(path);
+    if (onClose) onClose();
   };
 
-  return (
-    <div className="flex max-md:hidden w-[20%] ">
-      {/* Sidebar */}
-      <div className="sidebar fixed top-0  left-0 h-screen flex flex-col w-[20%] bg-gradient-to-tr from-indigo-800 to-blue-700 text-white">
-        <div className="sticky  top-0 z-20 w-[90%] ml-7 ">
-          <Logo />
-        </div>
-        <ul className="flex flex-col ml-10 gap-5 overflow-y-auto hide-scrollbar">
-          <div className="flex gap-4 ">
-            <li
-              onClick={() => handleNavigation("/StudentDashboard/dashboard")}
-              className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
-                isActive("/StudentDashboard/dashboard")
-                  ? "bg-white text-black border rounded-md"
-                  : "text-white"
-              }`}
-            >
-              <DashboardIcon />
-              Dashboard
-            </li>
-          </div>
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/MainLogin");
+  };
 
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/announcement")}
-            className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/StudentDashboard/announcement")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
+  const sidebarBody = (
+    <aside className="flex h-full w-64 select-none flex-col border-r border-ink-900/[0.08] bg-white lg:w-72">
+      <div className="flex items-center justify-between border-b border-ink-900/[0.08] px-5 py-4">
+        <Logo />
+        {onClose ? (
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="rounded-full p-1.5 text-ink-400 transition-colors hover:bg-ink-50 hover:text-ink-900 lg:hidden"
           >
-            <CampaignIcon />
-            Announcements
-          </li>
-
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/notes")}
-            className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/StudentDashboard/notes")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <SummarizeIcon />
-            Summarizer
-          </li>
-
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/teachersNotes")}
-            className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/StudentDashboard/teachersNotes")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <DescriptionIcon />
-            Teachers Notes
-          </li>
-
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/quiz")}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/StudentDashboard/quiz")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <QuizIcon />
-            Quizes
-          </li>
-
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/assignment")}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/StudentDashboard/assignment")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <AssignmentIcon />
-            Assignments
-          </li>
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/payfees")}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
-              isActive("/StudentDashboard/payfees")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <PaymentIcon />
-            Pay Fees
-          </li>
-          <li
-            onClick={() => handleNavigation("/StudentDashboard/library")}
-            className={`list-style-none flex items-center gap-2 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-              isActive("/StudentDashboard/library")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <LocalLibraryIcon />
-            Library
-          </li>
-
-          <li
-            onClick={() => handleNavigation("/ai")}
-            className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer hover:text-gray-700 transition-all duration-75 ${
-              isActive("/ai")
-                ? "bg-white text-black border rounded-md"
-                : "text-white"
-            }`}
-          >
-            <AssistantIcon />
-            AI Assistent
-          </li>
-
-          <div className="flex items-center gap-4">
-            <li
-              onClick={() => navigate("/live-class")}
-              className={`list-style-none flex items-center gap-4 font-medium focus:bg-blue-400 p-3 w-[80%] cursor-pointer ${
-                isActive("/live-class")
-                  ? "bg-white text-black border rounded-md"
-                  : "text-white"
-              }`}
-            >
-              <LiveTvIcon />
-              Live Class
-            </li>
-          </div>
-        </ul>
+            <X size={18} />
+          </button>
+        ) : null}
       </div>
-    </div>
+
+      <nav className="hide-scrollbar flex-1 space-y-6 overflow-y-auto px-3 py-5">
+        {NAV_GROUPS.map((group, groupIndex) => (
+          <div key={groupIndex}>
+            <p className="px-3 pb-2 text-[10.5px] font-extrabold uppercase tracking-[0.14em] text-ink-400">
+              {group.label}
+            </p>
+            <div className="space-y-0.5">
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const active = location.pathname === item.path;
+                return (
+                  <button
+                    key={item.path}
+                    onClick={() => handleNavigation(item.path)}
+                    className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] transition-colors ${
+                      active
+                        ? "bg-ink-900 font-semibold text-white"
+                        : "font-medium text-ink-600 hover:bg-paper hover:text-ink-900"
+                    }`}
+                  >
+                    <Icon
+                      size={16}
+                      className={active ? "text-white" : "text-ink-400 group-hover:text-ink-900"}
+                    />
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </nav>
+
+      <div className="border-t border-ink-900/[0.08] p-3">
+        <div className="flex items-center justify-between gap-2 rounded-xl border border-ink-900/[0.08] bg-paper px-3 py-2.5">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink-900 font-display text-[11px] font-bold text-white">
+              S
+            </span>
+            <div className="min-w-0 leading-tight">
+              <p className="truncate text-[12.5px] font-bold text-ink-900">
+                Student account
+              </p>
+              <p className="truncate text-[11px] font-medium text-ink-500">
+                Virtual classroom
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            title="Sign out"
+            className="rounded-full p-1.5 text-ink-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
+          >
+            <LogOut size={15} />
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+
+  return (
+    <>
+      <div className="sticky top-0 hidden h-screen shrink-0 lg:block">{sidebarBody}</div>
+
+      {isOpen ? (
+        <div className="fixed inset-0 z-50 flex lg:hidden">
+          <div
+            className="fixed inset-0 bg-ink-900/40 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          <div className="relative z-10 h-full shadow-2xl">{sidebarBody}</div>
+        </div>
+      ) : null}
+    </>
   );
 };
 

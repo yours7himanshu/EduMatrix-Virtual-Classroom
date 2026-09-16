@@ -40,11 +40,11 @@ const postAssignment = async (req, res) => {
 
     let pdfUrl;
 
-    // Upload avatar to Cloudinary
+    // Upload assignment PDF to Cloudinary
     try {
       const result = await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-          { resource_type: "image" },
+          { resource_type: "auto" },
           (error, result) => {
             if (error) return reject(error);
             resolve(result);
@@ -114,6 +114,14 @@ const getAssignment = async (req, res) => {
 const deleteAssignment = async (req, res) => {
   try {
     const assignmentId = req.params.id;
+
+    if (!assignmentId || !String(assignmentId).match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid assignment ID format",
+      });
+    }
+
     const delAssignment = await Assignment.findByIdAndDelete(assignmentId);
 
     if (!delAssignment) {
@@ -122,12 +130,12 @@ const deleteAssignment = async (req, res) => {
         message: "No assignment found to delete",
       });
     }
-    return res.status({
+    return res.status(200).json({
       success: true,
-      message: "Assignment Successfully  deleted",
+      message: "Assignment Successfully deleted",
     });
   } catch (error) {
-    return res.status({
+    return res.status(500).json({
       success: false,
       message: "Some error occured in deleting the assignment",
     });

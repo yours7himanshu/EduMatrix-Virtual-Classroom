@@ -29,7 +29,6 @@ import NotesPage from "./pages/Notes/NotesPage.jsx";
 import SyllabusPage from "./pages/Syllabus/SyllabusPage.jsx";
 import QuizList from "./Student Dashboard/Quiz/QuizList.jsx";
 import Login from "./pages/Auth/Login.tsx";
-import { PeerProvider } from "./providers/Peer.jsx";
 import MainLoginPage from "./pages/Auth/MainLoginPage.jsx";
 
 import Announcement from "./Student Dashboard/Announcement/Announcement.jsx";
@@ -53,57 +52,68 @@ function App() {
       {/* <Navbar /> */}
 
       <ToastContainer />
-      <PeerProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
 
-          <Route path="/signup" element={<Signup />} />
-       
-          <Route path="/aboutUs" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/notes" element={<NotesPage />} />
-          <Route path="/syllabus" element={<SyllabusPage />} />
-          <Route
-            path="/StudentDashboard/quiz"
-            element={<ProtectedRoute element={<QuizList />} />}
-          />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/ai"
-            element={<ProtectedRoute element={<AiAssistent />} />}
-          />
-          <Route path="/MainLogin" element={<MainLoginPage />} />
-          <Route
-            path="/StudentDashboard/dashboard"
-            element={<ProtectedRoute element={<StudentDashboard />} />}
-          />
-          <Route
-            path="/StudentDashboard/announcement"
-            element={<ProtectedRoute element={<Announcement />} />}
-          />
-          <Route
-            path="/StudentDashboard/assignment"
-            element={<ProtectedRoute element={<Assignment />} />}
-          />
-          <Route path="/StudentDashboard/library" element={<Library />} />
-          <Route path="/StudentDashboard/payfees" element={<Payfees />} />
-          <Route path="/verify" element={<Verify />} />
-          <Route
-            path="/StudentDashboard/notes"
-            element={<ProtectedRoute element={<Notes />} />}
-          />
-          <Route
-            path="/StudentDashboard/teachersNotes"
-            element={<ProtectedRoute element={<TeachersNotes />} />}
-          />
-          <Route
-            path="/live-class"
-            element={<ProtectedRoute element={<StudentLive />} />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </PeerProvider>
+        <Route path="/signup" element={<Signup />} />
+     
+        <Route path="/aboutUs" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/notes" element={<NotesPage />} />
+        <Route path="/syllabus" element={<SyllabusPage />} />
+        <Route
+          path="/StudentDashboard/quiz"
+          element={<ProtectedRoute element={<QuizList />} />}
+        />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/ai"
+          element={<ProtectedRoute element={<AiAssistent />} />}
+        />
+        <Route path="/MainLogin" element={<MainLoginPage />} />
+        <Route
+          path="/StudentDashboard/dashboard"
+          element={<ProtectedRoute element={<StudentDashboard />} />}
+        />
+        <Route
+          path="/StudentDashboard/announcement"
+          element={<ProtectedRoute element={<Announcement />} />}
+        />
+        <Route
+          path="/StudentDashboard/assignment"
+          element={<ProtectedRoute element={<Assignment />} />}
+        />
+        <Route
+          path="/StudentDashboard/library"
+          element={<ProtectedRoute element={<Library />} />}
+        />
+        <Route
+          path="/StudentDashboard/payfees"
+          element={<ProtectedRoute element={<Payfees />} />}
+        />
+        <Route
+          path="/verify"
+          element={<ProtectedRoute element={<Verify />} />}
+        />
+        <Route
+          path="/StudentDashboard/notes"
+          element={<ProtectedRoute element={<Notes />} />}
+        />
+        <Route
+          path="/StudentDashboard/teachersNotes"
+          element={<ProtectedRoute element={<TeachersNotes />} />}
+        />
+        <Route
+          path="/live-class"
+          element={<ProtectedRoute element={<StudentLive />} />}
+        />
+        <Route
+          path="/live-class/:classroomId"
+          element={<ProtectedRoute element={<StudentLive />} />}
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }

@@ -1,7 +1,8 @@
-const {spawn}=require('child_process');
+const { spawn } = require('child_process');
+const path = require('path');
 const cloudinary = require('cloudinary').v2;
 const Notes = require('../models/notesModels');
-let pdfUrl;
+
 const Summarization = async(req,res)=>{
 
     
@@ -25,14 +26,15 @@ const Summarization = async(req,res)=>{
             );
             stream.end(req.file.buffer);
           });
-          // for python script reading
-          pdfUrl = result.secure_url;
+          // Scoped locally to avoid cross-request race conditions
+          const pdfUrl = result.secure_url;
 
           const notes = await Notes.create({
             notes: pdfUrl,
           });
 
-         const pythonProcess = spawn("python",["../python_rec/text_summarization.py",pdfUrl]);
+         const scriptPath = path.resolve(__dirname, '../../python_rec/text_summarization.py');
+         const pythonProcess = spawn("python", [scriptPath, pdfUrl]);
          pythonProcess.stdout.on("data",(data)=>{
             console.log(`output is ${output}`)
             output += data.toString()

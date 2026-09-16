@@ -16,6 +16,7 @@ limitations under the License.
 */
 
 const Admin = require('../models/adminModels');
+const Institution = require('../models/institutionModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -40,13 +41,23 @@ const collegeRegister = async(req,res)=>{
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password,salt);
 
+        // Find or create the institutional tenant
+        let institution = await Institution.findOne({ name: collegeName });
+        if (!institution) {
+            institution = await Institution.create({
+                name: collegeName,
+                centerCode: Number(centerCode),
+            });
+        }
+
         const college = await Admin.create({
             directorName,
             collegeName,
             email,
             centerCode,
             role,
-            password:hashPassword
+            password:hashPassword,
+            institutionId: institution._id,
         })
 
         return res.status(201).json({
@@ -87,9 +98,17 @@ const collegeLogin = async(req,res)=>{
 
         }
 
-       const token = jwt.sign({email:email,collegeId:college._id,role:college.role},
-        process.env.JWT_SECRET
-      
+       const institutionId = college.institutionId ? college.institutionId.toString() : college._id.toString();
+       const token = jwt.sign(
+         {
+           email: email,
+           collegeId: college._id,
+           institutionId: institutionId,
+           role: college.role,
+           name: college.directorName || college.collegeName,
+         },
+         process.env.JWT_SECRET,
+         { expiresIn: "24h" }
        );
 
        res.cookie("token",token,{
@@ -104,6 +123,7 @@ const collegeLogin = async(req,res)=>{
        return res.status(200).json({
         success:true,
         token,
+        institutionId,
         message:"Login Successful"
        })
     }

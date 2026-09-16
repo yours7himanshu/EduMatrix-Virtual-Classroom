@@ -1,99 +1,60 @@
-
-// Copyright 2024 Himanshu Dinkar
-/*
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import { FaUserPlus } from "react-icons/fa";
-// import profilePic from "../../assets/pp.png";
-// import dropdown from "../../assets/dropdown.png";
-
-const Navbar = () => {
-  // const { isAuthenticated, logout } = useAuth();
+import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ArrowRight, Menu, X } from "lucide-react";
+const LINKS = [
+  { to: "/", label: "Home" },
+  { to: "/aboutUs", label: "About" },
+  { to: "/courses", label: "Courses" },
+  { to: "/contact", label: "Contact" },
+];
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
   return (
-    <nav className="bg-gray-950 fixed top-0 left-0 w-full z-50 h-[11%] text-white max-md:shadow-sm shadow-lg p-3">
-      <div className="container mx-auto max-md:m-2 flex max-md:justify-between justify-around items-center">
-        {/* Logo */}
-        <div className="text-3xl ml-3 max-md:ml-0 max-md:text-3xl flex items-center gap-2 font-extrabold">
-        <img className="rounded-md object-cover   h-11" src="/logo/E.png" alt="" />
-          <Link className="text-gray-300" to="/">EduMatrix</Link>
-        </div>
-
-        {/* Links */}
-       
-          <div className="hidden md:flex mr-44 ml-10 space-x-6 border border-gray-700 outline-none rounded-md px-5 py-3">
-            <Link to="/" className="hover:text-blue-300">
-              Home
-            </Link>
-            <Link to="/aboutUs" className="hover:text-blue-300">
-              About Us
-            </Link>
-            <Link to="/courses" className="hover:text-blue-300">
-              Courses
-            </Link>
-            <Link to="/contact" className="hover:text-blue-300">
-              Contact Us
-            </Link>
-            {/* <Link to="/notes" className="hover:text-blue-300">
-              Notes
-            </Link>
-            <Link to="/syllabus" className="hover:text-blue-300">
-              Syllabus
-            </Link> */}
+    <header className="fixed top-0 inset-x-0 z-50">
+      <div className="border-b border-ink-900/10 bg-white/80 backdrop-blur-xl">
+        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+          <Link to="/" className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink-900 text-xl font-bold text-white">E</span>
+            <span className="leading-tight">
+              <span className="block text-base font-bold text-ink-900">EduMatrix</span>
+              <span className="block text-xs font-medium text-ink-500">Virtual Classroom</span>
+            </span>
+          </Link>
+          <div className="hidden items-center gap-1 rounded-full border border-ink-900/10 bg-white p-1 shadow-sm md:flex">
+            {LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} end={link.to === "/"}
+                className={({ isActive }) => (isActive ? "rounded-full bg-ink-900 px-5 py-2 text-sm font-semibold text-white shadow" : "rounded-full px-5 py-2 text-sm font-medium text-ink-600 hover:bg-ink-50 hover:text-ink-900")}
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </div>
-   
-
-        {/* Profile or Login/Signup */}
-        <div className="flex items-center justify-center gap-4">
-          {/* {isAuthenticated ? (
-            <div className="flex items-center gap-2 cursor-pointer group relative">
-              <img className="w-8 rounded-full" src={profilePic} alt="Profile" />
-              <img className="w-2.5" src={dropdown} alt="Dropdown Icon" />
-              <div className="absolute top-0 right-0 pt-14 text-base font-medium text-grey-600 z-20 hidden group-hover:block">
-                <div className="min-w-48 bg-gray-500 rounded flex flex-col gap-4 p-4">
-                  <p
-                    onClick={() => navigate("/my-courses")}
-                    className="hover:text-black cursor-pointer"
-                  >
-                    My Courses
-                  </p>
-                  <p
-                    onClick={logout}
-                    className="hover:text-black cursor-pointer"
-                  >
-                    Logout
-                  </p>
-                  <p
-                    onClick={() => navigate("/profile")}
-                    className="hover:text-black cursor-pointer"
-                  >
-                    My Profile
-                  </p>
-                </div>
-              </div>
+          <div className="hidden items-center gap-3 md:flex">
+            <button onClick={() => navigate("/MainLogin")} className="text-sm font-semibold text-ink-700 hover:text-ink-900">Sign in</button>
+            <button onClick={() => navigate("/signup")} className="group inline-flex items-center gap-2 rounded-full bg-ink-900 px-5 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-ink-800">Get started <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></button>
+          </div>
+          <button onClick={() => setOpen(!open)} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-900/10 bg-white md:hidden" aria-label="Toggle menu">
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </nav>
+        {open && (
+          <div className="border-t border-ink-900/10 bg-white px-4 pb-6 pt-3 shadow-xl md:hidden">
+            {LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} onClick={() => setOpen(false)}
+                className={({ isActive }) => (isActive ? "block rounded-2xl bg-ink-900 px-4 py-3 text-sm font-semibold text-white" : "block rounded-2xl px-4 py-3 text-sm font-medium text-ink-700 hover:bg-ink-50")}
+              >
+                {link.label}
+              </NavLink>
+            ))}
+            <div className="mt-4 flex gap-3">
+              <button onClick={() => navigate("/MainLogin")} className="flex-1 rounded-full border border-ink-900/15 px-4 py-2.5 text-sm font-semibold">Sign in</button>
+              <button onClick={() => navigate("/signup")} className="flex-1 rounded-full bg-ink-900 px-4 py-2.5 text-sm font-semibold text-white">Get started</button>
             </div>
-          ) : ( */}
-            <FaUserPlus className="text-3xl max-md:mr-6 mb-1 mr-16 text-gray-300 cursor-pointer" onClick={()=>navigate("/MainLogin")}/>
-          {/* )} */}
-        </div>
+          </div>
+        )}
       </div>
-    </nav>
+    </header>
   );
-};
+}
 
-export default Navbar;

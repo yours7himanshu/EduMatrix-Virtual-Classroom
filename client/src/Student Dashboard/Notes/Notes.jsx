@@ -1,8 +1,35 @@
+/*
+Copyright 2024 Himanshu Dinkar
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Upload, FilePlus, FileText, X, CheckCircle2, Copy, AlertCircle } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Copy,
+  FilePlus,
+  FileText,
+  Loader2,
+  Sparkles,
+  Upload,
+  X,
+} from "lucide-react";
 import Layout from "../Layout/Layout";
+import { Badge, Button, Card, CardHeader, PageHeader } from "../Shared/ui";
 
 const Notes = () => {
   const [pdfFile, setPdfFile] = useState(null);
@@ -13,25 +40,29 @@ const Notes = () => {
   const [summary, setSummary] = useState("");
   const [showSummary, setShowSummary] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  // Function to convert markdown to HTML for display
   const formatMarkdown = (text) => {
     if (!text) return "";
-    
-    let formatted = text.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold">$1</span>');
-    
-    formatted = formatted.split('\n\n').map((paragraph, index) => 
-      paragraph.trim() ? `<p key=${index} class="mb-3">${paragraph}</p>` : ''
-    ).join('');
-    
+    let formatted = text.replace(
+      /\*\*(.*?)\*\*/g,
+      '<strong class="font-bold text-ink-900">$1</strong>'
+    );
+    formatted = formatted
+      .split("\n\n")
+      .map((paragraph) =>
+        paragraph.trim()
+          ? `<p class="mb-3 leading-relaxed text-ink-700">${paragraph}</p>`
+          : ""
+      )
+      .join("");
     return formatted;
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
     if (file && file.type === "application/pdf") {
       setPdfFile(file);
-      console.log("Selected file:", file);
       setFileName(file.name);
     } else {
       toast.error("Please select a valid PDF file");
@@ -40,20 +71,20 @@ const Notes = () => {
     }
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
+  const handleDragOver = (event) => {
+    event.preventDefault();
     setDragActive(true);
   };
 
-  const handleDragLeave = (e) => {
-    e.preventDefault();
+  const handleDragLeave = (event) => {
+    event.preventDefault();
     setDragActive(false);
   };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
+  const handleDrop = (event) => {
+    event.preventDefault();
     setDragActive(false);
-    const file = e.dataTransfer.files[0];
+    const file = event.dataTransfer.files[0];
     if (file && file.type === "application/pdf") {
       setPdfFile(file);
       setFileName(file.name);
@@ -68,8 +99,8 @@ const Notes = () => {
     setUploadProgress(0);
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
+  const handleUpload = async (event) => {
+    event.preventDefault();
 
     if (!pdfFile) {
       toast.error("Please upload a PDF file first");
@@ -82,9 +113,7 @@ const Notes = () => {
       formData.append("pdf", pdfFile);
 
       const response = await axios.post(`${backendUrl}/api/summarize`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
@@ -94,10 +123,9 @@ const Notes = () => {
       });
 
       if (response.data.success) {
-        toast.success("Summary generated successfully");
+        toast.success("Summary generated successfully!");
         setSummary(response.data.summary);
         setShowSummary(true);
-
         resetFileSelection();
       } else {
         toast.error("Upload failed");
@@ -111,197 +139,167 @@ const Notes = () => {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(summary)
-      .then(() => toast.success("Summary copied to clipboard"))
+    navigator.clipboard
+      .writeText(summary)
+      .then(() => {
+        setCopied(true);
+        toast.success("Summary copied to clipboard");
+        setTimeout(() => setCopied(false), 2500);
+      })
       .catch(() => toast.error("Failed to copy summary"));
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br ml-[10%] w-full from-blue-50 to-indigo-50 py-12 px-4 sm:px-6">
-      <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight mb-3">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            Topic Summarizer for Students
-            </span>
-          </h1>
-          <p className="text-sm text-gray-600 max-w-2xl mx-auto">
-            Quickly generate summaries from your PDF notes with our AI-powered summarizer.
+return (
+    <div className="space-y-6">
+      <PageHeader
+        chip="AI ENGINE" chipLabel="Document intelligence"
+        title="PDF summarizer"
+        description="Upload lecture notes, textbook chapters or problem sets and get the key concepts, formulas and practice questions extracted instantly."
+        actions={<Badge tone="brand" icon={Sparkles}>Powered by EduMatrix AI</Badge>}
+      />
 
-          </p>
-        </div>
+      <Card className="overflow-hidden">
+        <CardHeader
+          title="Document workspace"
+          description="Drop a PDF or select it from your device — maximum size 10 MB"
+        />
 
-        {/* Main Content */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          {/* Upload Section */}
-          <div className="p-8">
-            <div
-              className={`border-2 border-dashed rounded-xl p-10 mb-8 text-center transition-all duration-300 ease-in-out
-                ${pdfFile 
-                  ? "border-green-400 bg-green-50" 
-                  : dragActive 
-                    ? "border-blue-500 bg-blue-50" 
-                    : "border-gray-300 hover:border-blue-400 bg-gray-50"
-                }`}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              {!pdfFile ? (
-                <div className="space-y-6">
-                  <div className="flex justify-center">
-                    <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Upload
-                        size={40}
-                        className="text-blue-600"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xl font-semibold text-gray-800">
-                      Drag and drop your PDF file here
-                    </p>
-                    <p className="text-gray-500 mt-2">or</p>
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="file-upload"
-                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-lg font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer transition-colors shadow-md"
-                    >
-                      <FilePlus className="mr-2" size={20} />
-                      Browse Files
-                    </label>
-                    <input
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                      className="sr-only"
-                      accept="application/pdf"
-                      onChange={handleFileChange}
-                    />
-                  </div>
-                  <div className="flex items-center justify-center mt-4 text-sm text-gray-500">
-                    <AlertCircle size={16} className="mr-2" />
-                    <p>Supported file type: PDF (Max size: 10MB)</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <div className="flex justify-center">
-                    <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
-                      <CheckCircle2
-                        size={40}
-                        className="text-green-600"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center space-x-3">
-                    <FileText className="text-gray-700" size={24} />
-                    <span className="text-xl font-medium text-gray-800 truncate max-w-md">
-                      {fileName}
-                    </span>
-                    <button
-                      onClick={resetFileSelection}
-                      className="text-gray-500 hover:text-red-500 focus:outline-none transition-colors p-1 rounded-full hover:bg-red-50"
-                      title="Remove file"
-                    >
-                      <X size={20} />
-                    </button>
-                  </div>
-                  {uploadProgress > 0 && uploadProgress < 100 && (
-                    <div className="w-full max-w-md mx-auto">
-                      <div className="relative pt-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <div>
-                            <span className="text-xs font-semibold inline-block text-blue-600">
-                              Uploading...
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-xs font-semibold inline-block text-blue-600">
-                              {uploadProgress}%
-                            </span>
-                          </div>
-                        </div>
-                        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-blue-100">
-                          <div
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300 ease-in-out"
-                            style={{ width: `${uploadProgress}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+        <div className="p-5 sm:p-6">
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={`rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-all duration-200 ${
+              pdfFile
+                ? "border-emerald-300 bg-emerald-50/50"
+                : dragActive
+                  ? "border-brand-400 bg-brand-50/60"
+                  : "border-ink-900/[0.12] bg-paper/60 hover:border-brand-400/60 hover:bg-paper"
+            }`}
+          >
+            {!pdfFile ? (
+              <div className="flex flex-col items-center">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl border border-ink-900/[0.08] bg-white text-brand-600">
+                  <Upload size={22} />
+                </span>
+                <p className="mt-4 font-display text-[15px] font-bold text-ink-900">
+                  Drag your PDF here
+                </p>
+                <p className="mt-1 text-[12.5px] font-medium text-ink-500">
+                  or browse from your device to pick a document
+                </p>
 
-            <div className="flex justify-end space-x-4">
-              <button
-                type="button"
-                onClick={resetFileSelection}
-                className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                disabled={!pdfFile || loading}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleUpload}
-                disabled={!pdfFile || loading}
-                className={`px-6 py-3 rounded-lg font-medium text-white shadow-md transition-colors
-                  ${!pdfFile || loading
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                  }`}
-              >
-                {loading ? (
-                  <div className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </div>
-                ) : (
-                  <div className="flex items-center">
-                    <Upload className="mr-2" size={18} />
-                    Upload Notes
-                  </div>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Summary Section */}
-          {showSummary && (
-            <div className="border-t border-gray-200 bg-gray-50 p-8">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Top Questions Generated from your pdf</h2>
-                <button
-                  onClick={copyToClipboard}
-                  className="flex items-center text-blue-600 hover:text-blue-800 transition-colors focus:outline-none"
+                <label
+                  htmlFor="file-upload"
+                  className="mt-5 inline-flex h-10 cursor-pointer items-center gap-2 rounded-full bg-ink-900 px-5 text-[13px] font-semibold text-white transition-colors hover:bg-brand-600"
                 >
-                  <Copy size={18} className="mr-1" />
-                  <span>Copy</span>
-                </button>
-              </div>
-              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                <div
-                  className="prose max-w-none text-gray-700"
-                  dangerouslySetInnerHTML={{ __html: formatMarkdown(summary) }}
+                  <FilePlus size={15} />
+                  Select document
+                </label>
+                <input
+                  id="file-upload"
+                  name="file-upload"
+                  type="file"
+                  accept="application/pdf"
+                  className="sr-only"
+                  onChange={handleFileChange}
                 />
-              </div>
-            </div>
-          )}
-        </div>
 
-        {/* Help Text */}
-        <div className="mt-8 text-center text-gray-500 text-sm">
-          <p>Need help? Contact the IT support team for assistance.</p>
+                <p className="mt-4 inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-400">
+                  <AlertCircle size={13} />
+                  Supported format: PDF documents up to 10 MB
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl border border-emerald-200 bg-emerald-100 text-emerald-700">
+                  <CheckCircle2 size={22} />
+                </span>
+                <div className="mt-4 flex max-w-md items-center gap-2.5 rounded-xl border border-ink-900/[0.08] bg-white px-3.5 py-2.5">
+                  <FileText size={16} className="shrink-0 text-brand-600" />
+                  <span className="truncate text-[13px] font-semibold text-ink-900">
+                    {fileName}
+                  </span>
+                  <button
+                    onClick={resetFileSelection}
+                    title="Remove file"
+                    className="rounded-lg p-1 text-ink-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
+                  >
+                    <X size={15} />
+                  </button>
+                </div>
+
+                {uploadProgress > 0 && uploadProgress < 100 ? (
+                  <div className="mt-5 w-full max-w-md space-y-2">
+                    <div className="flex items-center justify-between text-[11.5px] font-bold text-ink-600">
+                      <span>Uploading and parsing…</span>
+                      <span>{uploadProgress}%</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink-900/[0.08]">
+                      <div
+                        className="h-full rounded-full bg-brand-500 transition-all duration-300"
+                        style={{ width: `${uploadProgress}%` }}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            )}
+          </div>
+<div className="mt-6 flex flex-col-reverse items-stretch gap-3 border-t border-ink-900/[0.08] pt-5 sm:flex-row sm:items-center sm:justify-end">
+            <Button
+              variant="secondary"
+              onClick={resetFileSelection}
+              disabled={!pdfFile || loading}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleUpload} disabled={!pdfFile || loading}>
+              {loading ? (
+                <>
+                  <Loader2 size={15} className="animate-spin" />
+                  Processing document…
+                </>
+              ) : (
+                <>
+                  <Sparkles size={15} />
+                  Generate summary
+                </>
+              )}
+            </Button>
+          </div>
         </div>
-      </div>
+      </Card>
+
+      {showSummary ? (
+        <Card className="overflow-hidden">
+          <CardHeader
+            title="AI summary & review questions"
+            description="Extracted key concepts, definitions and practice prompts"
+            action={
+              <Button variant="subtle" size="sm" onClick={copyToClipboard}>
+                {copied ? (
+                  <>
+                    <CheckCircle2 size={13} className="text-emerald-600" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy size={13} />
+                    Copy
+                  </>
+                )}
+              </Button>
+            }
+          />
+          <div className="p-5 sm:p-6">
+            <div
+              className="prose max-w-none text-[13.5px] text-ink-700"
+              dangerouslySetInnerHTML={{ __html: formatMarkdown(summary) }}
+            />
+          </div>
+        </Card>
+      ) : null}
     </div>
   );
 };

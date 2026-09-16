@@ -35,6 +35,7 @@ const assignmentSchema = new mongoose.Schema({
   deadline: {
     type: Date,
     required: true,
+    index: true,
   },
   pdfUrl: {
     type: String,

@@ -40,7 +40,6 @@ const DashboardPage = lazy(() =>
 );
 const Teachers = lazy(() => import("./components/Teachers/Teachers"));
 const StudentDetail = lazy(() => import("./components/Student/StudentDetail"));
-import { PeerProvider } from "./providers/Peer";
 import { SocketProvider } from "./providers/Socket";
 
 import MainLayout from "./components/library_dashboard/MainLayout";
@@ -87,35 +86,34 @@ function App() {
       ) : (
         <Suspense fallback={<Loader />}>
           <SocketProvider>
-            <PeerProvider>
-              <Routes>
-                <Route path="/" element={<AdminLogin />} />
-                <Route path="/sign-up" element={<AdminSignUp />} />
+            <Routes>
+              <Route path="/" element={<AdminLogin />} />
+              <Route path="/sign-up" element={<AdminSignUp />} />
 
-                <Route path="/MainLayout" element={<MainLayout />} />
-
-
-                <Route path='/question-generator' element={<QuestionGenerator/>}/>
-                <Route path="/teachers" element={<ProtectedRoute element={<Teachers/>} />} />
-                <Route path="/enroll-students" element={<ProtectedRoute element={<Students/>} />} />
-                <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage/>}/>} />
-                <Route path="/add-teachers" element={<ProtectedRoute element={<AddTeacher/>} />} />
-                <Route path="/announcement" element={<ProtectedRoute element={<Announcement/>} />} />
-                <Route path="/timetable" element={<ProtectedRoute element={<TimeTable/>} />} />
-                <Route path="/admin-live/:roomId" element={<ProtectedRoute element={<AdminLive/>} />} />
-                <Route path="/post-quiz" element={<ProtectedRoute element={<CreateQuiz/>} />} />
-                <Route path="/post-assignment" element={<ProtectedRoute element={<Assignment/>} />} />
-                <Route path="/student-detail" element={<ProtectedRoute element={<StudentDetail/>} />} />
-                <Route path="/messages" element={<ProtectedRoute element={<Message/>} />} />
-                <Route path="/student-marks-attendance" element={<ProtectedRoute element={<StudentMarksAttendance/>} />} />
-                <Route path="/registrar-student" element={<ProtectedRoute element={<RegistrarStudent/>} />} />
-                <Route path="/ai-predictor" element={<ProtectedRoute element={<AIPredictor/>} />} />
-                <Route path="/director-feedback" element={<ProtectedRoute element={<DirectorFeedback/>} />} />
+              <Route path="/MainLayout" element={<MainLayout />} />
 
 
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </PeerProvider>
+              <Route path='/question-generator' element={<QuestionGenerator/>}/>
+              <Route path="/teachers" element={<ProtectedRoute element={<Teachers/>} />} />
+              <Route path="/enroll-students" element={<ProtectedRoute element={<Students/>} />} />
+              <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage/>}/>} />
+              <Route path="/add-teachers" element={<ProtectedRoute element={<AddTeacher/>} />} />
+              <Route path="/announcement" element={<ProtectedRoute element={<Announcement/>} />} />
+              <Route path="/timetable" element={<ProtectedRoute element={<TimeTable/>} />} />
+              <Route path="/admin-live" element={<ProtectedRoute element={<AdminLive/>} />} />
+              <Route path="/admin-live/:roomId" element={<ProtectedRoute element={<AdminLive/>} />} />
+              <Route path="/post-quiz" element={<ProtectedRoute element={<CreateQuiz/>} />} />
+              <Route path="/post-assignment" element={<ProtectedRoute element={<Assignment/>} />} />
+              <Route path="/student-detail" element={<ProtectedRoute element={<StudentDetail/>} />} />
+              <Route path="/messages" element={<ProtectedRoute element={<Message/>} />} />
+              <Route path="/student-marks-attendance" element={<ProtectedRoute element={<StudentMarksAttendance/>} />} />
+              <Route path="/registrar-student" element={<ProtectedRoute element={<RegistrarStudent/>} />} />
+              <Route path="/ai-predictor" element={<ProtectedRoute element={<AIPredictor/>} />} />
+              <Route path="/director-feedback" element={<ProtectedRoute element={<DirectorFeedback/>} />} />
+
+
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </SocketProvider>
         </Suspense>
       )}

@@ -1,7 +1,6 @@
-// Copyright 2024 Himanshu Dinkar
-
-
 /*
+Copyright 2024 Himanshu Dinkar
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -18,48 +17,73 @@ limitations under the License.
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaSpinner } from 'react-icons/fa';
-import DOMPurify from 'dompurify';
-import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Brain, Copy, SendHorizontal } from 'lucide-react';
+import DOMPurify from "dompurify";
+import { motion } from "framer-motion";
+import {
+  Bot,
+  CheckCircle2,
+  Copy,
+  CornerDownLeft,
+  Loader2,
+  SendHorizontal,
+  Sparkles,
+} from "lucide-react";
 import Layout from "../Layout/Layout";
+import { Badge, Card, CardHeader, PageHeader } from "../Shared/ui";
+
+const SUGGESTED_PROMPTS = [
+  "Explain Big-O notation with simple code examples",
+  "Derive Maxwell's equations and their physical meaning",
+  "How does Dijkstra's shortest path algorithm work?",
+  "Give me 5 practice questions on differential calculus",
+];
 
 const AiAssistent = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const formatResponse = (text) => {
-    if (!text) return '';
-    
+    if (!text) return "";
+
     let formattedText = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/#{3}\s+(.*)/g, '<h3 class="text-xl font-semibold mt-6 mb-3">$1</h3>')
-      .replace(/#{2}\s+(.*)/g, '<h2 class="text-2xl font-semibold mt-8 mb-4">$1</h2>')
-      .replace(/#\s+(.*)/g, '<h1 class="text-3xl font-semibold mt-10 mb-5">$1</h1>')
-      .replace(/\n/g, '<br />')
-      .replace(/- (.*?)(<br \/>|$)/g, '<li class="ml-4 mb-2">$1</li>');
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-ink-900">$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em class="italic text-ink-800">$1</em>')
+      .replace(
+        /#{3}\s+(.*)/g,
+        '<h3 class="font-display text-[15px] font-bold text-ink-900 mt-5 mb-2">$1</h3>'
+      )
+      .replace(
+        /#{2}\s+(.*)/g,
+        '<h2 class="font-display text-[17px] font-bold text-ink-900 mt-6 mb-3">$1</h2>'
+      )
+      .replace(
+        /#\s+(.*)/g,
+        '<h1 class="font-display text-[19px] font-extrabold text-ink-900 mt-7 mb-3">$1</h1>'
+      )
+      .replace(/\n/g, "<br />")
+      .replace(/- (.*?)(<br \/>|$)/g, '<li class="ml-4 mb-1.5 text-ink-700">$1</li>');
 
     formattedText = formattedText
-      .split('<br /><br />')
-      .map(paragraph => {
-        if (paragraph.startsWith('<li')) {
-          return `<ul class="list-disc pl-6 mb-4">${paragraph}</ul>`;
+      .split("<br /><br />")
+      .map((paragraph) => {
+        if (paragraph.startsWith("<li")) {
+          return `<ul class="list-disc pl-5 mb-4 space-y-1">${paragraph}</ul>`;
         }
         if (!paragraph.match(/^<h[1-3]|^<ul/)) {
-          return `<p class="mb-4 leading-relaxed">${paragraph}</p>`;
+          return `<p class="mb-3.5 leading-relaxed">${paragraph}</p>`;
         }
         return paragraph;
       })
-      .join('');
+      .join("");
 
     return DOMPurify.sanitize(formattedText);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    if (event) event.preventDefault();
     if (!input.trim()) return;
     setLoading(true);
 
@@ -67,120 +91,147 @@ const AiAssistent = () => {
       const response = await axios.post(`${backendUrl}/api/ai-assistent`, { input });
       if (response.data.success) {
         setOutput(response.data.output);
-        toast.success(response.data.message);
+        toast.success(response.data.message || "Insight generated!");
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "Failed to generate response.");
       }
     } catch (error) {
       toast.error("An error occurred while submitting your question");
       console.error("Error submitting question:", error);
     } finally {
       setLoading(false);
-      setInput("");
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b flex flex-col items-center w-[80%]  from-blue-50 via-white to-blue-50 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
-        <motion.div 
-          initial={{ y: -20 }}
-          animate={{ y: 0 }}
-          className="text-center mb-12"
-        >
-          <div className="inline-flex items-center justify-center p-3 mb-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl border border-blue-200">
-            <Brain className="w-10 h-10 text-blue-600" />
-          </div>
-          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
-            AI Classroom Assistant
-          </h1>
-          <p className="text-gray-600 text-sm max-w-2xl mx-auto">
-            Your intelligent learning companion. Ask questions about your courses, assignments, or any academic topic.
-          </p>
-        </motion.div>
+  const handleCopy = () => {
+    if (!output) return;
+    navigator.clipboard
+      .writeText(output)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+      })
+      .catch(() => toast.error("Could not copy the response"));
+  };
 
-        {/* Chat Container */}
-        <div className="bg-white rounded-2xl border border-blue-100 shadow-lg mb-8">
-          {/* Response Display */}
-          <AnimatePresence>
-            {output && (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="p-6 border-b border-gray-100"
+return (
+    <div className="space-y-6">
+      <PageHeader
+        chip="AI ENGINE" chipLabel="Grounded in your syllabus"
+        title="Study copilot"
+        description="Ask about your coursework, homework or research topics — answers are grounded in your semester syllabus."
+        actions={<Badge tone="brand" icon={Sparkles}>EduMatrix AI</Badge>}
+      />
+
+      <Card className="overflow-hidden">
+        <CardHeader
+          title="Conversation"
+          description="Ask a question below, or start from one of the suggested prompts"
+        />
+
+        <div className="p-5 sm:p-6">
+          {/* Suggested prompts */}
+          <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            {SUGGESTED_PROMPTS.map((prompt) => (
+              <button
+                key={prompt}
+                onClick={() => setInput(prompt)}
+                className="shrink-0 rounded-full border border-ink-900/[0.10] bg-white px-3.5 py-2 text-[12.5px] font-medium text-ink-600 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
               >
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
-                      <Sparkles className="w-4 h-4 text-white" />
-                    </div>
-                  </div>
-                  <div className="flex-grow space-y-4">
-                    <div 
-                      className="prose max-w-none text-gray-700"
-                      dangerouslySetInnerHTML={{ __html: formatResponse(output) }}
-                    />
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(output);
-                        toast.success("Response copied to clipboard!");
-                      }}
-                      className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600 transition-colors"
-                    >
-                      <Copy className="w-4 h-4" />
-                      Copy response
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                {prompt}
+              </button>
+            ))}
+          </div>
 
-          {/* Input Form */}
-          <form onSubmit={handleSubmit} className="p-6">
-            <div className="relative">
+          {/* Response */}
+          {output ? (
+            <motion.article
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="mt-5 overflow-hidden rounded-2xl border border-ink-900/[0.08] bg-white"
+            >
+              <header className="flex items-center justify-between gap-3 border-b border-ink-900/[0.08] bg-paper/60 px-4 py-3">
+                <span className="flex items-center gap-2.5">
+                  <span className="grid h-7 w-7 place-items-center rounded-lg bg-brand-500 text-white">
+                    <Bot size={14} />
+                  </span>
+                  <span className="text-[12.5px] font-bold text-ink-900">
+                    EduMatrix response
+                  </span>
+                </span>
+
+                <button
+                  onClick={handleCopy}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-ink-900/[0.10] bg-white px-3 py-1.5 text-[11.5px] font-bold text-ink-600 transition-colors hover:border-ink-900/20 hover:text-ink-900"
+                >
+                  {copied ? (
+                    <>
+                      <CheckCircle2 size={12} className="text-emerald-600" />
+                      Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={12} />
+                      Copy
+                    </>
+                  )}
+                </button>
+              </header>
+
+              <div
+                className="prose max-w-none px-4 py-4 text-[13.5px] text-ink-700 sm:px-5"
+                dangerouslySetInnerHTML={{ __html: formatResponse(output) }}
+              />
+            </motion.article>
+          ) : null}
+
+          {/* Composer */}
+          <form onSubmit={handleSubmit} className="mt-5">
+            <div className="rounded-2xl border border-ink-900/[0.10] bg-white transition-all focus-within:border-brand-500/50 focus-within:ring-2 focus-within:ring-brand-500/20">
               <textarea
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask your question here..."
-                className="w-full px-4 py-3 outline-none bg-gray-50 text-gray-900 rounded-xl
-                  border border-gray-200 focus:border-blue-500 focus:ring-2 
-                  focus:ring-blue-500 focus:ring-opacity-50 transition-all
-                  placeholder-gray-400 resize-none"
-                rows="3"
+                onChange={(event) => setInput(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    handleSubmit();
+                  }
+                }}
+                rows={3}
                 disabled={loading}
+                placeholder="Ask anything about your courses, homework or research topics…"
+                className="w-full resize-none rounded-2xl bg-transparent px-4 py-3.5 text-[13.5px] text-ink-900 outline-none placeholder:text-ink-400"
               />
-            </div>
 
-            <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              type="submit"
-              disabled={loading}
-              className={`mt-4 w-full flex items-center justify-center gap-2 px-6 py-3 
-                rounded-xl font-medium text-white transition-all duration-200
-                ${loading 
-                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
-                }`}
-            >
-              {loading ? (
-                <>
-                  <FaSpinner className="animate-spin w-5 h-5" />
-                  <span>Processing your question...</span>
-                </>
-              ) : (
-                <>
-                  <SendHorizontal className="w-5 h-5" />
-                  <span>Ask a Question</span>
-                </>
-              )}
-            </motion.button>
+              <div className="flex items-center justify-between gap-3 border-t border-ink-900/[0.06] px-4 py-2.5">
+                <span className="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-400">
+                  <CornerDownLeft size={13} />
+                  Enter to send · Shift + Enter for a new line
+                </span>
+
+                <button
+                  type="submit"
+                  disabled={loading || !input.trim()}
+                  className="inline-flex h-9 items-center gap-2 rounded-full bg-ink-900 px-4 text-[12.5px] font-semibold text-white transition-colors hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 size={14} className="animate-spin" />
+                      Thinking…
+                    </>
+                  ) : (
+                    <>
+                      Send
+                      <SendHorizontal size={14} />
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
           </form>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

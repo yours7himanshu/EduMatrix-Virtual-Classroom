@@ -64,14 +64,8 @@ const extractToken = (socket) => {
 };
 
 const socketService = (io) => {
-  const emailToSocketMapping = new Map();
-  const socketToEmailMapping = new Map();
-
   io.on("connection", (socket) => {
     console.log(`User Connected : ${socket.id}`);
-    console.log("Auth object:", socket.handshake.auth);
-    console.log("Query params:", socket.handshake.query);
-    console.log("Cookies:", socket.handshake.headers.cookie);
 
     // Listen for the 'sendMessage' event from the client
     socket.on("sendMessage", async (message) => {
@@ -87,15 +81,15 @@ const socketService = (io) => {
           return;
         }
 
-        console.log("Found token:", token);
-
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded token:", decoded);
+
+        // Determine sender identity safely
+        const senderIdentity = decoded.name || decoded.role || "Student";
 
         // Save message to the database
         const newMessage = await Message.create({
-          sender: decoded.role,
+          sender: senderIdentity,
           content: message.content,
           timestamp: new Date(),
         });
@@ -103,7 +97,7 @@ const socketService = (io) => {
 
         // Broadcast the message to all connected clients
         socket.broadcast.emit("receiveMessage", {
-          sender: decoded.role,
+          sender: senderIdentity,
           content: message.content,
           timestamp: new Date(),
         });
@@ -113,81 +107,9 @@ const socketService = (io) => {
       }
     });
 
-    socket.on("join-room", (data) => {
-      const { roomId, emailId } = data;
-      console.log("User", emailId, "Joined Room", roomId);
-      emailToSocketMapping.set(emailId, socket.id);
-      socketToEmailMapping.set(socket.id, emailId);
-      socket.join(roomId);
-      socket.emit("joined-room", { roomId });
-      socket.broadcast.to(roomId).emit("user-joined", { emailId });
-    });
-    
-    socket.on("leave-room", (data) => {
-      const { roomId } = data;
-      const emailId = socketToEmailMapping.get(socket.id);
-      console.log("User", emailId, "Left Room", roomId);
-      
-      if (roomId && emailId) {
-        socket.leave(roomId);
-        socket.broadcast.to(roomId).emit("user-left", { emailId });
-      }
-    });
-  
-    socket.on('call-user', (data) => {
-      const { emailId, offer } = data;
-      const fromEmail = socketToEmailMapping.get(socket.id);
-      const socketId = emailToSocketMapping.get(emailId);
-      if (socketId) {
-        socket.to(socketId).emit('incomming-call', { from: fromEmail, offer });
-      }
-    });
-  
-    socket.on('call-accepted', (data) => {
-      const { emailId, ans } = data;
-      const socketId = emailToSocketMapping.get(emailId);
-      if (socketId) {
-        socket.to(socketId).emit('call-accepted', { ans });
-      }
-    });
-  
-    socket.on('ice-candidate', (data) => {
-      const { candidate, to } = data;
-      const socketId = emailToSocketMapping.get(to);
-      if (socketId) {
-        socket.to(socketId).emit('ice-candidate', { candidate });
-      }
-    });
-  
-    socket.on('renegotiate', (data) => {
-      const { offer, to } = data;
-      const socketId = emailToSocketMapping.get(to);
-      if (socketId) {
-        socket.to(socketId).emit('renegotiate', { offer });
-      }
-    });
-
     // Handle disconnection
     socket.on("disconnect", () => {
       console.log(`User disconnected: ${socket.id}`);
-      
-      // Get the email of the disconnected user
-      const emailId = socketToEmailMapping.get(socket.id);
-      
-      if (emailId) {
-        console.log(`User ${emailId} disconnected`);
-        
-        // Clean up maps
-        socketToEmailMapping.delete(socket.id);
-        emailToSocketMapping.delete(emailId);
-        
-        // Notify other users in all rooms this socket was part of
-        socket.rooms.forEach(roomId => {
-          if (roomId !== socket.id) { // Skip the default room (socket.id)
-            socket.to(roomId).emit("user-left", { emailId });
-          }
-        });
-      }
     });
   });
 };

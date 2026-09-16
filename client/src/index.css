@@ -1,7 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url(https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-* {
-  font-family: "Poppins";
-}
+:root{ --paper:#FAF8F4; --ink:#131328; --brand:#5B50E6; }
+html{ scroll-behavior:smooth; }
+body{ background:#FAF8F4; color:#131328; font-family:"Plus Jakarta Sans",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+.font-display{ font-family:Sora,"Plus Jakarta Sans",system-ui,sans-serif; }
+.glass{ background:rgba(255,255,255,0.72); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.text-balance{ text-wrap:balance; }
+.dot-grid{ background-image:radial-gradient(rgba(19,19,40,0.12) 1px, transparent 1px); background-size:22px 22px; }
+.no-scrollbar::-webkit-scrollbar{ display:none; } .no-scrollbar{ scrollbar-width:none; }

@@ -1,5 +1,4 @@
 /*
-
 Copyright 2024 Himanshu Dinkar
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,31 +14,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
-import {
-  School,
-  Videocam,
-  Dashboard,
-  
-} from "@mui/icons-material"; // MUI Icons
+import React from "react";
+import { Video, GraduationCap, LayoutDashboard } from "lucide-react";
 
 const CardUtils = [
   {
     title: "Recorded Sessions",
-    discription: "Access Recorded sessions anytime. Work aytime and anywhere",
-    icon: <Videocam className="text-violet-500 text-4xl mb-4" />,
+    discription: "Access recorded lectures anytime. Learn and revise at your own pace from anywhere.",
+    icon: <Video className="h-6 w-6" />,
   },
   {
     title: "Interactive Classes",
-    discription:
-      "Engage in real time with teachers and peer using live video call and chats",
-    icon: <School className="text-violet-500 text-4xl mb-4" />,
+    discription: "Engage in real time with teachers and peers using live video, audio, and interactive chat.",
+    icon: <GraduationCap className="h-6 w-6" />,
   },
   {
     title: "Smart Dashboard",
-    discription:
-      "Track your progress , assignment and grades in one place",
-    icon: <Dashboard className="text-violet-500 text-4xl mb-4" />,
+    discription: "Track your attendance, assignments, and exam performance in one calm unified view.",
+    icon: <LayoutDashboard className="h-6 w-6" />,
   },
 ];
 

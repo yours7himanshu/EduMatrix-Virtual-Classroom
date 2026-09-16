@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const studentMarksAttendanceSchema = new mongoose.Schema({
     RollNumber:{
         type:Number,
-        required:true
+        required:true,
+        index:true,
     },
     Name:{
         type:String,

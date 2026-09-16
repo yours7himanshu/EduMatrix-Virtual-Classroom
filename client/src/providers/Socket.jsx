@@ -16,24 +16,36 @@ limitations under the License.
 */
 
 
-import { createContext, useContext, useMemo } from "react";
-import {io} from 'socket.io-client'
+import { createContext, useContext, useMemo, useEffect } from "react";
+import { io } from 'socket.io-client';
+import { useAuth } from "../context/AuthContext";
 
 // Retrieve auth token from storage
-const getAuthToken = () => localStorage.getItem('token') || sessionStorage.getItem('token');
+const getStoredToken = () => localStorage.getItem('token') || sessionStorage.getItem('token') || '';
 
 const SocketContext = createContext(null);
 
-export const useSocket = ()=>{
+export const useSocket = () => {
     return useContext(SocketContext);
-}
+};
 
-export const SocketProvider = (props)=>{
+export const SocketProvider = (props) => {
+    let contextToken = '';
+    try {
+        const auth = useAuth();
+        contextToken = auth?.token || '';
+    } catch {
+        contextToken = '';
+    }
+
+    const activeToken = contextToken || getStoredToken();
+
     const socket = useMemo(() => {
+        const token = getStoredToken();
         const s = io(import.meta.env.VITE_BACKEND_URL, {
             withCredentials: true,
-            auth: { token: getAuthToken() },
-            query: { token: getAuthToken() },
+            auth: { token },
+            query: { token },
         });
         // Connection status logs
         s.on('connect', () => console.log('Socket connected with ID:', s.id));
@@ -41,9 +53,23 @@ export const SocketProvider = (props)=>{
         return s;
     }, []);
 
+    // Synchronize socket credentials dynamically upon login/logout
+    useEffect(() => {
+        if (!socket) return;
+        socket.auth = { token: activeToken };
+        if (socket.io && socket.io.opts) {
+            socket.io.opts.query = { token: activeToken };
+        }
+        if (socket.connected) {
+            socket.disconnect().connect();
+        } else if (activeToken) {
+            socket.connect();
+        }
+    }, [activeToken, socket]);
+
     return (
-        <SocketContext.Provider value={{socket}} >
-         {props.children}
+        <SocketContext.Provider value={{ socket }}>
+            {props.children}
         </SocketContext.Provider>
-      )
+    );
 };

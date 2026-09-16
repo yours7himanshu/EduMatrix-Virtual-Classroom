@@ -1,7 +1,9 @@
-import express from "express"
+const express = require("express");
+const { authStudent } = require("../middlewares/auth");
+const { payfees, verifyPayment } = require("../controllers/paymentController");
 
-import {  authStudent } from "../middlewares/auth.js"
-import { payfees, verifyPayment } from "../controllers/paymentController.js"
-export const paymentRouter = express.Router()
-paymentRouter.post("/payfees",authStudent,payfees)
-paymentRouter.post("/payment/verify",verifyPayment)
+const paymentRouter = express.Router();
+paymentRouter.post("/payfees", authStudent, payfees);
+paymentRouter.post("/payment/verify", authStudent, verifyPayment);
+
+module.exports = { paymentRouter };

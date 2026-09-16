@@ -30,6 +30,8 @@ const adminSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
+    index: true,
   },
   centerCode:{
     type:Number,
@@ -44,7 +46,16 @@ const adminSchema = new mongoose.Schema({
     type:String,
     enum:['Registrar','Director','Teacher'],
     default:'Director'
-  }
+  },
+  institutionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "institution",
+    index: true,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const Admin = mongoose.model("admin", adminSchema);

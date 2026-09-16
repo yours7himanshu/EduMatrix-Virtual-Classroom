@@ -1,6 +1,6 @@
-// Copyright 2024 Himanshu Dinkar
-
 /*
+Copyright 2024 Himanshu Dinkar
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -14,14 +14,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../Layout/Layout";
+import { Calendar, Inbox, Megaphone } from "lucide-react";
+import {
+  Badge,
+  Button,
+  FilterChips,
+  PageHeader,
+  SearchField,
+  SkeletonRows,
+} from "../Shared/ui";
+
+const CATEGORIES = ["All", "Exam", "Event", "Holiday", "Assignment", "Lecture"];
+
+const CATEGORY_TONE = {
+  exam: "warn",
+  event: "brand",
+  holiday: "success",
+  assignment: "danger",
+  lecture: "outline",
+};
 
 function Announcement() {
-  const [announcement, setAnnouncement] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
@@ -29,14 +49,14 @@ function Announcement() {
     const fetchAnnouncement = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${backendUrl}/api/v3/displayAnnouncement`,{
-          signal:controller.signal,
+        const response = await axios.get(`${backendUrl}/api/v3/displayAnnouncement`, {
+          signal: controller.signal,
         });
         if (response.data.success) {
-          setAnnouncement(response.data.getAnnouncement);
+          setAnnouncements(response.data.getAnnouncement || []);
         }
       } catch (error) {
-        if(error.response?.data?.message){
+        if (error.response?.data?.message) {
           console.log(error.response.data.message);
         }
       } finally {
@@ -45,98 +65,132 @@ function Announcement() {
     };
     fetchAnnouncement();
 
-    // writing a clean up function
-    return ()=>{
+    return () => {
       controller.abort();
     };
   }, [backendUrl]);
 
-  // Function to get category-specific styling
-  const getCategoryStyle = (category) => {
-    const categories = {
-      "Exam": "bg-red-100 text-red-800 border-red-300",
-      "Event": "bg-purple-100 text-purple-800 border-purple-300",
-      "Holiday": "bg-green-100 text-green-800 border-green-300",
-      "Assignment": "bg-yellow-100 text-yellow-800 border-yellow-300",
-      "Lecture": "bg-blue-100 text-blue-800 border-blue-300",
-    };
-    
-    return categories[category] || "bg-gray-100 text-gray-800 border-gray-300";
-  };
-
-  // Format date if it exists in the data
   const formatDate = (dateString) => {
     if (!dateString) return null;
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric'
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
-  return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-12 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-indigo-800 mb-2">
-            College Announcements
-          </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Stay updated with the latest information, events, and notices from the administration
-          </p>
-        </header>
+  const filteredAnnouncements = announcements.filter((item) => {
+    const matchesCategory =
+      selectedCategory === "All" ||
+      (item.category &&
+        item.category.toLowerCase() === selectedCategory.toLowerCase());
+    const query = searchQuery.toLowerCase();
+    const matchesSearch =
+      !searchQuery ||
+      (item.description && item.description.toLowerCase().includes(query)) ||
+      (item.course && item.course.toLowerCase().includes(query)) ||
+      (item.branch && item.branch.toLowerCase().includes(query));
+    return matchesCategory && matchesSearch;
+  });
 
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-          </div>
-        ) : announcement && announcement.length > 0 ? (
-          <div className="flex flex-col items-center space-y-6 md:space-y-8">
-            {announcement.map((value, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col w-full md:w-4/5 transform hover:-translate-y-1"
-              >
-                <div className={`px-4 py-2 border-b ${getCategoryStyle(value.category)}`}>
-                  <span className="font-semibold">{value.category}</span>
-                </div>
-                <div className="p-5 flex-grow">
-                  <div className="mb-4">
-                    <div className="flex items-center mb-2">
-                      <span className="text-indigo-600 font-medium mr-2">Course:</span>
-                      <span className="text-gray-700">{value.course}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-indigo-600 font-medium mr-2">Branch:</span>
-                      <span className="text-gray-700">{value.branch}</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">{value.description}</p>
-                  
-                  {value.date && (
-                    <div className="mt-4 pt-3 border-t border-gray-100 text-sm text-gray-500">
-                      {formatDate(value.date)}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="bg-white shadow-md rounded-lg p-8 text-center max-w-2xl mx-auto">
-            <div className="inline-flex justify-center items-center w-16 h-16 rounded-full bg-blue-50 text-blue-500 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-medium text-gray-900 mb-2">No Announcements</h3>
-            <p className="text-gray-600">
-              There are no announcements to display at this time. Please check back later.
-            </p>
-          </div>
-        )}
+  const isFiltered = Boolean(searchQuery) || selectedCategory !== "All";
+
+return (
+    <div className="space-y-6">
+      <PageHeader
+        chip="NOTICES" chipLabel="Institute notice board"
+        title="Announcements"
+        description="Institute-wide notices, examination schedules and campus events curated for your semester."
+        actions={
+          <span className="text-[12.5px] font-semibold text-ink-500">
+            {filteredAnnouncements.length} of {announcements.length} notices
+          </span>
+        }
+      />
+
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <FilterChips
+          options={CATEGORIES}
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+        />
+        <SearchField
+          className="w-full lg:w-72"
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.target.value)}
+          placeholder="Search notices, courses, branches"
+        />
       </div>
+
+      {loading ? (
+        <SkeletonRows rows={4} />
+      ) : filteredAnnouncements.length > 0 ? (
+        <div className="space-y-4">
+          {filteredAnnouncements.map((item, index) => (
+            <article
+              key={item._id || index}
+              className="rounded-2xl border border-ink-900/[0.08] bg-white p-5 shadow-[0_1px_2px_rgba(19,19,40,0.04)] transition-all duration-200 hover:border-ink-900/[0.14] hover:shadow-[0_2px_6px_rgba(19,19,40,0.05),0_18px_36px_-24px_rgba(19,19,40,0.3)] sm:p-6"
+            >
+              <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={CATEGORY_TONE[item.category?.toLowerCase()] || "neutral"}>
+                    {item.category || "General"}
+                  </Badge>
+                  {item.course ? (
+                    <span className="text-[12.5px] font-semibold text-ink-700">
+                      {item.course}
+                    </span>
+                  ) : null}
+                  {item.branch ? (
+                    <span className="text-[12px] font-medium text-ink-400">
+                      · {item.branch}
+                    </span>
+                  ) : null}
+                </div>
+                {item.date ? (
+                  <span className="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-ink-400">
+                    <Calendar size={13} />
+                    {formatDate(item.date)}
+                  </span>
+                ) : null}
+              </header>
+
+              <p className="mt-3 whitespace-pre-line text-[13.5px] leading-relaxed text-ink-700">
+                {item.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center rounded-2xl border border-ink-900/[0.08] bg-white px-6 py-16 text-center shadow-[0_1px_2px_rgba(19,19,40,0.04)]">
+          <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl border border-ink-900/[0.08] bg-paper text-ink-500">
+            <Inbox size={22} />
+          </span>
+          <h3 className="font-display text-[16px] font-bold text-ink-900">
+            No announcements to show
+          </h3>
+          <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-ink-500">
+            {isFiltered
+              ? "Nothing matched this filter combination. Try another category or search term."
+              : "There are no announcements published at the moment."}
+          </p>
+          {isFiltered ? (
+            <Button
+              className="mt-5"
+              variant="subtle"
+              size="sm"
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedCategory("All");
+              }}
+            >
+              <Megaphone size={14} />
+              Reset filters
+            </Button>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }

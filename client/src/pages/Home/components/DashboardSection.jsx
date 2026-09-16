@@ -1,90 +1,44 @@
-/*
-
-Copyright 2024 Himanshu Dinkar
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-import classroomImage from '../../../assets/classroomImage.jpg';
-import React from 'react';
-import { motion } from 'framer-motion';
-import '../CSS/HomePage.css';
+import { CheckCircle2, ArrowRight, TrendingUp, Users } from "lucide-react";
 
 const features = [
-  // { icon: "💎", text: "Role based Admin features" },
-  { icon: "💎", text: "Add teachers and students in your Virtual College" },
-  { icon: "💎", text: "Upload Assignment and Quizes for your Students" },
-  { icon: "💎", text: "Manage your College Timetable and Announcements" },
-  { icon: "💎", text: "View and Download your College Reports" },
-  { icon: "💎", text: "Go Live feature for teaching your Students" }
+  "Add teachers and students to your virtual college",
+  "Upload assignments and auto-graded quizzes",
+  "Manage timetable, announcements and reports",
+  "Go live, track attendance and performance",
 ];
 
 const DashboardSection = () => {
   return (
-    <section className="py-20 px-6 flex items-center justify-center bg-gradient-to-b min-h-screen from-gray-950 to-slate-900 relative overflow-hidden ">
-      <div className="max-w-7xl mx-auto flex items-center justify-center">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="grid lg:grid-cols-2 gap-16 items-center"
-        >
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            className="relative group"
-          >
-            <div className="absolute inset-0 h-full bg-blue-500/30 blur-3xl rounded-3xl group-hover:blur-2xl transition-all duration-300"></div>
-            <img 
-              className='rounded-2xl shadow-2xl relative h-[450px] object-cover w-[100%] z-10 border border-blue-500/20 
-                transform transition-transform duration-500 group-hover:scale-[1.02]'
-              src={classroomImage} 
-              alt="Admin Dashboard" 
-            />
-          </motion.div>
-
-          <motion.div 
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            className="space-y-4"
-          >
-            <h2 className='text-7xl mb-6 font-bold text-blue-200'>
-              Interactive Admin Dashboard for College Faculty
-            </h2>
-            
-            <motion.ul className='space-y-2 text-sm'>
-              {features.map((feature, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ x: 50, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300"
-                >
-                  <span className="text-md">{feature.icon}</span>
-                  <span className="text-md">{feature.text}</span>
-                </motion.li>
+    <section className="px-6 pb-20">
+      <div data-aos="fade-up" className="max-w-7xl mx-auto text-center">
+        <p className="inline-block rounded-full bg-ink-900 text-white text-[11px] font-extrabold tracking-[0.16em] px-4 py-1.5">ADMIN DASHBOARD</p>
+        <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight mt-4 text-ink-900">Everything to run your college</h2>
+        <p className="mt-3 text-ink-500 max-w-xl mx-auto">One calm command center for faculty, staff and leadership � from classes to results.</p>
+        <div className="mt-10 grid lg:grid-cols-2 gap-8 items-stretch text-left">
+          <div className="relative">
+            <img src="/images/live-teacher.jpg" alt="Teacher running a live class" loading="lazy" className="h-full min-h-[320px] w-full object-cover rounded-3xl border border-ink-900/10 shadow-card" />
+            <div className="absolute left-5 bottom-5 right-5 sm:right-auto rounded-2xl bg-white/95 glass border border-ink-900/10 shadow-card p-4 flex items-center gap-4 animate-float">
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-600/15"><Users size={22} /></span>
+              <span><span className="block text-xs font-bold text-ink-500">Total Students</span><span className="block font-display text-2xl font-extrabold text-ink-900 leading-none mt-0.5">3,500</span></span>
+              <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-accent-mint/15 text-emerald-700 text-xs font-extrabold px-2.5 py-1"><TrendingUp size={13} /> +12%</span>
+            </div>
+          </div>
+          <div className="rounded-3xl bg-white border border-ink-900/10 shadow-card p-8 md:p-10">
+            <h3 className="font-display text-xl md:text-2xl font-extrabold tracking-tight">Run the whole campus without chaos</h3>
+            <ul className="mt-6 space-y-4">
+              {features.map((f) => (
+                <li key={f} className="flex items-start gap-3 text-[15px] font-semibold text-ink-800">
+                  <CheckCircle2 size={21} className="mt-0.5 shrink-0 text-accent-mint" />
+                  {f}
+                </li>
               ))}
-            </motion.ul>
-
-           
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Background decorations */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+            </ul>
+            <button className="group mt-8 inline-flex items-center gap-2 rounded-full bg-ink-900 text-white text-sm font-bold pl-6 pr-2 py-2 hover:bg-brand-600 transition-colors">
+              Explore dashboard
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-white/15 group-hover:bg-white group-hover:text-ink-900 transition-colors"><ArrowRight size={17} /></span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

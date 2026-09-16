@@ -1,7 +1,7 @@
-// TestimonialCard.tsx
+﻿// TestimonialCard.tsx - light premium
 import React from "react";
 import { StarRating } from "./StarRating";
-import { motion } from "framer-motion" // You'll need to install framer-motion
+import { motion } from "framer-motion";
 
 interface TestimonialCardProps {
   quote: string;
@@ -10,54 +10,48 @@ interface TestimonialCardProps {
   avatarUrl?: string;
 }
 
-export const TestimonialCard = ({ 
-  quote, 
-  author, 
-  role = "Student", 
-  avatarUrl 
+function initials(name: string) {
+  return name
+    .split(" ")
+    .map((p) => p.charAt(0))
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
+export const TestimonialCard = ({
+  quote,
+  author,
+  role = "Student",
+  avatarUrl,
 }: TestimonialCardProps) => (
   <motion.div
     whileHover={{ y: -5 }}
     initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
-    className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl shadow-xl
-               border border-slate-700/50 backdrop-blur-sm
-               hover:shadow-2xl hover:border-slate-600/50 transition-all duration-300"
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-40px" }}
+    transition={{ duration: 0.35 }}
+    className="relative bg-white rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300 p-7 flex flex-col"
   >
-    <div className="flex items-center gap-4 mb-6">
+    <span aria-hidden="true" className="pointer-events-none absolute right-6 top-4 font-display text-[64px] leading-none text-brand-100 select-none">&ldquo;</span>
+    <div className="flex items-center gap-4 mb-4 relative">
       {avatarUrl ? (
-        <img 
-          src={avatarUrl} 
-          alt={author} 
-          className="w-12 h-12 rounded-full border-2 border-blue-500"
-        />
+        <img src={avatarUrl} alt={author} loading="lazy" className="h-12 w-12 rounded-full object-cover ring-2 ring-brand-100" />
       ) : (
-        <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center">
-          <span className="text-xl font-bold text-white">
-            {author.charAt(0)}
-          </span>
+        <div className="h-12 w-12 rounded-full bg-brand-600 grid place-items-center shrink-0 shadow-soft">
+          <span className="text-base font-bold text-white">{initials(author)}</span>
         </div>
       )}
-      <div>
-        <h3 className="text-gray-100 font-semibold text-lg">{author}</h3>
-        <p className="text-blue-400 text-sm">{role}</p>
+      <div className="min-w-0">
+        <h3 className="truncate font-display text-[15px] font-bold text-ink-900">{author}</h3>
+        <p className="text-xs font-bold uppercase tracking-wider text-brand-600">{role}</p>
       </div>
     </div>
-
     <StarRating />
-    
-    <div className="mt-6 relative">
-      <svg
-        className="absolute top-0 left-0 w-8 h-8 text-blue-500/20 transform -translate-x-6 -translate-y-6"
-        fill="currentColor"
-        viewBox="0 0 32 32"
-      >
-        <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-      </svg>
-      <p className="text-gray-300  leading-relaxed italic relative z-10">
-        "{quote}"
-      </p>
+    <div className="mt-4 relative flex-1">
+      <p className="text-ink-600 text-[15px] leading-relaxed relative z-10">&ldquo;{quote}&rdquo;</p>
     </div>
   </motion.div>
 );
+
+export default TestimonialCard;

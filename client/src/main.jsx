@@ -27,12 +27,11 @@ import { SocketProvider } from './providers/Socket.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-    <SocketProvider>
-
       <AuthContextProvider>  
-        <App />
+        <SocketProvider>
+          <App />
+        </SocketProvider>
       </AuthContextProvider>
-    </SocketProvider>
     </BrowserRouter>
   </StrictMode>
 );

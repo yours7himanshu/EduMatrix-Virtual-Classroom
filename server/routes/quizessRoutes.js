@@ -31,16 +31,93 @@ router.get('/quizzes', async (req, res) => {
   }
 });
 
-// Add a new quiz
 router.post('/quizzes', async (req, res) => {
   try {
     const quiz = new Quiz(req.body);
     await quiz.save();
 
-    notifyClients(quiz); // Notify all connected clients
+    // Broadcast new quiz event via primary Socket.IO
+    const io = req.app ? req.app.get('io') : null;
+    if (io) {
+      io.emit('new-quiz', quiz);
+    }
+
+    notifyClients(quiz); // Notify legacy raw WebSocket clients if any
     res.status(201).json({ message: 'Quiz created successfully', quiz });
   } catch (error) {
     res.status(500).json({ error: 'Failed to create quiz' });
+  }
+});
+// Submit quiz answers
+router.post('/quizzes/:id/submit', async (req, res) => {
+  try {
+    const quizId = req.params.id;
+
+    if (!quizId || !String(quizId).match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid quiz ID format',
+      });
+    }
+
+    const { answers } = req.body;
+    if (!answers || typeof answers !== 'object') {
+      return res.status(400).json({
+        success: false,
+        message: 'Answers are required as a key-value object',
+      });
+    }
+
+    const quiz = await Quiz.findById(quizId);
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: 'Quiz not found',
+      });
+    }
+
+    let score = 0;
+    const total = quiz.questions ? quiz.questions.length : 0;
+    const details = [];
+
+    if (quiz.questions && Array.isArray(quiz.questions)) {
+      quiz.questions.forEach((q) => {
+        const qId = q._id ? q._id.toString() : '';
+        const selectedOption = answers[qId];
+        const isCorrect =
+          selectedOption !== undefined &&
+          Number(selectedOption) === Number(q.correctAnswer);
+
+        if (isCorrect) {
+          score++;
+        }
+
+        details.push({
+          questionId: qId,
+          questionText: q.questionText,
+          selected: selectedOption !== undefined ? Number(selectedOption) : null,
+          correctAnswer: q.correctAnswer,
+          isCorrect,
+        });
+      });
+    }
+
+    const percentage = total > 0 ? Math.round((score / total) * 100) : 0;
+
+    return res.status(200).json({
+      success: true,
+      message: 'Quiz submitted successfully',
+      score,
+      total,
+      percentage,
+      details,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to evaluate quiz submission',
+      error: error.message,
+    });
   }
 });
 

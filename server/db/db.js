@@ -17,17 +17,23 @@ limitations under the License.
 
 const mongoose = require('mongoose');
 
-const connectDB = async(req,res)=>{
-    try{
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('Database successfully connected');
-    }catch(error){
-        console.log("Error connecting to the Database",error);
-        res.status(500).json({
-            success:false,
-            error:"Error connecting to the database"
-        })
+const connectDB = async (req, res) => {
+    try {
+        if (!process.env.MONGO_URI) {
+            console.warn('⚠️ Warning: MONGO_URI is not set in environment variables');
+            return;
+        }
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('Database successfully connected');
+    } catch (error) {
+        console.error("Error connecting to the Database:", error.message || error);
+        if (res && typeof res.status === 'function') {
+            res.status(500).json({
+                success: false,
+                error: "Error connecting to the database"
+            });
+        }
     }
 }
 
-module.exports=connectDB;
+module.exports = connectDB;

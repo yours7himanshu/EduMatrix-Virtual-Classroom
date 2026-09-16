@@ -1,5 +1,4 @@
-/*
-
+﻿/*
 Copyright 2024 Himanshu Dinkar
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,34 +14,41 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 import React, { useState, useEffect, useRef } from "react";
 import { useSocket } from "../providers/Socket";
-import SendIcon from "@mui/icons-material/Send";
-import { TextField, IconButton, Paper, Typography, Divider } from "@mui/material";
-import { div } from "@tensorflow/tfjs";
-import {MessageSquare} from "lucide-react";
+import { MessageSquare, Send, X, AlertCircle } from "lucide-react";
 
-const Message = () => {
+/**
+ * Modern In-Call & Standalone Live Chat Component.
+ * - In Live Class (isDocked=true): Docks as a sleek right sidebar drawer.
+ *   Controlled by isOpen / onClose. NO wandering or floating toggle icons!
+ * - Standalone (/messages): Renders as a full page chat card.
+ */
+const Message = ({
+  isOpen = true,
+  onClose,
+  isDocked = false,
+  title = "In-Call Chat",
+}) => {
   const { socket } = useSocket();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [error, setError] = useState("");
   const messagesEndRef = useRef(null);
-  const [toggleChat,setToggleChat]=useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
+    if (!socket) return;
+
     socket.on("connect", () => {
-      console.log("Socket connected:", socket.id);
       setError("");
     });
 
     socket.on("receiveMessage", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prev) => [...prev, message]);
     });
 
     socket.on("messageError", (errorData) => {
@@ -55,131 +61,238 @@ const Message = () => {
       socket.off("receiveMessage");
       socket.off("messageError");
     };
-  }, []);
-
-  const hideChat = (e)=>{
-    e.preventDefault();
-    setToggleChat((prev)=>!prev);
-  }
+  }, [socket]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const sendMessage = () => {
-    if (inputMessage.trim()) {
-      socket.emit("sendMessage", { content: inputMessage });
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "You", content: inputMessage, timestamp: new Date() },
+  const sendMessage = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (inputMessage.trim() && socket) {
+      socket.emit("sendMessage", { content: inputMessage.trim() });
+      setMessages((prev) => [
+        ...prev,
+        { sender: "You", content: inputMessage.trim(), timestamp: new Date() },
       ]);
       setInputMessage("");
+      setError("");
     }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   };
 
   const formatTime = (timestamp) => {
-    return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return new Date(timestamp).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
-  return (
-    <div>
-      {toggleChat ? <MessageSquare onClick={hideChat} className="absolute border h-16 w-16 rounded-full p-2 left-[50%] top-[77%] text-white bg-gradient-to-tr from-pink-700 to bg-indigo-600 font-bold cursor-pointer  z-99"/ >: 
-        <Paper elevation={3} className="max-w-lg mx-auto  p-4 h-screen overflow-hidden w-[350px]  bg-white   flex flex-col">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-3  -mt-4 -mx-4 mb-3">
-        <Typography variant="h5" className="font-bold text-center flex justify-between text-white">
-          Live Chat
-          <button cl onClick={hideChat} className=" h-10 w-10 rounded-md bg-red-700 border" >x</button>
-        </Typography>
+  // If docked and closed, do not render anything (NO floating icons across screen!)
+  if (isDocked && !isOpen) {
+    return null;
+  }
+
+  const chatContent = (
+    <div className="flex flex-col h-full w-full text-white antialiased select-none">
+      {/* Drawer Header */}
+      <div
+        className="flex-shrink-0 px-5 py-4 flex items-center justify-between border-b"
+        style={{
+          background: "rgba(13, 18, 41, 0.95)",
+          borderColor: "rgba(99, 102, 241, 0.18)",
+        }}
+      >
+        <div className="flex items-center gap-2.5">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+            style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
+          >
+            <MessageSquare className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-white tracking-wide">{title}</h3>
+            <p className="text-[11px] text-slate-400">Visible to everyone in call</p>
+          </div>
+        </div>
+
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+            style={{
+              background: "rgba(99, 102, 241, 0.1)",
+              border: "1px solid rgba(99, 102, 241, 0.15)",
+            }}
+            title="Close chat"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
-      
-      <Divider className="mb-3" />
-      
+
+      {/* Error Alert */}
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-3 text-sm">
-          {error}
+        <div
+          className="flex-shrink-0 mx-4 mt-3 p-2.5 rounded-xl text-xs flex items-center gap-2"
+          style={{
+            background: "rgba(239, 68, 68, 0.12)",
+            border: "1px solid rgba(239, 68, 68, 0.25)",
+            color: "#fca5a5",
+          }}
+        >
+          <AlertCircle className="w-4 h-4 flex-shrink-0 text-red-400" />
+          <span className="truncate">{error}</span>
         </div>
       )}
-      
-      <div className="flex-grow border border-gray-200 rounded-md p-3 overflow-y-auto bg-gray-50 custom-scrollbar">
-        {messages.length > 0 ? (
-          messages.map((msg, index) => (
+
+      {/* Messages Scroll Area */}
+      <div
+        className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0"
+        style={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(99, 102, 241, 0.2) transparent",
+        }}
+      >
+        {messages.length === 0 ? (
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-2 text-slate-500">
             <div
-              key={index}
-              className={`mb-3 ${
-                msg.sender === "You" ? "flex justify-end" : "flex justify-start"
-              }`}
+              className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto"
+              style={{
+                background: "rgba(99, 102, 241, 0.08)",
+                border: "1px solid rgba(99, 102, 241, 0.15)",
+              }}
             >
+              <MessageSquare className="w-6 h-6 text-indigo-400" />
+            </div>
+            <p className="text-xs font-semibold text-slate-300">No messages yet</p>
+            <p className="text-[11px] text-slate-500 max-w-[200px]">
+              Send a message to start the classroom conversation.
+            </p>
+          </div>
+        ) : (
+          messages.map((msg, idx) => {
+            const isMe = msg.sender === "You";
+            return (
               <div
-                className={`px-3 py-2 text-sm rounded-md max-w-[100%] shadow-sm  ${
-                  msg.sender === "You"
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white border border-gray-200 text-gray-800"
-                }`}
+                key={idx}
+                className={`flex flex-col ${isMe ? "items-end" : "items-start"}`}
               >
-                <div className={`text-xs font-medium  ${msg.sender === "You" ? "text-indigo-200" : "text-blue-600"}`}>
-                  {msg.sender}
-                </div>
-                <div className="text-sm">{msg.content}</div>
-                <div className={`text-xs mt-1 text-right ${msg.sender === "You" ? "text-indigo-200" : "text-gray-500"}`}>
-                  {formatTime(msg.timestamp)}
+                {!isMe && (
+                  <span className="text-[10px] font-bold text-indigo-400 mb-1 px-1">
+                    {msg.sender || "Participant"}
+                  </span>
+                )}
+                <div
+                  className={`px-3.5 py-2 rounded-2xl text-xs max-w-[85%] break-words shadow-sm ${
+                    isMe
+                      ? "rounded-tr-sm text-white"
+                      : "rounded-tl-sm text-slate-200"
+                  }`}
+                  style={{
+                    background: isMe
+                      ? "linear-gradient(135deg, #6366f1, #7c3aed)"
+                      : "rgba(30, 37, 64, 0.9)",
+                    border: isMe
+                      ? "1px solid rgba(139, 92, 246, 0.4)"
+                      : "1px solid rgba(99, 102, 241, 0.18)",
+                  }}
+                >
+                  <p className="leading-relaxed">{msg.content}</p>
+                  <p
+                    className={`text-[9px] mt-1 text-right ${
+                      isMe ? "text-indigo-200" : "text-slate-400"
+                    }`}
+                  >
+                    {formatTime(msg.timestamp || new Date())}
+                  </p>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <div className="h-full flex items-center justify-center">
-            <Typography variant="body2" className="text-gray-500 italic">
-              No messages yet. Start the conversation!
-            </Typography>
-          </div>
+            );
+          })
         )}
         <div ref={messagesEndRef} />
       </div>
-      
-      <div className="flex items-center mt-3 gap-2 bg-gray-50 p-2 rounded-lg border border-gray-200">
-        <TextField
-          variant="outlined"
-          size="small"
-          fullWidth
+
+      {/* Input Bar */}
+      <form
+        onSubmit={sendMessage}
+        className="flex-shrink-0 p-3 border-t flex items-center gap-2"
+        style={{
+          background: "rgba(13, 18, 41, 0.95)",
+          borderColor: "rgba(99, 102, 241, 0.15)",
+        }}
+      >
+        <input
+          type="text"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Type a message..."
-          className="bg-white rounded-md"
-          sx={{
-            '& fieldset': { borderColor: 'rgb(209, 213, 219)' },
-            '&:hover fieldset': { borderColor: 'rgb(79, 70, 229) !important' }
+          onKeyDown={handleKeyPress}
+          placeholder="Send a message..."
+          className="flex-1 px-3.5 py-2.5 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none transition-colors"
+          style={{
+            background: "rgba(99, 102, 241, 0.08)",
+            border: "1px solid rgba(99, 102, 241, 0.2)",
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = "rgba(99, 102, 241, 0.5)";
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = "rgba(99, 102, 241, 0.2)";
           }}
         />
-        <IconButton
-          color="primary"
-          onClick={sendMessage}
+        <button
+          type="submit"
           disabled={!inputMessage.trim()}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white p-2"
-          sx={{ 
-            backgroundColor: 'rgb(79, 70, 229)',
-            color: 'white',
-            '&:hover': {
-              backgroundColor: 'rgb(67, 56, 202)',
-            },
-            '&.Mui-disabled': {
-              backgroundColor: 'rgb(229, 231, 235)',
-              color: 'rgb(156, 163, 175)'
-            }
-          }}
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-white transition-all disabled:opacity-40 hover:opacity-90 flex-shrink-0"
+          style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
+          title="Send"
         >
-          <SendIcon />
-        </IconButton>
+          <Send className="w-4 h-4" />
+        </button>
+      </form>
+    </div>
+  );
+
+  // If docked inside live classroom: slide-in drawer anchored cleanly to the right
+  if (isDocked) {
+    return (
+      <div
+        className="fixed top-0 bottom-0 right-0 w-full sm:w-88 md:w-96 z-50 flex flex-col shadow-2xl transition-transform duration-300"
+        style={{
+          background: "rgba(13, 18, 41, 0.97)",
+          backdropFilter: "blur(20px)",
+          borderLeft: "1px solid rgba(99, 102, 241, 0.2)",
+          boxShadow: "-10px 0 40px rgba(0, 0, 0, 0.6)",
+        }}
+      >
+        {chatContent}
       </div>
-    </Paper>
-}
+    );
+  }
+
+  // Standalone mode for /messages route
+  return (
+    <div
+      className="min-h-screen w-full flex items-center justify-center p-4"
+      style={{ background: "#0a0f1e" }}
+    >
+      <div
+        className="w-full max-w-lg h-[650px] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+        style={{
+          background: "#0d1229",
+          border: "1px solid rgba(99, 102, 241, 0.2)",
+        }}
+      >
+        {chatContent}
+      </div>
     </div>
   );
 };

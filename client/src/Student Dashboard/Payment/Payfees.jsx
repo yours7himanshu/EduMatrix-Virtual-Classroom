@@ -1,37 +1,38 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import Layout from "../Layout/Layout";
+import { CheckCircle2, Loader2, Lock, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  Badge,
+  Card,
+  FieldLabel,
+  PageHeader,
+  selectClass,
+} from "../Shared/ui";
+
+const FEES = { cse: 150000, ece: 140000, me: 130000, ce: 120000, it: 125000 };
 
 const Payfees = () => {
   const [student, setStudent] = useState(null);
-  const [year, setYear] = useState("");
   const [loading, setLoading] = useState(false);
+  const [year, setYear] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const fees = {
-    cse: 150000,
-    ece: 140000,
-    me: 130000,
-    ce: 120000,
-    it: 125000,
-  };
-
   const handlePay = async () => {
-    if (!year || !student) return alert("Please select a year.");
+    if (!year || !student) return alert("Please select an academic year.");
     try {
       setLoading(true);
-      const url = import.meta.env.VITE_BACKEND_URL + "/api/v10/payfees";
+      const url = `${import.meta.env.VITE_BACKEND_URL}/api/v10/payfees`;
       const response = await axios.post(
         url,
         {
           studentId: student._id,
-          amount: fees[student.branch.toLowerCase()],
+          amount: FEES[student.branch.toLowerCase()] || 150000,
           rollno: student.rollNo,
           email: student.email,
           year,
         },
-        {
-          headers: { token: localStorage.getItem("token") },
-        }
+        { headers: { token: localStorage.getItem("token") } }
       );
       if (response.data.success) {
         window.location.replace(response.data.url);
@@ -46,16 +47,14 @@ const Payfees = () => {
 
   const fetchStudent = async () => {
     try {
-      // const url = import.meta.env.VITE_BACKEND_URL + "/api/v5/student-byid";
       const response = await axios.post(
         `${backendUrl}/api/v5/student-byid`,
         {},
-        {
-          headers: { token: localStorage.getItem("token") },
-        }
+        { headers: { token: localStorage.getItem("token") } }
       );
-      console.log(response.data);
-      setStudent(response.data.studentdetails);
+      if (response.data.studentdetails) {
+        setStudent(response.data.studentdetails);
+      }
     } catch (error) {
       console.log("Fetch error:", error);
     }
@@ -63,153 +62,149 @@ const Payfees = () => {
 
   useEffect(() => {
     fetchStudent();
-  }, []);
+  }, [backendUrl]);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-xl mx-auto">
-        <div className="bg-white backdrop-blur-lg rounded-3xl shadow-2xl p-8 transform hover:scale-[1.02] transition-transform duration-300">
-          <h2 className="text-3xl font-extrabold text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-8">
-            Fee Payment Portal
-          </h2>
+  const branchKey = student?.branch?.toLowerCase() || "cse";
+  const calculatedFee = FEES[branchKey] || 150000;
 
-          {student ? (
-            <>
-              <div className="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100">
-                <div className="space-y-4">
-                  <div className="flex items-center border-b border-gray-100 pb-4">
-                    <span className="text-gray-600 w-24">Name:</span>
-                    <span className="font-semibold text-gray-800">
-                      {student.name}
-                    </span>
-                  </div>
-                  <div className="flex items-center border-b border-gray-100 pb-4">
-                    <span className="text-gray-600 w-24">Roll No:</span>
-                    <span className="font-semibold text-gray-800">
-                      {student.rollNo}
-                    </span>
-                  </div>
-                  <div className="flex items-center border-b border-gray-100 pb-4">
-                    <span className="text-gray-600 w-24">Email:</span>
-                    <span className="font-semibold text-gray-800">
-                      {student.email}
-                    </span>
-                  </div>
-                  <div className="flex items-center border-b border-gray-100 pb-4">
-                    <span className="text-gray-600 w-24">Branch:</span>
-                    <span className="font-semibold text-gray-800">
-                      {student.branch.toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-gray-600 w-24">Fees:</span>
-                    <span className="font-bold text-2xl text-blue-600">
-                      ₹{fees[student.branch.toLowerCase()].toLocaleString()}
-                    </span>
-                  </div>
-                </div>
+  const details = student
+    ? [
+        { label: "Student name", value: student.name },
+        { label: "Roll number", value: student.rollNo },
+        { label: "Department", value: student.branch?.toUpperCase() },
+        { label: "Registered email", value: student.email },
+      ]
+    : [];
+
+return (
+    <div className="space-y-6">
+      <PageHeader
+        chip="FINANCE" chipLabel="Secure fee gateway"
+        title="Tuition & fee payment"
+        description="Settle semester tuition securely online, with instant receipt generation and automatic ledger updates."
+        actions={
+          <Badge tone="success" icon={ShieldCheck}>
+            256-bit encrypted gateway
+          </Badge>
+        }
+      />
+
+      <Card className="overflow-hidden">
+        {student ? (
+          <div className="grid lg:grid-cols-[1.35fr_1fr]">
+            <div className="space-y-6 p-5 sm:p-6">
+              <div>
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink-400">
+                  Billing profile
+                </p>
+                <dl className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {details.map((item) => (
+                    <div key={item.label}>
+                      <dt className="text-[11.5px] font-semibold text-ink-400">
+                        {item.label}
+                      </dt>
+                      <dd className="mt-1 truncate text-[13.5px] font-semibold text-ink-900">
+                        {item.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
 
-              <div className="mb-8">
-                <label
-                  htmlFor="year"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+              <div className="border-t border-ink-900/[0.08] pt-5">
+                <FieldLabel htmlFor="academic-year">Enrollment year</FieldLabel>
+                <select
+                  id="academic-year"
+                  value={year}
+                  onChange={(event) => setYear(event.target.value)}
+                  className={selectClass}
                 >
-                  Select Academic Year
-                </label>
-                <div className="relative">
-                  <select
-                    id="year"
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    className="block w-full px-4 py-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
-                  >
-                    <option value="">-- Select Year --</option>
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                    <option value="4">4th Year</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-5 h-5 text-gray-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
+                  <option value="">Choose academic year</option>
+                  <option value="1">1st year · Semester 1 &amp; 2</option>
+                  <option value="2">2nd year · Semester 3 &amp; 4</option>
+                  <option value="3">3rd year · Semester 5 &amp; 6</option>
+                  <option value="4">4th year · Semester 7 &amp; 8</option>
+                </select>
+
+                <div className="mt-4 flex items-start gap-2.5 rounded-xl border border-brand-100 bg-brand-50 px-3.5 py-3">
+                  <Sparkles size={15} className="mt-px shrink-0 text-brand-600" />
+                  <p className="text-[12px] leading-relaxed text-brand-700">
+                    Once the transaction is verified, an official college receipt is
+                    generated and emailed to your registered student address.
+                  </p>
                 </div>
               </div>
-
-              <button
-                onClick={handlePay}
-                disabled={loading}
-                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:translate-y-[-2px] ${
-                  loading
-                    ? "bg-gray-300 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg"
-                }`}
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center">
-                    <svg
-                      className="animate-spin h-5 w-5 mr-3 text-white"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        fill="none"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
-                    Processing...
-                  </div>
-                ) : (
-                  "Proceed to Payment"
-                )}
-              </button>
-            </>
-          ) : (
-            <div className="flex items-center justify-center py-8">
-              <svg
-                className="animate-spin h-8 w-8 text-blue-600"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  fill="none"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
             </div>
-          )}
-        </div>
-      </div>
+<div className="flex flex-col justify-between gap-6 border-t border-ink-900/[0.08] bg-ink-900 p-5 text-white sm:p-6 lg:border-l lg:border-t-0">
+              <div>
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-white/45">
+                  Total payable
+                </p>
+                <p className="mt-2.5 font-display text-[32px] font-extrabold leading-none tracking-tight">
+                  ₹{calculatedFee.toLocaleString()}
+                </p>
+                <p className="mt-2 text-[12px] font-medium text-white/55">
+                  Per academic year · includes labs and evaluation
+                </p>
+
+                <dl className="mt-6 space-y-2.5 border-t border-white/10 pt-5 text-[12.5px]">
+                  <div className="flex items-center justify-between gap-4">
+                    <dt className="text-white/60">Tuition &amp; instruction</dt>
+                    <dd className="font-semibold">
+                      ₹{(calculatedFee * 0.8).toLocaleString()}
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <dt className="text-white/60">Virtual classroom &amp; AI labs</dt>
+                    <dd className="font-semibold">
+                      ₹{(calculatedFee * 0.15).toLocaleString()}
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <dt className="text-white/60">Library &amp; evaluation</dt>
+                    <dd className="font-semibold">
+                      ₹{(calculatedFee * 0.05).toLocaleString()}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={handlePay}
+                  disabled={loading || !year}
+                  className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-white text-[13.5px] font-bold text-ink-900 transition-colors hover:bg-brand-100 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Initiating payment…
+                    </>
+                  ) : (
+                    <>
+                      <Lock size={15} />
+                      Proceed to secure payment
+                    </>
+                  )}
+                </button>
+                <p className="flex items-center justify-center gap-1.5 text-[11.5px] font-medium text-white/45">
+                  <CheckCircle2 size={13} />
+                  No card details are stored on EduMatrix servers
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-3 py-16">
+            <Loader2 size={26} className="animate-spin text-brand-600" />
+            <p className="text-[13px] font-semibold text-ink-600">
+              Loading your tuition ledger…
+            </p>
+          </div>
+        )}
+      </Card>
     </div>
   );
 };
 
-export default Payfees;
+export default Layout()(Payfees);

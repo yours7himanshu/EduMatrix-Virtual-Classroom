@@ -1,5 +1,4 @@
 /*
-
 Copyright 2024 Himanshu Dinkar
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaSpinner } from 'react-icons/fa';
-import { motion } from "framer-motion";
-import { User, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const Login: React.FC = () => {
@@ -29,13 +27,14 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
-  const { token, setToken } = useAuth();
+  const { setToken } = useAuth();
   const [errors, setErrors] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrors('');
 
     try {
       const response = await axios.post(`${backendUrl}/api/v1/login`, {
@@ -47,119 +46,136 @@ const Login: React.FC = () => {
         const userToken = response.data.token;
         setToken(userToken);
         localStorage.setItem('token', userToken);
-        toast.success("Login Successfully");
-        navigate('/StudentDashboard/dashboard'); // Ensure this path matches your route configuration
+        toast.success("Login Successful");
+        navigate('/StudentDashboard/dashboard');
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.response?.data?.message) {
         setErrors(error.response?.data?.message);
         toast.error(error.response?.data?.message);
-        console.log(error.response?.data?.message);
-      } 
+      } else {
+        toast.error('An error occurred during login');
+      }
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    // if (token) {
-    //   navigate('/StudentDashboard/dashboard'); 
-    // }
-  }, [token, navigate]);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <motion.div 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-            Welcome Back!
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Sign in to continue your learning journey
-          </p>
-        </motion.div>
+    <div className="min-h-screen bg-paper text-ink-900 relative overflow-hidden flex flex-col justify-between items-center px-6 py-10 antialiased selection:bg-brand-100 selection:text-brand-700">
+      {/* ─── Ambient Glow Blobs & Dot-Grid (Matches Website Header) ─── */}
+      <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
+      <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
+      <div className="absolute top-10 -right-24 h-96 w-96 rounded-full bg-accent-lime/30 blur-3xl pointer-events-none" />
 
-        <motion.div 
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white p-8 rounded-2xl shadow-xl border border-blue-100"
+      {/* Top Header */}
+      <div className="relative z-10 w-full max-w-md flex items-center justify-between">
+        <Link to="/" className="group flex items-center gap-2.5">
+          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105">
+            <span className="text-lg font-bold font-display">E</span>
+          </span>
+          <span className="text-base font-extrabold tracking-tight text-ink-900 font-display">
+            EduMatrix
+          </span>
+        </Link>
+
+        <Link
+          to="/MainLogin"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-500 hover:text-ink-900 transition-colors"
         >
-          {errors && <p className="border border-red-700 flex items-center justify-center p-3 h-[8%] w-full text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium" > {errors} </p> }
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
+          <ArrowLeft size={14} />
+          <span>Switch role</span>
+        </Link>
+      </div>
+
+      {/* ─── Auth Card ─── */}
+      <div className="relative z-10 w-full max-w-md my-auto py-6">
+        <div className="bg-white/95 backdrop-blur-xl rounded-[2.25rem] border border-ink-900/10 shadow-card p-8 sm:p-10">
+          <div className="text-center mb-7">
+            <h1 className="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-ink-900">
+              Student Sign In
+            </h1>
+            <p className="mt-2 text-sm text-ink-500">
+              Enter your credentials to access your classroom
+            </p>
+          </div>
+
+          {errors && (
+            <div className="p-3.5 mb-5 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
+              {errors}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1.5 ml-1">
+                Email Address
+              </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 outline-none rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  placeholder="student@college.edu"
                   required
+                  className="w-full pl-11 pr-4 py-3 bg-paper border border-ink-900/15 rounded-2xl text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
                 />
               </div>
+            </div>
 
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1.5 ml-1">
+                Password
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="w-full outline-none pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-gray-100"
+                  placeholder="••••••••"
                   required
+                  className="w-full pl-11 pr-4 py-3 bg-paper border border-ink-900/15 rounded-2xl text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label className="ml-2 block text-sm text-gray-600">Remember me</label>
-              </div>
-              <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-500">
-                Forgot password?
-              </Link>
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 text-white font-bold py-3.5 px-6 text-sm shadow-soft hover:bg-brand-600 transition-all duration-200 disabled:opacity-60"
+              >
+                {loading ? (
+                  <FaSpinner className="animate-spin h-4 w-4" />
+                ) : (
+                  <>
+                    <span>Sign In to Classroom</span>
+                    <ArrowRight size={16} />
+                  </>
+                )}
+              </button>
             </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-70"
-            >
-              {loading ? (
-                <FaSpinner className="animate-spin h-5 w-5" />
-              ) : (
-                <>
-                  Sign In
-                  <ArrowRight className="h-5 w-5" />
-                </>
-              )}
-            </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              Don't have an account?{' '}
-              <span  className="text-red-400 block text-sm mt-1 hover:text-red-500 font-medium">
-               Ask your college admin to create an account for you
+          <div className="mt-6 pt-5 border-t border-ink-900/[0.06] text-center">
+            <p className="text-xs text-ink-500">
+              Need an institutional account?{" "}
+              <span className="text-brand-600 font-semibold block mt-1">
+                Ask your college administrator for student access credentials.
               </span>
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="relative z-10 text-xs text-ink-400 text-center">
+        © {new Date().getFullYear()} EduMatrix Virtual Classroom
+      </footer>
     </div>
   );
 };
 
 export default Login;
-

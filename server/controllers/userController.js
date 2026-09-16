@@ -39,9 +39,15 @@ const loginUser = async (req, res) => {
       });
     }
     const token = jwt.sign(
-      { email: email, userId: user._id },
-      process.env.JWT_SECRET
-     
+      {
+        email: email,
+        userId: user._id,
+        role: user.role || "student",
+        name: user.name,
+        institutionId: user.institutionId ? user.institutionId.toString() : null,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
     );
 
     res.cookie("token", token, {

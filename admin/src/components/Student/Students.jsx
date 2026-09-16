@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -37,6 +37,33 @@ function Students() {
   const avatar = useFileHandler("single");
   const [loading, setLoading] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  const [classrooms, setClassrooms] = useState([]);
+  const [selectedClassroomId, setSelectedClassroomId] = useState("");
+
+  useEffect(() => {
+    const fetchClassrooms = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${backendUrl}/api/classrooms`, {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+            token: token || "",
+          },
+          withCredentials: true,
+        });
+        if (res.data?.success && Array.isArray(res.data.classrooms)) {
+          setClassrooms(res.data.classrooms);
+          if (res.data.classrooms.length > 0) {
+            setSelectedClassroomId(res.data.classrooms[0]._id);
+          }
+        }
+      } catch (err) {
+        console.warn("Could not fetch classrooms for enrollment dropdown:", err.message);
+      }
+    };
+    fetchClassrooms();
+  }, [backendUrl]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +93,39 @@ function Students() {
       });
 
       if (response.data.success) {
-        toast.success("Student Enrolled Successfully");
+        const newStudent = response.data.student;
+        if (selectedClassroomId && newStudent?._id) {
+          try {
+            const token = localStorage.getItem("token");
+            await axios.post(
+              `${backendUrl}/api/classrooms/${selectedClassroomId}/enrollments`,
+              { studentId: newStudent._id },
+              {
+                headers: {
+                  Authorization: token ? `Bearer ${token}` : "",
+                  token: token || "",
+                },
+                withCredentials: true,
+              }
+            );
+            toast.success("Student Registered & Enrolled in Classroom Successfully!");
+          } catch (enrollErr) {
+            toast.warn(
+              `Student registered, but classroom assignment failed: ${
+                enrollErr.response?.data?.message || enrollErr.message
+              }`
+            );
+          }
+        } else {
+          toast.success("Student Enrolled in College Successfully");
+        }
+
+        setName("");
+        setRollNo("");
+        setFatherName("");
+        setPhoneNo("");
+        setEmail("");
+        setPassword("");
       }
     } catch (error) {
       console.error("Error enrolling student:", error);
@@ -205,6 +264,28 @@ function Students() {
                 <option value="2021-2025">2021-2025</option> {/* Standardized to double quotes */}
                 <option value="2022-2026">2022-2026</option> {/* Standardized to double quotes */}
               </select>
+            </div>
+
+            <div className="mt-4">
+              <label className="block text-xs font-semibold text-gray-700 mb-1">
+                Assign to Course Classroom (Optional)
+              </label>
+              <select
+                value={selectedClassroomId}
+                onChange={(e) => setSelectedClassroomId(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 transition duration-200"
+              >
+                <option value="">-- Do not assign to a classroom now --</option>
+                {classrooms.map((c) => (
+                  <option key={c._id} value={c._id}>
+                    {c.courseCode ? `${c.courseCode} - ` : ""}
+                    {c.title} ({c.branch} {c.batch})
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-gray-500 mt-1">
+                Enrolling the student into a classroom immediately grants them access to that course's live lectures.
+              </p>
             </div>
 
             <button

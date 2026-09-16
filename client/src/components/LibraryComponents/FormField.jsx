@@ -1,20 +1,22 @@
 import React from "react";
+import { FieldLabel, inputClass } from "../../Student Dashboard/Shared/ui";
 
-const FormField = ({ label, placeholder, value, onChange, icon }) => (
-  <div className="relative">
-    <label className="block text-sm font-medium text-gray-700 mb-1">
-      {label}
-    </label>
+const FormField = ({ label, placeholder, value, onChange, icon, id }) => (
+  <div>
+    <FieldLabel htmlFor={id}>{label}</FieldLabel>
     <div className="relative">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
-        {icon}
-      </div>
+      {icon ? (
+        <span className="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-ink-400">
+          {icon}
+        </span>
+      ) : null}
       <input
+        id={id}
         type="text"
         placeholder={placeholder}
-        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         value={value}
         onChange={onChange}
+        className={`${inputClass} ${icon ? "pl-10" : ""}`}
       />
     </div>
   </div>

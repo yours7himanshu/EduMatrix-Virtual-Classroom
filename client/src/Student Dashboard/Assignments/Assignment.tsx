@@ -1,6 +1,32 @@
+/*
+Copyright 2024 Himanshu Dinkar
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../Layout/Layout";
+import { CalendarClock, Download, Inbox, Paperclip } from "lucide-react";
+import {
+  Badge,
+  ButtonLink,
+  Card,
+  EmptyState,
+  PageHeader,
+  SearchField,
+  SkeletonCards,
+} from "../Shared/ui";
 
 type Assignment = {
   _id: string;
@@ -11,127 +37,132 @@ type Assignment = {
   pdfUrl: string;
 };
 
+/* Deadline urgency: red under a day, amber within three days, neutral beyond. */
+const deadlineMeta = (deadline: string) => {
+  const due = new Date(deadline);
+  const days = Math.ceil((due.getTime() - Date.now()) / 86400000);
+  const label = due.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  if (days < 1)
+    return { tone: "danger" as const, text: `Due today · ${label}` };
+  if (days === 1) return { tone: "warn" as const, text: `Due tomorrow · ${label}` };
+  if (days <= 3)
+    return { tone: "warn" as const, text: `Due in ${days} days · ${label}` };
+  return { tone: "neutral" as const, text: `Due ${label}` };
+};
+
 const Assignment: React.FC = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const fetchAssignments = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`${backendUrl}/api/v7/getAssignment`);
         if (response.data.success) {
-          setAssignments(response.data.studentAssignment);
+          setAssignments(response.data.studentAssignment || []);
         }
       } catch (error) {
-        console.log("Some error occured fetching assignments", error);
+        console.log("Some error occurred fetching assignments", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchAssignments();
-  }, []);
+  }, [backendUrl]);
+
+  const filtered = assignments.filter((item) => {
+    const q = searchQuery.toLowerCase();
+    return (
+      item.title.toLowerCase().includes(q) ||
+      item.description.toLowerCase().includes(q)
+    );
+  });
+
   return (
-    <div className="w-[80%] mx-auto px-10 py-8">
-      {assignments && assignments.length > 0 ? (
-        <div className="space-y-6">
-          <h1 className="text-3xl font-bold text-indigo-700 mb-6 border-b pb-2">
-            Available Assignments
-          </h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {assignments.map((assignment) => (
-              <div
-                key={assignment._id}
-                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200"
-              >
-                <div className="p-5">
-                  <h2 className="text-xl font-semibold text-blue-700 mb-2 truncate">
+    <div className="space-y-6">
+      <PageHeader
+        chip="COURSEWORK" chipLabel="Submission tracker"
+        title="Assignments"
+        description="Download question sheets, track submission windows and keep every deadline in one place."
+        actions={
+          <span className="text-[12.5px] font-semibold text-ink-500">
+            {filtered.length} of {assignments.length} assignments
+          </span>
+        }
+      />
+
+      <SearchField
+        className="w-full sm:w-80"
+        value={searchQuery}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setSearchQuery(event.target.value)
+        }
+        placeholder="Search assignments by title or topic"
+      />
+
+      {loading ? (
+        <SkeletonCards count={3} />
+      ) : filtered.length > 0 ? (
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((assignment) => {
+            const meta = deadlineMeta(assignment.deadline);
+            return (
+              <Card key={assignment._id} className="flex flex-col overflow-hidden">
+                <div className="flex items-center justify-between gap-3 border-b border-ink-900/[0.08] px-5 py-3.5">
+                  <Badge tone="neutral" icon={Paperclip}>
+                    {assignment.questions
+                      ? `${assignment.questions} questions`
+                      : "Problem sheet"}
+                  </Badge>
+                  <Badge tone={meta.tone} icon={CalendarClock}>
+                    {meta.text}
+                  </Badge>
+                </div>
+
+                <div className="flex-1 px-5 py-5">
+                  <h3 className="font-display text-[15px] font-bold leading-snug text-ink-900">
                     {assignment.title}
-                  </h2>
-                  <p className="text-gray-600 mb-3 line-clamp-2">
+                  </h3>
+                  <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-ink-500">
                     {assignment.description}
                   </p>
-                  <div className="pt-3 border-t border-gray-100">
-                    <div className="flex items-center text-gray-500 mb-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                      <span>
-                        Deadline:{" "}
-                        <span className="font-medium text-gray-700">
-                          {new Date(assignment.deadline).toDateString()}
-                        </span>
-                      </span>
-                    </div>
-                    <div className="flex items-center text-gray-500">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      <span>
-                        Questions:{" "}
-                        <span className="font-medium text-gray-700">
-                          {assignment.questions}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
                 </div>
-                <div className="bg-gray-50 px-5 py-3">
-                  <a
-                    href={assignment.pdfUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block w-full text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors duration-200"
-                  >
-                    Download PDF
-                  </a>
+
+                <div className="px-5 pb-5">
+                  {assignment.pdfUrl ? (
+                    <ButtonLink
+                      href={assignment.pdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      variant="primary"
+                      className="w-full"
+                    >
+                      <Download size={15} />
+                      Download question sheet
+                    </ButtonLink>
+                  ) : (
+                    <p className="rounded-full border border-ink-900/[0.08] bg-paper py-2.5 text-center text-[12.5px] font-semibold text-ink-400">
+                      No file attached yet
+                    </p>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
+              </Card>
+            );
+          })}
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md p-10 text-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-16 w-16 mx-auto text-gray-300 mb-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-          <h1 className="text-2xl font-bold text-gray-700 mb-2">
-            No Assignments Available
-          </h1>
-          <p className="text-gray-500">
-            There are currently no assignments to display. Check back later!
-          </p>
-        </div>
+        <EmptyState
+          icon={Inbox}
+          title="No assignments available"
+          description={
+            searchQuery
+              ? "No assignments matched this search. Try a different keyword."
+              : "There are currently no assignments posted for your cohort."
+          }
+        />
       )}
     </div>
   );

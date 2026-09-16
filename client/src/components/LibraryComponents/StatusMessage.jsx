@@ -1,22 +1,25 @@
 import React from "react";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
-const StatusMessage = ({ message, isError }) => {
-  if (!message.text) return null;
-  
-  const CheckCircle = ({ size }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-    </svg>
-  );
-  
+const StatusMessage = ({ message }) => {
+  if (!message?.text) return null;
+
+  const isError = message.isError;
   return (
-    <div className={`mt-3 p-3 rounded-lg flex items-start space-x-2 ${
-      isError ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"
-    }`}>
-      {isError ? <AlertCircle size={18} /> : <CheckCircle size={18} />}
-      <p className="text-sm">{message.text}</p>
+    <div
+      role="status"
+      className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-3 text-[12.5px] font-medium ${
+        isError
+          ? "border-rose-200 bg-rose-50 text-rose-700"
+          : "border-emerald-200 bg-emerald-50 text-emerald-700"
+      }`}
+    >
+      {isError ? (
+        <AlertCircle size={16} className="mt-px shrink-0" />
+      ) : (
+        <CheckCircle2 size={16} className="mt-px shrink-0" />
+      )}
+      <p className="leading-relaxed">{message.text}</p>
     </div>
   );
 };

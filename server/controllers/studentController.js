@@ -81,7 +81,7 @@ const enrollStudent = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new student
-    const student = await Student.create({
+    const studentData = {
       name,
       rollNo,
       fatherName,
@@ -91,7 +91,11 @@ const enrollStudent = async (req, res) => {
       email,
       password: hashedPassword,
       avatar: avatarUrl,
-    });
+    };
+    if (req.user?.institutionId || req.body?.institutionId) {
+      studentData.institutionId = req.user?.institutionId || req.body?.institutionId;
+    }
+    const student = await Student.create(studentData);
 
     res.status(201).json({
       success: true,
@@ -111,7 +115,7 @@ const enrollStudent = async (req, res) => {
 // Now writing code for showing details of the students
 const getStudents = async(req,res)=>{
 try{
-  const studentdetails = await Student.find();
+  const studentdetails = await Student.find().select('-password');
 
   return res.status(200).json({
     success:true,
@@ -125,12 +129,11 @@ catch(error){
     message:"Some error occured on fetching the student details"
   })
 }
-
 }
 const getStudentById = async(req,res)=>{
   try{
-    const {studentId} = req.body;
-    const studentdetails = await Student.findById(studentId);
+    const studentId = req.studentId || req.body.studentId;
+    const studentdetails = await Student.findById(studentId).select('-password');
     if(!studentdetails){
       return res.status(404).json({
         success:false,
