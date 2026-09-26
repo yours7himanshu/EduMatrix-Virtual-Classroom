@@ -30,6 +30,20 @@ const institutionSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    academicCalendar: {
+      sessionStartMonth: {
+        type: Number,
+        default: 7,
+        min: 1,
+        max: 12,
+      },
+      sessionStartDay: {
+        type: Number,
+        default: 1,
+        min: 1,
+        max: 31,
+      },
+    },
   },
   { timestamps: true }
 );

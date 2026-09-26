@@ -76,27 +76,48 @@ test('Security & Data Protection Suite (SEC-07 & PERF-03)', async (t) => {
   });
 
   await t.test('3. Student details query excludes password hash', async () => {
+    const mongoose = require('mongoose');
+    const Admin = require('../models/adminModels');
+    const registrarInstId = new mongoose.Types.ObjectId();
+    const registrarAdminId = new mongoose.Types.ObjectId();
+
+    const originalAdminFindById = Admin.findById;
+    Admin.findById = (id) => ({
+      lean: async () => ({
+        _id: registrarAdminId,
+        email: 'reg@college.edu',
+        role: 'Registrar',
+        isActive: true,
+        institutionId: registrarInstId,
+      }),
+    });
+
     const originalFind = Student.find;
-    Student.find = () => ({
-      select: (fields) => {
-        assert.strictEqual(fields, '-password', 'Must exclude password from projection');
-        return [
-          { name: 'Bob', email: 'bob@college.edu', rollNo: '102' },
-        ];
-      },
+    Student.find = (filter) => ({
+      select: (fields) => ({
+        lean: async () => {
+          assert.strictEqual(fields, '-password', 'Must exclude password from projection');
+          return [{ name: 'Bob', email: 'bob@college.edu', rollNo: '102', institutionId: registrarInstId }];
+        },
+      }),
     });
 
     t.after(() => {
       Student.find = originalFind;
+      Admin.findById = originalAdminFindById;
     });
 
+    const req = {
+      user: { id: registrarAdminId.toString(), role: 'Registrar', institutionId: registrarInstId.toString() },
+    };
     const res = createMockRes();
-    await getStudents({}, res);
+    await getStudents(req, res);
 
     assert.strictEqual(res.statusCode, 200);
     assert.strictEqual(res.data.success, true);
     assert.strictEqual(res.data.studentdetails[0].password, undefined);
   });
+
 
   await t.test('4. getStudentById excludes password hash', async () => {
     const originalFindById = Student.findById;

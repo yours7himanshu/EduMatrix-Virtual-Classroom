@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, ChevronDown } from 'lucide-react';
 import axios from 'axios';
@@ -10,7 +10,11 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div className="border-b border-ink-900/10 py-6 last:border-0">
-      <button className="flex justify-between items-center w-full text-left" onClick={() => setIsOpen(!isOpen)}>
+      <button
+        className="flex justify-between items-center w-full text-left"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+      >
         <span className="text-base md:text-lg font-bold text-ink-900">{question}</span>
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-50 border border-brand-600/10 ml-4">
           <ChevronDown className={`w-5 h-5 text-brand-600 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />

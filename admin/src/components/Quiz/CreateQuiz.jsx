@@ -23,6 +23,7 @@ import AppLayout from '../../layout/AppLayout';
 
 
 const CreateQuiz = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
   const [quiz, setQuiz] = useState({
     title: '',
     description: '',
@@ -40,7 +41,7 @@ const CreateQuiz = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3001/api/quizzes', {
+      const response = await fetch(`${backendUrl}/api/quizzes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(quiz),

@@ -50,6 +50,7 @@ import StudentMarksAttendance from "./components/Teachers/StudentMarksAttendance
 import RegistrarStudent from "./components/Registrar/RegistrarStudent";
 import AIPredictor from "./pages/AI Predictor/AIPredictor";
 import DirectorFeedback from "./components/Director/DirectorFeedback";
+const FeeStructureManagement = lazy(() => import("./components/FeeStructure/FeeStructureManagement"));
 
 
 
@@ -108,6 +109,7 @@ function App() {
               <Route path="/messages" element={<ProtectedRoute element={<Message/>} />} />
               <Route path="/student-marks-attendance" element={<ProtectedRoute element={<StudentMarksAttendance/>} />} />
               <Route path="/registrar-student" element={<ProtectedRoute element={<RegistrarStudent/>} />} />
+              <Route path="/fee-structures" element={<ProtectedRoute element={<FeeStructureManagement/>} />} />
               <Route path="/ai-predictor" element={<ProtectedRoute element={<AIPredictor/>} />} />
               <Route path="/director-feedback" element={<ProtectedRoute element={<DirectorFeedback/>} />} />
 

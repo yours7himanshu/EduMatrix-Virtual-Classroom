@@ -27,6 +27,9 @@ const mongoose = require("mongoose");
 const Admin = require("../models/adminModels");
 const Institution = require("../models/institutionModel");
 const Student = require("../models/studentModels");
+const Classroom = require("../models/classroomModel");
+const Enrollment = require("../models/enrollmentModel");
+const { classifyStudentInstitution } = require("../services/legacyInstitutionMigrationService");
 
 const isApply = process.argv.includes("--apply");
 
@@ -88,44 +91,50 @@ async function migrate() {
   console.log(`\n[Admins] ${adminsUpdated} Admin accounts ${isApply ? "linked" : "would be linked"} to institutions.`);
   console.log(`[Institutions] ${institutionsCreated} new institutions ${isApply ? "created" : "identified for creation"}.`);
 
-  // 2. Inspect and safely audit Students
+  // 2. Inspect and safely audit Students using Authoritative Evidence Hierarchy
+  // STRICT RULE: Email domains (including @miet.ac.in or any domain) are NON-AUTHORITATIVE
+  // and MUST NEVER be used to guess or assign a student's institution.
   const students = await Student.find({});
+  const allInstitutions = await Institution.find({});
+  const classrooms = await Classroom.find({});
+  const enrollments = await Enrollment.find({});
+
   console.log(`\nFound ${students.length} total Student records.`);
 
-  let studentsDomainMatched = 0;
-  let studentsUnassigned = 0;
+  let studentsPreserved = 0;
+  let studentsEnrollmentMatched = 0;
+  let studentsRequiresAssignment = 0;
 
   for (const student of students) {
-    if (student.institutionId) {
-      continue;
-    }
+    const classification = classifyStudentInstitution(student, {
+      institutions: allInstitutions,
+      classrooms,
+      enrollments,
+    });
 
-    // Check for explicit institutional email domains (e.g. @miet.ac.in)
-    const email = (student.email || "").toLowerCase();
-    let matchedInstId = null;
-
-    if (email.includes("@miet.ac.in")) {
-      matchedInstId = collegeMap.get("miet");
-    }
-
-    if (matchedInstId) {
+    if (classification.status === "PRESERVED") {
+      studentsPreserved++;
+      console.log(`[Student Preserved] ${student.email} -> already bound to institution ${student.institutionId}`);
+    } else if (classification.status === "AUTHORITATIVE_ENROLLMENT_MATCH") {
       if (isApply) {
-        student.institutionId = matchedInstId;
+        student.institutionId = classification.institutionId;
         await student.save();
       }
-      studentsDomainMatched++;
-      console.log(`[Student Matched] ${student.email} -> linked to MIET (${isApply ? "SAVED" : "DRY RUN"})`);
+      studentsEnrollmentMatched++;
+      console.log(`[Student Enrollment Match] ${student.email} -> linked to institution ${classification.institutionId} via classroom enrollment (${isApply ? "SAVED" : "DRY RUN"})`);
     } else {
-      studentsUnassigned++;
-      console.log(`[Student Unassigned] ${student.email} (${student.name}) - Left untouched to prevent improper assignment.`);
+      // REQUIRES_INSTITUTION_ASSIGNMENT
+      studentsRequiresAssignment++;
+      console.log(`[Student Requires Assignment] ${student.email} (${student.name || "N/A"}) - Left unassigned. (${classification.reason})`);
     }
   }
 
   console.log(`\n=== Migration Summary ===`);
   console.log(`Institutions: ${institutionsCreated} ${isApply ? "created" : "to create"}`);
   console.log(`Admins updated: ${adminsUpdated}`);
-  console.log(`Students matched by domain: ${studentsDomainMatched}`);
-  console.log(`Students left unassigned: ${studentsUnassigned}`);
+  console.log(`Students preserved (already valid): ${studentsPreserved}`);
+  console.log(`Students matched by authoritative enrollment: ${studentsEnrollmentMatched}`);
+  console.log(`Students requiring institution assignment: ${studentsRequiresAssignment}`);
 
   await mongoose.disconnect();
   console.log(`\nDone. Exiting.`);

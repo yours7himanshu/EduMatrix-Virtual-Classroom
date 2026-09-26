@@ -15,15 +15,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 const express = require('express');
-const {enrollStudent,getStudents, getStudentById} = require('../controllers/studentController');
+const { enrollStudent, getStudents, getStudentById } = require('../controllers/studentController');
 const studentRouter = express.Router();
 const upload = require('../middlewares/multer');
 const { authStudent } = require('../middlewares/auth');
+const isAdminAuthenticated = require('../middlewares/adminAuth');
 
-studentRouter.post("/enroll-student", upload.single("avatar"), enrollStudent);
-studentRouter.get('/student-detail',getStudents);
-studentRouter.post('/student-byid',authStudent,getStudentById)
+// ── Registrar-only routes (authentication + Registrar role enforced in controller) ──
 
-module.exports=studentRouter;
+// POST /api/v5/enroll-student
+// Protected: requires Registrar JWT. Controller verifies role + institutionId from DB.
+studentRouter.post(
+  "/enroll-student",
+  isAdminAuthenticated,
+  upload.single("avatar"),
+  enrollStudent
+);
+
+// GET /api/v5/student-detail
+// Protected: returns only students from the authenticated Registrar's institution.
+studentRouter.get('/student-detail', isAdminAuthenticated, getStudents);
+
+// POST /api/v5/student-byid
+// Student self-lookup — unchanged.
+studentRouter.post('/student-byid', authStudent, getStudentById);
+
+module.exports = studentRouter;

@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { User, Mail, Lock, ArrowRight, ArrowLeft } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -93,12 +93,16 @@ function SignUp() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1">
+              <label
+                htmlFor="signup-name"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1"
+              >
                 Full Name
               </label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" aria-hidden="true" />
                 <input
+                  id="signup-name"
                   type="text"
                   placeholder="John Doe"
                   value={name}
@@ -110,12 +114,16 @@ function SignUp() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1">
+              <label
+                htmlFor="signup-username"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1"
+              >
                 Username
               </label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" aria-hidden="true" />
                 <input
+                  id="signup-username"
                   type="text"
                   placeholder="johndoe"
                   value={username}
@@ -127,12 +135,16 @@ function SignUp() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1">
+              <label
+                htmlFor="signup-email"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1"
+              >
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" aria-hidden="true" />
                 <input
+                  id="signup-email"
                   type="email"
                   placeholder="john@example.com"
                   value={email}
@@ -144,12 +156,16 @@ function SignUp() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1">
+              <label
+                htmlFor="signup-password"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1 ml-1"
+              >
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" aria-hidden="true" />
                 <input
+                  id="signup-password"
                   type="password"
                   placeholder="••••••••"
                   value={password}
@@ -164,10 +180,20 @@ function SignUp() {
               <button
                 type="submit"
                 disabled={loading}
+                aria-busy={loading}
                 className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 text-white font-bold py-3.5 px-6 text-sm shadow-soft hover:bg-brand-600 transition-all duration-200 disabled:opacity-60"
               >
-                <span>Create Account</span>
-                <ArrowRight size={16} />
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin h-4 w-4" aria-hidden="true" />
+                    <span>Creating Account...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Create Account</span>
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </>
+                )}
               </button>
             </div>
           </form>

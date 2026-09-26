@@ -1,9 +1,33 @@
+/*
+
+Copyright 2024 Himanshu Dinkar
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 import { useState } from "react";
-import {toast} from 'react-toastify';
-import axios from 'axios'
-import { User, Hash, BarChart2, Calendar, Layers } from 'lucide-react';
+import { toast } from "react-toastify";
+import axios from "axios";
 import AppLayout from "../../layout/AppLayout";
-// Define backend URL
+import {
+  Card,
+  CardHeader,
+  FormField,
+  TextInput,
+  Select,
+  Button,
+} from "../../shared/ui";
+
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const RegistrarStudent = () => {
@@ -12,121 +36,149 @@ const RegistrarStudent = () => {
   const [branch, setBranch] = useState("");
   const [fees, setFees] = useState("");
   const [feesStatus, setFeesStatus] = useState("");
- 
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   try {
-     const response = await axios.post(`${backendUrl}/api/v8/student-fees-data`,{
-      RollNumber:rollNo,
-      Name:name,
-      Fees:fees,
-      Branch:branch,
-      Fees_status:feesStatus,
-  
-     })
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${backendUrl}/api/v8/student-fees-data`,
+        {
+          RollNumber: rollNo,
+          Name: name,
+          Fees: fees,
+          Branch: branch,
+          Fees_status: feesStatus,
+        }
+      );
 
-     if(response.data.success){
-       toast.success(response.data.message);
-       setRollNo("");
-       setName("")
-       setFees("")
-       setFeesStatus("")
-       setBranch("")
-     }
-   }catch(error){
-    if(error.response?.data?.message){
-      toast.error(error.response.data.message);
-    }else{
-      toast.error("Something went wrong");
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setRollNo("");
+        setName("");
+        setFees("");
+        setFeesStatus("");
+        setBranch("");
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
     }
-   }
-    
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 w-full flex flex-col items-center justify-center py-6 sm:py-12 px-3 sm:px-6">
-      <div className="max-w-2xl w-full mx-auto bg-white shadow-xl rounded-2xl p-4 sm:p-8 border border-gray-100">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center sm:text-left tracking-tight">Student Fees Details</h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-            <div className="flex flex-col">
-              <label className="text-gray-700 text-xs sm:text-sm font-semibold mb-1 flex items-center">
-                <User className="w-4 h-4 mr-2 text-blue-500" /> Student Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Student Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="border outline-none border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 shadow-xs transition"
-                required
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-gray-700 text-xs sm:text-sm font-semibold mb-1 flex items-center">
-                <Hash className="w-4 h-4 mr-2 text-blue-500" /> Roll Number
-              </label>
-              <input
-                type="number"
-                placeholder="Enter Student Roll Number"
-                value={rollNo}
-                onChange={(e) => setRollNo(e.target.value)}
-                className="border outline-none border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 shadow-xs transition"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-gray-700 text-xs sm:text-sm font-semibold mb-1 flex items-center">
-                <BarChart2 className="w-4 h-4 mr-2 text-blue-500" /> Fees
-              </label>
-              <input
-                type="number"
-                placeholder="Enter Student Fees"
-                value={fees}
-                onChange={(e) => setFees(e.target.value)}
-                className="border outline-none border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 shadow-xs transition"
-                required
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-gray-700 text-xs sm:text-sm font-semibold mb-1 flex items-center">
-                <Layers className="w-4 h-4 mr-2 text-blue-500" /> Branch
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Student Branch"
-                value={branch}
-                onChange={(e) => setBranch(e.target.value)}
-                className="border outline-none border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 shadow-xs transition"
-                required
-              />
-            </div>
-            <div className="flex flex-col sm:col-span-2">
-              <label className="text-gray-700 text-xs sm:text-sm font-semibold mb-1 flex items-center">
-                <Calendar className="w-4 h-4 mr-2 text-blue-500" /> Fees Status
-              </label>
-              <select
-                value={feesStatus}
-                onChange={(e) => setFeesStatus(e.target.value)}
-                className="border outline-none border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 shadow-xs transition bg-white"
+    <div className="w-full min-h-screen bg-admin-slate-50/60 py-6 sm:py-10 px-3 sm:px-6 lg:px-8 flex flex-col items-center justify-start">
+      <div className="max-w-2xl w-full">
+        <Card padding="default" className="shadow-admin-sm">
+          <CardHeader
+            title="Student Fees Record"
+            subtitle="Register and manage student fee payment status and institutional billing"
+          />
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+              <FormField
+                label="Student Full Name"
+                id="fees-student-name"
                 required
               >
-                <option value="">Select Fees Status</option>
-                <option value="Paid">Paid</option>
-                <option value="Unpaid">Unpaid</option>
-              </select>
+                <TextInput
+                  id="fees-student-name"
+                  type="text"
+                  placeholder="Enter Student Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </FormField>
+
+              <FormField
+                label="Roll Number"
+                id="fees-roll-number"
+              >
+                <TextInput
+                  id="fees-roll-number"
+                  type="number"
+                  placeholder="Enter Student Roll Number"
+                  value={rollNo}
+                  onChange={(e) => setRollNo(e.target.value)}
+                />
+              </FormField>
+
+              <FormField
+                label="Tuition / Fees Amount (₹)"
+                id="fees-amount"
+                required
+                hint="Total fee amount billed"
+              >
+                <TextInput
+                  id="fees-amount"
+                  type="number"
+                  placeholder="Enter Student Fees"
+                  value={fees}
+                  onChange={(e) => setFees(e.target.value)}
+                  required
+                />
+              </FormField>
+
+              <FormField
+                label="Branch / Department"
+                id="fees-branch"
+                required
+              >
+                <TextInput
+                  id="fees-branch"
+                  type="text"
+                  placeholder="Enter Student Branch"
+                  value={branch}
+                  onChange={(e) => setBranch(e.target.value)}
+                  required
+                />
+              </FormField>
+
+              <div className="sm:col-span-2">
+                <FormField
+                  label="Payment Status"
+                  id="fees-status"
+                  required
+                >
+                  <Select
+                    id="fees-status"
+                    value={feesStatus}
+                    onChange={(e) => setFeesStatus(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Fees Status</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Unpaid">Unpaid</option>
+                  </Select>
+                </FormField>
+              </div>
             </div>
-           
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md hover:shadow-lg mt-2 cursor-pointer text-sm sm:text-base"
-          >
-            Submit
-          </button>
-        </form>
+
+            <div className="pt-2 border-t border-admin-slate-100">
+              <Button
+                type="submit"
+                variant="primary"
+                size="md"
+                isLoading={loading}
+                className="w-full"
+              >
+                {loading ? "Recording Fees..." : "Submit Fee Record"}
+              </Button>
+            </div>
+          </form>
+        </Card>
       </div>
     </div>
   );
 };
-export default AppLayout()(RegistrarStudent);
+
+const WrappedRegistrarStudent = AppLayout()(RegistrarStudent);
+export default WrappedRegistrarStudent;

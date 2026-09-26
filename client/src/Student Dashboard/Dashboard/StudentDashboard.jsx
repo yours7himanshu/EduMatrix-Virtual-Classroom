@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import {
   ArrowRight,
   BookOpen,
   Bot,
+  Building2,
   ChevronRight,
   ClipboardList,
   Clock,
@@ -46,6 +48,9 @@ const StudentDashboard = () => {
   const navigate = useNavigate();
   const [greeting, setGreeting] = useState("Good day");
   const [studentName, setStudentName] = useState("Student");
+  const [institutionInfo, setInstitutionInfo] = useState(null); // { name, branch, batch, currentAcademicYear, courseDuration }
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -63,6 +68,35 @@ const StudentDashboard = () => {
       .join(" ");
     setStudentName(formatted || "Student");
   }, []);
+
+  useEffect(() => {
+    // Fetch authoritative institution identity from the ledger endpoint.
+    // The institution name MUST come from the server — never from localStorage or email domain.
+    const fetchInstitutionInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        const res = await axios.get(`${backendUrl}/api/v10/fees/ledger`, {
+          headers: { token },
+        });
+        const data = res.data;
+        if (data && (data.status === "RESOLVED" || data.status === "UNRESOLVED")) {
+          setInstitutionInfo({
+            name: data.institution?.name || null,
+            branch: data.student?.branch || null,
+            batch: data.student?.batch || null,
+            currentAcademicYear: data.academicProgression?.currentAcademicYear || null,
+            courseDuration: data.academicProgression?.courseDuration || null,
+            currentSessionLabel: data.academicProgression?.currentSessionLabel || null,
+            isGraduated: data.academicProgression?.isGraduated || false,
+          });
+        }
+      } catch (_) {
+        // Non-critical — dashboard still works without institution info
+      }
+    };
+    fetchInstitutionInfo();
+  }, [backendUrl]);
 
   return (
     <div className="space-y-7">
@@ -121,6 +155,62 @@ const StudentDashboard = () => {
           </div>
         </div>
       </Card>
+
+      {/* ── Institution Identity Strip (server-authoritative) ── */}
+      {institutionInfo && (
+        <Card className="overflow-hidden border-brand-100">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 px-5 py-4 sm:px-6">
+            <div className="flex items-center gap-2.5">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600">
+                <Building2 size={16} />
+              </span>
+              <div>
+                <p className="text-[10px] font-extrabold uppercase tracking-widest text-ink-400">
+                  Institution
+                </p>
+                <p className="text-[13px] font-bold text-ink-900">
+                  {institutionInfo.name || <span className="italic text-rose-500">Not linked — contact registrar</span>}
+                </p>
+              </div>
+            </div>
+
+            {institutionInfo.branch && (
+              <div className="border-l border-ink-900/[0.06] pl-6">
+                <p className="text-[10px] font-extrabold uppercase tracking-widest text-ink-400">
+                  Program
+                </p>
+                <p className="text-[13px] font-bold text-ink-900">
+                  B.Tech — {institutionInfo.branch}
+                </p>
+              </div>
+            )}
+
+            {institutionInfo.currentAcademicYear && (
+              <div className="border-l border-ink-900/[0.06] pl-6">
+                <p className="text-[10px] font-extrabold uppercase tracking-widest text-ink-400">
+                  Academic Year
+                </p>
+                <p className="text-[13px] font-bold text-ink-900">
+                  {institutionInfo.isGraduated
+                    ? "Graduated"
+                    : `Year ${institutionInfo.currentAcademicYear} of ${institutionInfo.courseDuration}`}
+                </p>
+              </div>
+            )}
+
+            {institutionInfo.currentSessionLabel && (
+              <div className="border-l border-ink-900/[0.06] pl-6">
+                <p className="text-[10px] font-extrabold uppercase tracking-widest text-ink-400">
+                  Current Session
+                </p>
+                <p className="text-[13px] font-bold text-ink-900">
+                  {institutionInfo.currentSessionLabel}
+                </p>
+              </div>
+            )}
+          </div>
+        </Card>
+      )}
 
       {/* ── Bento Grid Workspace ── */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">

@@ -15,12 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { ContextStore } from "../store/ContextStore";
 import Logo from "../components/Dashboard/Logo";
-import Lottie from "lottie-react";
-import loadingAnimation from "../assets/loading.json";
 import { RoleContext } from "../context/RoleContext";
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -38,6 +36,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import PersonIcon from '@mui/icons-material/Person';
 import { useAuth } from "../context/AuthContext";
 import "./Sidebar.css";
@@ -50,23 +49,37 @@ const Sidebar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {logout} = useAuth();
 
-  // Loader state
-  const [isLoading, setIsLoading] = useState(false);
-
   const isActive = (path) => location.pathname === path;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Escape-to-close behavior & body scroll lock for mobile drawer
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   const handleNavigation = (path) => {
     if (location.pathname !== path) {
-      setIsLoading(true);
       setIsMobileMenuOpen(false);
-      setTimeout(() => {
-        setIsLoading(false);
-        navigate(path);
-      }, 1500);
+      navigate(path);
     }
   };
 
@@ -255,6 +268,20 @@ const Sidebar = () => {
 
       {userRole === 'Registrar' && (
         <li
+          onClick={() => handleNavigation("/fee-structures")}
+          className={`flex items-center gap-3.5 font-medium p-2.5 sm:p-3 rounded-xl cursor-pointer transition-all duration-150 ${
+            isActive("/fee-structures")
+              ? "bg-white text-indigo-900 shadow-md font-semibold"
+              : "text-white/90 hover:bg-white/10 hover:text-white"
+          }`}
+        >
+          <AccountBalanceIcon fontSize="small" />
+          <span>Fee Structures</span>
+        </li>
+      )}
+
+      {userRole === 'Registrar' && (
+        <li
           onClick={() => handleNavigation("/teachers")}
           className={`flex items-center gap-3.5 font-medium p-2.5 sm:p-3 rounded-xl cursor-pointer transition-all duration-150 ${
             isActive("/teachers")
@@ -312,6 +339,7 @@ const Sidebar = () => {
           onClick={toggleMobileMenu}
           className="p-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition-colors focus:outline-none"
           aria-label="Toggle navigation menu"
+          aria-expanded={isMobileMenuOpen}
         >
           <MenuIcon className="w-5 h-5" />
         </button>
@@ -327,6 +355,9 @@ const Sidebar = () => {
 
       {/* Mobile Slide-Over Drawer Panel */}
       <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
         className={`md:hidden fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-gradient-to-tr from-indigo-800 to-blue-700 text-white z-50 shadow-2xl flex flex-col p-4 transform transition-transform duration-300 ease-in-out ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
@@ -364,17 +395,6 @@ const Sidebar = () => {
 
         <LogoutButton />
       </aside>
-
-      {/* Route Navigation Loader */}
-      {isLoading && (
-        <div className="flex flex-col justify-center items-center w-full h-screen bg-gray-100/90 backdrop-blur-sm fixed top-0 left-0 z-50">
-          <Lottie
-            animationData={loadingAnimation}
-            loop={true}
-            className="w-20 h-20"
-          />
-        </div>
-      )}
     </>
   );
 };

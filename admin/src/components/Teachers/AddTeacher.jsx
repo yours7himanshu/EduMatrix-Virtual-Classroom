@@ -20,6 +20,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import TeacherRole from "./TeacherRole";
 import AppLayout from "../../layout/AppLayout";
+import {
+  Card,
+  CardHeader,
+  FormField,
+  TextInput,
+  Select,
+  Button,
+} from "../../shared/ui";
 
 function AddTeacher() {
   const [name, setName] = useState("");
@@ -28,7 +36,7 @@ function AddTeacher() {
   const [experience, setExperience] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading,setLoading]=useState("");
+  const [loading, setLoading] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = async (e) => {
@@ -41,7 +49,7 @@ function AddTeacher() {
         subject,
         experience,
         email,
-        password
+        password,
       });
 
       if (response.data.success) {
@@ -54,95 +62,139 @@ function AddTeacher() {
       } else {
         toast.error("Some unexpected error occured");
       }
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
+
   return (
-    <div className="w-full min-h-screen bg-gray-50 py-4 sm:py-8 px-3 sm:px-6">
-      <div className="max-w-4xl mx-auto w-full flex flex-col items-center">
+    <div className="w-full min-h-screen bg-admin-slate-50/60 py-6 sm:py-10 px-3 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto w-full flex flex-col items-center gap-6 sm:gap-8">
         <TeacherRole />
 
-        <div className="flex flex-col items-center justify-center gap-5 w-full py-6 sm:py-8">
-          <form
-            className="flex flex-col gap-4 w-full max-w-xl border border-gray-100 shadow-xl p-4 sm:p-8 rounded-2xl bg-white"
-            onSubmit={handleSubmit}
-          >
-            <h1 className="text-violet-800 font-bold mb-2 text-xl sm:text-2xl md:text-3xl text-center sm:text-left tracking-tight">
-              Add Teachers of your College to help Students!!
-            </h1>
-
-            <input
-              type="text"
-              placeholder="Faculty Name"
-              value={name}
-              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
-              onChange={(e) => setName(e.target.value)}
-              required
+        <div className="w-full max-w-xl">
+          <Card padding="default" className="shadow-admin-sm">
+            <CardHeader
+              title="Add College Faculty"
+              subtitle="Register instructors and professors to mentor students"
             />
 
-            <select
-              name="qualifications"
-              value={qualification}
-              onChange={(e) => setQualification(e.target.value)}
-              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl focus:text-black text-gray-500 outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
-              id="qualifications"
-            >
-              <option value="choose">Choose your Qualification</option>
-              <option value="B.Tech">B.Tech</option>
-              <option value="M.Sc">M.Sc</option>
-              <option value="P.hd">P.hd</option>
-              <option value="B.Sc">B.Sc</option>
-            </select>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <FormField
+                label="Faculty Full Name"
+                id="faculty-name"
+                required
+              >
+                <TextInput
+                  id="faculty-name"
+                  type="text"
+                  placeholder="e.g., Dr. Rajesh Sharma"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </FormField>
 
-            <input
-              type="text"
-              placeholder="Faculty Subject"
-              value={subject}
-              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
-              onChange={(e) => setSubject(e.target.value)}
-              required
-            />
-            <input
-              type="email"
-              placeholder="Generate Teachers Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
-              required
-            />
+              <FormField
+                label="Academic Qualification"
+                id="faculty-qualification"
+                required
+              >
+                <Select
+                  id="faculty-qualification"
+                  name="qualifications"
+                  value={qualification}
+                  onChange={(e) => setQualification(e.target.value)}
+                  required
+                >
+                  <option value="">Choose your Qualification</option>
+                  <option value="B.Tech">B.Tech</option>
+                  <option value="M.Sc">M.Sc</option>
+                  <option value="P.hd">P.hd</option>
+                  <option value="B.Sc">B.Sc</option>
+                </Select>
+              </FormField>
 
-            <input
-              type="password"
-              placeholder="Generate Faculty Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
-              required
-            />
+              <FormField
+                label="Primary Subject / Department"
+                id="faculty-subject"
+                required
+              >
+                <TextInput
+                  id="faculty-subject"
+                  type="text"
+                  placeholder="e.g., Data Structures & Algorithms"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  required
+                />
+              </FormField>
 
-            <input
-              type="number"
-              placeholder="Years of Experience of Faculty in the field"
-              value={experience}
-              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
-              onChange={(e) => setExperience(e.target.value)}
-              required
-            />
+              <FormField
+                label="Faculty Institutional Email"
+                id="faculty-email"
+                required
+                hint="Used by faculty to sign in to EduMatrix"
+              >
+                <TextInput
+                  id="faculty-email"
+                  type="email"
+                  placeholder="faculty@institution.edu"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </FormField>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full h-11 mt-4 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-semibold shadow-md hover:shadow-lg transition focus:outline-none disabled:opacity-70 cursor-pointer"
-            >
-              {loading ? "Adding Teacher..." : "Add Teacher"}
-            </button>
-          </form>
+              <FormField
+                label="Initial Faculty Password"
+                id="faculty-password"
+                required
+                hint="Temporary password for initial portal access"
+              >
+                <TextInput
+                  id="faculty-password"
+                  type="password"
+                  placeholder="Generate Faculty Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </FormField>
+
+              <FormField
+                label="Years of Experience"
+                id="faculty-experience"
+                required
+              >
+                <TextInput
+                  id="faculty-experience"
+                  type="number"
+                  placeholder="e.g., 5"
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
+                  required
+                />
+              </FormField>
+
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  isLoading={loading}
+                  className="w-full"
+                >
+                  {loading ? "Adding Faculty Member..." : "Add Teacher"}
+                </Button>
+              </div>
+            </form>
+          </Card>
         </div>
       </div>
     </div>
   );
 }
 
-export default AppLayout()(AddTeacher);
+const WrappedAddTeacher = AppLayout()(AddTeacher);
+export default WrappedAddTeacher;

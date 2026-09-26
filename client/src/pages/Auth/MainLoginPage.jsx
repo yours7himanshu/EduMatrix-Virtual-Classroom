@@ -156,7 +156,8 @@ const MainLoginPage = () => {
           {/* Faculty & Administrator Card */}
           <div
             onClick={() => {
-              window.location.href = 'https://virtual-classroom-admin.vercel.app';
+              const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:5173';
+              window.location.href = adminUrl;
             }}
             className="group relative bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] border border-ink-900/10 p-5 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-accent-lime overflow-hidden"
           >

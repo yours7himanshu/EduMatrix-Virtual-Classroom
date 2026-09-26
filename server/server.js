@@ -47,6 +47,7 @@ const aiPredictRoutes = require('./routes/aiPredictorRoutes');
 const { paymentRouter } = require('./routes/paymentRoutes');
 const classroomRoutes = require('./routes/classroomRoutes');
 const liveRoutes = require('./routes/liveRoutes');
+const adminFeeStructureRoutes = require('./routes/adminFeeStructureRoutes');
 
 
 
@@ -95,6 +96,7 @@ app.use('/api/v6', studentMarksAttendanceRoutes);
 app.use('/api/v8', registrarStudentRoute);
 app.use('/api/v9', aiPredictRoutes);
 app.use('/api/v10', paymentRouter);
+app.use('/api/v10/admin', adminFeeStructureRoutes);
 app.use('/api/classrooms', classroomRoutes);
 app.use('/api/live', liveRoutes);
 

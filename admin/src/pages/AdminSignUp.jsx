@@ -58,12 +58,12 @@ function AdminSignUp() {
       }
     } catch (error) {
       console.log("Some error occurred", error);
-      if (error.response?.data?.message)
-         {
+      if (error.response?.data?.message) {
         setErrors(error.response.data.message);
         toast.error(error.response.data.message);
       } else {
-        setErrors(error.response.data.message);
+        const fallbackMsg = error?.message || "Some unexpected error occurred...Try Again!!";
+        setErrors(fallbackMsg);
         toast.error("Some unexpected error occurred...Try Again!!");
       }
     } finally {

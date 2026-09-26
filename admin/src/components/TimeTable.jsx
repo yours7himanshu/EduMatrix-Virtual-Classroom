@@ -15,11 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
-
-import React, { useState } from "react";
+import { useState } from "react";
 import AppLayout from "../layout/AppLayout";
-// import Sidebar from "./Sidebar";
+import {
+  Card,
+  CardHeader,
+  Select,
+  Badge,
+} from "../shared/ui";
 
 // Sample data for timetables
 const timetableData = {
@@ -37,74 +40,105 @@ const timetableData = {
     Thursday: ["Physics", "Chemistry", "Literature", "Computer Science"],
     Friday: ["Math", "History", "Biology", "Chemistry"],
   },
-  // Add more classes as needed
 };
 
 const TimeTable = () => {
   const [selectedClass, setSelectedClass] = useState("class1");
 
-  // Handler to update selected class
   const handleClassChange = (e) => {
     setSelectedClass(e.target.value);
   };
 
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const timeSlots = ["8:00 AM", "10:00 AM", "12:00 PM", "2:00 PM"];
+
   return (
-    <div className="time-table-page w-full min-h-screen bg-gray-50 py-6 sm:py-10 px-3 sm:px-6">
-      <div className="max-w-6xl mx-auto text-center">
-        {/* Header */}
-        <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 tracking-tight">
-          Select a Class to View the Timetable
-        </h1>
+    <div className="w-full min-h-screen bg-admin-slate-50/60 py-6 sm:py-10 px-3 sm:px-6 lg:px-8 flex flex-col items-center justify-start">
+      <div className="w-full max-w-6xl">
+        <Card padding="default" className="shadow-admin-sm">
+          <CardHeader
+            title="Weekly Class Timetable"
+            subtitle="View academic schedules and lecture allocations across weekday time slots"
+            action={
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <label
+                  htmlFor="timetable-class-select"
+                  className="text-xs font-semibold text-admin-slate-600 uppercase tracking-wider shrink-0"
+                >
+                  Class:
+                </label>
+                <div className="w-36">
+                  <Select
+                    id="timetable-class-select"
+                    value={selectedClass}
+                    onChange={handleClassChange}
+                    className="h-9 py-1 text-xs sm:text-sm font-medium"
+                  >
+                    <option value="class1">Class 1</option>
+                    <option value="class2">Class 2</option>
+                  </Select>
+                </div>
+              </div>
+            }
+          />
 
-        {/* Class Selection Dropdown */}
-        <div className="mb-4 sm:mb-6">
-          <select
-            value={selectedClass}
-            onChange={handleClassChange}
-            className="border border-gray-300 rounded-xl p-2.5 sm:p-3 text-sm sm:text-base bg-white focus:outline-none focus:ring-2 focus:ring-violet-600 shadow-xs font-medium"
-          >
-            <option value="class1">Class 1</option>
-            <option value="class2">Class 2</option>
-          </select>
-        </div>
-
-        {/* Mobile Swipe Guidance Badge */}
-        <div className="md:hidden inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 py-1.5 px-3.5 rounded-full mb-3">
-          👈 Swipe horizontally to view days 👉
-        </div>
-
-        {/* Timetable Display */}
-        <div className="overflow-x-auto py-2 rounded-2xl bg-white shadow-xs border border-gray-200">
-          <div className="timetable-grid grid grid-cols-6 gap-2 sm:gap-3 min-w-[680px] p-3 sm:p-4">
-            {/* Header Cells with responsive padding and text size */}
-            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Time</div>
-            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Monday</div>
-            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Tuesday</div>
-            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Wednesday</div>
-            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Thursday</div>
-            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Friday</div>
-
-            {/* Time slots */}
-            {["8:00 AM", "10:00 AM", "12:00 PM", "2:00 PM"].map((time, index) => (
-              <React.Fragment key={index}>
-                <div className="text-gray-800 p-2 sm:p-3 font-semibold text-xs sm:text-sm flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">{time}</div>
-                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
-                  (day, dayIndex) => (
-                    <div
-                      key={dayIndex}
-                      className="p-2 sm:p-3 bg-white border border-gray-100 rounded-xl shadow-xs hover:bg-violet-50/70 hover:border-violet-200 transition duration-200 text-xs sm:text-sm font-medium text-gray-700 flex items-center justify-center min-h-[44px]"
-                    >
-                      {timetableData[selectedClass][day][index] || "No Class"}
-                    </div>
-                  )
-                )}
-              </React.Fragment>
-            ))}
+          {/* Mobile Swipe Guidance Badge */}
+          <div className="md:hidden flex justify-center mb-3">
+            <Badge tone="brand" size="sm">
+              👈 Swipe horizontally to view days 👉
+            </Badge>
           </div>
-        </div>
+
+          {/* Timetable Grid Display */}
+          <div className="overflow-x-auto rounded-xl border border-admin-slate-200/80 bg-white shadow-admin-xs">
+            <div className="timetable-grid grid grid-cols-6 gap-2 sm:gap-3 min-w-[680px] p-3 sm:p-4">
+              {/* Header Cells */}
+              <div className="font-semibold text-xs sm:text-sm uppercase tracking-wider text-admin-slate-600 p-2.5 sm:p-3 bg-admin-slate-50/90 rounded-lg text-center border-b border-admin-slate-200">
+                Time
+              </div>
+              {days.map((day) => (
+                <div
+                  key={day}
+                  className="font-semibold text-xs sm:text-sm uppercase tracking-wider text-admin-slate-600 p-2.5 sm:p-3 bg-admin-slate-50/90 rounded-lg text-center border-b border-admin-slate-200"
+                >
+                  {day}
+                </div>
+              ))}
+
+              {/* Time Slots & Class Rows */}
+              {timeSlots.map((time, slotIdx) => (
+                <div key={time} className="contents">
+                  <div className="text-admin-slate-800 p-2 sm:p-3 font-semibold text-xs sm:text-sm flex items-center justify-center bg-admin-slate-50/70 rounded-xl border border-admin-slate-200/80">
+                    {time}
+                  </div>
+                  {days.map((day) => {
+                    const subject =
+                      timetableData[selectedClass]?.[day]?.[slotIdx] ||
+                      "No Class";
+                    const isNoClass = subject === "No Class";
+
+                    return (
+                      <div
+                        key={`${day}-${slotIdx}`}
+                        className={`p-2 sm:p-3 rounded-xl border text-xs sm:text-sm font-medium flex items-center justify-center min-h-[44px] transition-colors duration-150 text-center ${
+                          isNoClass
+                            ? "bg-admin-slate-50/40 border-admin-slate-100 text-admin-slate-400 italic"
+                            : "bg-white border-admin-slate-200/80 text-admin-slate-800 shadow-admin-xs hover:bg-admin-brand-50/40 hover:border-admin-brand-200"
+                        }`}
+                      >
+                        {subject}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   );
 };
 
-export default AppLayout()(TimeTable);
+const WrappedTimeTable = AppLayout()(TimeTable);
+export default WrappedTimeTable;

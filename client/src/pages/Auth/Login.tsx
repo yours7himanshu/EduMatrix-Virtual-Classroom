@@ -101,19 +101,27 @@ const Login: React.FC = () => {
           </div>
 
           {errors && (
-            <div className="p-3.5 mb-5 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
+            <div
+              role="alert"
+              aria-live="polite"
+              className="p-3.5 mb-5 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700"
+            >
               {errors}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1.5 ml-1">
+              <label
+                htmlFor="login-email"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1.5 ml-1"
+              >
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" aria-hidden="true" />
                 <input
+                  id="login-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -125,12 +133,16 @@ const Login: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1.5 ml-1">
+              <label
+                htmlFor="login-password"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-400 mb-1.5 ml-1"
+              >
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" aria-hidden="true" />
                 <input
+                  id="login-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -145,14 +157,15 @@ const Login: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
+                aria-busy={loading}
                 className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 text-white font-bold py-3.5 px-6 text-sm shadow-soft hover:bg-brand-600 transition-all duration-200 disabled:opacity-60"
               >
                 {loading ? (
-                  <FaSpinner className="animate-spin h-4 w-4" />
+                  <FaSpinner className="animate-spin h-4 w-4" aria-label="Signing in..." />
                 ) : (
                   <>
                     <span>Sign In to Classroom</span>
-                    <ArrowRight size={16} />
+                    <ArrowRight size={16} aria-hidden="true" />
                   </>
                 )}
               </button>

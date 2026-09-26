@@ -26,7 +26,10 @@ function StudentDetail() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/v5/student-detail`);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${backendUrl}/api/v5/student-detail`, {
+          headers: { token: token || "" },
+        });
         if (response.data.success) {
           setStudents(response.data.studentdetails);
         }
