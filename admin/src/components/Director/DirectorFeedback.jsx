@@ -23,33 +23,35 @@ const DirectorFeedback = ()=>{
     }, []);
 
     return (
-     <div className="w-full"> {/* Ensure the root div takes full width */}
-        {data && data.length>0 ? <div>
-            <div className="p-4 md:p-6 bg-gray-100 min-h-screen"> {/* Adjusted padding */}
-            <div className="space-y-6"> {/* Removed ml-[23%], adjusted space-y */}
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center md:text-left">User Feedbacks</h2> {/* Removed ml-2, added responsive text align */}
-                {data.map((value,index)=>(
-                    // Changed w-[50%] to w-full max-w-2xl mx-auto for responsive and centered cards
-                    <div key={index} className="bg-white shadow cursor-pointer rounded-lg p-5 w-full max-w-2xl mx-auto hover:shadow-lg transition-shadow">
-                        <div className="flex items-center mb-2">
-                            <User className="w-5 h-5 text-blue-500 mr-2" />
-                            <span className="text-lg font-medium text-gray-900">{value.fullName}</span>
-                        </div>
-                        <div className="flex items-center mb-3">
-                            <Mail className="w-4 h-4 text-gray-500 mr-2" />
-                            <span className="text-sm text-gray-600">{value.email}</span>
-                        </div>
-                        <div className="flex items-start">
-                            <MessageCircle className="w-4 h-4 text-gray-500 mr-2 mt-1" />
-                            <p className="text-gray-700">{value.description}</p>
-                        </div>
+     <div className="w-full">
+        {data && data.length > 0 ? (
+          <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
+            <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">User Feedbacks</h2>
+              {data.map((value, index) => (
+                <div key={index} className="bg-white shadow-sm border border-gray-200/80 rounded-2xl p-5 hover:shadow-md transition-all">
+                  <div className="flex items-center mb-2">
+                    <div className="h-9 w-9 rounded-xl bg-blue-50 text-blue-600 grid place-items-center mr-3">
+                      <User className="w-5 h-5" />
                     </div>
-                ))}
+                    <div>
+                      <span className="text-base font-semibold text-gray-900 block">{value.fullName}</span>
+                      <span className="text-xs text-gray-500 block">{value.email}</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-100 flex items-start">
+                    <MessageCircle className="w-4 h-4 text-gray-400 mr-2.5 mt-0.5 shrink-0" />
+                    <p className="text-sm text-gray-700 leading-relaxed">{value.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-        </div>
-        </div> : <div>Loading Please wait .....</div>}
+          </div>
+        ) : (
+          <div className="p-8 text-center text-gray-500 font-medium">Loading feedback...</div>
+        )}
      </div>
-    )
+    );
 }
 
 export default AppLayout()(DirectorFeedback);

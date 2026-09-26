@@ -27,8 +27,12 @@ const RoleProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            const decodedToken = jwtDecode(token);
-            setUserRole(decodedToken.role); 
+            try {
+                const decodedToken = jwtDecode(token);
+                setUserRole(decodedToken.role);
+            } catch (err) {
+                console.warn("Failed to decode token", err);
+            }
         }
     }, []); // Runs only on initial mount, updates based on token
 

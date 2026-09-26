@@ -76,20 +76,29 @@ function AdminSignUp() {
      <AuthSidebar/>
 
       {/* Right Section: Form */}
-      <div className="w-full md:w-1/2 min-h-screen max-md:h-auto flex flex-col justify-center items-center bg-white p-6 max-md:p-4">
-        <p className={clsx(errors && "border border-red-700 flex items-center justify-center p-3 h-[8%] w-[63%] text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium " )} > {errors} </p>
+      <div className="w-full md:w-1/2 min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4 sm:p-8">
+        {errors && (
+          <div className="border border-red-200 flex items-center justify-center p-3 w-full max-w-md text-red-700 rounded-xl mb-4 bg-red-50 text-sm font-semibold text-center">
+            {errors}
+          </div>
+        )}
         <form
-          className=" w-full  max-md:h-auto max-w-md p-8 bg-gray-50 rounded-lg shadow-xl border border-gray-200 max-md:p-6 "
+          className="w-full max-w-md p-5 sm:p-8 bg-white rounded-2xl shadow-xl border border-gray-100 space-y-3.5"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl max-md:text-xl max-md:mb-3 font-medium text-zinc-600 mb-6">
-            Admin Register
-          </h1>
+          <div className="text-center mb-3">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight">
+              Admin Register
+            </h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              Create an institute administration account
+            </p>
+          </div>
 
           {/* Input Fields */}
           <input
             type="text"
-            className="border max-md:mb-3 border-gray-300 max-md:h-15 max-md:text-sm max-md:p-2 h-12 w-full p-3 rounded-md mb-4  focus:ring-2 focus:ring-indigo-500 outline-none "
+            className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition shadow-xs"
             placeholder="College Name"
             value={collegeName}
             onChange={(e) => setCollegeName(e.target.value)}
@@ -97,7 +106,7 @@ function AdminSignUp() {
           />
           <input
             type="text"
-            className="border max-md:h-15 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4  focus:ring-2 focus:ring-indigo-500 outline-none "
+            className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition shadow-xs"
             placeholder="Director Name"
             value={directorName}
             onChange={(e) => setDirectorName(e.target.value)}
@@ -105,7 +114,7 @@ function AdminSignUp() {
           />
           <input
             type="text"
-            className="border max-md:h-15 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4  focus:ring-2 focus:ring-indigo-500 outline-none "
+            className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition shadow-xs"
             placeholder="Center Code"
             value={centerCode}
             onChange={(e) => setCenterCode(e.target.value)}
@@ -113,7 +122,7 @@ function AdminSignUp() {
           />
           <input
             type="email"
-            className="border max-md:h-15 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4  focus:ring-2 focus:ring-indigo-500 outline-none "
+            className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition shadow-xs"
             placeholder="College Administration Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -121,7 +130,7 @@ function AdminSignUp() {
           />
           <input
             type="password"
-            className="border max-md:h-15 max-md:mb-3 text-sm max-md:p-2 border-gray-300 h-12 w-full p-3 rounded-md mb-4  focus:ring-2 focus:ring-indigo-500 outline-none "
+            className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition shadow-xs"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -129,10 +138,10 @@ function AdminSignUp() {
           />
 
           {/* Role Selection */}
-          <div className="mb-4 max-md:mb-2 max-md:h-15 ">
+          <div>
             <label
               htmlFor="role"
-              className="block max-md:text-sm max-md:mb-1 max-md:ml-1 text-gray-600 font-medium mb-2"
+              className="block text-gray-700 font-semibold text-xs sm:text-sm mb-1"
             >
               Choose Role
             </label>
@@ -140,15 +149,9 @@ function AdminSignUp() {
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full  p-3 block text-sm  max-md:mb-3 border max-md:h-12 max-md:p-1  max-md:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full h-11 px-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white transition shadow-xs"
             >
-              <option
-                className="max-md:text-sm max-md:text-gray-300 "
-                value="choose"
-              >
-                Choose your role
-              </option>
-
+              <option value="choose">Choose your role</option>
               <option value="Registrar">Registrar</option>
               <option value="Director">Director</option>
               <option value="Teacher">Teacher</option>
@@ -157,7 +160,7 @@ function AdminSignUp() {
 
           {/* Submit Button */}
           <button
-            className="bg-indigo-600 max-md:mt-6 max-md:p-1 max-md:text-sm max-md:h-12 text-white font-semibold w-full p-3 rounded-md mt-3 hover:bg-indigo-700 "
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold w-full py-3 rounded-xl transition duration-200 shadow-md hover:shadow-lg disabled:opacity-70 cursor-pointer text-base mt-2"
             type="submit"
             disabled={loading}
           >
@@ -165,11 +168,11 @@ function AdminSignUp() {
           </button>
 
           {/* Link to Login */}
-          <p className="mt-4 max-md:mt-2 max-md:text-sm text-center text-gray-600">
+          <p className="pt-2 text-center text-xs sm:text-sm text-gray-600">
             Already have an account?{" "}
             <Link
               to="/"
-              className="text-blue-600 font-semibold hover:text-blue-800"
+              className="text-indigo-600 font-semibold hover:underline"
             >
               Login
             </Link>

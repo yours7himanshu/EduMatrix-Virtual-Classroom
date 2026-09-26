@@ -140,15 +140,13 @@ function Students() {
   };
 
   return (
-    // Removed ml-[19%] from the inner div, adjusted padding and removed fixed height h-[80%]
-    // The outer div already has min-h-screen. The AppLayout provides the main structure.
-    <div className="w-full bg-gray-100 p-4 md:p-8">
-        <div className="max-w-4xl mx-auto"> {/* This div centers the content below it */}
-          <h1 className="text-2xl md:text-3xl font-bold text-violet-700 text-center mb-6 md:mb-8">
+    <div className="w-full min-h-screen bg-gray-50 py-6 sm:py-10 px-3 sm:px-6">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold text-violet-700 text-center mb-6 tracking-tight">
             Enroll Students
           </h1>
 
-          <form className="bg-white p-8 rounded-lg shadow-lg" onSubmit={handleSubmit}>
+          <form className="bg-white p-4 sm:p-8 rounded-2xl shadow-xl border border-gray-100" onSubmit={handleSubmit}>
             <div className="flex justify-center mb-6">
               <Stack position="relative" width="10rem" alignItems="center">
                 <Avatar
@@ -176,14 +174,14 @@ function Students() {
               </Stack>
             </div>
 
-            {/* Ensured consistent gap and mb for form elements */}
-            <div className="flex flex-col gap-4">
+            {/* Form inputs */}
+            <div className="flex flex-col gap-3.5">
               <input
                 type="text"
                 placeholder="Student Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs"
                 required
               />
               <input
@@ -191,15 +189,15 @@ function Students() {
                 placeholder="Student Roll No"
                 value={rollNo}
                 onChange={(e) => setRollNo(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs"
                 required
               />
               <input
                 type="text"
-                placeholder="Enters Student Father's Name"
+                placeholder="Enter Student Father's Name"
                 value={fatherName}
                 onChange={(e) => setFatherName(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs"
                 required
               />
               <input
@@ -207,7 +205,7 @@ function Students() {
                 placeholder="Enter Student Phone Number"
                 value={phoneNo}
                 onChange={(e) => setPhoneNo(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs"
                 required
               />
               <input
@@ -215,7 +213,7 @@ function Students() {
                 placeholder="Generate Student College Id"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs"
                 required
               />
               <input
@@ -223,29 +221,29 @@ function Students() {
                 placeholder="Generate Student Account Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs"
                 required
               />
             </div>
 
-            {/* Consistent mt for this grid section */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mt-4">
+            {/* Dropdown selection */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-3.5">
               <select
                 name="studentBranch"
                 id="studentBranch"
                 value={branch}
                 onChange={(e) => setBranch(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs bg-white"
                 required
               >
-                <option value="Branch">Choose Student Branch</option> {/* Standardized to double quotes */}
-                <option value="CSE">CSE</option> {/* Standardized to double quotes */}
-                <option value="CSE AI">CSE AI</option> {/* Standardized to double quotes */}
-                <option value="CSE IOT">CSE IOT</option> {/* Standardized to double quotes */}
-                <option value="CSE DATASCIENCE">CSE DATASCIENCE</option> {/* Standardized to double quotes */}
-                <option value="Mechanical Engineering">Mechanical Engineering</option> {/* Standardized to double quotes */}
-                <option value="Chemical Engineering">Chemical Engineering</option> {/* Standardized to double quotes */}
-                <option value="Electronics Engineering">Electronics Engineering</option> {/* Standardized to double quotes */}
+                <option value="Branch">Choose Student Branch</option>
+                <option value="CSE">CSE</option>
+                <option value="CSE AI">CSE AI</option>
+                <option value="CSE IOT">CSE IOT</option>
+                <option value="CSE DATASCIENCE">CSE DATASCIENCE</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Chemical Engineering">Chemical Engineering</option>
+                <option value="Electronics Engineering">Electronics Engineering</option>
               </select>
 
               <select
@@ -253,27 +251,27 @@ function Students() {
                 id="studentYear"
                 value={batch}
                 onChange={(e) => setBatch(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 transition duration-200"
+                className="p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs bg-white"
                 required
               >
-                <option value="choose student year">Choose Student Batch</option> {/* Standardized to double quotes */}
-                <option value="2017-2021">2017-2021</option> {/* Standardized to double quotes */}
-                <option value="2018-2022">2018-2022</option> {/* Standardized to double quotes */}
-                <option value="2019-2023">2019-2023</option> {/* Standardized to double quotes */}
-                <option value="2020-2024">2020-2024</option> {/* Standardized to double quotes */}
-                <option value="2021-2025">2021-2025</option> {/* Standardized to double quotes */}
-                <option value="2022-2026">2022-2026</option> {/* Standardized to double quotes */}
+                <option value="choose student year">Choose Student Batch</option>
+                <option value="2017-2021">2017-2021</option>
+                <option value="2018-2022">2018-2022</option>
+                <option value="2019-2023">2019-2023</option>
+                <option value="2020-2024">2020-2024</option>
+                <option value="2021-2025">2021-2025</option>
+                <option value="2022-2026">2022-2026</option>
               </select>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-3.5">
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 Assign to Course Classroom (Optional)
               </label>
               <select
                 value={selectedClassroomId}
                 onChange={(e) => setSelectedClassroomId(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 transition duration-200"
+                className="w-full p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 shadow-xs bg-white"
               >
                 <option value="">-- Do not assign to a classroom now --</option>
                 {classrooms.map((c) => (
@@ -291,7 +289,7 @@ function Students() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 mt-6 bg-violet-600 text-white font-semibold text-lg rounded-md hover:bg-violet-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
+              className="w-full py-3 sm:py-3.5 mt-6 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-base sm:text-lg rounded-xl shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-70 cursor-pointer"
             >
               {loading ? "Enrolling Student Please Wait..." : "Enroll Student"}
             </button>

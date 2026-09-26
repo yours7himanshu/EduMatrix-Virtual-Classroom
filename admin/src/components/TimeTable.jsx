@@ -49,46 +49,50 @@ const TimeTable = () => {
   };
 
   return (
-    <div className="time-table-page w-full min-h-screen bg-gray-50 py-8 px-4 md:px-6"> {/* Removed ml, w-[70%], adjusted padding/py */}
-      <div className="container mx-auto text-center">
+    <div className="time-table-page w-full min-h-screen bg-gray-50 py-6 sm:py-10 px-3 sm:px-6">
+      <div className="max-w-6xl mx-auto text-center">
         {/* Header */}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 md:mb-8"> {/* Responsive text size and margin */}
+        <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 tracking-tight">
           Select a Class to View the Timetable
         </h1>
 
         {/* Class Selection Dropdown */}
-        <div className="mb-6 md:mb-8"> {/* Responsive margin */}
+        <div className="mb-4 sm:mb-6">
           <select
             value={selectedClass}
             onChange={handleClassChange}
-            className="border border-gray-300 rounded-lg p-2 md:p-3 text-base md:text-lg bg-white focus:outline-none focus:ring-2 focus:ring-violet-600" /* Responsive padding and text */
+            className="border border-gray-300 rounded-xl p-2.5 sm:p-3 text-sm sm:text-base bg-white focus:outline-none focus:ring-2 focus:ring-violet-600 shadow-xs font-medium"
           >
             <option value="class1">Class 1</option>
             <option value="class2">Class 2</option>
-            {/* Add more options for other classes */}
           </select>
         </div>
 
+        {/* Mobile Swipe Guidance Badge */}
+        <div className="md:hidden inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 py-1.5 px-3.5 rounded-full mb-3">
+          👈 Swipe horizontally to view days 👉
+        </div>
+
         {/* Timetable Display */}
-        <div className="overflow-x-auto py-4"> {/* Added overflow-x-auto and py for scrollbar space */}
-          <div className="timetable-grid grid grid-cols-6 gap-2 md:gap-4 min-w-[720px]"> {/* Adjusted gap, added min-width */}
+        <div className="overflow-x-auto py-2 rounded-2xl bg-white shadow-xs border border-gray-200">
+          <div className="timetable-grid grid grid-cols-6 gap-2 sm:gap-3 min-w-[680px] p-3 sm:p-4">
             {/* Header Cells with responsive padding and text size */}
-            <div className="font-semibold text-sm md:text-xl text-gray-800 p-2 md:p-4">Time</div>
-            <div className="font-semibold text-sm md:text-xl text-gray-800 p-2 md:p-4">Monday</div>
-            <div className="font-semibold text-sm md:text-xl text-gray-800 p-2 md:p-4">Tuesday</div>
-            <div className="font-semibold text-sm md:text-xl text-gray-800 p-2 md:p-4">Wednesday</div>
-            <div className="font-semibold text-sm md:text-xl text-gray-800 p-2 md:p-4">Thursday</div>
-            <div className="font-semibold text-sm md:text-xl text-gray-800 p-2 md:p-4">Friday</div>
+            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Time</div>
+            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Monday</div>
+            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Tuesday</div>
+            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Wednesday</div>
+            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Thursday</div>
+            <div className="font-bold text-xs sm:text-sm uppercase tracking-wider text-gray-700 p-2 sm:p-3 bg-gray-100/70 rounded-xl">Friday</div>
 
             {/* Time slots */}
             {["8:00 AM", "10:00 AM", "12:00 PM", "2:00 PM"].map((time, index) => (
               <React.Fragment key={index}>
-                <div className="text-gray-700 p-2 md:p-4 font-medium text-xs md:text-base">{time}</div> {/* Responsive padding and text */}
+                <div className="text-gray-800 p-2 sm:p-3 font-semibold text-xs sm:text-sm flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">{time}</div>
                 {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
                   (day, dayIndex) => (
                     <div
                       key={dayIndex}
-                      className="p-2 md:p-4 bg-white border rounded-lg shadow-sm hover:bg-violet-100 transition duration-300 ease-in-out text-xs md:text-base" // Responsive padding and text
+                      className="p-2 sm:p-3 bg-white border border-gray-100 rounded-xl shadow-xs hover:bg-violet-50/70 hover:border-violet-200 transition duration-200 text-xs sm:text-sm font-medium text-gray-700 flex items-center justify-center min-h-[44px]"
                     >
                       {timetableData[selectedClass][day][index] || "No Class"}
                     </div>

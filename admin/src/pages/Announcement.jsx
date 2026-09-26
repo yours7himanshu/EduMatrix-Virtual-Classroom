@@ -66,19 +66,19 @@ const Announcement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 w-full"> {/* Ensure w-full on root, added flex-col */}
-      <div className="w-full max-w-4xl ">
-        <div className="flex flex-col items-center justify-center"> {/* This parent ensures children can be centered or full width as needed */}
-          <div className="text-center mb-5 w-full"> {/* Added w-full to allow content below to be properly centered or max-width constrained */}
-            <div className="inline-flex flex-col sm:flex-row justify-center items-center gap-4 bg-white px-6 py-3 rounded-xl shadow-md border border-violet-100 max-w-xl mx-auto"> {/* Removed ml-56, added max-w-xl mx-auto, responsive flex direction */}
-              <h1 className="text-2xl sm:text-3xl font-semibold text-black max-md:text-xl"> {/* Removed ml-10, responsive text */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center py-6 sm:py-12 px-3 sm:px-6 lg:px-8 w-full">
+      <div className="w-full max-w-4xl">
+        <div className="flex flex-col items-center justify-center">
+          <div className="text-center mb-5 w-full">
+            <div className="inline-flex flex-row justify-center items-center gap-3 sm:gap-4 bg-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl shadow-md border border-violet-100 max-w-xl mx-auto">
+              <h1 className="text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
                 Post College Announcement
               </h1>
-              <img className="w-12 max-md:hidden h-12 sm:w-16 sm:h-16 object-contain" src={scholar} alt="Scholar icon" /> {/* Responsive image size */}
+              <img className="w-8 h-8 sm:w-14 sm:h-14 object-contain" src={scholar} alt="Scholar icon" />
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8 w-full"> {/* Removed ml-64, adjusted padding */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-8 w-full">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <select
@@ -177,7 +177,7 @@ const Announcement = () => {
                 <button
                   onClick={handleClick}
                   type="button"
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 text-white  py-3 px-6 rounded-lg font-medium hover:from-blue-500 hover:to-blue-400 transition-all duration-200  max-md:p-2 max-md:h-14"
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 px-4 sm:px-6 rounded-xl font-medium hover:from-blue-500 hover:to-blue-400 transition-all duration-200"
                 >
                   Clear Form
                 </button>

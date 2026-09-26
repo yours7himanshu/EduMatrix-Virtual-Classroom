@@ -88,7 +88,7 @@ const NotesPage = () => {
   return (
     <div className="min-h-screen bg-paper text-ink-900 antialiased selection:bg-brand-100 selection:text-brand-700">
       {/* ─── Hero Header Section ─── */}
-      <section className="relative pt-32 pb-10 px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
         <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
         <div className="absolute top-10 -right-24 h-96 w-96 rounded-full bg-accent-lime/30 blur-3xl pointer-events-none" />
@@ -135,13 +135,13 @@ const NotesPage = () => {
       </section>
 
       {/* ─── Notes Cards Grid ─── */}
-      <section className="max-w-7xl mx-auto px-6 pb-24">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
         {filteredNotes.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {filteredNotes.map((note) => (
               <div
                 key={note.id}
-                className="group bg-white rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300 p-7 flex flex-col justify-between"
+                className="group bg-white rounded-2xl sm:rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300 p-5 sm:p-7 flex flex-col justify-between"
               >
                 <div>
                   {/* Card Header */}

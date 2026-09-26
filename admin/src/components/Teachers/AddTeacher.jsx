@@ -60,17 +60,16 @@ function AddTeacher() {
     }
   };
   return (
-    <div className="addTeacher flex w-full"> {/* Removed ml-[30%] */}
-     
-      <div className="addteachers w-full flex flex-col items-center justify-center p-4"> {/* Changed w-[80%] to w-full, added flex and padding */}
+    <div className="w-full min-h-screen bg-gray-50 py-4 sm:py-8 px-3 sm:px-6">
+      <div className="max-w-4xl mx-auto w-full flex flex-col items-center">
         <TeacherRole />
-        {/* Adjusted teachers-section to remove h-screen for natural height, added py for spacing */}
-        <div className="teachers-section flex flex-col items-center justify-center gap-5 w-full py-8">
+
+        <div className="flex flex-col items-center justify-center gap-5 w-full py-6 sm:py-8">
           <form
-            className="flex flex-col gap-4 w-full max-w-xl border border-gray-200 shadow-lg p-6 md:p-10 rounded-lg bg-white" // Changed w-[60%], gap, padding and added bg
+            className="flex flex-col gap-4 w-full max-w-xl border border-gray-100 shadow-xl p-4 sm:p-8 rounded-2xl bg-white"
             onSubmit={handleSubmit}
           >
-            <h1 className="text-violet-800 font-semibold mb-4 text-2xl md:text-3xl text-center md:text-left"> {/* Adjusted text size and alignment */}
+            <h1 className="text-violet-800 font-bold mb-2 text-xl sm:text-2xl md:text-3xl text-center sm:text-left tracking-tight">
               Add Teachers of your College to help Students!!
             </h1>
 
@@ -78,7 +77,7 @@ function AddTeacher() {
               type="text"
               placeholder="Faculty Name"
               value={name}
-              className="border border-gray-300 h-10 w-full p-2 rounded-md"
+              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
               onChange={(e) => setName(e.target.value)}
               required
             />
@@ -87,7 +86,7 @@ function AddTeacher() {
               name="qualifications"
               value={qualification}
               onChange={(e) => setQualification(e.target.value)}
-              className="border border-gray-300 h-10 w-full p-2 rounded-md focus:text-black text-gray-400"
+              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl focus:text-black text-gray-500 outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
               id="qualifications"
             >
               <option value="choose">Choose your Qualification</option>
@@ -101,7 +100,7 @@ function AddTeacher() {
               type="text"
               placeholder="Faculty Subject"
               value={subject}
-              className="border border-gray-300 h-10 w-full p-2 rounded-md"
+              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
               onChange={(e) => setSubject(e.target.value)}
               required
             />
@@ -110,16 +109,16 @@ function AddTeacher() {
               placeholder="Generate Teachers Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border border-gray-300 h-10 w-full p-2 rounded-md"
+              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
               required
             />
 
             <input
               type="password"
-              placeholder="Generate Student Password"
+              placeholder="Generate Faculty Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border border-gray-300 h-10 w-full p-2 rounded-md"
+              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
               required
             />
 
@@ -127,7 +126,7 @@ function AddTeacher() {
               type="number"
               placeholder="Years of Experience of Faculty in the field"
               value={experience}
-              className="border border-gray-300 h-10 w-full p-2 rounded-md"
+              className="border border-gray-300 h-11 w-full px-3.5 text-sm sm:text-base rounded-xl outline-none focus:ring-2 focus:ring-violet-500 transition shadow-xs"
               onChange={(e) => setExperience(e.target.value)}
               required
             />
@@ -135,9 +134,9 @@ function AddTeacher() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-10 mt-10 rounded-md bg-violet-600 text-white font-medium"
+              className="w-full h-11 mt-4 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-semibold shadow-md hover:shadow-lg transition focus:outline-none disabled:opacity-70 cursor-pointer"
             >
-              {loading?"Adding Teacher":"Add Teacher"}
+              {loading ? "Adding Teacher..." : "Add Teacher"}
             </button>
           </form>
         </div>

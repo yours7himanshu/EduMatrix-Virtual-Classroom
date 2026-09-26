@@ -28,7 +28,7 @@ import React from "react";
 import { Search, Sparkles } from "lucide-react";
 
 export const SURFACE =
-  "rounded-3xl border border-white/50 bg-white/40 backdrop-blur-xl shadow-card";
+  "rounded-2xl sm:rounded-3xl border border-white/50 bg-white/40 backdrop-blur-xl shadow-card";
 
 export const INTERACTIVE =
   "transition-all duration-300 hover:-translate-y-0.5 hover:border-ink-900/20 hover:shadow-card";
@@ -118,10 +118,10 @@ export const PageHeader = ({
   className = "",
 }) => (
   <div className={`relative ${className}`}>
-    <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div className="flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-end lg:justify-between">
       <div className="max-w-2xl">
         {chip ? <HeroBadge chip={chip} label={chipLabel} /> : null}
-        <h1 className="mt-5 font-display text-3xl font-extrabold leading-[1.12] tracking-tight text-ink-900 sm:text-4xl">
+        <h1 className="mt-4 sm:mt-5 font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-[1.15] sm:leading-[1.12] tracking-tight text-ink-900">
           {title}
           {accent ? (
             <>

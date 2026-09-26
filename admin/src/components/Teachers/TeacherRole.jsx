@@ -23,23 +23,23 @@ import teacherImage from "../../assets/teacher-image.jpg"; // Adjust path as nec
 
 const TeacherRole = () => {
   return (
-    <div className="teacher-role bg-gray-50 py-12 px-6 lg:px-20 rounded-xl shadow-lg mt-10">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+    <div className="teacher-role bg-white py-6 sm:py-10 px-4 sm:px-8 lg:px-12 rounded-2xl shadow-sm border border-gray-100 mt-2 sm:mt-4 w-full">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-6 sm:gap-8">
         {/* Image Section */}
-        <div className="image-section w-full md:w-1/2 rounded-lg overflow-hidden">
+        <div className="image-section w-full md:w-1/2 rounded-xl overflow-hidden">
           <img
             src={teacherImage}
             alt="Teacher guiding students"
-            className="w-full h-full object-cover rounded-lg shadow-md"
+            className="w-full h-48 sm:h-64 md:h-72 object-cover rounded-xl shadow-xs"
           />
         </div>
 
         {/* Message Section */}
         <div className="message-section w-full md:w-1/2 text-center md:text-left">
-          <h3 className="text-3xl font-bold text-gray-800 mb-4">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 tracking-tight">
             Teachers: The Architects of Better Education
           </h3>
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-4 leading-relaxed">
             Teachers are the cornerstone of a brighter future. They shape young
             minds, instill a love of learning, and inspire greatness in every
             student. Through dedication, patience, and passion, they help mold
@@ -47,7 +47,7 @@ const TeacherRole = () => {
             the classroom – you're building a better world, one lesson at a
             time.
           </p>
-          <p className="text-gray-500 italic">
+          <p className="text-xs sm:text-sm text-violet-700 font-medium italic">
             "A good teacher can inspire hope, ignite the imagination, and
             instill a love of learning." – Brad Henry
           </p>

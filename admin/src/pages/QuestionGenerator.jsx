@@ -117,27 +117,26 @@ const NotesUpload = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br w-full from-blue-50 to-indigo-50 py-12 px-4 sm:px-6"> {/* Removed ml-[10%] */}
+    <div className="min-h-screen bg-gradient-to-br w-full from-blue-50 to-indigo-50 py-6 sm:py-12 px-3 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl  max-md:mt-10 font-extrabold text-gray-900 sm:text-4xl tracking-tight mb-3">
+        <div className="mb-6 sm:mb-10 text-center">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            PDF to Questions: Smart Question Generator
+              PDF to Questions: Smart Question Generator
             </span>
           </h1>
-          <p className="text-sm max-md:m-3 text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm text-gray-600 max-w-2xl mx-auto px-2">
             Quickly generate questions from your PDF notes with our AI-powered question generator.
-
           </p>
         </div>
 
         {/* Main Content */}
-        <div className="bg-white rounded-2xl max-md:h-[calc(100vh-300px)] shadow-xl overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Upload Section */}
-          <div className="p-8">
+          <div className="p-4 sm:p-8">
             <div
-              className={`border-2 border-dashed rounded-xl p-10 mb-8 text-center transition-all duration-300 ease-in-out
+              className={`border-2 border-dashed rounded-xl p-6 sm:p-10 mb-6 sm:mb-8 text-center transition-all duration-300 ease-in-out
                 ${pdfFile 
                   ? "border-green-400 bg-green-50" 
                   : dragActive 
@@ -149,20 +148,20 @@ const NotesUpload = () => {
               onDrop={handleDrop}
             >
               {!pdfFile ? (
-                <div className="space-y-6 ">
-                  <div className="flex justify-center   ">
-                    <div className="w-20 h-20 max-md:h-[50%] rounded-full bg-blue-100 flex items-center justify-center">
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-blue-100 flex items-center justify-center">
                       <Upload
-                        size={40}
-                        className="text-blue-600"
+                        size={32}
+                        className="text-blue-600 sm:w-10 sm:h-10"
                       />
                     </div>
                   </div>
                   <div>
-                    <p className="text-xl m font-semibold text-gray-800">
+                    <p className="text-lg sm:text-xl font-semibold text-gray-800">
                       Drag and drop your PDF file here
                     </p>
-                    <p className="text-gray-500 mt-2">or</p>
+                    <p className="text-gray-500 mt-1 sm:mt-2 text-sm sm:text-base">or</p>
                   </div>
                   <div>
                     <label
@@ -237,11 +236,11 @@ const NotesUpload = () => {
               )}
             </div>
 
-            <div className="flex justify-end space-x-4">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:space-x-4">
               <button
                 type="button"
                 onClick={resetFileSelection}
-                className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                className="w-full sm:w-auto px-5 py-2.5 sm:px-6 sm:py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors text-sm sm:text-base text-center justify-center"
                 disabled={!pdfFile || loading}
               >
                 Cancel
@@ -250,7 +249,7 @@ const NotesUpload = () => {
                 type="button"
                 onClick={handleUpload}
                 disabled={!pdfFile || loading}
-                className={`px-6 py-3 rounded-lg font-medium text-white shadow-md transition-colors
+                className={`w-full sm:w-auto px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium text-white shadow-md transition-colors text-sm sm:text-base flex items-center justify-center
                   ${!pdfFile || loading
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
@@ -276,20 +275,20 @@ const NotesUpload = () => {
 
           {/* Summary Section */}
           {showSummary && (
-            <div className="border-t border-gray-200 bg-gray-50 p-8">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Top Questions Generated from your pdf</h2>
+            <div className="border-t border-gray-200 bg-gray-50 p-4 sm:p-8">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-800">Top Questions Generated from your pdf</h2>
                 <button
                   onClick={copyToClipboard}
-                  className="flex items-center text-blue-600 hover:text-blue-800 transition-colors focus:outline-none"
+                  className="flex items-center text-blue-600 hover:text-blue-800 transition-colors focus:outline-none text-sm font-semibold"
                 >
-                  <Copy size={18} className="mr-1" />
+                  <Copy size={16} className="mr-1" />
                   <span>Copy</span>
                 </button>
               </div>
-              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-xs overflow-x-auto">
                 <div
-                  className="prose max-w-none text-gray-700"
+                  className="prose max-w-none text-gray-700 text-sm sm:text-base"
                   dangerouslySetInnerHTML={{ __html: formatMarkdown(summary) }}
                 />
               </div>

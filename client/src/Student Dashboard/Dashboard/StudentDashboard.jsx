@@ -67,10 +67,10 @@ const StudentDashboard = () => {
   return (
     <div className="space-y-7">
       {/* ── Custom Hero Banner ── */}
-      <Card className="relative overflow-hidden p-8 sm:p-10">
+      <Card className="relative overflow-hidden p-5 sm:p-10">
         <div className="relative z-10 flex items-center justify-between">
           <div className="relative z-10 w-full max-w-2xl md:max-w-[55%]">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-ink-900/10 bg-white/50 py-1 pl-1 pr-4 shadow-sm backdrop-blur-md">
+            <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-ink-900/10 bg-white/50 py-1 pl-1 pr-4 shadow-sm backdrop-blur-md">
               <span className="flex items-center gap-1.5 rounded-full bg-ink-900 px-2.5 py-0.5 text-[10px] font-bold tracking-widest text-white">
                 <Sparkles size={12} className="text-brand-300" />
                 STUDENT
@@ -81,7 +81,7 @@ const StudentDashboard = () => {
               </span>
             </div>
             
-            <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink-900 sm:text-5xl lg:text-5xl">
+            <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-ink-900 leading-tight">
               {greeting},{" "}
               <span className="relative whitespace-nowrap text-brand-600">
                 <span className="relative z-10 italic">{studentName}</span>
@@ -92,11 +92,11 @@ const StudentDashboard = () => {
               </span>
             </h1>
             
-            <p className="mt-6 text-[15px] font-medium leading-relaxed text-ink-500 sm:text-lg">
+            <p className="mt-4 sm:mt-6 text-[14px] sm:text-lg font-medium leading-relaxed text-ink-500">
               Your live classes, coursework and submissions are ready for today. Here is everything that needs your attention.
             </p>
             
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Button variant="secondary" onClick={() => navigate("/ai")}>
                 <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-50 text-brand-600 ring-1 ring-brand-600/15">
                   <Bot size={15} />
@@ -181,17 +181,17 @@ const StudentDashboard = () => {
             {SCHEDULE.map((item) => (
               <li
                 key={item.id}
-                className={`grid grid-cols-[80px_1fr_auto] items-center gap-4 px-5 py-4 sm:px-6 transition-colors ${
+                className={`grid grid-cols-[70px_1fr_auto] sm:grid-cols-[80px_1fr_auto] items-center gap-2.5 sm:gap-4 px-3.5 sm:px-6 py-3.5 sm:py-4 transition-colors ${
                   item.isLive ? "bg-brand-50/40" : "hover:bg-white/60"
                 }`}
               >
                 <div>
-                  <p className={`text-[13px] font-bold ${item.isLive ? "text-brand-700" : "text-ink-900"}`}>
+                  <p className={`text-[12.5px] sm:text-[13px] font-bold ${item.isLive ? "text-brand-700" : "text-ink-900"}`}>
                     {item.time}
                   </p>
-                  {item.day && <p className="text-[11px] font-semibold text-ink-400 mt-0.5">{item.day}</p>}
+                  {item.day && <p className="text-[10.5px] sm:text-[11px] font-semibold text-ink-400 mt-0.5">{item.day}</p>}
                   {item.isLive && (
-                    <span className="mt-1 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-emerald-600">
+                    <span className="mt-1 inline-flex items-center gap-1.5 text-[9.5px] sm:text-[10px] font-extrabold uppercase tracking-widest text-emerald-600">
                       <span className="relative flex h-1.5 w-1.5">
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -201,14 +201,14 @@ const StudentDashboard = () => {
                   )}
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-[14px] font-semibold text-ink-900">{item.subject}</p>
-                  <p className="mt-0.5 truncate text-[12.5px] font-medium text-ink-500">
+                  <p className="truncate text-[13.5px] sm:text-[14px] font-semibold text-ink-900">{item.subject}</p>
+                  <p className="mt-0.5 truncate text-[11.5px] sm:text-[12.5px] font-medium text-ink-500">
                     {item.teacher} · {item.room}
                   </p>
                 </div>
                 {item.isLive ? (
                   <Button variant="primary" size="sm" onClick={() => navigate("/live-class")}>
-                    <Video size={14} className="mr-1.5" /> Join
+                    <Video size={14} className="mr-1 sm:mr-1.5" /> <span className="hidden xs:inline">Join</span>
                   </Button>
                 ) : (
                   <Button variant="secondary" size="sm" onClick={() => navigate("/live-class")}>
@@ -233,7 +233,7 @@ const StudentDashboard = () => {
           />
           <ul className="flex-1 divide-y divide-ink-900/[0.04]">
             {DEADLINES.map((item) => (
-              <li key={item.id} className="flex items-start gap-4 px-5 py-4 transition-colors hover:bg-white/60 sm:px-6">
+              <li key={item.id} className="flex items-start gap-3 sm:gap-4 px-3.5 sm:px-6 py-3.5 sm:py-4 transition-colors hover:bg-white/60">
                 <span
                   className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${
                     item.tone === "danger"
@@ -244,10 +244,10 @@ const StudentDashboard = () => {
                   }`}
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[14px] font-semibold text-ink-900">{item.title}</p>
-                  <p className="mt-0.5 truncate text-[12.5px] font-medium text-ink-500">{item.subject}</p>
+                  <p className="truncate text-[13.5px] sm:text-[14px] font-semibold text-ink-900">{item.title}</p>
+                  <p className="mt-0.5 truncate text-[11.5px] sm:text-[12.5px] font-medium text-ink-500">{item.subject}</p>
                 </div>
-                <span className="shrink-0 text-right text-[12px] font-bold text-ink-600">{item.due}</span>
+                <span className="shrink-0 text-right text-[11.5px] sm:text-[12px] font-bold text-ink-600">{item.due}</span>
               </li>
             ))}
           </ul>

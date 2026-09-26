@@ -23,7 +23,7 @@ const HomePage = () => {
   return (
     <div className="bg-paper text-ink-900 min-h-screen overflow-x-clip antialiased">
       {/* HERO */}
-      <section className="relative pt-28 pb-10 px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-28 pb-8 sm:pb-10 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
         <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-200/50 blur-3xl animate-blob pointer-events-none" />
         <div className="absolute top-10 -right-24 h-[28rem] w-[28rem] rounded-full bg-accent-lime/30 blur-3xl animate-blob pointer-events-none" />
@@ -114,7 +114,7 @@ const HomePage = () => {
         </div>
       </section>
       {/* FEATURES */}
-      <section id="features" className="px-6 py-20">
+      <section id="features" className="px-4 sm:px-6 py-12 sm:py-20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto">
             <p data-aos="fade-up" className="inline-block rounded-full bg-brand-50 border border-brand-600/15 text-brand-700 text-[11px] font-extrabold tracking-[0.16em] px-4 py-1.5">WHY CHOOSE US</p>
@@ -125,10 +125,10 @@ const HomePage = () => {
         </div>
       </section>
       {/* EXPLORE */}
-      <section className="px-6 pb-20">
-        <div className="max-w-7xl mx-auto rounded-[2.5rem] bg-white border border-ink-900/10 shadow-card overflow-hidden">
+      <section className="px-4 sm:px-6 pb-12 sm:pb-20">
+        <div className="max-w-7xl mx-auto rounded-3xl sm:rounded-[2.5rem] bg-white border border-ink-900/10 shadow-card overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-0">
-            <div className="p-8 md:p-12">
+            <div className="p-5 sm:p-8 md:p-12">
               <p className="text-[11px] font-extrabold tracking-[0.16em] text-brand-600">EXPLORE OUR FEATURES</p>
               <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mt-3">Built for how college actually runs</h2>
               <p className="mt-3 text-ink-500 text-[15px] leading-relaxed">Record, go live, track progress and keep everyone in sync without juggling ten tools.</p>
@@ -138,10 +138,10 @@ const HomePage = () => {
                 ))}
               </div>
             </div>
-            <div className="relative bg-cream p-8 md:p-12 grid place-items-center overflow-hidden">
+            <div className="relative bg-cream p-5 sm:p-8 md:p-12 grid place-items-center overflow-hidden">
               <div className="absolute inset-0 dot-grid opacity-70" />
               <img src="/images/campus-students.jpg" alt="Students collaborating on campus" loading="lazy" className="relative rounded-[1.75rem] border border-ink-900/10 shadow-card object-cover h-64 sm:h-80 lg:h-[420px] w-full" />
-              <div className="absolute bottom-10 left-10 right-10 rounded-2xl glass border border-white/60 shadow-card p-4 flex items-center gap-3">
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-10 sm:left-10 sm:right-10 rounded-xl sm:rounded-2xl glass border border-white/60 shadow-card p-3 sm:p-4 flex items-center gap-3">
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-ink-900 text-accent-lime font-display font-extrabold">A+</span>
                 <span><span className="block text-sm font-extrabold">Average grade up 23%</span><span className="block text-xs text-ink-500 font-medium">after 8 weeks on EduMatrix</span></span>
               </div>
@@ -150,12 +150,12 @@ const HomePage = () => {
         </div>
       </section>
       {/* VIDEO */}
-      <section id="video" className="px-6 pb-20 scroll-mt-28">
+      <section id="video" className="px-4 sm:px-6 pb-12 sm:pb-20 scroll-mt-28">
         <div className="max-w-7xl mx-auto"><VideoSection /></div>
       </section>
       <DashboardSection />
       {/* TESTIMONIALS */}
-      <section className="px-6 py-20">
+      <section className="px-4 sm:px-6 py-12 sm:py-20">
         <div className="max-w-7xl mx-auto text-center">
           <p data-aos="fade-up" className="inline-block rounded-full bg-white border border-ink-900/10 shadow-soft text-ink-600 text-[11px] font-extrabold tracking-[0.16em] px-4 py-1.5">WALL OF LOVE</p>
           <h2 data-aos="fade-up" className="font-display text-3xl md:text-5xl font-extrabold tracking-tight mt-4">What Our Users Say</h2>
@@ -168,8 +168,8 @@ const HomePage = () => {
         </div>
       </section>
       {/* CTA */}
-      <section className="px-6 pb-24">
-        <div data-aos="zoom-in" className="relative max-w-6xl mx-auto overflow-hidden rounded-[2.5rem] bg-white/85 backdrop-blur-xl border border-ink-900/10 p-8 sm:p-14 lg:p-16 text-center shadow-card">
+      <section className="px-4 sm:px-6 pb-16 sm:pb-24">
+        <div data-aos="zoom-in" className="relative max-w-6xl mx-auto overflow-hidden rounded-3xl sm:rounded-[2.5rem] bg-white/85 backdrop-blur-xl border border-ink-900/10 p-6 sm:p-14 lg:p-16 text-center shadow-card">
           {/* Ambient Glows & Dot-Grid (Matches Header) */}
           <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-accent-lime/30 blur-3xl pointer-events-none" />

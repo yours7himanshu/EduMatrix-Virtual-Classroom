@@ -42,37 +42,73 @@ function Teachers() {
   }, []);
 
   return (
-    <div className="container my-1 px-4 py-8 max-md:hidden">
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="w-full my-2">
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-3">
+        {teachers.length === 0 ? (
+          <div className="bg-white p-6 rounded-2xl text-center text-gray-500 border border-gray-100 shadow-xs">
+            No teachers registered yet
+          </div>
+        ) : (
+          teachers.map((teacher, index) => (
+            <div
+              key={index}
+              className="bg-white p-4 rounded-2xl shadow-xs border border-gray-100 flex flex-col gap-2 transition hover:shadow-sm"
+            >
+              <div className="flex justify-between items-start gap-2">
+                <h4 className="font-bold text-gray-900 text-base">{teacher.name}</h4>
+                <span className="shrink-0 text-xs font-semibold px-2.5 py-1 bg-violet-50 text-violet-700 rounded-full border border-violet-100">
+                  {teacher.experience} yrs exp
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600 flex flex-col gap-1.5 pt-1 border-t border-gray-50">
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-400">Subject</span>
+                  <span className="font-semibold text-gray-800">{teacher.subject}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-400">Qualification</span>
+                  <span className="text-gray-700">{teacher.qualification}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop/Tablet Table View */}
+      <div className="hidden md:block overflow-x-auto rounded-2xl shadow-xs border border-gray-200 bg-white">
+        <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr className="bg-violet-800 text-white text-left">
-              <th className="px-6 py-3 text-sm font-semibold">Teacher Name</th>
-              <th className="px-6 py-3 text-sm font-semibold">
-                Qualifications
-              </th>
-              <th className="px-6 py-3 text-sm font-semibold">Subject</th>
-              <th className="px-6 py-3 text-sm font-semibold">Experience</th>
+              <th className="px-6 py-3.5 text-xs font-bold uppercase tracking-wider">Teacher Name</th>
+              <th className="px-6 py-3.5 text-xs font-bold uppercase tracking-wider">Qualifications</th>
+              <th className="px-6 py-3.5 text-xs font-bold uppercase tracking-wider">Subject</th>
+              <th className="px-6 py-3.5 text-xs font-bold uppercase tracking-wider">Experience</th>
             </tr>
           </thead>
-          <tbody>
-            {teachers.map((teacher, index) => (
-              <tr
-                key={index}
-                className={`${
-                  index % 2 === 0 ? "bg-gray-50" : "bg-gray-100"
-                } hover:bg-gray-200 transition-colors`}
-              >
-                <td className="px-6 py-4 text-gray-700">{teacher.name}</td>
-                <td className="px-6 py-4 text-gray-700">
-                  {teacher.qualification}
-                </td>
-                <td className="px-6 py-4 text-gray-700">{teacher.subject}</td>
-                <td className="px-6 py-4 text-gray-700">
-                  {teacher.experience} years
+          <tbody className="divide-y divide-gray-100">
+            {teachers.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="px-6 py-8 text-center text-gray-500">
+                  No teachers registered yet
                 </td>
               </tr>
-            ))}
+            ) : (
+              teachers.map((teacher, index) => (
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
+                  } hover:bg-violet-50/50 transition-colors`}
+                >
+                  <td className="px-6 py-4 font-medium text-gray-900">{teacher.name}</td>
+                  <td className="px-6 py-4 text-gray-600">{teacher.qualification}</td>
+                  <td className="px-6 py-4 font-medium text-gray-800">{teacher.subject}</td>
+                  <td className="px-6 py-4 text-gray-600">{teacher.experience} years</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

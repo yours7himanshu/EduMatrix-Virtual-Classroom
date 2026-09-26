@@ -43,7 +43,7 @@ const MainLoginPage = () => {
       <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 h-[24rem] w-[38rem] rounded-full bg-brand-100/40 blur-3xl pointer-events-none" />
 
       {/* ─── Top Navigation Bar ─── */}
-      <header className="relative z-10 w-full max-w-6xl mx-auto px-6 pt-6 sm:pt-8 flex items-center justify-between">
+      <header className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-5 sm:pt-8 flex items-center justify-between">
         <Link to="/" className="group flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105">
             <span className="text-xl font-bold font-display">E</span>
@@ -68,7 +68,7 @@ const MainLoginPage = () => {
       </header>
 
       {/* ─── Center Portal Section ─── */}
-      <main className="relative z-10 w-full max-w-4xl mx-auto px-6 py-10 sm:py-14 flex-1 flex flex-col items-center justify-center text-center">
+      <main className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-14 flex-1 flex flex-col items-center justify-center text-center">
         {/* Floating Pill Badge (Matches Header Style) */}
         <div className="inline-flex items-center gap-2 rounded-full bg-white border border-ink-900/10 shadow-soft pl-1.5 pr-4 py-1.5 text-[12px] font-semibold text-ink-800">
           <span className="inline-flex items-center gap-1 rounded-full bg-ink-900 text-white px-2.5 py-1 text-[10px] font-bold tracking-wide uppercase">
@@ -97,11 +97,11 @@ const MainLoginPage = () => {
         </p>
 
         {/* ─── Role Selection Cards Grid ─── */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl text-left">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 w-full max-w-3xl text-left">
           {/* Student Card */}
           <div
             onClick={() => navigate('/login')}
-            className="group relative bg-white/90 backdrop-blur-xl rounded-[2rem] border border-ink-900/10 p-7 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-brand-500/30 overflow-hidden"
+            className="group relative bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] border border-ink-900/10 p-5 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-brand-500/30 overflow-hidden"
           >
             {/* Subtle lavender ambient corner glow inside card */}
             <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-brand-100/60 blur-2xl group-hover:bg-brand-200/80 transition-all pointer-events-none" />
@@ -158,7 +158,7 @@ const MainLoginPage = () => {
             onClick={() => {
               window.location.href = 'https://virtual-classroom-admin.vercel.app';
             }}
-            className="group relative bg-white/90 backdrop-blur-xl rounded-[2rem] border border-ink-900/10 p-7 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-accent-lime overflow-hidden"
+            className="group relative bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] border border-ink-900/10 p-5 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-accent-lime overflow-hidden"
           >
             {/* Subtle lime ambient corner glow inside card */}
             <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-accent-lime/25 blur-2xl group-hover:bg-accent-lime/45 transition-all pointer-events-none" />
@@ -212,7 +212,7 @@ const MainLoginPage = () => {
         </div>
 
         {/* ─── Bottom Navigation Prompt ─── */}
-        <p className="mt-10 text-sm text-ink-500">
+        <p className="mt-8 sm:mt-10 text-sm text-ink-500">
           Need a new classroom account?{' '}
           <Link
             to="/signup"
@@ -224,7 +224,7 @@ const MainLoginPage = () => {
       </main>
 
       {/* ─── Minimal Bottom Copyright ─── */}
-      <footer className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 border-t border-ink-900/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-400">
+      <footer className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-6 border-t border-ink-900/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-400">
         <p>© {new Date().getFullYear()} EduMatrix Virtual Classroom. All rights reserved.</p>
         <div className="flex items-center gap-4 text-ink-500">
           <Link to="/aboutUs" className="hover:text-ink-900 transition-colors">About</Link>

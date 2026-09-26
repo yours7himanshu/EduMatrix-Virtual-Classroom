@@ -205,7 +205,7 @@ return (
               />
 
               <div className="flex items-center justify-between gap-3 border-t border-ink-900/[0.06] px-4 py-2.5">
-                <span className="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-400">
+                <span className="hidden sm:inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-400">
                   <CornerDownLeft size={13} />
                   Enter to send · Shift + Enter for a new line
                 </span>

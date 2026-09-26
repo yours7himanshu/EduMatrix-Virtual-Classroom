@@ -36,14 +36,14 @@ const AIPredictor = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-100 p-4"> {/* Removed ml-[18%], ensured w-full */}
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-indigo-600 mb-6">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 py-8 px-4">
+      <div className="w-full max-w-md bg-white p-5 sm:p-8 rounded-2xl shadow-xl border border-gray-100">
+        <h2 className="text-2xl font-bold text-center text-indigo-600 mb-6 tracking-tight">
           AI Predictor
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="marks" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="marks" className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">
               Marks
             </label>
             <input
@@ -52,12 +52,12 @@ const AIPredictor = () => {
               value={marks}
               onChange={(e) => setMarks(e.target.value)}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="block w-full border border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs transition"
             />
           </div>
           <div>
-            <label htmlFor="attendance" className="block text-sm font-medium text-gray-700">
-              Attendance
+            <label htmlFor="attendance" className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">
+              Attendance (%)
             </label>
             <input
               id="attendance"
@@ -65,11 +65,11 @@ const AIPredictor = () => {
               value={attendance}
               onChange={(e) => setAttendance(e.target.value)}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="block w-full border border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs transition"
             />
           </div>
           <div>
-            <label htmlFor="branch" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="branch" className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">
               Branch
             </label>
             <input
@@ -79,25 +79,25 @@ const AIPredictor = () => {
               onChange={(e) => setBranch(e.target.value)}
               required
               placeholder="e.g., Computer Science"
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="block w-full border border-gray-300 rounded-xl px-3.5 py-2.5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs transition"
             />
           </div>
-          <div>
+          <div className="pt-2">
             <button
               type="submit"
               disabled={loading}
               className={`${
                 loading ? "bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-700"
-              } w-full flex justify-center items-center text-white font-semibold rounded-md px-4 py-2 transition`}
+              } w-full flex justify-center items-center text-white font-semibold rounded-xl py-3 text-sm sm:text-base shadow-md hover:shadow-lg transition cursor-pointer`}
             >
-              {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Predict"}
+              {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Predict Outcome"}
             </button>
           </div>
         </form>
         {prediction && (
-          <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-md">
-            <h3 className="text-lg font-medium text-green-800">Prediction</h3>
-            <p className="mt-2 text-green-700">{prediction}</p>
+          <div className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+            <h3 className="text-base font-bold text-emerald-800">Prediction Result</h3>
+            <p className="mt-1.5 text-sm text-emerald-700 font-medium">{prediction}</p>
           </div>
         )}
       </div>

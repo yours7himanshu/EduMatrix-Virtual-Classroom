@@ -82,34 +82,36 @@ function AdminLogin() {
       <AuthSidebar />
 
       {/* Right Section with Form */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 bg-gray-50">
-        <p
-          className={clsx(
-            errors &&
-              "border border-red-700 flex items-center justify-center p-3 h-[8%] w-[63%] text-red-700 rounded-md mb-4 bg-yellow-50 font-semibold text-wrap max-md:w-full max-md:font-medium"
-          )}
-        >
-          {" "}
-          {errors}{" "}
-        </p>
+      {/* Right Section with Form */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-4 sm:p-8 min-h-screen bg-gray-50">
+        {errors && (
+          <div className="border border-red-200 flex items-center justify-center p-3 w-full max-w-md text-red-700 rounded-xl mb-4 bg-red-50 text-sm font-semibold text-center">
+            {errors}
+          </div>
+        )}
         <form
-          className="w-full max-w-md p-8 bg-gray-100 rounded-lg shadow-lg space-y-6"
+          className="w-full max-w-md p-5 sm:p-8 bg-white rounded-2xl shadow-xl border border-gray-100 space-y-5"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl font-semibold text-gray-700 text-center">
-            Admin Login
-          </h1>
+          <div className="text-center mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight">
+              Admin Login
+            </h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              Sign in with your institute admin credentials
+            </p>
+          </div>
 
           <div>
             <label
               htmlFor="email"
-              className="block text-gray-600 font-medium mb-2"
+              className="block text-gray-700 font-semibold text-xs sm:text-sm mb-1.5"
             >
-              Email
+              Email Address
             </label>
             <input
               id="email"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs transition"
               type="email"
               placeholder="Enter your email"
               value={email}
@@ -121,13 +123,13 @@ function AdminLogin() {
           <div>
             <label
               htmlFor="password"
-              className="block text-gray-600 font-medium mb-2"
+              className="block text-gray-700 font-semibold text-xs sm:text-sm mb-1.5"
             >
               Password
             </label>
             <input
               id="password"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-3 text-sm sm:text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs transition"
               type="password"
               placeholder="Enter your password"
               value={password}
@@ -139,14 +141,14 @@ function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full p-3 bg-indigo-600 text-white font-semibold rounded-md focus:outline-none hover:bg-indigo-700 transition"
+            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-base rounded-xl transition duration-200 shadow-md hover:shadow-lg disabled:opacity-70 cursor-pointer"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          <p className="text-center text-gray-600">
+          <p className="text-center text-xs sm:text-sm text-gray-600 mt-4">
             Don't have an account?{" "}
-            <Link to="/sign-up" className="text-indigo-600 font-semibold">
+            <Link to="/sign-up" className="text-indigo-600 font-semibold hover:underline">
               Sign Up
             </Link>
           </p>

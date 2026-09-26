@@ -20,23 +20,19 @@ import React from 'react'
 import Sidebar from '../shared/Sidebar'
 import { RoleProvider } from "../context/RoleContext";
 
-
-const AppLayout = () => (WrapLayoutComponent)=> {
-    return (props)=>{
+const AppLayout = () => (WrapLayoutComponent) => {
+    return (props) => {
         return (
-            <div  className='flex  h-screen w-screen max-md:justify-center ' >
-              <RoleProvider>
-
-              <Sidebar />
-              </RoleProvider>
-              <div className='w-full md:ml-[20%] h-screen overflow-x-hidden  ' >
-
-              <WrapLayoutComponent {...props} />
+            <RoleProvider>
+              <div className='min-h-screen bg-gray-50 flex flex-col md:flex-row w-full overflow-x-hidden antialiased text-gray-900'>
+                <Sidebar />
+                <main className='flex-1 min-w-0 w-full min-h-screen md:pl-64 overflow-x-hidden flex flex-col'>
+                  <WrapLayoutComponent {...props} />
+                </main>
               </div>
-            </div>
+            </RoleProvider>
           )
     }
- 
 }
 
 export default AppLayout
