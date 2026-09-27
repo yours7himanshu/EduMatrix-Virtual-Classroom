@@ -1,0 +1,20 @@
+{
+  "name": "edumatrix-cloudflare-poc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "secret:staging:origin": "wrangler secret put ORIGIN_URL --env staging",
+    "secret:production:origin": "wrangler secret put ORIGIN_URL --env production"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "^0.1.0",
+    "mongoose": "^8.13.2"
+  },
+  "devDependencies": {
+    "wrangler": "^3.109.2"
+  }
+}

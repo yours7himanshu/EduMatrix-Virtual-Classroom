@@ -18,6 +18,8 @@ limitations under the License.
 
 const jwt = require("jsonwebtoken");
 const Message = require("../models/messageModel");
+const Classroom = require("../models/classroomModel");
+const Enrollment = require("../models/enrollmentModel");
 
 // Helper function to properly parse cookies
 const parseCookies = (cookieString) => {
@@ -36,8 +38,10 @@ const parseCookies = (cookieString) => {
 
 // Helper function to extract token from multiple sources
 const extractToken = (socket) => {
+  if (!socket || !socket.handshake) return null;
+
   // Try Authorization header
-  const authHeader = socket.handshake.headers.authorization;
+  const authHeader = socket.handshake.headers ? socket.handshake.headers.authorization : null;
   if (authHeader) {
     return authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
   }
@@ -49,7 +53,7 @@ const extractToken = (socket) => {
   } else if (socket.handshake.query && socket.handshake.query.token) {
     // Try from query params
     token = socket.handshake.query.token;
-  } else if (socket.handshake.headers.cookie) {
+  } else if (socket.handshake.headers && socket.handshake.headers.cookie) {
     // Try from cookies
     const cookies = parseCookies(socket.handshake.headers.cookie);
     token = cookies.token || cookies.jwt;
@@ -64,52 +68,261 @@ const extractToken = (socket) => {
 };
 
 const socketService = (io) => {
+  // Enforce Socket.IO handshake authentication middleware
+  if (typeof io.use === "function") {
+    io.use((socket, next) => {
+      try {
+        const token = extractToken(socket);
+        if (!token) {
+          return next(new Error("Authentication error: Token required"));
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = (decoded.userId || decoded.collegeId || decoded.id || "").toString();
+        if (!userId) {
+          return next(new Error("Authentication error: Invalid token payload"));
+        }
+
+        socket.user = {
+          id: userId,
+          email: decoded.email,
+          role: decoded.role || "student",
+          name: decoded.name || decoded.role || "Student",
+          institutionId: decoded.institutionId ? decoded.institutionId.toString() : null,
+        };
+
+        next();
+      } catch (err) {
+        return next(new Error("Authentication error: Invalid or expired token"));
+      }
+    });
+  }
+
   io.on("connection", (socket) => {
-    console.log(`User Connected : ${socket.id}`);
+    // Fallback authentication for environments/mocks bypassing io.use
+    if (!socket.user) {
+      const token = extractToken(socket);
+      if (token) {
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          socket.user = {
+            id: (decoded.userId || decoded.collegeId || decoded.id || "").toString(),
+            email: decoded.email,
+            role: decoded.role || "student",
+            name: decoded.name || decoded.role || "Student",
+            institutionId: decoded.institutionId ? decoded.institutionId.toString() : null,
+          };
+        } catch {
+          // Unverified token
+        }
+      }
+    }
+
+    // Automatically join tenant and private user rooms upon connection
+    if (socket.user) {
+      if (socket.user.institutionId) {
+        socket.join(`inst_${socket.user.institutionId}`);
+      }
+      if (socket.user.id) {
+        socket.join(`user_${socket.user.id}`);
+      }
+    }
+
+    // Track authorized classroom rooms joined by this socket
+    socket.joinedClassrooms = socket.joinedClassrooms || new Set();
+
+    // Message frequency tracking for rate limiting (sliding 5s window)
+    const messageTimestamps = [];
+
+    // Room authorization handler for joining classrooms
+    const handleJoinClassroom = async (data, callback) => {
+      try {
+        if (!socket.user) {
+          const errPayload = { error: "Authentication required" };
+          socket.emit("roomError", errPayload);
+          if (typeof callback === "function") callback({ success: false, ...errPayload });
+          return;
+        }
+
+        const classroomId = typeof data === "string" ? data : (data && data.classroomId ? data.classroomId : null);
+        if (!classroomId || !/^[0-9a-fA-F]{24}$/.test(classroomId)) {
+          const errPayload = { error: "Invalid classroom ID format" };
+          socket.emit("roomError", errPayload);
+          if (typeof callback === "function") callback({ success: false, ...errPayload });
+          return;
+        }
+
+        const classroom = await Classroom.findById(classroomId);
+        if (!classroom || classroom.isActive === false) {
+          const errPayload = { error: "Classroom not found or inactive" };
+          socket.emit("roomError", errPayload);
+          if (typeof callback === "function") callback({ success: false, ...errPayload });
+          return;
+        }
+
+        // Institutional boundary check
+        const classInstId = classroom.institutionId ? classroom.institutionId.toString() : null;
+        if (!socket.user.institutionId || socket.user.institutionId !== classInstId) {
+          const errPayload = { error: "Access denied: Institutional boundary violation" };
+          socket.emit("roomError", errPayload);
+          if (typeof callback === "function") callback({ success: false, ...errPayload });
+          return;
+        }
+
+        // Role & Membership check
+        const role = socket.user.role;
+        let isAuthorized = false;
+
+        if (role === "Director" || role === "Registrar") {
+          isAuthorized = true; // Institutional administrator oversight
+        } else if (role === "Teacher") {
+          const teacherId = classroom.teacherId ? classroom.teacherId.toString() : null;
+          isAuthorized = (teacherId === socket.user.id);
+        } else if (role === "student" || role === "Student") {
+          const enrollment = await Enrollment.findOne({
+            classroomId: classroom._id,
+            studentId: socket.user.id,
+            status: "enrolled",
+          });
+          isAuthorized = !!enrollment;
+        }
+
+        if (!isAuthorized) {
+          const errPayload = { error: "Access denied: Unauthorized role or not enrolled in classroom" };
+          socket.emit("roomError", errPayload);
+          if (typeof callback === "function") callback({ success: false, ...errPayload });
+          return;
+        }
+
+        const roomName = `class_${classroomId}`;
+        socket.join(roomName);
+        socket.joinedClassrooms.add(classroomId.toString());
+
+        socket.emit("classroomJoined", { classroomId });
+        if (typeof callback === "function") callback({ success: true, classroomId });
+      } catch (err) {
+        console.error("Error joining classroom room:", err);
+        const errPayload = { error: "Internal server error during room join" };
+        socket.emit("roomError", errPayload);
+        if (typeof callback === "function") callback({ success: false, ...errPayload });
+      }
+    };
+
+    // Room leave handler
+    const handleLeaveClassroom = (data, callback) => {
+      const classroomId = typeof data === "string" ? data : (data && data.classroomId ? data.classroomId : null);
+      if (classroomId) {
+        const roomName = `class_${classroomId}`;
+        socket.leave(roomName);
+        if (socket.joinedClassrooms) {
+          socket.joinedClassrooms.delete(classroomId.toString());
+        }
+        socket.emit("classroomLeft", { classroomId });
+        if (typeof callback === "function") callback({ success: true, classroomId });
+      }
+    };
+
+    socket.on("joinClassroom", handleJoinClassroom);
+    socket.on("joinRoom", handleJoinClassroom);
+    socket.on("leaveClassroom", handleLeaveClassroom);
+    socket.on("leaveRoom", handleLeaveClassroom);
 
     // Listen for the 'sendMessage' event from the client
     socket.on("sendMessage", async (message) => {
-      console.log("Received message:", message);
-
       try {
-        // Extract token using the helper function
-        const token = extractToken(socket);
-        
-        if (!token) {
-          console.error("No valid authentication token found");
+        if (!socket.user) {
           socket.emit("messageError", { error: "Authentication failed. No valid token provided." });
           return;
         }
 
-        // Verify the token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // Validate payload structure
+        if (!message || typeof message !== "object") {
+          socket.emit("messageError", { error: "Invalid message payload" });
+          return;
+        }
 
-        // Determine sender identity safely
-        const senderIdentity = decoded.name || decoded.role || "Student";
+        const content = typeof message.content === "string" ? message.content.trim() : "";
+        if (!content || content.length === 0) {
+          socket.emit("messageError", { error: "Message content cannot be empty" });
+          return;
+        }
+        if (content.length > 5000) {
+          socket.emit("messageError", { error: "Message exceeds maximum allowed length" });
+          return;
+        }
 
-        // Save message to the database
+        // Rate limiting (max 10 messages in 5 seconds per socket)
+        const now = Date.now();
+        while (messageTimestamps.length > 0 && now - messageTimestamps[0] > 5000) {
+          messageTimestamps.shift();
+        }
+        if (messageTimestamps.length >= 10) {
+          socket.emit("messageError", { error: "Rate limit exceeded. Please wait before sending more messages." });
+          return;
+        }
+        messageTimestamps.push(now);
+
+        // Determine destination room and authorization
+        let targetRoom = null;
+        const classroomId = message.classroomId;
+
+        if (classroomId) {
+          if (!/^[0-9a-fA-F]{24}$/.test(classroomId)) {
+            socket.emit("messageError", { error: "Invalid classroom identifier" });
+            return;
+          }
+          const roomName = `class_${classroomId}`;
+          const isMember = (socket.rooms && typeof socket.rooms.has === "function" && socket.rooms.has(roomName)) ||
+                           (socket.joinedClassrooms && socket.joinedClassrooms.has(classroomId.toString()));
+
+          if (!isMember) {
+            socket.emit("messageError", { error: "Unauthorized: You have not joined this classroom" });
+            return;
+          }
+          targetRoom = roomName;
+        } else {
+          // If no classroomId, route strictly to user's institutional room
+          if (socket.user.institutionId) {
+            targetRoom = `inst_${socket.user.institutionId}`;
+          } else {
+            // Standalone unassociated user: delivered only to their own socket room
+            targetRoom = `user_${socket.user.id}`;
+          }
+        }
+
+        // Authoritative sender identity derived from verified token
+        const senderIdentity = socket.user.name || socket.user.role || "Student";
+
+        // Save message to database
         const newMessage = await Message.create({
           sender: senderIdentity,
-          content: message.content,
+          content: content,
           timestamp: new Date(),
         });
-        console.log("Message saved to DB:", newMessage);
 
-        // Broadcast the message to all connected clients
-        socket.broadcast.emit("receiveMessage", {
+        const broadcastPayload = {
+          _id: newMessage._id,
           sender: senderIdentity,
-          content: message.content,
-          timestamp: new Date(),
-        });
+          content: content,
+          timestamp: newMessage.timestamp,
+          classroomId: classroomId || null,
+        };
+
+        // Scoped broadcast: only to authorized members of the target room
+        if (targetRoom) {
+          socket.to(targetRoom).emit("receiveMessage", broadcastPayload);
+        }
       } catch (error) {
-        console.error("Error sending the message:", error);
-        socket.emit("messageError", { error: "Failed to send message: " + error.message });
+        console.error("Error sending message:", error);
+        socket.emit("messageError", { error: "Failed to send message" });
       }
     });
 
     // Handle disconnection
     socket.on("disconnect", () => {
-      console.log(`User disconnected: ${socket.id}`);
+      if (socket.joinedClassrooms) {
+        socket.joinedClassrooms.clear();
+      }
     });
   });
 };

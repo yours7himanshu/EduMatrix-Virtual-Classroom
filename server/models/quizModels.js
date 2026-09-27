@@ -27,6 +27,10 @@ const quizSchema = new mongoose.Schema({
       correctAnswer: { type: Number, required: true },
     },
   ],
+  // Tenant binding — set server-side from the authenticated user; never from client input.
+  institutionId: { type: String, required: true, index: true },
+  // Audit: which admin created this quiz.
+  createdBy: { type: String },
 });
 
 const Quiz = mongoose.model("quiz",quizSchema);

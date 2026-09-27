@@ -20,35 +20,97 @@ const express = require('express');
 const router = express.Router();
 const Quiz = require('../models/quizModels');
 const { notifyClients } = require('../websockets/notifyClients');
+const isAdminAuthenticated = require('../middlewares/adminAuth');
 
-// Get all quizzes
+/**
+ * Builds a safe public view of a quiz question.
+ * Strips `correctAnswer` so students cannot see answer-key data in broadcasts or GET responses.
+ */
+const sanitizeQuestion = (q) => ({
+  _id: q._id,
+  questionText: q.questionText,
+  options: Array.isArray(q.options) ? q.options : [],
+});
+
+/**
+ * Builds a safe public view of a full quiz document.
+ * Suitable for broadcasting to students and returning via GET /quizzes.
+ */
+const sanitizeQuizForStudent = (quiz) => ({
+  _id: quiz._id,
+  title: quiz.title,
+  description: quiz.description,
+  institutionId: quiz.institutionId,
+  questions: Array.isArray(quiz.questions) ? quiz.questions.map(sanitizeQuestion) : [],
+});
+
+// GET /quizzes
+// Returns quizzes with answer keys stripped (safe for student consumption).
+// No authentication required on GET — students browse available quizzes.
 router.get('/quizzes', async (req, res) => {
   try {
     const quizzes = await Quiz.find();
-    res.status(200).json(quizzes);
+    const sanitized = quizzes.map(sanitizeQuizForStudent);
+    res.status(200).json(sanitized);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch quizzes' });
   }
 });
 
-router.post('/quizzes', async (req, res) => {
+// POST /quizzes
+// Protected: requires a valid Admin/Teacher JWT via isAdminAuthenticated.
+// `institutionId` is derived exclusively from the authenticated user's verified token —
+// any `institutionId` field in req.body is silently ignored.
+router.post('/quizzes', isAdminAuthenticated, async (req, res) => {
   try {
-    const quiz = new Quiz(req.body);
-    await quiz.save();
+    // Derive institution strictly from the verified token — never from client input.
+    const institutionId = req.user && req.user.institutionId
+      ? req.user.institutionId.toString()
+      : null;
 
-    // Broadcast new quiz event via primary Socket.IO
-    const io = req.app ? req.app.get('io') : null;
-    if (io) {
-      io.emit('new-quiz', quiz);
+    if (!institutionId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Quiz creation requires an institutional account. No institution linked to this user.',
+      });
     }
 
-    notifyClients(quiz); // Notify legacy raw WebSocket clients if any
+    // Build the quiz document. Explicitly exclude any client-supplied institutionId or createdBy.
+    const { title, description, questions } = req.body;
+
+    const quiz = new Quiz({
+      title,
+      description,
+      questions,
+      institutionId,                          // server-side only
+      createdBy: req.user.id || req.user.email, // audit trail
+    });
+
+    await quiz.save();
+
+    // Build a sanitized broadcast payload that contains NO answer-key fields.
+    const broadcastPayload = sanitizeQuizForStudent(quiz);
+
+    // Broadcast new quiz event via primary Socket.IO, strictly scoped to the institution room.
+    // There is NO global fallback — if institutionId is absent the quiz is not broadcast.
+    const io = req.app ? req.app.get('io') : null;
+    if (io) {
+      io.to(`inst_${institutionId}`).emit('new-quiz', broadcastPayload);
+    }
+
+    // Notify legacy raw WebSocket clients using the sanitized payload (no answer keys).
+    notifyClients(broadcastPayload);
+
+    // Return the full document (with correctAnswer) only to the authenticated creator.
     res.status(201).json({ message: 'Quiz created successfully', quiz });
   } catch (error) {
     res.status(500).json({ error: 'Failed to create quiz' });
   }
 });
-// Submit quiz answers
+
+// POST /quizzes/:id/submit
+// Submit quiz answers and receive scored results.
+// correctAnswer comparisons happen server-side; only isCorrect is returned to the client.
 router.post('/quizzes/:id/submit', async (req, res) => {
   try {
     const quizId = req.params.id;
@@ -92,11 +154,11 @@ router.post('/quizzes/:id/submit', async (req, res) => {
           score++;
         }
 
+        // Return isCorrect flag but NOT the raw correctAnswer to prevent answer fishing.
         details.push({
           questionId: qId,
           questionText: q.questionText,
           selected: selectedOption !== undefined ? Number(selectedOption) : null,
-          correctAnswer: q.correctAnswer,
           isCorrect,
         });
       });

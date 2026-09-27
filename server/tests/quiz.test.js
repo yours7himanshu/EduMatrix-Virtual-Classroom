@@ -159,14 +159,26 @@ test('Quiz Submission Suite (BUG-03)', async (t) => {
     assert.match(res.data.message, /Answers are required/);
   });
 
-  await t.test('6. POST /quizzes emits new-quiz event via Socket.IO instance', async () => {
+  await t.test('6. POST /quizzes emits sanitized new-quiz event via Socket.IO (no correctAnswer in broadcast)', async () => {
+    let emittedRoom = null;
     let emittedEvent = null;
     let emittedData = null;
 
     const mockIo = {
+      to(room) {
+        emittedRoom = room;
+        return {
+          emit(event, data) {
+            emittedEvent = event;
+            emittedData = data;
+          },
+        };
+      },
+      // Fallback in case code calls io.emit directly (must not happen after the fix)
       emit(event, data) {
         emittedEvent = event;
         emittedData = data;
+        emittedRoom = 'GLOBAL';
       },
     };
 
@@ -184,12 +196,34 @@ test('Quiz Submission Suite (BUG-03)', async (t) => {
       return this;
     };
 
+    const TEST_INST_ID = new mongoose.Types.ObjectId().toString();
+
     try {
-      const handler = postLayer.route.stack[0].handle;
+      // The route stack now has [isAdminAuthenticated, handler].
+      // Pick the last handler (the actual route handler, not the auth middleware).
+      const routeStack = postLayer.route.stack;
+      const handler = routeStack[routeStack.length - 1].handle;
+
       const req = {
         body: {
           title: 'Science Quiz',
-          questions: [],
+          description: 'A science test',
+          questions: [
+            {
+              questionText: 'What is H2O?',
+              options: ['Water', 'Oxygen', 'Hydrogen', 'Salt'],
+              correctAnswer: 0,
+            },
+          ],
+          // Attempt to inject institutionId from client — must be ignored
+          institutionId: 'attacker-institution',
+        },
+        // Simulates what isAdminAuthenticated sets on req.user
+        user: {
+          id: new mongoose.Types.ObjectId().toString(),
+          email: 'director@inst.edu',
+          role: 'Director',
+          institutionId: TEST_INST_ID,
         },
         app: {
           get(key) {
@@ -202,10 +236,27 @@ test('Quiz Submission Suite (BUG-03)', async (t) => {
 
       await handler(req, res);
 
-      assert.strictEqual(res.statusCode, 201);
-      assert.strictEqual(emittedEvent, 'new-quiz');
-      assert.ok(emittedData);
+      assert.strictEqual(res.statusCode, 201, 'Must return 201 on success');
+      assert.strictEqual(emittedEvent, 'new-quiz', 'Must emit new-quiz event');
+      assert.ok(emittedData, 'Broadcast payload must not be null');
       assert.strictEqual(emittedData.title, 'Science Quiz');
+
+      // SECURITY: verify correct broadcast room (institution-scoped, not global)
+      assert.strictEqual(emittedRoom, `inst_${TEST_INST_ID}`, 'Must broadcast to institution room only');
+      assert.notStrictEqual(emittedRoom, 'GLOBAL', 'Must NOT broadcast globally');
+
+      // SECURITY: answer keys must be absent from broadcast payload
+      assert.ok(Array.isArray(emittedData.questions), 'Broadcast must include questions array');
+      const broadcastQuestion = emittedData.questions[0];
+      assert.ok(broadcastQuestion, 'Broadcast must include question');
+      assert.strictEqual(
+        Object.prototype.hasOwnProperty.call(broadcastQuestion, 'correctAnswer'),
+        false,
+        'correctAnswer must NOT be present in broadcast payload'
+      );
+
+      // SECURITY: institutionId in broadcast must match authenticated user, not client-supplied value
+      assert.strictEqual(emittedData.institutionId, TEST_INST_ID, 'Broadcast institutionId must come from server-side user identity');
     } finally {
       Quiz.prototype.save = originalSave;
     }

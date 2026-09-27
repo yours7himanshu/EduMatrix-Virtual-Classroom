@@ -56,8 +56,15 @@ dotenv.config();
 const app = express();
 connectDb(); // Connect database
 connectCloudinary(); // Initialize Cloudinary
+const configuredOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const corsOrigins = configuredOrigins.length > 0
+  ? configuredOrigins
+  : ["http://localhost:5173", "http://localhost:5174", "http://localhost:8081", "https://virtual-classroom-admin.vercel.app", "https://virtual-classroom-application.vercel.app"];
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:8081", "https://virtual-classroom-admin.vercel.app", "https://virtual-classroom-application.vercel.app"],
+  origin: corsOrigins,
   credentials: true
 }));
 app.use(express.json());
@@ -68,7 +75,7 @@ app.use(cookieParser());
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://virtual-classroom-admin.vercel.app", "https://virtual-classroom-application.vercel.app"],
+    origin: corsOrigins,
     methods: ["GET", "POST"],
     credentials: true
   },

@@ -12,16 +12,13 @@ WORKDIR /app
 
 # Copy Node.js package manifests
 COPY server/package*.json server/
-COPY client/package*.json client/
-COPY admin/package*.json admin/
 
 # Install Node.js dependencies
-RUN npm install --prefix server \
-    && npm install --prefix client \
-    && npm install --prefix admin
+RUN npm ci --prefix server --omit=dev
 
 # Copy full application
-COPY . .
+COPY server server
+COPY python_rec python_rec
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r python_rec/requirements.txt
@@ -30,7 +27,10 @@ RUN pip install --no-cache-dir -r python_rec/requirements.txt
 RUN chmod +x python_rec/*.py
 
 # Expose server port
-EXPOSE 3000
+EXPOSE 5000 8080
+ENV PORT=5000
+ENV WS_PORT=8080
+ENV NODE_ENV=production
 
 # Default command: start Node server
 CMD ["npm", "run", "start", "--prefix", "server"]

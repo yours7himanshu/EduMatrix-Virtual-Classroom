@@ -43,14 +43,20 @@ function AddTeacher() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`${backendUrl}/api/v4/add-teacher`, {
-        name,
-        qualification,
-        subject,
-        experience,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${backendUrl}/api/v4/add-teacher`,
+        {
+          name,
+          qualification,
+          subject,
+          experience,
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data.success) {
         toast.success("Faculty Successfully added");

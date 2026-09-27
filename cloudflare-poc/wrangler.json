@@ -1,0 +1,45 @@
+{
+  "name": "edumatrix-cloudflare-poc",
+  "main": "src/container.js",
+  "compatibility_date": "2026-09-27",
+  "env": {
+    "staging": {
+      "name": "edumatrix-cloudflare-poc-staging",
+      "containers": [{
+        "class_name": "EduMatrixContainer",
+        "image": "../Dockerfile",
+        "max_instances": 1,
+        "instance_type": "basic"
+      }],
+      "durable_objects": {
+        "bindings": [{
+          "name": "EDUMATRIX_CONTAINER",
+          "class_name": "EduMatrixContainer"
+        }]
+      },
+      "migrations": [{
+        "tag": "v1",
+        "new_sqlite_classes": ["EduMatrixContainer"]
+      }]
+    },
+    "production": {
+      "name": "edumatrix-cloudflare-poc",
+      "containers": [{
+        "class_name": "EduMatrixContainer",
+        "image": "../Dockerfile",
+        "max_instances": 1,
+        "instance_type": "basic"
+      }],
+      "durable_objects": {
+        "bindings": [{
+          "name": "EDUMATRIX_CONTAINER",
+          "class_name": "EduMatrixContainer"
+        }]
+      },
+      "migrations": [{
+        "tag": "v1",
+        "new_sqlite_classes": ["EduMatrixContainer"]
+      }]
+    }
+  }
+}
