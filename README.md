@@ -1,202 +1,116 @@
+# EduMatrix Virtual Classroom
 
-# 🎓 **EduMatrix Virtual Classroom** – _Making Virtual College for Everyone_
-
-**Main Aim: To make all colleges run virtually and make learning accessible to everyone, anywhere!** 🌐  
-
-EduMatrix is a **full-stack web application** designed to revolutionize online education by providing a seamless and interactive virtual classroom experience. Built using the **MERN stack** (MongoDB, Express, React, Node.js), the platform incorporates **real-time communication features** to support live classes, video conferencing, and collaborative tools like a shared whiteboard and chat.
+EduMatrix is a MERN-based virtual classroom platform with separate apps for students (`client`), administrators (`admin`), and APIs/realtime services (`server`).
 
 ![EduMatrix Home Page](assets/homepage.png)
 
----
+## What it includes
 
-## 📚 **About the Project**
+- Student web app built with React + Vite
+- Admin dashboard built with React + Vite
+- Node.js + Express backend with MongoDB
+- Live classroom features with Socket.IO and LiveKit
+- Assignments, quizzes, announcements, attendance, and fee workflows
 
-The **EduMatrix Virtual Classroom** platform offers a comprehensive solution for institutions and educators to conduct classes online with minimal setup. The system provides **real-time video conferencing**, **chat**, and **interactive whiteboards** to bridge the gap between traditional classrooms and virtual learning.
+## Repository structure
 
----
-
-## 🎯 **Goals**
-
-1. **Enhance Online Education**: Create an engaging virtual learning environment for students and educators.  
-2. **Accessibility**: Make quality education available globally through a reliable, easy-to-use platform.  
-3. **Real-Time Interaction**: Support effective communication with tools like video conferencing and chat.  
-4. **Scalability**: Build a system that can handle a large number of concurrent users.  
-5. **Customization**: Allow educators to personalize the platform to suit their specific needs.
-
----
-
-## 📋 **Table of Contents**
-
-- [Features](#features)  
-- [Project Structure](#project-structure)  
-- [Setup Instructions](#setup-instructions)  
-- [Contributing](#contributing)  
-- [License](#license)
-
----
-
-## ✨ **Features**
-
-✅ **Frontend**: Built with **React**, configured with **Vite** for faster builds and optimized development.  
-✅ **Backend**: Powered by **Node.js** with **Express** API server.  
-✅ **Admin Panel**: A dedicated admin interface to manage users, courses, and sessions.  
-✅ **Real-Time Communication**: Supports **live video conferencing** and **chat** using **WebRTC** and **Socket.IO**.  
-✅ **Interactive Tools**: Includes a **shared whiteboard** for collaborative learning during classes.  
-✅ **Secure Authentication**: Implements **JWT-based login** and user management.  
-✅ **Responsive Design**: Works seamlessly across devices – desktops, tablets, and smartphones.
-
----
-
-## 🗂 **Project Structure**
-
-```bash
-root
-├── client         # Frontend (React with Vite)
-├── server         # Backend (Node.js with Express)
-└── admin          # Admin Panel (React with Vite)
+```text
+.
+├── client/   # Student-facing frontend
+├── admin/    # Admin frontend
+├── server/   # Backend API + realtime + tests
+└── assets/   # Project media/assets
 ```
 
-### **Directory Overview**  
-- **client**: Contains the user-facing frontend interface.  
-- **server**: Handles the backend API logic, authentication, and database interactions.  
-- **admin**: A dedicated panel for administrators to manage users, courses, and other platform settings.
+## Prerequisites
 
----
+- Node.js 20+
+- npm 10+
+- MongoDB instance (local or hosted)
 
-## 🛠 **Setup Instructions**
+## Quick start
 
-### 📋 **Prerequisites**
+1. **Clone the repository**
 
-Ensure you have the following installed on your machine:  
-- **Node.js** (v20.9.0 or later)  
-- **npm** or **yarn**
-
----
-
-### 📥 **1. Clone the Repository**
-
-```bash
-git clone https://github.com/your-username/edumatrix-virtual-classroom.git
-cd edumatrix-virtual-classroom
-```
-
----
-
-### 📦 **2. Install Dependencies**
-
-Navigate to the respective folders and run the following commands:
-
-#### Frontend (Client)
-
-```bash
-cd client
-npm install
-```
-
-#### Backend (Server)
-
-```bash
-cd ../server
-npm install
-```
-
-#### Admin Panel
-
-```bash
-cd ../admin
-npm install
-```
-
----
-
-### 🛠 **3. Configure Environment Variables**
-
-Create a `.env` file in the `server` and `admin` directories with the required environment variables.
-
-Example `.env` file for the server:
-
-```env
-MONGO_URI=your_mongo_db_uri
-JWT_SECRET=your_jwt_secret
-FRONTEND_URL=http://localhost:5173
-ADMIN_URL=http://localhost:5174
-```
-
----
-
-### ▶️ **4. Start the Application**
-
-#### Backend Server
-
-From the `server` folder:
-
-```bash
-npm run dev
-```
-
-#### Frontend Server (Client)
-
-From the `client` folder:
-
-```bash
-npm run dev
-```
-
-#### Admin Panel
-
-From the `admin` folder:
-
-```bash
-npm run dev
-```
-
----
-
-### 🌐 **5. Access the Application**
-
-- **Frontend (User)**: [http://localhost:5173](http://localhost:5173)  
-- **Admin Panel**: [http://localhost:5174](http://localhost:5174)  
-
----
-
-## 🤝 **Contributing**
-
-We welcome contributions to improve EduMatrix! 🛠️
-
-### Steps to Contribute
-
-1. **Fork the repository** and clone it to your local machine.  
-2. **Create a new branch** for your feature or bug fix:  
    ```bash
-   git checkout -b feature/new-feature
-   ```  
-3. **Commit your changes** with a clear message:  
+   git clone https://github.com/yours7himanshu/EduMatrix-Virtual-Classroom.git
+   cd EduMatrix-Virtual-Classroom
+   ```
+
+2. **Install dependencies**
+
    ```bash
-   git commit -m "Added a new feature for admin management"
-   ```  
-4. **Push to your fork** and open a **pull request**:  
+   npm install --prefix server
+   npm install --prefix client
+   npm install --prefix admin
+   ```
+
+3. **Configure environment variables**
+
+   - Copy `server/.env.example` to `server/.env` and fill in required values.
+   - Create `client/.env` with:
+
+     ```env
+     VITE_BACKEND_URL=http://localhost:5000
+     VITE_ADMIN_URL=http://localhost:5174
+     ```
+
+   - Create/update `admin/.env` with:
+
+     ```env
+     VITE_BACKEND_URL=http://localhost:5000
+     VITE_LIVEKIT_URL=wss://your-livekit-url
+     ```
+
+4. **Run all services (separate terminals)**
+
    ```bash
-   git push origin feature/new-feature
-   ```  
+   npm run dev --prefix server
+   npm run dev --prefix client
+   npm run dev --prefix admin
+   ```
 
----
+5. **Open apps**
 
-## 💡 **Development Guidelines**
+   - Student app: http://localhost:5173
+   - Admin app: http://localhost:5174
+   - API server: http://localhost:5000
 
-- Ensure **code consistency** using **ESLint** and **Prettier**.  
-- Write **clear and concise commit messages**.  
-- **Test your changes** before submitting a pull request.  
+## Useful scripts
 
----
+| Area | Command | Description |
+| --- | --- | --- |
+| Server | `npm run dev --prefix server` | Start backend with nodemon |
+| Server | `npm test --prefix server` | Run Node.js backend tests |
+| Client | `npm run dev --prefix client` | Start student app |
+| Client | `npm run build --prefix client` | Build student app |
+| Client | `npm run lint --prefix client` | Lint student app |
+| Admin | `npm run dev --prefix admin` | Start admin app |
+| Admin | `npm run build --prefix admin` | Build admin app |
+| Admin | `npm run lint --prefix admin` | Lint admin app |
 
-## 📜 **License**
+## Server environment variables
 
-This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for more details.
+See `server/.env.example` for the full list. Core variables:
 
----
+- `PORT`
+- `MONGO_URI`
+- `JWT_SECRET`
+- `FRONTEND_URL`
+- `STRIPE_SECRET_KEY`
+- `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`
+- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+- `GIMINI_API_KEY` (or `GEMINI_API_KEY`)
 
-## 🎉 **Let’s Make Virtual Learning Accessible for All!**
+## Additional docs
 
-Thank you for contributing to EduMatrix Virtual Classroom! Together, we can revolutionize the way education is delivered. 🚀
+- Contributor guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Server architecture/audit notes: [`server/docs/`](server/docs)
 
----
+## Contributing
+
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
+
+## License
+
+Licensed under the Apache License 2.0. See [LICENSE.txt](LICENSE.txt).
