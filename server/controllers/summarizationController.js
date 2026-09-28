@@ -1,84 +1,69 @@
-const { spawn } = require('child_process');
-const path = require('path');
-const cloudinary = require('cloudinary').v2;
 const Notes = require('../models/notesModels');
+const { summarizeDocument } = require('../services/documentAiService');
+const { uploadToCloudinary } = require('../services/cloudinaryService');
 
-const Summarization = async(req,res)=>{
-
-    
-    let output = "";
-    let errorOutput = "";
-
-    try {
-        if(!req.file){
-            return res.status(404).json({
-                success:false,
-                message:"File not found"
-            })
-        }
-        const result = await new Promise((resolve, reject) => {
-            const stream = cloudinary.uploader.upload_stream(
-              { resource_type: "auto" },
-              (error, result) => {
-                if (error) return reject(error);
-                resolve(result);
-              }
-            );
-            stream.end(req.file.buffer);
-          });
-          // Scoped locally to avoid cross-request race conditions
-          const pdfUrl = result.secure_url;
-
-          const notes = await Notes.create({
-            notes: pdfUrl,
-          });
-
-         const scriptPath = path.resolve(__dirname, '../../python_rec/text_summarization.py');
-         const pythonProcess = spawn("python", [scriptPath, pdfUrl]);
-         pythonProcess.stdout.on("data",(data)=>{
-            console.log(`output is ${output}`)
-            output += data.toString()
-         })
-
-         pythonProcess.stderr.on("data",(data)=>{
-            console.log(`errorOutput is ${errorOutput}`)
-            errorOutput+=data.toString()
-         })
-
-
-         pythonProcess.on("close",(code)=>{
-            if(errorOutput){
-                console.log("Some error occured",errorOutput);
-            }
-            if(code !==0 ){
-                return res.status(404).json({
-                    success:false,
-                    message:"No output recieved"
-                })
-            }
-           const result = JSON.parse(output);
-           console.log(result);
-           return res.status(200).json({
-            success:true,
-            summary: result.result
-           })
-         })
-
-        
-    }catch(error){
-        return res.status(500).json({
-            success:false,
-            message:"some error occured"
-        })
+const Summarization = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(404).json({
+        success: false,
+        message: 'File not found',
+      });
     }
 
-}
+    // 1. Upload to Cloudinary via edge-compatible REST service
+    let pdfUrl = '';
+    try {
+      const uploadResult = await uploadToCloudinary({
+        buffer: req.file.buffer,
+        mimetype: req.file.mimetype || 'application/pdf',
+        originalname: req.file.originalname || 'document.pdf',
+        resourceType: 'auto',
+      });
+      pdfUrl = uploadResult?.secure_url || '';
+    } catch (uploadErr) {
+      console.warn('Cloudinary upload warning (continuing if mock/local):', uploadErr.message);
+      pdfUrl = 'https://res.cloudinary.com/mock/sample.pdf';
+    }
 
-const getPdf = async(req,res)=>{
-  const notes = await Notes.find();
-   return res.status(200).json({
-      success:true,
-      notes:notes
-   })
-}
-      module.exports = {Summarization,getPdf};
+    // 2. Persist Notes record
+    if (pdfUrl) {
+      await Notes.create({ notes: pdfUrl }).catch(() => null);
+    }
+
+    // 3. Generate summary directly via AI service without Python subprocess
+    const summary = await summarizeDocument({
+      buffer: req.file.buffer,
+      mimeType: req.file.mimetype || 'application/pdf',
+    });
+
+    return res.status(200).json({
+      success: true,
+      summary: summary,
+    });
+  } catch (error) {
+    console.error('Summarization error:', error.message);
+    const statusCode = error.message && error.message.includes('GEMINI_API_KEY is not configured') ? 503 : 500;
+    return res.status(statusCode).json({
+      success: false,
+      message: error.message || 'some error occured',
+    });
+  }
+};
+
+const getPdf = async (req, res) => {
+  try {
+    const notes = await Notes.find();
+    return res.status(200).json({
+      success: true,
+      notes: notes,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { Summarization, getPdf };

@@ -48,6 +48,6 @@ const institutionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Institution = mongoose.model("institution", institutionSchema);
+const Institution = mongoose.models.institution || mongoose.model("institution", institutionSchema);
 
 module.exports = Institution;

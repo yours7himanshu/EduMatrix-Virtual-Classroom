@@ -1618,6 +1618,8 @@ const AdminLive = () => {
         onClose={() => setShowChat(false)}
         isDocked={true}
         title="In-Call Live Chat"
+        room={room}
+        classroomId={selectedClassroomId}
       />
     </div>
   );

@@ -17,7 +17,7 @@ limitations under the License.
 
 const Admin = require('../models/adminModels');
 const Institution = require('../models/institutionModel');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const collegeRegister = async(req,res)=>{

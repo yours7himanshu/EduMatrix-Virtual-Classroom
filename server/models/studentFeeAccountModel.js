@@ -121,6 +121,6 @@ studentFeeAccountSchema.index(
 studentFeeAccountSchema.index({ institutionId: 1, status: 1 });
 studentFeeAccountSchema.index({ studentId: 1, academicYear: 1 });
 
-const StudentFeeAccount = mongoose.model("studentFeeAccount", studentFeeAccountSchema);
+const StudentFeeAccount = mongoose.models.studentFeeAccount || mongoose.model("studentFeeAccount", studentFeeAccountSchema);
 
 module.exports = StudentFeeAccount;

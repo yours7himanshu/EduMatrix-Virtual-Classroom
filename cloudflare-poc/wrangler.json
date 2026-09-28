@@ -1,45 +1,30 @@
 {
-  "name": "edumatrix-cloudflare-poc",
-  "main": "src/container.js",
-  "compatibility_date": "2026-09-27",
+  "name": "edumatrix-backend-worker",
+  "main": "src/index.js",
+  "compatibility_date": "2024-09-23",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "alias": {
+    "mongoose": "./src/mongoose-edge.js"
+  },
+  "vars": {
+    "NODE_ENV": "development"
+  },
   "env": {
     "staging": {
-      "name": "edumatrix-cloudflare-poc-staging",
-      "containers": [{
-        "class_name": "EduMatrixContainer",
-        "image": "../Dockerfile",
-        "max_instances": 1,
-        "instance_type": "basic"
-      }],
-      "durable_objects": {
-        "bindings": [{
-          "name": "EDUMATRIX_CONTAINER",
-          "class_name": "EduMatrixContainer"
-        }]
-      },
-      "migrations": [{
-        "tag": "v1",
-        "new_sqlite_classes": ["EduMatrixContainer"]
-      }]
+      "name": "edumatrix-backend-staging",
+      "vars": {
+        "NODE_ENV": "staging",
+        "ENABLE_DIAGNOSTICS": "false"
+      }
     },
-    "production": {
-      "name": "edumatrix-cloudflare-poc",
-      "containers": [{
-        "class_name": "EduMatrixContainer",
-        "image": "../Dockerfile",
-        "max_instances": 1,
-        "instance_type": "basic"
-      }],
-      "durable_objects": {
-        "bindings": [{
-          "name": "EDUMATRIX_CONTAINER",
-          "class_name": "EduMatrixContainer"
-        }]
-      },
-      "migrations": [{
-        "tag": "v1",
-        "new_sqlite_classes": ["EduMatrixContainer"]
-      }]
+    "proxy": {
+      "name": "edumatrix-proxy-worker",
+      "main": "src/proxy.js",
+      "vars": {
+        "ORIGIN_URL": "http://127.0.0.1:5000"
+      }
     }
   }
 }

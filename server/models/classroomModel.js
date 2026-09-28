@@ -71,6 +71,6 @@ classroomSchema.index({ institutionId: 1, courseCode: 1 }, { unique: true });
 classroomSchema.index({ institutionId: 1, teacherId: 1 });
 classroomSchema.index({ institutionId: 1, branch: 1, batch: 1 });
 
-const Classroom = mongoose.model("classroom", classroomSchema);
+const Classroom = mongoose.models.classroom || mongoose.model("classroom", classroomSchema);
 
 module.exports = Classroom;

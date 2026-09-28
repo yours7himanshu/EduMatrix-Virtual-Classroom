@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
@@ -155,14 +155,116 @@ const QuizList = () => {
   const socketContext = useSocket();
   const socket = socketContext?.socket;
 
+  const lastSyncTimeRef = useRef(0);
+  const lastProcessedCursorRef = useRef(null);
+  const continuationCursorRef = useRef(null);
+  const isSyncingRef = useRef(false);
+  const seenQuizIds = useRef(new Set());
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token") || "";
+    return token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            token: token,
+          },
+          withCredentials: true,
+        }
+      : { withCredentials: true };
+  };
+
+  const MAX_PAGES_PER_SYNC = 10;
+  const PAGE_LIMIT = 50;
+
+  const syncQuizEvents = useCallback(async () => {
+    // Avoid concurrent overlapping catch-up loops during rapid reconnects
+    if (isSyncingRef.current) return;
+    isSyncingRef.current = true;
+
+    try {
+      let pageCount = 0;
+      let hasMore = true;
+      // Resume from continuation cursor if previous sync hit MAX_PAGES_PER_SYNC,
+      // otherwise use the last acknowledged cursor, or fallback to since timestamp.
+      let currentCursor = continuationCursorRef.current || lastProcessedCursorRef.current;
+      const initialSince = !currentCursor && lastSyncTimeRef.current ? lastSyncTimeRef.current : 0;
+
+      while (hasMore && pageCount < MAX_PAGES_PER_SYNC) {
+        pageCount++;
+        let url = `${backendApiUrl}/api/quizzes/events?limit=${PAGE_LIMIT}`;
+        if (currentCursor) {
+          url += `&cursor=${encodeURIComponent(currentCursor)}`;
+        } else if (initialSince > 0) {
+          url += `&since=${initialSince}`;
+        }
+
+        const res = await axios.get(url, getAuthHeaders());
+        if (!res.data?.success || !Array.isArray(res.data.events)) {
+          break;
+        }
+
+        const { events, pagination, serverTime } = res.data;
+        if (serverTime) {
+          lastSyncTimeRef.current = serverTime;
+        }
+
+        // Process this page of events and deduplicate against existing quizzes
+        const newEvents = events.filter((evt) => {
+          const quizId = evt.data?._id ? String(evt.data._id) : null;
+          return quizId && !seenQuizIds.current.has(quizId);
+        });
+
+        if (newEvents.length > 0) {
+          newEvents.forEach((evt) => seenQuizIds.current.add(String(evt.data._id)));
+          setQuizzes((prev) => [...prev, ...newEvents.map((evt) => evt.data)]);
+          toast.info(`${newEvents.length} new quiz${newEvents.length > 1 ? "zes" : ""} synchronized!`);
+        }
+
+        // Only advance cursor after successful processing of this page
+        hasMore = Boolean(pagination?.hasMore && pagination?.nextCursor);
+        if (pagination?.nextCursor) {
+          currentCursor = pagination.nextCursor;
+          lastProcessedCursorRef.current = pagination.nextCursor;
+        } else {
+          break;
+        }
+      }
+
+      // If loop finished because page cap was hit and more remain, preserve continuation cursor
+      if (hasMore && currentCursor) {
+        continuationCursorRef.current = currentCursor;
+      } else {
+        continuationCursorRef.current = null;
+      }
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        toast.error("Session expired or unauthorized. Please log in again.");
+      } else {
+        console.warn("Quiz catch-up sync warning:", err?.message || err);
+      }
+    } finally {
+      isSyncingRef.current = false;
+    }
+  }, [backendApiUrl]);
+
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get(`${backendApiUrl}/api/quizzes`);
-        setQuizzes(res.data || []);
+        const res = await axios.get(`${backendApiUrl}/api/quizzes`, getAuthHeaders());
+        const data = Array.isArray(res.data) ? res.data : [];
+        setQuizzes(data);
+        seenQuizIds.current = new Set(data.map((q) => String(q._id)));
+        lastSyncTimeRef.current = Date.now();
+        lastProcessedCursorRef.current = null;
+        continuationCursorRef.current = null;
       } catch (error) {
-        console.log("Failed to fetch quizzes:", error);
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          toast.error("Session expired or unauthorized. Please log in again.");
+        } else {
+          console.error("Failed to fetch quizzes:", error);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -173,16 +275,31 @@ const QuizList = () => {
 
   useEffect(() => {
     if (!socket) return;
+
+    const handleConnect = () => {
+      // Re-sync missed quiz events on socket connect/reconnect
+      syncQuizEvents();
+    };
+
     const handleNewQuiz = (newQuiz) => {
+      if (!newQuiz || !newQuiz._id) return;
+      const quizId = String(newQuiz._id);
+      if (seenQuizIds.current.has(quizId)) return;
+
+      seenQuizIds.current.add(quizId);
       setQuizzes((prev) => [...prev, newQuiz]);
+      lastSyncTimeRef.current = Date.now();
       toast.success("New quiz available!");
     };
 
+    socket.on("connect", handleConnect);
     socket.on("new-quiz", handleNewQuiz);
+
     return () => {
+      socket.off("connect", handleConnect);
       socket.off("new-quiz", handleNewQuiz);
     };
-  }, [socket]);
+  }, [socket, syncQuizEvents]);
 
   const handleQuizDetailsToggle = (quizId) => {
     setActiveQuiz(activeQuiz === quizId ? null : quizId);
@@ -196,11 +313,23 @@ const QuizList = () => {
         return;
       }
 
-      await axios.post(`${backendApiUrl}/api/quizzes/${quizId}/submit`, { answers });
-      toast.success("Your answers have been submitted successfully!");
+      const res = await axios.post(
+        `${backendApiUrl}/api/quizzes/${quizId}/submit`,
+        { answers },
+        getAuthHeaders()
+      );
+      if (res.data?.success) {
+        toast.success(`Your answers have been submitted! Score: ${res.data.score}/${res.data.totalQuestions}`);
+      } else {
+        toast.success("Your answers have been submitted successfully!");
+      }
       setActiveQuiz(null);
-    } catch {
-      toast.error("Failed to submit your answers. Please try again.");
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        toast.error("Unauthorized or session expired. Please re-authenticate.");
+      } else {
+        toast.error("Failed to submit your answers. Please try again.");
+      }
     }
   };
 

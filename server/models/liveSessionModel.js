@@ -63,6 +63,6 @@ const liveSessionSchema = new mongoose.Schema(
 // Optimize active session lookups per classroom
 liveSessionSchema.index({ classroomId: 1, status: 1 });
 
-const LiveSession = mongoose.model("liveSession", liveSessionSchema);
+const LiveSession = mongoose.models.liveSession || mongoose.model("liveSession", liveSessionSchema);
 
 module.exports = LiveSession;

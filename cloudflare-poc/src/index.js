@@ -11,8 +11,15 @@
 
 import { MongoClient } from "mongodb";
 import mongoosePkg from "mongoose/index.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+import connectDBPkg from "../../server/db/db.js";
+import honoAppPkg from "../../server/honoApp.js";
 
 const mongoose = mongoosePkg.default || mongoosePkg;
+const connectDB = connectDBPkg.default || connectDBPkg;
+const honoApp = honoAppPkg.default || honoAppPkg;
 
 // Module-level connection singletons for warm-isolate reuse
 let cachedMongoClient = null;
@@ -25,8 +32,9 @@ let mongooseConnectCount = 0;
  * Redacts credentials from error messages and URIs
  */
 function sanitizeError(msg) {
-  if (!msg || typeof msg !== "string") return "Unknown error";
-  return msg.replace(/mongodb(\+srv)?:\/\/[^@]+@/gi, "mongodb+srv://[REDACTED_CREDENTIALS]@");
+  if (!msg) return "";
+  const text = typeof msg === "string" ? msg : (msg.message || String(msg));
+  return text.replace(/mongodb(\+srv)?:\/\/[^@\s]+@/gi, (match, srv) => `mongodb${srv || ''}://[REDACTED_CREDENTIALS]@`);
 }
 
 /**
@@ -99,21 +107,157 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // 1. Health-check route
-    if (url.pathname === "/" || url.pathname === "/health") {
-      return new Response(
-        JSON.stringify({
-          status: "healthy",
-          runtime: "cloudflare-workers",
-          compatibilityFlags: ["nodejs_compat_v2"],
-          timestamp: new Date().toISOString(),
-          uptimeSeconds: Math.floor(performance.now() / 1000),
-        }),
-        {
-          status: 200,
+    // Isolate diagnostic routes behind strict default-deny policy:
+    // Requires explicit ENABLE_DIAGNOSTICS === "true" AND must never run in production.
+    const diagnosticPaths = ["/db/live-verify", "/test-db", "/test-driver", "/test-mongoose", "/test-node-tls", "/test-socket"];
+    if (diagnosticPaths.includes(url.pathname)) {
+      const diagnosticsAllowed = env && env.ENABLE_DIAGNOSTICS === "true" && env.NODE_ENV !== "production";
+      if (!diagnosticsAllowed) {
+        return new Response(JSON.stringify({ error: "Not found", path: url.pathname }), {
+          status: 404,
           headers: { "Content-Type": "application/json" },
+        });
+      }
+      // Continue to diagnostic routes below only if explicitly authorized
+    } else {
+      // Delegate all application routing, API endpoints, WebSockets, and health checks to the Hono routing framework
+      return honoApp.fetch(request, env, ctx);
+    }
+
+    // 1f. Phase 5 Targeted Live Verification route using adapted server/db/db.js
+    if (url.pathname === "/db/live-verify") {
+      const overallStart = Date.now();
+
+      // Check if testing failure behavior and credential redaction
+      if (url.searchParams.get("testFailure") === "true") {
+        try {
+          const fakeAuthUri = "mongodb://fakeUser:SecretPassword123!@127.0.0.1:65530/test?connectTimeoutMS=50&serverSelectionTimeoutMS=50";
+          await connectDB({ uri: fakeAuthUri });
+          return new Response(JSON.stringify({ success: false, message: "Expected connection failure but succeeded" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
+        } catch (failErr) {
+          const rawMsg = failErr.message || String(failErr);
+          const sanitized = connectDB.sanitizeMongoUri(rawMsg);
+          const credentialsRedacted = !sanitized.includes("SecretPassword123!") &&
+                                      !sanitized.includes("fakeUser");
+          return new Response(
+            JSON.stringify({
+              success: true,
+              test: "safe_failure_and_credential_redaction",
+              failureHandled: true,
+              credentialsRedacted,
+              sanitizedError: sanitized,
+            }),
+            { status: 200, headers: { "Content-Type": "application/json" } }
+          );
         }
-      );
+      }
+
+      const mode = url.searchParams.get("mode") || "direct"; // default direct replica for edge socket reliability
+
+      try {
+        // Step 1: Real Authenticated Mongoose connection via adapted server/db/db.js
+        const connectStart = Date.now();
+        const mongooseInstance = await connectDB({ env, mode });
+        const connectDurationMs = Date.now() - connectStart;
+        const isConnected = connectDB.isDbConnected();
+        const connectionState = connectDB.getConnectionState();
+
+        if (!isConnected || !mongooseInstance.connection?.db) {
+          throw new Error("connectDB completed but Mongoose connection.db is not active");
+        }
+
+        const db = mongooseInstance.connection.db;
+
+        // Step 2: Harmless read against existing database / collections
+        const readStart = Date.now();
+        const pingResult = await db.admin().ping();
+        const collections = await db.listCollections().toArray();
+        const collectionNames = collections.map((c) => c.name);
+
+        let sampleCollection = collectionNames.find((c) => c.startsWith("test")) || collectionNames[0] || null;
+        let sampleCount = 0;
+        if (sampleCollection) {
+          sampleCount = await db.collection(sampleCollection).countDocuments();
+        }
+        const readDurationMs = Date.now() - readStart;
+
+        // Step 3: Controlled test write and cleanup using isolated test data only
+        const writeStart = Date.now();
+        const testCollection = db.collection("_cf_worker_phase5_verification");
+        const testDocId = `phase5_live_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+        // Write: Insert isolated test document
+        const insertRes = await testCollection.insertOne({
+          _id: testDocId,
+          testTag: "phase5_workerd_live_verification",
+          runtime: "cloudflare-workers (workerd)",
+          timestamp: new Date(),
+        });
+
+        // Read-back to verify write consistency
+        const foundDoc = await testCollection.findOne({ _id: testDocId });
+
+        // Cleanup: Delete the test document immediately
+        const deleteRes = await testCollection.deleteOne({ _id: testDocId });
+        const writeCleanupDurationMs = Date.now() - writeStart;
+
+        // Step 4: Verify connection reuse in same warm isolate
+        const reuseStart = Date.now();
+        await connectDB({ env, mode });
+        const reuseDurationMs = Date.now() - reuseStart;
+        const wasReused = reuseDurationMs < 20;
+
+        return new Response(
+          JSON.stringify({
+            success: true,
+            runtime: "cloudflare-workers (workerd)",
+            manager: "server/db/db.js",
+            connection: {
+              authenticated: true,
+              connectionState,
+              isDbConnected: isConnected,
+              connectDurationMs,
+              reuseDurationMs,
+              connectionReused: wasReused,
+              uriMode: mode,
+            },
+            harmlessRead: {
+              ping: pingResult,
+              totalCollectionsFound: collectionNames.length,
+              sampleCollection,
+              sampleCount,
+              readDurationMs,
+            },
+            controlledWriteAndCleanup: {
+              collection: "_cf_worker_phase5_verification",
+              insertedId: testDocId,
+              insertedAcknowledged: insertRes.acknowledged,
+              readBackVerified: foundDoc !== null && foundDoc._id === testDocId,
+              deletedCount: deleteRes.deletedCount,
+              cleanupVerified: deleteRes.deletedCount === 1,
+              writeCleanupDurationMs,
+            },
+            totalDurationMs: Date.now() - overallStart,
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        );
+      } catch (err) {
+        const sanitized = connectDB.sanitizeMongoUri(err.message || String(err));
+        return new Response(
+          JSON.stringify({
+            success: false,
+            runtime: "cloudflare-workers (workerd)",
+            manager: "server/db/db.js",
+            error: sanitized,
+            name: err.name,
+            totalDurationMs: Date.now() - overallStart,
+          }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
     }
 
     // 2. Approach A: Official Native MongoDB Node Driver Test
@@ -234,10 +378,61 @@ export default {
       }
     }
 
-    // 4. Outbound TLS TCP Socket Diagnostic
+    // 3b. Diagnostic: node:tls compatibility check
+    if (url.pathname === "/test-node-tls") {
+      const host = "cluster0-shard-00-00.mkcqp.mongodb.net";
+      const port = 27017;
+      const start = Date.now();
+      try {
+        const tls = await import("node:tls");
+        const socketPromise = new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => reject(new Error("node:tls socket timeout after 5000ms")), 5000);
+          const socket = tls.connect({ host, port, servername: host }, () => {
+            clearTimeout(timeout);
+            socket.end();
+            resolve({ connected: true, latencyMs: Date.now() - start });
+          });
+          socket.on("error", (e) => {
+            clearTimeout(timeout);
+            reject(e);
+          });
+        });
+        const result = await socketPromise;
+        return new Response(JSON.stringify({ success: true, api: "node:tls", ...result }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ success: false, api: "node:tls", error: err.message, stack: err.stack }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    // 4. Outbound TLS TCP Socket Diagnostic (Restricted to safe predefined target)
     if (url.pathname === "/test-socket") {
-      const host = url.searchParams.get("host") || "cluster0-shard-00-00.mkcqp.mongodb.net";
-      const port = Number(url.searchParams.get("port")) || 27017;
+      const ALLOWED_HOST = "cluster0-shard-00-00.mkcqp.mongodb.net";
+      const ALLOWED_PORT = 27017;
+
+      const requestedHost = url.searchParams.get("host");
+      const requestedPort = url.searchParams.get("port");
+
+      if (
+        (requestedHost && requestedHost !== ALLOWED_HOST) ||
+        (requestedPort && Number(requestedPort) !== ALLOWED_PORT)
+      ) {
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: "Forbidden: Arbitrary host or port probing is not permitted. Predefined diagnostic target only.",
+          }),
+          { status: 403, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      const host = ALLOWED_HOST;
+      const port = ALLOWED_PORT;
       const start = Date.now();
 
       try {
@@ -266,123 +461,8 @@ export default {
           JSON.stringify({
             success: false,
             api: "cloudflare:sockets",
-            error: cfErr.message,
+            error: sanitizeError(cfErr.message),
             durationMs: Date.now() - start,
-          }),
-          { status: 500, headers: { "Content-Type": "application/json" } }
-        );
-      }
-    }
-
-    // 5. Diagnostic: Direct Single-Node Connection with Full Event Capture
-    if (url.pathname === "/test-single-node") {
-      const overallStart = Date.now();
-      const targetUri = env.MONGO_SINGLE_NODE_URI || env.MONGO_DIRECT_URI;
-      const events = [];
-
-      const clientOptions = {
-        directConnection: true,
-        tls: true,
-        serverSelectionTimeoutMS: 5000,
-        connectTimeoutMS: 5000,
-      };
-
-      const recordEvent = (type, data) => {
-        events.push({
-          elapsedMs: Date.now() - overallStart,
-          type,
-          ...JSON.parse(sanitizeError(JSON.stringify(data))),
-        });
-      };
-
-      let client = null;
-      try {
-        client = new MongoClient(targetUri, clientOptions);
-
-        client.on("serverOpening", (e) => recordEvent("serverOpening", { address: e.address }));
-        client.on("serverClosed", (e) => recordEvent("serverClosed", { address: e.address }));
-        client.on("serverDescriptionChanged", (e) =>
-          recordEvent("serverDescriptionChanged", {
-            address: e.address,
-            previousType: e.previousDescription.type,
-            newType: e.newDescription.type,
-            error: e.newDescription.error ? e.newDescription.error.message : null,
-          })
-        );
-        client.on("serverHeartbeatStarted", (e) =>
-          recordEvent("serverHeartbeatStarted", { connectionId: e.connectionId })
-        );
-        client.on("serverHeartbeatSucceeded", (e) =>
-          recordEvent("serverHeartbeatSucceeded", {
-            connectionId: e.connectionId,
-            duration: e.duration,
-          })
-        );
-        client.on("serverHeartbeatFailed", (e) =>
-          recordEvent("serverHeartbeatFailed", {
-            connectionId: e.connectionId,
-            duration: e.duration,
-            failure: e.failure ? e.failure.message : null,
-            stack: e.failure ? e.failure.stack : null,
-          })
-        );
-        client.on("connectionCreated", (e) =>
-          recordEvent("connectionCreated", { connectionId: e.connectionId, address: e.address })
-        );
-        client.on("connectionReady", (e) =>
-          recordEvent("connectionReady", { connectionId: e.connectionId, address: e.address })
-        );
-        client.on("connectionClosed", (e) =>
-          recordEvent("connectionClosed", { connectionId: e.connectionId, reason: e.reason })
-        );
-        client.on("commandStarted", (e) =>
-          recordEvent("commandStarted", { commandName: e.commandName, databaseName: e.databaseName })
-        );
-        client.on("commandSucceeded", (e) =>
-          recordEvent("commandSucceeded", { commandName: e.commandName, duration: e.duration })
-        );
-        client.on("commandFailed", (e) =>
-          recordEvent("commandFailed", { commandName: e.commandName, failure: e.failure?.message })
-        );
-
-        await client.connect();
-        const connectDurationMs = Date.now() - overallStart;
-
-        const pingStart = Date.now();
-        const pingRes = await client.db("admin").command({ ping: 1 });
-        const pingDurationMs = Date.now() - pingStart;
-
-        await client.close();
-
-        return new Response(
-          JSON.stringify({
-            success: true,
-            environment: "cloudflare-workers",
-            connectDurationMs,
-            pingDurationMs,
-            pingResponse: pingRes,
-            clientOptions,
-            events,
-          }),
-          { status: 200, headers: { "Content-Type": "application/json" } }
-        );
-      } catch (err) {
-        if (client) {
-          try {
-            await client.close();
-          } catch (_) {}
-        }
-
-        return new Response(
-          JSON.stringify({
-            success: false,
-            environment: "cloudflare-workers",
-            totalDurationMs: Date.now() - overallStart,
-            errorName: err.name,
-            errorMessage: sanitizeError(err.message),
-            errorCause: err.cause ? sanitizeError(err.cause.message || JSON.stringify(err.cause)) : null,
-            clientOptions,
-            events,
           }),
           { status: 500, headers: { "Content-Type": "application/json" } }
         );

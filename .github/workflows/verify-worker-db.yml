@@ -1,0 +1,66 @@
+name: Manual Linux Cloudflare Worker MongoDB Verification
+
+# Strict Safety: This workflow triggers ONLY via manual dispatch.
+# It does NOT run on push, pull_request, schedule, or release events.
+on:
+  workflow_dispatch:
+    inputs:
+      expected_staging_db:
+        description: 'Expected non-production staging database name'
+        required: true
+        default: 'edumatrix_staging'
+
+# Minimum necessary permissions: read-only access to repository contents
+permissions:
+  contents: read
+
+jobs:
+  verify-worker-mongodb-linux:
+    name: Verify Mongoose in Linux workerd Runtime
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            server/package-lock.json
+            cloudflare-poc/package-lock.json
+
+      - name: Verify Staging Secret Availability
+        run: |
+          if [ -z "${{ secrets.MONGO_STAGING_URI }}" ]; then
+            echo "::error::MONGO_STAGING_URI secret is not configured in this repository."
+            echo "To run this manual verification on Linux workerd:"
+            echo "1. Go to Repository Settings -> Secrets and variables -> Actions."
+            echo "2. Add a new secret named MONGO_STAGING_URI pointing to a dedicated, non-production staging database."
+            echo "3. Re-trigger this manual workflow dispatch."
+            exit 1
+          fi
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Install cloudflare-poc dependencies
+        working-directory: cloudflare-poc
+        run: npm ci
+
+      - name: Run Offline Verification Harness Suite
+        working-directory: cloudflare-poc
+        run: node --test --test-force-exit test-worker-db-offline.test.js
+
+      - name: Run Read-Only Mongoose Verification in Linux workerd
+        working-directory: cloudflare-poc
+        env:
+          MONGO_STAGING_URI: ${{ secrets.MONGO_STAGING_URI }}
+          EXPECTED_STAGING_DB_NAME: ${{ github.event.inputs.expected_staging_db }}
+        run: |
+          # Execute the Linux workerd Mongoose verification harness
+          node test-worker-db-linux.js

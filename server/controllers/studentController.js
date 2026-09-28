@@ -18,8 +18,8 @@ limitations under the License.
 const Student = require("../models/studentModels");
 const Admin = require("../models/adminModels");
 const Institution = require("../models/institutionModel");
-const bcrypt = require("bcrypt");
-const cloudinary = require("cloudinary").v2;
+const bcrypt = require("bcryptjs");
+const { uploadToCloudinary, deleteFromCloudinary } = require("../services/cloudinaryService");
 const mongoose = require("mongoose");
 
 /**
@@ -133,20 +133,18 @@ const enrollStudent = async (req, res) => {
       });
     }
 
-    // ── 5. Upload avatar ───────────────────────────────────────────────────
+    // ── 5. Upload avatar via edge-compatible REST service ──────────────────
     let avatarUrl;
+    let publicId;
     try {
-      const result = await new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { resource_type: "image" },
-          (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-          }
-        );
-        stream.end(req.file.buffer);
+      const uploadResult = await uploadToCloudinary({
+        buffer: req.file.buffer,
+        mimetype: req.file.mimetype || "image/jpeg",
+        originalname: req.file.originalname || "avatar.jpg",
+        resourceType: "image",
       });
-      avatarUrl = result.secure_url;
+      avatarUrl = uploadResult.secure_url;
+      publicId = uploadResult.public_id;
     } catch (uploadError) {
       console.error("Cloudinary upload error:", uploadError);
       return res.status(500).json({
@@ -160,18 +158,27 @@ const enrollStudent = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // ── 7. Create student — institutionId comes ONLY from authenticated registrar ──
-    const student = await Student.create({
-      name,
-      rollNo,
-      fatherName,
-      phoneNo,
-      branch,
-      batch,
-      email,
-      password: hashedPassword,
-      avatar: avatarUrl,
-      institutionId: registrar.institutionId, // SERVER-AUTHORITATIVE — never from body
-    });
+    let student;
+    try {
+      student = await Student.create({
+        name,
+        rollNo,
+        fatherName,
+        phoneNo,
+        branch,
+        batch,
+        email,
+        password: hashedPassword,
+        avatar: avatarUrl,
+        institutionId: registrar.institutionId, // SERVER-AUTHORITATIVE — never from body
+      });
+    } catch (dbError) {
+      // Rollback orphaned uploaded avatar on DB failure
+      if (publicId) {
+        await deleteFromCloudinary({ publicId, resourceType: "image" }).catch(() => null);
+      }
+      throw dbError;
+    }
 
     // ── 8. Resolve institution name for response ───────────────────────────
     let institutionName = null;

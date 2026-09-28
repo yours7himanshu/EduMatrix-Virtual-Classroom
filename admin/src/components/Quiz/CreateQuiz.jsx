@@ -41,9 +41,14 @@ const CreateQuiz = () => {
     e.preventDefault();
 
     try {
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token") || "";
       const response = await fetch(`${backendUrl}/api/quizzes`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}`, 'token': token } : {}),
+        },
+        credentials: 'include',
         body: JSON.stringify(quiz),
       });
 

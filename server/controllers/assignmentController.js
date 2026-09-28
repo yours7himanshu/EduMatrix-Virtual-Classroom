@@ -14,8 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-const cloudinary = require('cloudinary').v2;
 const Assignment = require("../models/assignmentModels");
+const { uploadToCloudinary, deleteFromCloudinary } = require("../services/cloudinaryService");
 
 // code for posting the assignment from the admin panel to the student server
 const postAssignment = async (req, res) => {
@@ -39,23 +39,21 @@ const postAssignment = async (req, res) => {
     }
 
     let pdfUrl;
+    let publicId;
 
-    // Upload assignment PDF to Cloudinary
+    // Upload assignment PDF to Cloudinary via edge-compatible REST service
     try {
-      const result = await new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { resource_type: "auto" },
-          (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-          }
-        );
-        stream.end(req.file.buffer); // Pass the buffer to the stream
+      const uploadResult = await uploadToCloudinary({
+        buffer: req.file.buffer,
+        mimetype: req.file.mimetype || "application/pdf",
+        originalname: req.file.originalname || "assignment.pdf",
+        resourceType: "auto",
       });
 
-      pdfUrl = result.secure_url;
+      pdfUrl = uploadResult.secure_url;
+      publicId = uploadResult.public_id;
     } catch (uploadError) {
-      console.error("Error uploading avatar to Cloudinary:", uploadError);
+      console.error("Error uploading assignment to Cloudinary:", uploadError);
       return res.status(500).json({
         success: false,
         message: "Error uploading avatar",
@@ -63,20 +61,27 @@ const postAssignment = async (req, res) => {
       });
     }
 
+    try {
+      const assignment = await Assignment.create({
+        title,
+        description,
+        questions,
+        deadline,
+        pdfUrl,
+      });
 
-    const assignment = await Assignment.create({
-      title,
-      description,
-      questions,
-      deadline,
-      pdfUrl,
-    });
-
-    return res.status(201).json({
-      success: true,
-      assignment,
-      message: "Assignment Successfully posted",
-    });
+      return res.status(201).json({
+        success: true,
+        assignment,
+        message: "Assignment Successfully posted",
+      });
+    } catch (dbError) {
+      // Rollback orphaned uploaded asset on DB failure
+      if (publicId) {
+        await deleteFromCloudinary({ publicId, resourceType: "auto" }).catch(() => null);
+      }
+      throw dbError;
+    }
   } catch (error) {
     return res.status(500).json({
       success: false,

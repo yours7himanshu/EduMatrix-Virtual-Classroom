@@ -19,7 +19,7 @@ limitations under the License.
 
 const Teacher = require('../models/teachersModels');
 const Admin = require('../models/adminModels');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 /**

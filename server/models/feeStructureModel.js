@@ -89,6 +89,6 @@ feeStructureSchema.index(
 // Secondary query index for active structures by institution
 feeStructureSchema.index({ institutionId: 1, isActive: 1 });
 
-const FeeStructure = mongoose.model("feeStructure", feeStructureSchema);
+const FeeStructure = mongoose.models.feeStructure || mongoose.model("feeStructure", feeStructureSchema);
 
 module.exports = FeeStructure;

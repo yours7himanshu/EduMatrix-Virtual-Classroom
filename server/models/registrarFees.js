@@ -22,6 +22,6 @@ const registrarFeesSchema = new mongoose.Schema({
     required:true
    }
 })
-const registrarFeesModel = mongoose.model("registrarFees", registrarFeesSchema);
+const registrarFeesModel = mongoose.models.registrarFees || mongoose.model("registrarFees", registrarFeesSchema);
 
-module.exports=registrarFeesModel;
+module.exports = registrarFeesModel;

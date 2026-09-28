@@ -4,14 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "npm --prefix ../server install",
     "dev": "wrangler dev --port 8787",
+    "test": "node --test test-worker-baseline.js",
+    "test:proxy": "node test-open-proxy-fix.js",
     "deploy:staging": "wrangler deploy --env staging",
     "deploy:production": "wrangler deploy --env production",
     "secret:staging:origin": "wrangler secret put ORIGIN_URL --env staging",
     "secret:production:origin": "wrangler secret put ORIGIN_URL --env production"
   },
   "dependencies": {
-    "@cloudflare/containers": "^0.1.0",
+    "bcryptjs": "^3.0.3",
+    "hono": "^4.13.9",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.13.2"
   },
   "devDependencies": {

@@ -1,59 +1,35 @@
-const {spawn} = require('child_process');
+const { predictPlacement } = require('../services/documentAiService');
 
+const AiPredictorController = async (req, res) => {
+  const { marks, attendance, branch } = req.body || {};
 
-const AiPredictorController = async(req,res)=>{
-    const {marks,attendance,branch}=req.body;
+  try {
+    const prediction = predictPlacement({ marks, attendance, branch });
 
-    console.log([marks,attendance,branch]);
+    return res.status(200).json({
+      success: true,
+      prediction: {
+        result: prediction.result,
+        marks: prediction.marks,
+        attendance: prediction.attendance,
+        branch: prediction.branch,
+      },
+      message: 'Prediction recieved from the model',
+    });
+  } catch (error) {
+    if (error.message && error.message.includes('valid numeric values')) {
+      return res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
 
-    const pythonProcess = spawn("python",["../python_rec/pred_model.py",marks,attendance,branch]);
+    console.error('AI Predictor error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    });
+  }
+};
 
-    let output = "";
-    let errorOutput = "";
-
-
-    pythonProcess.stdout.on("data",(data)=>{
-        output+=data.toString();
-       
-    })
-
-    pythonProcess.stderr.on("data",(data)=>{
-        errorOutput+=data.toString();
-       
-    })
-
-    pythonProcess.on("close",(code)=>{
-        if(errorOutput){
-            console.log("Some error occured",errorOutput)
-        }
-
-        else if( code !==0){
-            return res.status(500).json({
-                sucess:false,
-                message:"failed to predict"
-            })
-        }
-        else{
-            try{
-
-                const result = JSON.parse(output);
-                console.log("result",result)
-                return res.status(200).json({
-                    success:true,
-                    prediction:result,
-                    message:"Prediction recieved from the model"
-                })
-            }catch(error){
-                console.log("Internal server error",error);
-                return res.status(500).json({
-                    success: false,
-                    message: "Internal Server Error",
-                })
-            }
-        }
-    })
-
-    
-}
-
-module.exports=AiPredictorController;
+module.exports = AiPredictorController;

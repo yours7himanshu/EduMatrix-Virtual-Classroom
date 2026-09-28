@@ -22,23 +22,20 @@ const createRateLimiter = (options = {}) => {
 
   const hits = new Map();
 
-  // Periodic cleanup of stale entries every 5 minutes
-  const cleanupInterval = setInterval(() => {
-    const now = Date.now();
-    for (const [key, record] of hits.entries()) {
-      if (now - record.resetTime > 0) {
-        hits.delete(key);
+  const pruneStale = (now) => {
+    if (hits.size > 200) {
+      for (const [key, record] of hits.entries()) {
+        if (now > record.resetTime) {
+          hits.delete(key);
+        }
       }
     }
-  }, Math.max(windowMs, 60000));
-
-  if (cleanupInterval.unref) {
-    cleanupInterval.unref();
-  }
+  };
 
   const rateLimiterMiddleware = (req, res, next) => {
     const key = keyGenerator(req);
     const now = Date.now();
+    pruneStale(now);
 
     let record = hits.get(key);
     if (!record || now > record.resetTime) {

@@ -29,6 +29,6 @@ const studentMarksAttendanceSchema = new mongoose.Schema({
     }
 });
 
-const StudentMarksAttendance = mongoose.model('StudentMarksAttendance', studentMarksAttendanceSchema);
+const StudentMarksAttendance = mongoose.models.StudentMarksAttendance || mongoose.model('StudentMarksAttendance', studentMarksAttendanceSchema);
 
 module.exports = StudentMarksAttendance;

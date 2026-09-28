@@ -127,6 +127,11 @@ const sanitizeQuizPayload = (quiz) => ({
     : [],
 });
 
+let realtimeManager = null;
+try {
+  realtimeManager = require('../services/realtimeManager');
+} catch {}
+
 const notifyClients = (quiz) => {
   if (!quiz) return;
   const quizInstId = quiz.institutionId ? quiz.institutionId.toString() : null;
@@ -136,6 +141,15 @@ const notifyClients = (quiz) => {
   if (!quizInstId) {
     console.warn('notifyClients: quiz missing institutionId — broadcast suppressed to prevent global leak.');
     return;
+  }
+
+  // Forward to Cloudflare Workers Edge Realtime Manager
+  if (realtimeManager && typeof realtimeManager.broadcastQuiz === 'function') {
+    try {
+      realtimeManager.broadcastQuiz(quiz);
+    } catch (e) {
+      console.error('realtimeManager.broadcastQuiz error:', e.message);
+    }
   }
 
   // Sanitize before sending: correctAnswer must never reach the WebSocket channel.

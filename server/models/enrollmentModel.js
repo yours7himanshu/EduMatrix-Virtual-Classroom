@@ -54,6 +54,6 @@ enrollmentSchema.index({ classroomId: 1, studentId: 1 }, { unique: true });
 // Optimize lookups for a student's active enrollments
 enrollmentSchema.index({ studentId: 1, status: 1 });
 
-const Enrollment = mongoose.model("enrollment", enrollmentSchema);
+const Enrollment = mongoose.models.enrollment || mongoose.model("enrollment", enrollmentSchema);
 
 module.exports = Enrollment;

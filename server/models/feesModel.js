@@ -32,5 +32,5 @@ const feesSchema = new mongoose.Schema({
     index: true,
   }
 })
-const FeesModel = mongoose.model('Fees', feesSchema);
+const FeesModel = mongoose.models.Fees || mongoose.model('Fees', feesSchema);
 module.exports = FeesModel;

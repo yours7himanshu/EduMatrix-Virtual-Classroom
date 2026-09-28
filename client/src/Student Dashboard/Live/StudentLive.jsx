@@ -1005,6 +1005,8 @@ const StudentLive = () => {
         isOpen={showChat}
         onClose={() => setShowChat(false)}
         title="Classroom Chat"
+        room={room}
+        classroomId={selectedClassroomId}
       />
     </div>
   );

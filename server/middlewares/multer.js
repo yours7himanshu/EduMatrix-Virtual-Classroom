@@ -17,49 +17,15 @@ limitations under the License.
 
 
 const multer = require("multer");
-const path = require("path");
+const { fileFilter, MAX_FILE_SIZE } = require("../services/uploadValidator");
 
 // Memory storage for processing in memory (for Cloudinary direct uploads)
 const storage = multer.memoryStorage();
 
-const ALLOWED_IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
-const ALLOWED_MIME_TYPES = new Set([
-  "application/pdf",
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-]);
-
-const fileFilter = (req, file, cb) => {
-  const ext = path.extname(file.originalname || "").toLowerCase();
-
-  if (file.fieldname === "avatar") {
-    if (file.mimetype && file.mimetype.startsWith("image/") && ALLOWED_IMAGE_EXTENSIONS.has(ext)) {
-      return cb(null, true);
-    }
-    return cb(new Error("Invalid file type for avatar. Only JPG, PNG, WEBP, and GIF images are allowed."));
-  }
-
-  if (file.fieldname === "pdf" || file.fieldname === "pdfFile") {
-    if (file.mimetype === "application/pdf" && ext === ".pdf") {
-      return cb(null, true);
-    }
-    return cb(new Error("Invalid file type. Only PDF documents are allowed."));
-  }
-
-  // Fallback for other uploads
-  if (ALLOWED_MIME_TYPES.has(file.mimetype) && (ext === ".pdf" || ALLOWED_IMAGE_EXTENSIONS.has(ext))) {
-    return cb(null, true);
-  }
-
-  return cb(new Error("Invalid file type. Only PDF and image files are allowed."));
-};
-
 const upload = multer({
   storage,
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB max limit to protect memory
+    fileSize: MAX_FILE_SIZE, // 10MB max limit to protect memory
   },
   fileFilter,
 });

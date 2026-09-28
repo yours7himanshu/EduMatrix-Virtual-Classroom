@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright 2024 Himanshu Dinkar
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useSocket } from "../providers/Socket";
+import { RoomEvent } from "livekit-client";
 import { MessageSquare, Send, X, AlertCircle } from "lucide-react";
 
 /**
@@ -23,45 +24,118 @@ import { MessageSquare, Send, X, AlertCircle } from "lucide-react";
  * - In Live Class (isDocked=true): Docks as a sleek right sidebar drawer.
  *   Controlled by isOpen / onClose. NO wandering or floating toggle icons!
  * - Standalone (/messages): Renders as a full page chat card.
+ * Supports dual-transport: LiveKit Data Channel (WebRTC) + Socket.IO fallback.
  */
 const Message = ({
   isOpen = true,
   onClose,
   isDocked = false,
   title = "In-Call Chat",
+  room = null,
+  classroomId = null,
 }) => {
   const { socket } = useSocket();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [error, setError] = useState("");
   const messagesEndRef = useRef(null);
+  const seenMessageIds = useRef(new Set());
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const addIncomingMessage = useCallback((msg) => {
+    if (!msg || typeof msg !== "object") return;
+    const msgId = msg._id ? String(msg._id) : null;
+    const nonce = msg.nonce ? String(msg.nonce) : null;
+
+    const alreadySeen =
+      (msgId && seenMessageIds.current.has(msgId)) ||
+      (nonce && seenMessageIds.current.has(nonce));
+
+    // Tie both authoritative DB _id and client nonce together in seen set
+    if (msgId) seenMessageIds.current.add(msgId);
+    if (nonce) seenMessageIds.current.add(nonce);
+
+    if (alreadySeen) return;
+
+    // Keep seen set bounded to prevent memory growth
+    if (seenMessageIds.current.size > 1000) {
+      const items = Array.from(seenMessageIds.current);
+      seenMessageIds.current = new Set(items.slice(items.length - 500));
+    }
+
+    setMessages((prev) => [...prev, msg]);
+  }, []);
+
+  // ── 1. LiveKit Data Channel Listener ──────────────────────────────────────
+  useEffect(() => {
+    if (!room) return;
+
+    const handleDataReceived = (payload, participant) => {
+      try {
+        const text = new TextDecoder().decode(payload);
+        const parsed = JSON.parse(text);
+
+        if (parsed && typeof parsed === "object") {
+          if (parsed.event === "receiveMessage" && parsed.data) {
+            const data = parsed.data;
+            if (classroomId && data.classroomId && String(data.classroomId) !== String(classroomId)) {
+              return;
+            }
+            addIncomingMessage({
+              _id: data._id,
+              sender: data.sender || participant?.name || participant?.identity || "Teacher",
+              content: data.content,
+              timestamp: data.timestamp || new Date(),
+              classroomId: data.classroomId,
+              nonce: data.nonce,
+            });
+          } else if (parsed.content) {
+            addIncomingMessage({
+              _id: parsed._id,
+              sender: parsed.sender || participant?.name || participant?.identity || "Teacher",
+              content: parsed.content,
+              timestamp: parsed.timestamp || new Date(),
+              classroomId: parsed.classroomId,
+              nonce: parsed.nonce,
+            });
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to decode LiveKit data channel message in Message drawer:", err);
+      }
+    };
+
+    room.on(RoomEvent.DataReceived, handleDataReceived);
+
+    return () => {
+      room.off(RoomEvent.DataReceived, handleDataReceived);
+    };
+  }, [room, classroomId, addIncomingMessage]);
+
+  // ── 2. Socket.IO Fallback Listener ────────────────────────────────────────
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("connect", () => {
-      setError("");
-    });
-
-    socket.on("receiveMessage", (message) => {
-      setMessages((prev) => [...prev, message]);
-    });
-
-    socket.on("messageError", (errorData) => {
+    const handleConnect = () => setError("");
+    const handleReceive = (message) => addIncomingMessage(message);
+    const handleError = (errorData) => {
       console.error("Message error:", errorData);
       setError(errorData.error || "Error sending message");
-    });
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("receiveMessage", handleReceive);
+    socket.on("messageError", handleError);
 
     return () => {
-      socket.off("connect");
-      socket.off("receiveMessage");
-      socket.off("messageError");
+      socket.off("connect", handleConnect);
+      socket.off("receiveMessage", handleReceive);
+      socket.off("messageError", handleError);
     };
-  }, [socket]);
+  }, [socket, addIncomingMessage]);
 
   useEffect(() => {
     scrollToBottom();
@@ -69,14 +143,47 @@ const Message = ({
 
   const sendMessage = (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    if (inputMessage.trim() && socket) {
-      socket.emit("sendMessage", { content: inputMessage.trim() });
-      setMessages((prev) => [
-        ...prev,
-        { sender: "You", content: inputMessage.trim(), timestamp: new Date() },
-      ]);
-      setInputMessage("");
-      setError("");
+    const content = inputMessage.trim();
+    if (!content) return;
+
+    const nonce = `msg_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+    seenMessageIds.current.add(nonce);
+
+    // Optimistic local render
+    setMessages((prev) => [
+      ...prev,
+      { sender: "You", content, timestamp: new Date(), nonce, classroomId },
+    ]);
+    setInputMessage("");
+    setError("");
+
+    if (socket && socket.connected) {
+      socket.emit("sendMessage", {
+        content,
+        classroomId: classroomId || undefined,
+        nonce,
+      });
+    } else if (room && room.localParticipant) {
+      // Direct LiveKit Data Channel fallback when socket is disconnected
+      try {
+        const payloadStr = JSON.stringify({
+          event: "receiveMessage",
+          data: {
+            sender: room.localParticipant.name || room.localParticipant.identity || "You",
+            content,
+            timestamp: new Date(),
+            classroomId: classroomId || undefined,
+            nonce,
+          },
+        });
+        const encoder = new TextEncoder();
+        room.localParticipant.publishData(encoder.encode(payloadStr), { reliable: true });
+      } catch (err) {
+        console.error("Failed to publish chat message via LiveKit:", err);
+        setError("Failed to send message over data channel");
+      }
+    } else {
+      setError("Network warning: Message sent locally, waiting for connection");
     }
   };
 
