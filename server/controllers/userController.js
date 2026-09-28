@@ -24,6 +24,15 @@ const { sanitizeMongoUri } = require("../db/db");
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  // Reject missing credentials explicitly: without this, an empty or
+  // malformed body would query with `undefined` (potentially matching an
+  // arbitrary user) and crash password verification with a misleading 500.
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Email and password are required",
+    });
+  }
   try {
     const user = await Students.findOne({ email });
     if (!user) {

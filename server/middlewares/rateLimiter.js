@@ -75,3 +75,31 @@ const createRateLimiter = (options = {}) => {
 module.exports = {
   createRateLimiter,
 };
+
+// ── Preconfigured shared limiters ──
+// Defined here (instead of inside Express route modules) so that both the
+// Express daemon (server.js) and the Cloudflare Workers/Hono app (honoApp.js)
+// consume the exact same limits without the Worker bundle importing Express
+// (whose transitive body-parser/iconv-lite chain breaks the Worker runtime).
+const userLoginLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: "Too many login attempts. Please try again after 15 minutes.",
+});
+
+const adminLoginLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: "Too many login attempts. Please try again after 15 minutes.",
+});
+
+// Limit to 30 requests per minute per user/IP
+const liveTokenLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  max: 30,
+  message: "Too many token requests. Please wait a minute before requesting another live class token.",
+});
+
+module.exports.userLoginLimiter = userLoginLimiter;
+module.exports.adminLoginLimiter = adminLoginLimiter;
+module.exports.liveTokenLimiter = liveTokenLimiter;

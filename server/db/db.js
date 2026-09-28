@@ -4,13 +4,32 @@
  * Serverless-compatible Mongoose connection manager with connection-promise caching,
  * readyState reuse, timeout controls, and credential sanitization.
  * Supports Node.js Express daemon and Cloudflare Workers execution models.
+ *
+ * Workers runtime note (verified 2026-09-28 in real workerd against Atlas):
+ * the official driver connects and handshakes correctly when the Worker is
+ * built with current tooling (Wrangler 4.x; repo pins ^4.142.0). Older
+ * Wrangler 3.x builds stalled every TLS handshake at the 5s selection
+ * timeout, and bumping compatibility_date alone did not help. Two further
+ * constraints apply in plain Workers: (1) every Mongoose import must resolve
+ * to a SINGLE shared instance (bare "mongoose" via the wrangler alias — see
+ * below), otherwise models strand on a connection this module never opens;
+ * (2) sockets cannot be reused across requests ("Cannot perform I/O on
+ * behalf of a different request"), so database work must connect fresh
+ * inside the requesting context — see withRequestDb below. There is no
+ * cross-request connection pooling in plain Workers by design.
  */
 
 let mongoosePkg;
 try {
-  mongoosePkg = require('mongoose/index.js');
-} catch (_) {
+  // Single-funnel resolution: bare "mongoose" goes through the wrangler
+  // alias to src/mongoose-edge.js — the same module every model, controller,
+  // and service resolves. Subpath imports (e.g. "mongoose/index.js") can
+  // evaluate as a SECOND instance inside the Worker bundle, leaving models
+  // stranded on a connection this module never opens (observed: default
+  // connection readyState 1 here while model operations buffered forever).
   mongoosePkg = require('mongoose');
+} catch (_) {
+  mongoosePkg = require('mongoose/index.js');
 }
 const mongoose = mongoosePkg.default || mongoosePkg;
 
@@ -197,6 +216,62 @@ function resetDbFailureState() {
   lastFailureAt = 0;
 }
 
+// ---- Phase 9: request-scoped connections for Workers isolates ----
+//
+// Cloudflare Workers forbids using I/O objects (sockets, streams) created
+// during one request from a different request ("Cannot perform I/O on behalf
+// of a different request" — the isolate cancels such requests as hung).
+// A cached Mongoose connection therefore goes stale the moment its creating
+// request finishes. Verified: /ready connects (200), the very next request
+// reusing that connection is canceled in ~50ms with no error ever thrown.
+//
+// Consequently, database work in plain Workers must connect fresh inside the
+// requesting context and never rely on cross-request socket reuse. This
+// helper serializes data-request database use per isolate (at most one
+// request holds the connection), always starts from a disconnected state so
+// the connection is created in the caller's own I/O context, runs `fn`, then
+// disconnects before releasing. Concurrent data requests fail fast with 503
+// ("busy") instead of corrupting each other's I/O. Non-data routes
+// (health, preflight, realtime handshakes) bypass this entirely.
+let dbRequestInUse = false;
+
+async function disconnectQuietly() {
+  try {
+    await disconnectDB();
+  } catch (_) {
+    // Best-effort teardown only; errors are already logged at their source.
+  }
+}
+
+const withRequestDb = async (options, fn) => {
+  if (dbRequestInUse) {
+    const busyErr = new Error('Database busy: another request is using the connection slot, retry shortly');
+    busyErr.status = 503;
+    busyErr.code = 'DB_BUSY';
+    busyErr.category = 'contention';
+    throw busyErr;
+  }
+  dbRequestInUse = true;
+  try {
+    // Drop any connection created by a previous request: its sockets belong
+    // to a finished I/O context and can never be used again.
+    await disconnectQuietly();
+    // NOTE: property lookup (not the local binding) so tests and operators
+    // can substitute the acquisition step without touching this discipline.
+    await connectDB.ensureDbConnected(options);
+    return await fn();
+  } finally {
+    // Never leak sockets across requests; the next holder reconnects fresh.
+    await disconnectQuietly();
+    dbRequestInUse = false;
+  }
+};
+
+/** Test hook: reports whether the request slot is currently held. */
+function isDbRequestInUse() {
+  return dbRequestInUse;
+}
+
 /**
  * Redacts database credentials from connection strings, URLs, and error messages.
  */
@@ -336,6 +411,8 @@ connectDB.describeSelectionCauses = describeSelectionCauses;
 connectDB.getDbStatus = getDbStatus;
 connectDB.ensureDbConnected = ensureDbConnected;
 connectDB.resetDbFailureState = resetDbFailureState;
+connectDB.withRequestDb = withRequestDb;
+connectDB.isDbRequestInUse = isDbRequestInUse;
 connectDB.FAILURE_COOLDOWN_MS = FAILURE_COOLDOWN_MS;
 
 module.exports = connectDB;
@@ -352,4 +429,6 @@ module.exports.describeSelectionCauses = describeSelectionCauses;
 module.exports.getDbStatus = getDbStatus;
 module.exports.ensureDbConnected = ensureDbConnected;
 module.exports.resetDbFailureState = resetDbFailureState;
+module.exports.withRequestDb = withRequestDb;
+module.exports.isDbRequestInUse = isDbRequestInUse;
 

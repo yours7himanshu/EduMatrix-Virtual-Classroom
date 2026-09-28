@@ -10,9 +10,12 @@ const { Hono } = require("hono");
 const { cors } = require("hono/cors");
 let mongoosePkg;
 try {
-  mongoosePkg = require("mongoose/index.js");
-} catch (_) {
+  // Bare specifier funnels through the wrangler mongoose alias to the same
+  // instance every model and db.js share (see server/db/db.js). Subpath
+  // imports can evaluate as a second instance inside the Worker bundle.
   mongoosePkg = require("mongoose");
+} catch (_) {
+  mongoosePkg = require("mongoose/index.js");
 }
 const mongoose = mongoosePkg.default || mongoosePkg;
 const connectDB = require("./db/db");
@@ -70,9 +73,7 @@ const { generateLiveToken } = require("./controllers/liveController");
 const { authStudent } = require("./middlewares/auth");
 const isAdminAuthenticated = require("./middlewares/adminAuth");
 const authenticateUser = require("./middlewares/unifiedAuth");
-const { userLoginLimiter } = require("./routes/userRoutes");
-const { adminLoginLimiter } = require("./routes/adminRoutes");
-const { liveTokenLimiter } = require("./routes/liveRoutes");
+const { userLoginLimiter, adminLoginLimiter, liveTokenLimiter } = require("./middlewares/rateLimiter");
 const Quiz = require("./models/quizModels");
 const { notifyClients } = require("./websockets/notifyClients");
 
@@ -415,19 +416,29 @@ function createHonoApp() {
     if (!needsDb) {
       return next();
     }
+    // Request-scoped connection: the slot connects fresh inside this
+    // request's own I/O context (cross-request socket reuse is forbidden by
+    // the Workers runtime) and is torn down before the slot is released.
+    // Note: `await next()` composes the downstream response; nothing is
+    // returned here so Hono sends the composed response normally.
     try {
-      await connectDB.ensureDbConnected({ env: c.env });
+      await connectDB.withRequestDb({ env: c.env }, async () => {
+        await next();
+      });
     } catch (dbErr) {
       const status = dbErr && dbErr.status ? dbErr.status : 503;
+      const message =
+        dbErr && dbErr.code === "DB_BUSY"
+          ? "Service unavailable: the database is busy handling another request. Please try again shortly."
+          : "Service unavailable: the database is temporarily unreachable. Please try again shortly.";
       return c.json(
         {
           success: false,
-          message: "Service unavailable: the database is temporarily unreachable. Please try again shortly.",
+          message,
         },
         status
       );
     }
-    await next();
   });
 
   // ── Root & Health Check Endpoints ──
@@ -454,19 +465,20 @@ function createHonoApp() {
     })
   );
 
-  // ── Readiness Probe (Phase 8) ──
-  // Reports whether this isolate currently holds a live database connection.
-  // Unlike /health, /ready performs ONE bounded connection attempt when not
-  // already connected. Never exposes URIs, credentials, raw errors, or data.
+  // ── Readiness Probe (Phase 8, request-scoped in Phase 9) ──
+  // Performs ONE bounded connection attempt inside this request's own I/O
+  // context (cross-request socket reuse is forbidden by the Workers runtime),
+  // reports the outcome honestly, then releases the slot. Never exposes URIs,
+  // credentials, raw errors, or data.
   app.get("/ready", async (c) => {
     const start = Date.now();
     const mode = connectDB.resolveConnectionMode(c.env);
-    const report = (ready, status, category) => {
+    const report = (ready, status, category, stateOverride) => {
       const current = connectDB.getDbStatus(c.env, mode);
       return c.json(
         {
           ready,
-          state: current.state,
+          state: stateOverride || current.state,
           mode: current.mode,
           uriKind: current.uriKind,
           category: category || null,
@@ -476,12 +488,11 @@ function createHonoApp() {
         status
       );
     };
-    if (connectDB.isDbConnected()) {
-      return report(true, 200, null);
-    }
     try {
-      await connectDB.ensureDbConnected({ env: c.env, mode });
-      return report(true, 200, null);
+      // The slot is released (disconnected) before responding, so report the
+      // state proven inside the slot rather than the post-release state.
+      await connectDB.withRequestDb({ env: c.env, mode }, async () => {});
+      return report(true, 200, null, "connected");
     } catch (err) {
       return report(false, (err && err.status) || 503, (err && err.category) || "unknown");
     }

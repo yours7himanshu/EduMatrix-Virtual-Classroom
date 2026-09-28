@@ -17,15 +17,9 @@ limitations under the License.
 
 const express = require('express');
 const {collegeRegister,collegeLogin, adminLogout} = require('../controllers/adminController');
-const { createRateLimiter } = require('../middlewares/rateLimiter');
+const { adminLoginLimiter } = require('../middlewares/rateLimiter');
 
 const adminRouter = express.Router();
-
-const adminLoginLimiter = createRateLimiter({
-  windowMs: 15 * 60 * 1000,
-  max: 20,
-  message: "Too many login attempts. Please try again after 15 minutes.",
-});
 
 adminRouter.post('/admin-login', adminLoginLimiter, collegeLogin);
 adminRouter.post('/admin-register', collegeRegister);

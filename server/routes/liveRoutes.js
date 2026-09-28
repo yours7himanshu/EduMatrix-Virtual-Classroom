@@ -18,14 +18,7 @@ const express = require("express");
 const router = express.Router();
 const authenticateUser = require("../middlewares/unifiedAuth");
 const { generateLiveToken } = require("../controllers/liveController");
-const { createRateLimiter } = require("../middlewares/rateLimiter");
-
-// Limit to 30 requests per minute per user/IP
-const liveTokenLimiter = createRateLimiter({
-  windowMs: 60 * 1000,
-  max: 30,
-  message: "Too many token requests. Please wait a minute before requesting another live class token.",
-});
+const { liveTokenLimiter } = require("../middlewares/rateLimiter");
 
 // POST /api/live/token
 router.post("/token", authenticateUser, liveTokenLimiter, generateLiveToken);

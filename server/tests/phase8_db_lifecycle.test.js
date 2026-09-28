@@ -356,4 +356,72 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
     assert.deepEqual(connectDB.describeSelectionCauses({}), []);
     assert.deepEqual(connectDB.describeSelectionCauses(null), []);
   });
+
+  test("18. withRequestDb serializes holders: concurrent use fails fast busy", async () => {
+    let releaseGate;
+    const gate = new Promise((resolve) => {
+      releaseGate = resolve;
+    });
+    connectDB.ensureDbConnected = () => gate.then(() => mongoose);
+    const holder = connectDB.withRequestDb({}, async () => {
+      await gate;
+      return "held";
+    });
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(connectDB.isDbRequestInUse(), true);
+    await assert.rejects(connectDB.withRequestDb({}, async () => "never"), (err) => {
+      assert.equal(err.status, 503);
+      assert.equal(err.code, "DB_BUSY");
+      return true;
+    });
+    releaseGate();
+    assert.equal(await holder, "held");
+    assert.equal(connectDB.isDbRequestInUse(), false);
+  });
+
+  test("19. withRequestDb runs, then releases and disconnects", async () => {
+    connectDB.ensureDbConnected = async () => mongoose;
+    let ran = false;
+    const out = await connectDB.withRequestDb({}, async () => {
+      ran = true;
+      assert.equal(connectDB.isDbRequestInUse(), true);
+      return 42;
+    });
+    assert.equal(out, 42);
+    assert.equal(ran, true);
+    assert.equal(connectDB.isDbRequestInUse(), false);
+    assert.equal(connectDB.isDbConnected(), false);
+  });
+
+  test("20. withRequestDb propagates acquisition failure and releases", async () => {
+    await assert.rejects(connectDB.withRequestDb({ env: {} }, async () => "never"), (err) => {
+      assert.equal(err.status, 503);
+      return true;
+    });
+    assert.equal(connectDB.isDbRequestInUse(), false);
+  });
+
+  test("21. Login rejects missing credentials with 400 before any lookup", async () => {
+    connectDB.ensureDbConnected = async () => mongoose;
+    process.env.JWT_SECRET = "phase8_login_required_secret";
+    let lookedUp = false;
+    Students.findOne = async () => {
+      lookedUp = true;
+      return null;
+    };
+    for (const body of [undefined, {}]) {
+      const init = { method: "POST", headers: {} };
+      if (body !== undefined) {
+        init.headers["Content-Type"] = "application/json";
+        init.body = JSON.stringify(body);
+      }
+      const res = await app.fetch(new Request("http://localhost/api/v1/login", init), {
+        NODE_ENV: "test",
+        JWT_SECRET: "phase8_login_required_secret",
+      });
+      assert.equal(res.status, 400);
+      assert.match((await res.json()).message, /required/i);
+    }
+    assert.equal(lookedUp, false, "no database lookup may run without credentials");
+  });
 });

@@ -10,7 +10,9 @@
  */
 
 import { MongoClient } from "mongodb";
-import mongoosePkg from "mongoose/index.js";
+// Single-funnel resolution (see server/db/db.js): bare "mongoose" goes
+// through the wrangler alias so diagnostics share the application's instance.
+import mongoosePkg from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
