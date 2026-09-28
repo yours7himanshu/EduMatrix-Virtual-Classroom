@@ -333,6 +333,47 @@ function decodeQuizCursor(cursorStr) {
 function createHonoApp() {
   const app = new Hono();
 
+  // ── CORS Middleware (registered first) ──
+  // Runs before all other middleware so that every response — including fast
+  // 503/404/500 rejections from gates below — carries the correct CORS
+  // headers. Hono's onion model guarantees this middleware regains control
+  // after downstream handlers return, so headers are applied even when a
+  // later gate terminates the request early. Never requires the database.
+  // Credentials are only ever echoed to explicitly allowed origins (never "*").
+  app.use("*", async (c, next) => {
+    const originHeader = c.req.header("origin");
+    const configuredOrigins = (c.env?.CORS_ORIGINS || process.env.CORS_ORIGINS || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const allowed = configuredOrigins.length > 0
+      ? configuredOrigins
+      : [
+          "http://localhost:5173",
+          "http://localhost:5174",
+          "http://localhost:8081",
+          "https://virtual-classroom-admin.vercel.app",
+          "https://virtual-classroom-application.vercel.app",
+        ];
+
+    if (c.req.method === "OPTIONS") {
+      const headers = new Headers();
+      headers.set("Access-Control-Allow-Origin", originHeader || allowed[0]);
+      headers.set("Access-Control-Allow-Credentials", "true");
+      headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+      headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, token");
+      headers.set("Access-Control-Max-Age", "86400");
+      return new Response(null, { status: 204, headers });
+    }
+
+    await next();
+
+    if (originHeader && (allowed.includes(originHeader) || allowed.includes("*"))) {
+      c.res.headers.set("Access-Control-Allow-Origin", originHeader);
+      c.res.headers.set("Access-Control-Allow-Credentials", "true");
+    }
+  });
+
   // ── Database Connection Middleware (Phase 8: scoped, non-blocking) ──
   // Database initialization runs ONLY for routes that require it. Liveness
   // probes, CORS preflight, realtime handshakes, and offline-safe diagnostic
@@ -387,41 +428,6 @@ function createHonoApp() {
       );
     }
     await next();
-  });
-
-  // ── CORS Middleware ──
-  app.use("*", async (c, next) => {
-    const originHeader = c.req.header("origin");
-    const configuredOrigins = (c.env?.CORS_ORIGINS || process.env.CORS_ORIGINS || "")
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const allowed = configuredOrigins.length > 0
-      ? configuredOrigins
-      : [
-          "http://localhost:5173",
-          "http://localhost:5174",
-          "http://localhost:8081",
-          "https://virtual-classroom-admin.vercel.app",
-          "https://virtual-classroom-application.vercel.app",
-        ];
-
-    if (c.req.method === "OPTIONS") {
-      const headers = new Headers();
-      headers.set("Access-Control-Allow-Origin", originHeader || allowed[0]);
-      headers.set("Access-Control-Allow-Credentials", "true");
-      headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-      headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, token");
-      headers.set("Access-Control-Max-Age", "86400");
-      return new Response(null, { status: 204, headers });
-    }
-
-    await next();
-
-    if (originHeader && (allowed.includes(originHeader) || allowed.includes("*"))) {
-      c.res.headers.set("Access-Control-Allow-Origin", originHeader);
-      c.res.headers.set("Access-Control-Allow-Credentials", "true");
-    }
   });
 
   // ── Root & Health Check Endpoints ──

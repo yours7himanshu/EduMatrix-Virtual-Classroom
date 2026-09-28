@@ -78,10 +78,38 @@ function classifyDbError(sanitizedMessage) {
   if (/authentication failed|bad auth|auth failed|bad auth/i.test(text)) return 'authentication';
   if (/ENOTFOUND|getaddrinfo|SRV|dns/i.test(text)) return 'dns';
   if (/TLS|SSL|certificate/i.test(text)) return 'tls';
-  if (/server selection|timed out|topology|buffering timed out|ECONNREFUSED|connect ETIMEDOUT|network/i.test(text)) {
+  if (/server selection|timed out|topology|buffering timed out|ECONNREFUSED|connect ETIMEDOUT|network|no servers|whitelist/i.test(text)) {
     return 'server-selection-timeout';
   }
   return 'unknown';
+}
+
+/**
+ * Extracts only the error NAME (and numeric code, when present) of each
+ * distinct per-server failure behind a MongoServerSelectionError. Never
+ * includes messages, hosts, ports, credentials, or any other values — safe
+ * for server logs. Returns e.g. ["MongoNetworkTimeoutError"] or [].
+ */
+function describeSelectionCauses(error) {
+  try {
+    const descriptions = error && error.reason && error.reason.serverDescriptions;
+    if (!descriptions) return [];
+    const values = typeof descriptions.values === 'function'
+      ? Array.from(descriptions.values())
+      : Object.values(descriptions);
+    const names = new Set();
+    for (const desc of values) {
+      const cause = desc && desc.error;
+      if (cause && typeof cause.name === 'string') {
+        names.add(typeof cause.code !== 'undefined' && cause.code !== null
+          ? `${cause.name}#${cause.code}`
+          : cause.name);
+      }
+    }
+    return Array.from(names).slice(0, 5);
+  } catch {
+    return [];
+  }
 }
 
 /**
@@ -148,7 +176,11 @@ const ensureDbConnected = async (options) => {
     }
     const sanitized = sanitizeMongoUri(error.message || String(error));
     const category = classifyDbError(sanitized);
-    console.error(`Database unavailable [${category}]:`, sanitized);
+    const causes = describeSelectionCauses(error);
+    console.error(
+      `Database unavailable [${category}]:`,
+      causes.length ? `${sanitized} (causes: ${causes.join(', ')})` : sanitized
+    );
     const unavailableErr = new Error('Database unavailable: unable to reach the database. Please try again shortly.');
     unavailableErr.status = 503;
     unavailableErr.code = 'DB_UNAVAILABLE';
@@ -254,6 +286,10 @@ const connectDB = (uriOrOptions, res) => {
     maxPoolSize: 1, // Single connection per isolate to prevent socket exhaustion
     serverSelectionTimeoutMS: 5000,
     connectTimeoutMS: 10000,
+    // Force IPv4 for outbound connections. Atlas IP access lists are commonly
+    // IPv4-only (e.g. 0.0.0.0/0), while edge runtimes may otherwise attempt
+    // IPv6 first and stall on server selection. Harmless when already IPv4.
+    family: 4,
   };
 
   // 5. Initiate connection and cache the promise to prevent stampedes
@@ -266,7 +302,11 @@ const connectDB = (uriOrOptions, res) => {
       // Reset cached promise on failure so subsequent requests can retry
       connectionPromise = null;
       const sanitized = sanitizeMongoUri(error.message || String(error));
-      console.error('Error connecting to the Database:', sanitized);
+      const causes = describeSelectionCauses(error);
+      console.error(
+        'Error connecting to the Database:',
+        causes.length ? `${sanitized} (causes: ${causes.join(', ')})` : sanitized
+      );
 
       // Backwards compatibility with Express middleware call signatures
       if (res && typeof res.status === 'function') {
@@ -292,6 +332,7 @@ connectDB.mongoose = mongoose;
 connectDB.resolveConnectionMode = resolveConnectionMode;
 connectDB.resolveTargetUri = resolveTargetUri;
 connectDB.classifyDbError = classifyDbError;
+connectDB.describeSelectionCauses = describeSelectionCauses;
 connectDB.getDbStatus = getDbStatus;
 connectDB.ensureDbConnected = ensureDbConnected;
 connectDB.resetDbFailureState = resetDbFailureState;
@@ -307,6 +348,7 @@ module.exports.mongoose = mongoose;
 module.exports.resolveConnectionMode = resolveConnectionMode;
 module.exports.resolveTargetUri = resolveTargetUri;
 module.exports.classifyDbError = classifyDbError;
+module.exports.describeSelectionCauses = describeSelectionCauses;
 module.exports.getDbStatus = getDbStatus;
 module.exports.ensureDbConnected = ensureDbConnected;
 module.exports.resetDbFailureState = resetDbFailureState;

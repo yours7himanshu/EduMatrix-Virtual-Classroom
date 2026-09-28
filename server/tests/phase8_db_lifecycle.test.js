@@ -116,6 +116,30 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
     assert.equal(connectCalls, 0, "polling must not initialize the database");
   });
 
+  test("3b. Early rejections still carry CORS headers for the allowed origin", async () => {
+    const origin = "https://virtual-classroom-application.vercel.app";
+    const loginRes = await app.fetch(
+      new Request("http://localhost/api/v1/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Origin: origin },
+        body: JSON.stringify({ email: "ghost@example.com", password: "Whatever123!" }),
+      }),
+      { NODE_ENV: "test" }
+    );
+    assert.equal(loginRes.status, 503);
+    assert.equal(loginRes.headers.get("access-control-allow-origin"), origin);
+    assert.equal(loginRes.headers.get("access-control-allow-credentials"), "true");
+
+    const pollRes = await app.fetch(
+      new Request("http://localhost/socket.io/?EIO=4&transport=polling", {
+        headers: { Origin: origin },
+      }),
+      { NODE_ENV: "test" }
+    );
+    assert.equal(pollRes.status, 503);
+    assert.equal(pollRes.headers.get("access-control-allow-origin"), origin);
+  });
+
   test("4. Native /ws without upgrade still returns 426 without DB", async () => {
     const res = await app.fetch(new Request("http://localhost/ws"), { NODE_ENV: "test" });
     assert.equal(res.status, 426);
@@ -302,5 +326,34 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
     );
     assert.equal(res.status, 503);
     assert.equal((await res.json()).success, false);
+  });
+
+  test("16. Atlas selection failure classifies as server-selection-timeout", () => {
+    const atlasMsg =
+      "Could not connect to any servers in your MongoDB Atlas cluster. " +
+      "One common reason is that you're trying to access the database from " +
+      "an IP that isn't whitelisted.";
+    assert.equal(connectDB.classifyDbError(atlasMsg), "server-selection-timeout");
+    assert.equal(connectDB.classifyDbError("querySrv ENOTFOUND _mongodb._tcp.x"), "dns");
+    assert.equal(connectDB.classifyDbError("bad auth : authentication failed"), "authentication");
+  });
+
+  test("17. describeSelectionCauses exposes only names/codes, never values", () => {
+    const fabricated = {
+      name: "MongoServerSelectionError",
+      reason: {
+        serverDescriptions: new Map([
+          ["a:27017", { error: { name: "MongoNetworkTimeoutError", message: "connection timed out at hidden-host:27017" } }],
+          ["b:27017", { error: { name: "MongoServerError", code: 18, message: "auth fails for secret-user" } }],
+          ["c:27017", {}],
+        ]),
+      },
+    };
+    const causes = connectDB.describeSelectionCauses(fabricated);
+    assert.deepEqual(causes.sort(), ["MongoNetworkTimeoutError", "MongoServerError#18"].sort());
+    assert.ok(!JSON.stringify(causes).includes("hidden-host"));
+    assert.ok(!JSON.stringify(causes).includes("secret-user"));
+    assert.deepEqual(connectDB.describeSelectionCauses({}), []);
+    assert.deepEqual(connectDB.describeSelectionCauses(null), []);
   });
 });
