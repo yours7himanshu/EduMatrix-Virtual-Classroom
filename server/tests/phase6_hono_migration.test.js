@@ -7,8 +7,13 @@
 const { test, describe } = require("node:test");
 const assert = require("node:assert/strict");
 const { createHonoApp } = require("../honoApp");
+const connectDB = require("../db/db");
 
 describe("Phase 6: Hono Routing Framework Migration Suite", () => {
+  // Phase 8: database gating lives in Hono middleware (covered by the Phase 8
+  // suite). These route-parity/auth-boundary tests simulate a connected
+  // isolate so they verify routing and auth logic behind a healthy database.
+  connectDB.ensureDbConnected = async () => connectDB.mongoose;
   const app = createHonoApp();
 
   test("1. Hono Health Check: GET /health returns 200 OK and healthy status", async () => {

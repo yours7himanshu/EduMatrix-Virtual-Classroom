@@ -333,16 +333,58 @@ function decodeQuizCursor(cursorStr) {
 function createHonoApp() {
   const app = new Hono();
 
-  // ── Database Connection Middleware (Phase 5 integration) ──
+  // ── Database Connection Middleware (Phase 8: scoped, non-blocking) ──
+  // Database initialization runs ONLY for routes that require it. Liveness
+  // probes, CORS preflight, realtime handshakes, and offline-safe diagnostic
+  // or pure-compute endpoints never wait on MongoDB. Database-dependent
+  // routes receive an explicit, bounded 503 when the database is unreachable
+  // instead of hanging on connection/buffering timeouts.
+  const DB_FREE_PATHS = new Set([
+    "/",
+    "/health",
+    "/ready",
+    "/ws",
+    "/auth/crypto-test",
+    "/ai/predictor-test",
+    "/upload/edge-test",
+    "/db/edge-test",
+    // Pure-compute AI endpoints (verified: no model/Mongoose usage).
+    "/api/v9/aiPredictor",
+    "/api/generate",
+    "/api/ai/generate",
+    "/api/ai-assistent",
+    "/api/ai/ai-assistent",
+  ]);
   app.use("*", async (c, next) => {
+    // CORS preflight never requires database access.
+    if (c.req.method === "OPTIONS") {
+      return next();
+    }
+    const requestPath = c.req.path;
+    // Realtime handshakes (native WebSocket + Socket.IO polling) must not
+    // trigger database initialization; message/room operations acquire the
+    // database lazily at event time with their own bounded guards.
+    if (DB_FREE_PATHS.has(requestPath) || requestPath === "/socket.io" || requestPath.startsWith("/socket.io/")) {
+      return next();
+    }
+    // Only the data API surface requires a database. Unknown non-API paths
+    // fall through to the 404 handler without database initialization.
+    const needsDb =
+      requestPath.startsWith("/api/") || requestPath === "/quizzes" || requestPath.startsWith("/quizzes/");
+    if (!needsDb) {
+      return next();
+    }
     try {
-      if (c.env) {
-        await connectDB({ env: c.env });
-      } else {
-        await connectDB();
-      }
+      await connectDB.ensureDbConnected({ env: c.env });
     } catch (dbErr) {
-      console.error("Database connection initialization warning:", connectDB.sanitizeMongoUri(dbErr.message));
+      const status = dbErr && dbErr.status ? dbErr.status : 503;
+      return c.json(
+        {
+          success: false,
+          message: "Service unavailable: the database is temporarily unreachable. Please try again shortly.",
+        },
+        status
+      );
     }
     await next();
   });
@@ -405,6 +447,39 @@ function createHonoApp() {
       uptimeSeconds: Math.floor(performance.now() / 1000),
     })
   );
+
+  // ── Readiness Probe (Phase 8) ──
+  // Reports whether this isolate currently holds a live database connection.
+  // Unlike /health, /ready performs ONE bounded connection attempt when not
+  // already connected. Never exposes URIs, credentials, raw errors, or data.
+  app.get("/ready", async (c) => {
+    const start = Date.now();
+    const mode = connectDB.resolveConnectionMode(c.env);
+    const report = (ready, status, category) => {
+      const current = connectDB.getDbStatus(c.env, mode);
+      return c.json(
+        {
+          ready,
+          state: current.state,
+          mode: current.mode,
+          uriKind: current.uriKind,
+          category: category || null,
+          latencyMs: Date.now() - start,
+          timestamp: new Date().toISOString(),
+        },
+        status
+      );
+    };
+    if (connectDB.isDbConnected()) {
+      return report(true, 200, null);
+    }
+    try {
+      await connectDB.ensureDbConnected({ env: c.env, mode });
+      return report(true, 200, null);
+    } catch (err) {
+      return report(false, (err && err.status) || 503, (err && err.category) || "unknown");
+    }
+  });
 
   // ── Edge Verification Endpoints (Phases 2-5 compatibility testing) ──
   app.get("/auth/crypto-test", async (c) => {
@@ -670,19 +745,19 @@ function createHonoApp() {
       return new Response(null, { status: 101, webSocket: client });
     }
 
-    // Socket.IO polling fallback handshake
-    const sid = `cf_session_${Math.random().toString(36).slice(2, 10)}`;
-    const handshakePayload = JSON.stringify({
-      sid,
-      upgrades: ["websocket"],
-      pingInterval: 25000,
-      pingTimeout: 20000,
-    });
-
-    return new Response(`0${handshakePayload}`, {
-      status: 200,
-      headers: { "Content-Type": "text/plain; charset=UTF-8" },
-    });
+    // Socket.IO long-polling transport is not emulated on this deployment.
+    // The Workers runtime keeps no shared Engine.IO session store across
+    // isolates, so minting a session id here could never be resumed and would
+    // only deadlock the client handshake loop. Fail explicitly and fast so
+    // clients fall back to the native /ws endpoint or LiveKit, and polling
+    // requests never trigger database initialization.
+    return c.json(
+      {
+        success: false,
+        message: "Realtime polling transport unavailable: use the native /ws endpoint or LiveKit.",
+      },
+      503
+    );
   });
 
   // ── 1. AI & Assistant Routes ──

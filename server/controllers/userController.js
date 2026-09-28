@@ -18,6 +18,7 @@ limitations under the License.
 const Students = require("../models/studentModels");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { sanitizeMongoUri } = require("../db/db");
 
 
 
@@ -36,6 +37,16 @@ const loginUser = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: "Invalid Credentials",
+      });
+    }
+    // JWT configuration is validated distinctly from database failures so a
+    // missing secret can never surface as a generic 500 or be confused with
+    // invalid credentials. No secret material is ever included in responses.
+    if (!process.env.JWT_SECRET) {
+      console.error("Login failed: JWT configuration missing (JWT_SECRET binding not set)");
+      return res.status(503).json({
+        success: false,
+        message: "Service unavailable: authentication is not configured.",
       });
     }
     const token = jwt.sign(
@@ -60,7 +71,9 @@ const loginUser = async (req, res) => {
       message: "Login Successfull",
     });
   } catch (error) {
-    console.log("Some error occured", error);
+    // Sanitized server-side diagnostic: error category without connection
+    // details or credentials. The client always receives the safe contract.
+    console.error("Login request failed:", sanitizeMongoUri(error.message || String(error)));
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

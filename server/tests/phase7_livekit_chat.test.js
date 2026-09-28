@@ -3,11 +3,16 @@ const assert = require("node:assert/strict");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const honoApp = require("../honoApp");
+const connectDB = require("../db/db");
 const { realtimeManager } = require("../services/realtimeManager");
 const Quiz = require("../models/quizModels");
 const LiveSession = require("../models/liveSessionModel");
 
 describe("Phase 7 & Integration Verification: LiveKit Chat, Quiz Auth & Persistent Catch-Up", () => {
+  // Phase 8: database gating lives in Hono middleware (covered by the Phase 8
+  // suite). These integration tests simulate a connected isolate so they
+  // verify handler behavior (auth boundaries, sanitization, fallbacks).
+  connectDB.ensureDbConnected = async () => connectDB.mongoose;
   const TEST_JWT_SECRET = "integration_test_jwt_secret_xyz123";
   const mockInstitutionAlpha = new mongoose.Types.ObjectId().toString();
   const mockInstitutionBeta = new mongoose.Types.ObjectId().toString();

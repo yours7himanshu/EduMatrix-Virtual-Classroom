@@ -15,6 +15,7 @@
  */
 
 const jwt = require("jsonwebtoken");
+const { isDbConnected } = require("../db/db");
 const Message = require("../models/messageModel");
 const Classroom = require("../models/classroomModel");
 const Enrollment = require("../models/enrollmentModel");
@@ -244,6 +245,13 @@ class RealtimeManager {
         return { success: false, error: "Invalid classroom ID format" };
       }
 
+      // Fail fast when the database is unreachable instead of hanging on
+      // Mongoose buffering; room authorization requires live lookups.
+      if (!isDbConnected()) {
+        this.sendError(session, "roomError", "Classroom service temporarily unavailable (database unreachable)");
+        return { success: false, error: "Database unreachable" };
+      }
+
       const classroom = await Classroom.findById(classroomId);
       if (!classroom || classroom.isActive === false) {
         this.sendError(session, "roomError", "Classroom not found or inactive");
@@ -306,6 +314,13 @@ class RealtimeManager {
     try {
       if (!session.user) {
         this.sendError(session, "messageError", "Authentication failed. No valid token provided.");
+        return;
+      }
+
+      // Fail fast when the database is unreachable: persistence requires a
+      // live connection, and buffering would stall the sender.
+      if (!isDbConnected()) {
+        this.sendError(session, "messageError", "Chat service temporarily unavailable (database unreachable)");
         return;
       }
 

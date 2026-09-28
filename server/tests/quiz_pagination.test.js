@@ -3,10 +3,15 @@ const assert = require("node:assert/strict");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const honoApp = require("../honoApp");
+const connectDB = require("../db/db");
 const { encodeQuizCursor, decodeQuizCursor } = require("../honoApp");
 const Quiz = require("../models/quizModels");
 
 describe("Task 1: Robust Cursor-Based Quiz Event Pagination & Frontend Synchronization", () => {
+  // Phase 8: database gating lives in Hono middleware (covered by the Phase 8
+  // suite). These handler tests simulate a connected isolate so they verify
+  // pagination, validation, and sanitization logic behind a healthy database.
+  connectDB.ensureDbConnected = async () => connectDB.mongoose;
   const TEST_JWT_SECRET = "test_pagination_jwt_secret_98765";
   const mockInstitutionAlpha = new mongoose.Types.ObjectId().toString();
   const mockInstitutionBeta = new mongoose.Types.ObjectId().toString();
