@@ -16,12 +16,7 @@ limitations under the License.
 */
 
 
-import { createContext, useContext, useMemo, useEffect } from "react";
-import { io } from 'socket.io-client';
-import { useAuth } from "../context/AuthContext";
-
-// Retrieve auth token from storage
-const getStoredToken = () => localStorage.getItem('token') || sessionStorage.getItem('token') || '';
+import { createContext, useContext } from "react";
 
 const SocketContext = createContext(null);
 
@@ -29,46 +24,18 @@ export const useSocket = () => {
     return useContext(SocketContext);
 };
 
+// NOTE: Socket.IO auto-connect is intentionally disabled. The Cloudflare
+// Worker backend does not implement the Engine.IO polling handshake and
+// answers `/socket.io/` polling with an explicit 503, so creating a client
+// here only produced endless failing polling requests (with reconnection
+// retries) and placed the auth token in request URLs. Every working feature
+// already runs on verified transports: LiveKit Data Channel for chat/video
+// and HTTP catch-up for quizzes (see Message and other consumers, whose
+// socket branches stay dormant while `socket` is null). Re-enable client
+// creation here only once a supported backend transport exists.
 export const SocketProvider = (props) => {
-    let contextToken = '';
-    try {
-        const auth = useAuth();
-        contextToken = auth?.token || '';
-    } catch {
-        contextToken = '';
-    }
-
-    const activeToken = contextToken || getStoredToken();
-
-    const socket = useMemo(() => {
-        const token = getStoredToken();
-        const s = io(import.meta.env.VITE_BACKEND_URL, {
-            withCredentials: true,
-            auth: { token },
-            query: { token },
-        });
-        // Connection status logs
-        s.on('connect', () => console.log('Socket connected with ID:', s.id));
-        s.on('connect_error', (error) => console.error('Socket connection error:', error.message));
-        return s;
-    }, []);
-
-    // Synchronize socket credentials dynamically upon login/logout
-    useEffect(() => {
-        if (!socket) return;
-        socket.auth = { token: activeToken };
-        if (socket.io && socket.io.opts) {
-            socket.io.opts.query = { token: activeToken };
-        }
-        if (socket.connected) {
-            socket.disconnect().connect();
-        } else if (activeToken) {
-            socket.connect();
-        }
-    }, [activeToken, socket]);
-
     return (
-        <SocketContext.Provider value={{ socket }}>
+        <SocketContext.Provider value={{ socket: null }}>
             {props.children}
         </SocketContext.Provider>
     );
