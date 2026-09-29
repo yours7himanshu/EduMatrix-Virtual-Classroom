@@ -22,7 +22,7 @@ export default function Navbar() {
             />
             <span className="leading-tight">
               <span className="block text-base font-bold text-ink-900">EduMatrix</span>
-              <span className="block text-xs font-medium text-ink-500">Virtual Classroom</span>
+              <span className="block text-xs font-medium text-ink-500">C L A S S R O O M</span>
             </span>
           </Link>
           <div className="hidden items-center gap-1 rounded-full border border-ink-900/10 bg-white p-1 shadow-sm lg:flex">
