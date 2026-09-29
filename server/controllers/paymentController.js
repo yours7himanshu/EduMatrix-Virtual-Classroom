@@ -242,7 +242,7 @@ const verifyPayment = async (req, res) => {
       });
     }
 
-    if (!String(paymentId).match(/^[0-9a-fA-F]{24}$/)) {
+    if (!/^[0-9a-fA-F]{24}$/.test(String(paymentId))) {
       return res.status(400).json({
         success: false,
         message: "Invalid paymentId format",

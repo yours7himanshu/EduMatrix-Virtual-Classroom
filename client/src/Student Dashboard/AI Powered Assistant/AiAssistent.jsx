@@ -72,7 +72,7 @@ const AiAssistent = () => {
         if (paragraph.startsWith("<li")) {
           return `<ul class="list-disc pl-5 mb-4 space-y-1">${paragraph}</ul>`;
         }
-        if (!paragraph.match(/^<h[1-3]|^<ul/)) {
+        if (!/^<h[1-3]|^<ul/.test(paragraph)) {
           return `<p class="mb-3.5 leading-relaxed">${paragraph}</p>`;
         }
         return paragraph;
