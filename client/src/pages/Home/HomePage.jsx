@@ -101,72 +101,61 @@ const HomePage = () => {
           <div data-aos="zoom-in" data-aos-delay="150" className="relative mt-10 sm:mt-14 max-w-5xl mx-auto">
             <div className="absolute -inset-6 bg-gradient-to-b from-brand-200/60 via-transparent to-transparent blur-2xl rounded-[3rem] pointer-events-none" />
 
-            {/* Mobile / tablet product story — magnified detail crops from the real
-                dashboard asset. The full desktop mockup shrinks to illegibility
-                on phones, so each frame spotlights one region at ~2x with an
-                honest caption. Desktop keeps the composed full frame below. */}
-            <div className="lg:hidden">
-              <div className="flex items-center gap-1.5 rounded-t-[1.5rem] border border-b-0 border-ink-900/10 bg-white px-4 py-2.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" /><span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" /><span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
-                <span className="ml-2 truncate text-[11px] font-semibold text-ink-400">app.edumatrix.live/dashboard</span>
+            {/* Responsive browser mockup frame */}
+            <div className="relative bg-white rounded-2xl sm:rounded-[2rem] border border-ink-900/10 shadow-card p-2.5 sm:p-3 lg:p-4 text-left">
+              {/* Window controls & URL bar */}
+              <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
+                <span className="ml-2 sm:ml-3 text-[11px] sm:text-xs font-semibold text-ink-400 bg-paper border border-ink-900/10 rounded-full px-3 py-0.5 sm:py-1 truncate">
+                  app.edumatrix.live/dashboard
+                </span>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2 rounded-b-[1.5rem] border border-ink-900/10 bg-white p-2 shadow-card">
-                <figure className="relative overflow-hidden rounded-[1rem] border border-ink-900/10 bg-paper">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
-                      src="/images/dashboard.png"
-                      alt="Close-up of EduMatrix live class statistics cards"
-                      loading="lazy"
-                      className="h-full w-full scale-[1.9] object-cover origin-[62%_16%]"
-                    />
-                  </div>
-                  <figcaption className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-white/95 py-1 pl-2.5 pr-3 text-[11px] font-extrabold text-ink-900 shadow-soft backdrop-blur">
-                    <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
-                    Live Class · Physics 101
-                  </figcaption>
-                </figure>
-                <figure className="relative overflow-hidden rounded-[1rem] border border-ink-900/10 bg-paper">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
-                      src="/images/dashboard.png"
-                      alt="Close-up of EduMatrix attendance and marks analytics charts"
-                      loading="lazy"
-                      className="h-full w-full scale-[1.9] object-cover origin-[55%_64%]"
-                    />
-                  </div>
-                  <figcaption className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-ink-900/95 py-1 pl-2.5 pr-3 text-[11px] font-extrabold text-white shadow-soft backdrop-blur">
-                    <Sparkle size={11} className="text-accent-lime" />
-                    AI Quiz Ready · auto-graded
-                  </figcaption>
-                </figure>
-              </div>
-            </div>
 
-            {/* Desktop composed frame — floats tucked inside at lg, full
-                bleed-out only on xl so nothing clips awkwardly. */}
-            <div className="relative hidden bg-white rounded-[2rem] border border-ink-900/10 shadow-card p-2.5 lg:block lg:p-4 text-left">
-              <div className="flex items-center gap-1.5 px-3 py-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" /><span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" /><span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
-                <span className="ml-3 hidden md:block text-xs font-semibold text-ink-400 bg-paper border border-ink-900/10 rounded-full px-3 py-1">app.edumatrix.live/dashboard</span>
+              {/* Clean dashboard preview */}
+              <div className="relative overflow-hidden rounded-xl sm:rounded-[1.4rem] border border-ink-900/10 bg-slate-50">
+                <img
+                  src="/images/dashboard.png"
+                  alt="EduMatrix Dashboard preview"
+                  loading="lazy"
+                  className="w-full h-auto block object-cover object-top"
+                />
               </div>
-              <img src="/images/dashboard.png" alt="Dashboard preview" className="w-full aspect-[16/8] rounded-[1.4rem] border border-ink-900/10 object-cover object-top" />
-              <div className="hidden lg:flex absolute -left-4 xl:-left-10 top-16 items-start gap-3 rounded-2xl bg-white/95 glass border border-ink-900/10 shadow-card p-4 w-60 animate-float text-left">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-red-50 text-red-500 ring-1 ring-red-500/15"><Radio size={19} /></span>
+
+              {/* Floating Live Class Badge (Tablet & Desktop) */}
+              <div className="hidden lg:flex absolute -left-4 xl:-left-8 top-14 items-start gap-3 rounded-2xl bg-white/95 glass border border-ink-900/10 shadow-card p-3.5 sm:p-4 w-56 sm:w-60 motion-safe:animate-float text-left">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-red-50 text-red-500 ring-1 ring-red-500/15">
+                  <Radio size={19} />
+                </span>
                 <span>
-                  <span className="flex items-center gap-1.5 text-[13px] font-extrabold">Live Class <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" /></span>
+                  <span className="flex items-center gap-1.5 text-[13px] font-extrabold text-ink-900">
+                    Live Class <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                  </span>
                   <span className="block text-xs text-ink-500 font-medium mt-0.5">Physics 101 • 248 joined</span>
-                  <span className="mt-2 block h-1.5 rounded-full bg-ink-900/10 overflow-hidden"><span className="block h-full w-[98%] rounded-full bg-accent-mint" /></span>
+                  <span className="mt-2 block h-1.5 rounded-full bg-ink-900/10 overflow-hidden">
+                    <span className="block h-full w-[98%] rounded-full bg-accent-mint" />
+                  </span>
                   <span className="block mt-1 text-[11px] font-bold text-ink-600">Attendance 98%</span>
                 </span>
               </div>
-              <div className="hidden lg:block absolute -right-4 xl:-right-8 bottom-14 rounded-2xl bg-ink-900 text-white shadow-pop p-4 w-60 animate-float text-left" style={{ animationDelay: "1.2s" }}>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-lime/15 text-accent-lime px-2.5 py-1 text-[11px] font-bold"><Sparkle size={12} /> AI QUIZ READY</span>
-                <p className="mt-2 text-[13px] font-bold leading-snug">Generated 10 questions from Chapter 4</p>
+
+              {/* Floating AI Quiz Ready Badge (Tablet & Desktop) */}
+              <div
+                className="hidden lg:block absolute opacity-85 -right-4 xl:-right-8 bottom-10 rounded-2xl bg-ink-900 text-white shadow-pop p-3.5 sm:p-4 w-56 sm:w-60 motion-safe:animate-float text-left"
+                style={{ animationDelay: "1.2s" }}
+              >
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-lime/15 text-accent-lime px-2.5 py-1 text-[11px] font-bold ">
+                  AI QUIZ READY
+                </span>
+                <p className="mt-2 text-xs sm:text-[13px] font-bold leading-snug">Generated 10 questions from Chapter 4</p>
                 <div className="mt-3 flex gap-2">
-                  <span className="flex-1 text-center rounded-lg bg-white text-ink-900 text-xs font-bold py-2">Preview</span>
-                  <span className="flex-1 text-center rounded-lg bg-brand-500 text-white text-xs font-bold py-2">Assign</span>
+                  <span className="flex-1 text-center rounded-lg bg-white text-ink-900 text-xs font-bold py-1.5 sm:py-2">Preview</span>
+                  <span className="flex-1 text-center rounded-lg bg-brand-500 text-white text-xs font-bold py-1.5 sm:py-2">Assign</span>
                 </div>
-                <span className="mt-2 flex items-center gap-1 text-[11px] font-semibold text-white/70"><CheckCircle2 size={12} className="text-accent-mint" /> Auto-graded + analytics</span>
+                <span className="mt-2 flex items-center gap-1 text-[11px] font-semibold text-white/70">
+                  <CheckCircle2 size={12} className="text-accent-mint" /> Auto-graded + analytics
+                </span>
               </div>
             </div>
           </div>
