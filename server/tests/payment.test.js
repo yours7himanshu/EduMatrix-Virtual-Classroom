@@ -41,7 +41,7 @@ test('Payment Verification Suite', async (t) => {
         year: 1,
         status: 'unpaid',
         stripeSessionId: validSessionId,
-        async save() {
+        save() {
           return this;
         },
       },
@@ -54,7 +54,7 @@ test('Payment Verification Suite', async (t) => {
         year: 2,
         status: 'unpaid',
         stripeSessionId: 'cs_test_other_session_99999',
-        async save() {
+        save() {
           return this;
         },
       },
@@ -64,11 +64,11 @@ test('Payment Verification Suite', async (t) => {
   const originalFindById = FeesModel.findById;
   const originalFindByIdAndDelete = FeesModel.findByIdAndDelete;
 
-  FeesModel.findById = async (id) => {
+  FeesModel.findById = (id) => {
     return mockDatabase[id ? id.toString() : ''] || null;
   };
 
-  FeesModel.findByIdAndDelete = async (id) => {
+  FeesModel.findByIdAndDelete = (id) => {
     const doc = mockDatabase[id ? id.toString() : ''] || null;
     if (id) delete mockDatabase[id.toString()];
     return doc;
@@ -85,7 +85,7 @@ test('Payment Verification Suite', async (t) => {
     setStripeInstance({
       checkout: {
         sessions: {
-          retrieve: async (id) => {
+          retrieve: (id) => {
             assert.strictEqual(id, validSessionId);
             return {
               id: validSessionId,
@@ -126,7 +126,7 @@ test('Payment Verification Suite', async (t) => {
     setStripeInstance({
       checkout: {
         sessions: {
-          retrieve: async () => ({
+          retrieve: () => ({
             id: validSessionId,
             payment_status: 'unpaid',
             client_reference_id: validFeeId,
@@ -163,7 +163,7 @@ test('Payment Verification Suite', async (t) => {
     setStripeInstance({
       checkout: {
         sessions: {
-          retrieve: async () => {
+          retrieve: () => {
             const err = new Error('No such checkout session');
             err.code = 'resource_missing';
             throw err;
@@ -196,7 +196,7 @@ test('Payment Verification Suite', async (t) => {
     setStripeInstance({
       checkout: {
         sessions: {
-          retrieve: async () => ({
+          retrieve: () => ({
             id: validSessionId,
             payment_status: 'paid',
             client_reference_id: otherFeeId,
@@ -329,7 +329,7 @@ test('Payment Creation & Server-Authoritative Hardening Suite (SEC-FEE)', async 
   const testOtherStudentId = new mongoose.Types.ObjectId().toString();
 
   let savedFees = [];
-  FeesModel.prototype.save = async function () {
+  FeesModel.prototype.save = function () {
     savedFees.push(this);
     return this;
   };
@@ -397,14 +397,14 @@ test('Payment Creation & Server-Authoritative Hardening Suite (SEC-FEE)', async 
       },
     };
 
-    Student.findById = async (id) => {
+    Student.findById = (id) => {
       if (id && id.toString() === testStudentId) {
         return { ...mockStudent };
       }
       return null;
     };
 
-    FeeStructure.findOne = async (query) => {
+    FeeStructure.findOne = (query) => {
       const { institutionId, branch, academicYear, isActive } = query;
       const struct = mockFeeStructures[academicYear];
       if (
@@ -421,7 +421,7 @@ test('Payment Creation & Server-Authoritative Hardening Suite (SEC-FEE)', async 
     setStripeInstance({
       checkout: {
         sessions: {
-          create: async (params) => {
+          create: (params) => {
             stripeCreateCalls.push(params);
             return {
               id: `cs_test_session_${Date.now()}`,

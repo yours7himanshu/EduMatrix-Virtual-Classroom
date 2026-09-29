@@ -66,7 +66,7 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     jwtSecret
   );
 
-  test("1. Authentication: Connection without token is rejected with 1008 policy violation", async () => {
+  test("1. Authentication: Connection without token is rejected with 1008 policy violation", () => {
     const manager = new RealtimeManager();
     const serverWs = new MockServerSideSocket();
 
@@ -82,7 +82,7 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     assert.equal(serverWs.closeCode, 1008);
   });
 
-  test("2. Authentication: Connection with invalid token is rejected", async () => {
+  test("2. Authentication: Connection with invalid token is rejected", () => {
     const manager = new RealtimeManager();
     const serverWs = new MockServerSideSocket();
 
@@ -98,7 +98,7 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     assert.equal(serverWs.closeCode, 1008);
   });
 
-  test("3. Authentication: Connection with valid token accepts socket and binds session context", async () => {
+  test("3. Authentication: Connection with valid token accepts socket and binds session context", () => {
     const manager = new RealtimeManager();
     const serverWs = new MockServerSideSocket();
 
@@ -116,7 +116,7 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     assert.equal(serverWs.sentMessages[0].event, "connected");
   });
 
-  test("4. Room Isolation: Auto-joins institutional room and user room", async () => {
+  test("4. Room Isolation: Auto-joins institutional room and user room", () => {
     const manager = new RealtimeManager();
     const serverWs = new MockServerSideSocket();
 
@@ -132,7 +132,7 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     assert.ok(manager.rooms.get("inst_inst_alpha").has(session));
   });
 
-  test("5. Quiz Broadcast: Broadcasts to matching institution students and strips correctAnswer", async () => {
+  test("5. Quiz Broadcast: Broadcasts to matching institution students and strips correctAnswer", () => {
     const manager = new RealtimeManager();
 
     // Client 1: Alpha Student
@@ -184,7 +184,7 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     assert.equal(betaQuizMsg, undefined, "Cross-tenant leak prevented: inst_beta must NOT receive inst_alpha quiz");
   });
 
-  test("6. Disconnection Cleanup: Client socket is cleanly unregistered upon close", async () => {
+  test("6. Disconnection Cleanup: Client socket is cleanly unregistered upon close", () => {
     const manager = new RealtimeManager();
     const serverWs = new MockServerSideSocket();
 
@@ -237,12 +237,12 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     assert.equal(betaEvents.length, 0, "Institution boundary must isolate event catch-up");
   });
 
-  test("9. In-Call Chat Dispatch: Broadcast to classroom safely invokes LiveKit Data Channel bridge", async () => {
+  test("9. In-Call Chat Dispatch: Broadcast to classroom safely invokes LiveKit Data Channel bridge", () => {
     const manager = new RealtimeManager();
     let bridgeCalled = false;
 
     // Spy on _dispatchLiveKitClassroomData
-    manager._dispatchLiveKitClassroomData = async (roomName, event, payload) => {
+    manager._dispatchLiveKitClassroomData = (roomName, event, payload) => {
       bridgeCalled = true;
       assert.equal(roomName, "class_507f1f77bcf86cd799439011");
       assert.equal(event, "receiveMessage");
@@ -260,12 +260,12 @@ describe("Phase 7: Realtime Re-architecture & Worker WebSocket Suite", () => {
     assert.equal(bridgeCalled, true);
   });
 
-  test("10. Pluggable Coordinator: setCoordinator receives broadcast dispatches", async () => {
+  test("10. Pluggable Coordinator: setCoordinator receives broadcast dispatches", () => {
     const manager = new RealtimeManager();
     const coordinatorDispatches = [];
 
     manager.setCoordinator({
-      broadcast: async (roomName, event, payload) => {
+      broadcast: (roomName, event, payload) => {
         coordinatorDispatches.push({ roomName, event, payload });
       },
     });

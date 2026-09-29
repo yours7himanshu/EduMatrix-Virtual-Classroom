@@ -126,7 +126,7 @@ test("Phase 1: Identity & Multi-Tenant Architecture Suite", async (t) => {
     assert.strictEqual(req.user.role, "Director");
   });
 
-  await t.test("6. authStudent middleware normalizes req.user alongside req.studentId", async () => {
+  await t.test("6. authStudent middleware normalizes req.user alongside req.studentId", () => {
     const fakeStudentId = new mongoose.Types.ObjectId().toString();
     const fakeInstId = new mongoose.Types.ObjectId().toString();
 
@@ -167,7 +167,7 @@ test("Phase 1: Identity & Multi-Tenant Architecture Suite", async (t) => {
     assert.strictEqual(req.user.institutionId, fakeInstId);
   });
 
-  await t.test("7. unifiedAuth middleware accepts both Staff and Student tokens", async () => {
+  await t.test("7. unifiedAuth middleware accepts both Staff and Student tokens", () => {
     const staffId = new mongoose.Types.ObjectId().toString();
     const instId = new mongoose.Types.ObjectId().toString();
 
@@ -197,7 +197,7 @@ test("Phase 1: Identity & Multi-Tenant Architecture Suite", async (t) => {
     assert.strictEqual(reqStudent.user.id, studentId);
   });
 
-  await t.test("8. unifiedAuth rejects missing and invalid tokens with 401", async () => {
+  await t.test("8. unifiedAuth rejects missing and invalid tokens with 401", () => {
     let statusSet = null;
     let jsonResult = null;
     const res = {

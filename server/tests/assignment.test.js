@@ -39,7 +39,7 @@ test('Assignment Deletion Suite (BUG-02)', async (t) => {
 
   const originalFindByIdAndDelete = Assignment.findByIdAndDelete;
 
-  Assignment.findByIdAndDelete = async (id) => {
+  Assignment.findByIdAndDelete = (id) => {
     const doc = mockDatabase[id ? id.toString() : ''] || null;
     if (id) delete mockDatabase[id.toString()];
     return doc;
@@ -100,7 +100,7 @@ test('Assignment Deletion Suite (BUG-02)', async (t) => {
   await t.test('4. Server error during deletion returns 500 without hanging', async () => {
     resetMockDb();
 
-    Assignment.findByIdAndDelete = async () => {
+    Assignment.findByIdAndDelete = () => {
       throw new Error('Database connection lost');
     };
 
@@ -116,7 +116,7 @@ test('Assignment Deletion Suite (BUG-02)', async (t) => {
     assert.match(res.data.message, /Some error occured/);
 
     // Restore mock
-    Assignment.findByIdAndDelete = async (id) => {
+    Assignment.findByIdAndDelete = (id) => {
       const doc = mockDatabase[id ? id.toString() : ''] || null;
       if (id) delete mockDatabase[id.toString()];
       return doc;

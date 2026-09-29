@@ -27,7 +27,7 @@ const createMockRes = () => ({
 test('Security & Data Protection Suite (SEC-07 & PERF-03)', async (t) => {
   await t.test('1. Teacher registration rejects duplicate email', async () => {
     const originalFindOne = Teacher.findOne;
-    Teacher.findOne = async (query) => {
+    Teacher.findOne = (query) => {
       if (query.email === 'duplicate@college.edu') {
         return { email: 'duplicate@college.edu', name: 'Original Teacher' };
       }
@@ -94,7 +94,7 @@ test('Security & Data Protection Suite (SEC-07 & PERF-03)', async (t) => {
 
     const originalAdminFindById = Admin.findById;
     Admin.findById = (id) => ({
-      lean: async () => ({
+      lean: () => ({
         _id: registrarAdminId,
         email: 'reg@college.edu',
         role: 'Registrar',
@@ -106,7 +106,7 @@ test('Security & Data Protection Suite (SEC-07 & PERF-03)', async (t) => {
     const originalFind = Student.find;
     Student.find = (filter) => ({
       select: (fields) => ({
-        lean: async () => {
+        lean: () => {
           assert.strictEqual(fields, '-password', 'Must exclude password from projection');
           return [{ name: 'Bob', email: 'bob@college.edu', rollNo: '102', institutionId: registrarInstId }];
         },
@@ -338,10 +338,10 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
     let capturedTeacherDoc = null;
     let capturedAdminDoc = null;
 
-    Teacher.findOne = async () => null;
-    Admin.findOne = async () => null;
+    Teacher.findOne = () => null;
+    Admin.findOne = () => null;
 
-    Teacher.create = async (doc) => {
+    Teacher.create = (doc) => {
       capturedTeacherDoc = doc;
       return {
         _id: new mongoose.Types.ObjectId(),
@@ -349,7 +349,7 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
       };
     };
 
-    Admin.create = async (doc) => {
+    Admin.create = (doc) => {
       capturedAdminDoc = doc;
       return {
         _id: new mongoose.Types.ObjectId(),
@@ -470,10 +470,10 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
     const originalTeacherFindOne = Teacher.findOne;
     const originalAdminFindOne = Admin.findOne;
 
-    Teacher.findOne = async () => null;
-    Admin.findOne = async () => null;
-    Teacher.create = async (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
-    Admin.create = async (doc) => {
+    Teacher.findOne = () => null;
+    Admin.findOne = () => null;
+    Teacher.create = (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
+    Admin.create = (doc) => {
       capturedAdminDoc = doc;
       return { _id: new mongoose.Types.ObjectId(), ...doc };
     };
@@ -529,10 +529,10 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
     const originalTeacherFindOne = Teacher.findOne;
     const originalAdminFindOne = Admin.findOne;
 
-    Teacher.findOne = async () => null;
-    Admin.findOne = async () => null;
-    Teacher.create = async (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
-    Admin.create = async (doc) => {
+    Teacher.findOne = () => null;
+    Admin.findOne = () => null;
+    Teacher.create = (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
+    Admin.create = (doc) => {
       capturedAdminDoc = doc;
       return { _id: new mongoose.Types.ObjectId(), ...doc };
     };
@@ -588,10 +588,10 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
     const originalTeacherFindOne = Teacher.findOne;
     const originalAdminFindOne = Admin.findOne;
 
-    Teacher.findOne = async () => null;
-    Admin.findOne = async () => null;
-    Teacher.create = async (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
-    Admin.create = async (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
+    Teacher.findOne = () => null;
+    Admin.findOne = () => null;
+    Teacher.create = (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
+    Admin.create = (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
 
     try {
       const rawPassword = 'SuperSecretPlaintextPassword!999';
@@ -655,7 +655,7 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
 
     const originalAdminFindById = Admin.findById;
     Admin.findById = (id) => ({
-      lean: async () => ({
+      lean: () => ({
         _id: directorId,
         email: 'inactive.dir@univ.edu',
         role: 'Director',
@@ -730,13 +730,13 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
     const originalAdminFindOne = Admin.findOne;
     const originalTeacherFindByIdAndDelete = Teacher.findByIdAndDelete;
 
-    Teacher.findOne = async () => null;
-    Admin.findOne = async () => null;
-    Teacher.create = async (doc) => ({ _id: generatedTeacherId, ...doc });
-    Admin.create = async () => {
+    Teacher.findOne = () => null;
+    Admin.findOne = () => null;
+    Teacher.create = (doc) => ({ _id: generatedTeacherId, ...doc });
+    Admin.create = () => {
       throw new Error('SIMULATED_DB_WRITE_FAILURE');
     };
-    Teacher.findByIdAndDelete = async (id) => {
+    Teacher.findByIdAndDelete = (id) => {
       capturedDeletedId = id;
       return { _id: id };
     };
@@ -799,15 +799,15 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
     const originalAdminFindOne = Admin.findOne;
     const originalTeacherFindByIdAndDelete = Teacher.findByIdAndDelete;
 
-    Teacher.findOne = async () => null;
-    Admin.findOne = async () => null;
-    Teacher.create = async (doc) => ({ _id: generatedTeacherId, ...doc });
-    Admin.create = async () => {
+    Teacher.findOne = () => null;
+    Admin.findOne = () => null;
+    Teacher.create = (doc) => ({ _id: generatedTeacherId, ...doc });
+    Admin.create = () => {
       const dupError = new Error('E11000 duplicate key error collection: edumatrix.admins index: email_1 dup key');
       dupError.code = 11000;
       throw dupError;
     };
-    Teacher.findByIdAndDelete = async (id) => {
+    Teacher.findByIdAndDelete = (id) => {
       capturedDeletedId = id;
       return { _id: id };
     };
@@ -861,13 +861,13 @@ test('Critical Security Remediation Suite: Teacher-Creation Authorization & Tena
     const originalAdminFindOne = Admin.findOne;
     const originalTeacherFindByIdAndDelete = Teacher.findByIdAndDelete;
 
-    Teacher.findOne = async () => null;
-    Admin.findOne = async () => null;
-    Teacher.create = async (doc) => ({ _id: generatedTeacherId, ...doc });
-    Admin.create = async () => {
+    Teacher.findOne = () => null;
+    Admin.findOne = () => null;
+    Teacher.create = (doc) => ({ _id: generatedTeacherId, ...doc });
+    Admin.create = () => {
       throw new Error('PRIMARY_ADMIN_CREATE_FAILURE');
     };
-    Teacher.findByIdAndDelete = async () => {
+    Teacher.findByIdAndDelete = () => {
       throw new Error('SECONDARY_ROLLBACK_DELETE_FAILURE');
     };
 

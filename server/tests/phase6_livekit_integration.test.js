@@ -88,24 +88,24 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
     const originalFindSession = LiveSession.findOne;
     const originalCreateSession = LiveSession.create;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       title: "Advanced Distributed Systems",
       institutionId: instId,
       teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       directorName: "Prof. Einstein",
       isActive: true,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       name: "Alice",
       institutionId: instId,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       _id: "enr_1",
       classroomId: classId,
       studentId,
@@ -115,12 +115,12 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
       if (activeSession && query.status === "active") return createSessionQuery(activeSession);
       return createSessionQuery(null);
     };
-    LiveSession.create = async (doc) => {
+    LiveSession.create = (doc) => {
       activeSession = {
         ...doc,
         _id: new mongoose.Types.ObjectId().toString(),
         status: "active",
-        save: async function () {
+        save: function () {
           return this;
         },
       };
@@ -202,7 +202,7 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
     const originalFindEnrollment = Enrollment.findOne;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId,
@@ -222,7 +222,7 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
       { id: new mongoose.Types.ObjectId().toString(), name: "Student Gamma" },
     ];
 
-    Enrollment.findOne = async ({ studentId }) => ({
+    Enrollment.findOne = ({ studentId }) => ({
       _id: `enr_${studentId}`,
       classroomId: classId,
       studentId,
@@ -240,7 +240,7 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
     const participantIdentities = new Set();
 
     for (const st of students) {
-      Student.findById = async () => ({
+      Student.findById = () => ({
         _id: st.id,
         name: st.name,
         institutionId: instId,
@@ -278,22 +278,22 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
     const originalFindEnrollment = Enrollment.findOne;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       isActive: true,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       name: "Reconnecting Student",
       institutionId: instId,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       _id: "enr_rec",
       classroomId: classId,
       studentId,
@@ -353,22 +353,22 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
     const originalFindEnrollment = Enrollment.findOne;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       isActive: true,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       name: "Student",
       institutionId: instId,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       _id: "enr_end",
       classroomId: classId,
       studentId,
@@ -382,7 +382,7 @@ test("Phase 6: LiveKit Frontend & Lifecycle Integration Suite", async (t) => {
         _id: sessionId,
         classroomId: classId,
         status: sessionStatus,
-        save: async function () {
+        save: function () {
           sessionStatus = this.status;
           return this;
         },

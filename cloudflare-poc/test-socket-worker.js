@@ -1,6 +1,6 @@
 import { io } from "../client/node_modules/socket.io-client/build/esm/index.js";
 
-async function testWorkerSocket(transports = ["polling", "websocket"]) {
+function testWorkerSocket(transports = ["polling", "websocket"]) {
   return new Promise((resolve) => {
     console.log(`\n--- Testing Socket.IO via Cloudflare Worker (transports: ${JSON.stringify(transports)}) ---`);
     const start = Date.now();

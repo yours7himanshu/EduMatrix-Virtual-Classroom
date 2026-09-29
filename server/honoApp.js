@@ -533,7 +533,7 @@ function createHonoApp() {
     }
   });
 
-  app.get("/ai/predictor-test", async (c) => {
+  app.get("/ai/predictor-test", (c) => {
     try {
       const predictPlacement = ({ marks, attendance, branch }) => {
         const numMarks = Number(marks);
@@ -630,7 +630,7 @@ function createHonoApp() {
     }
   });
 
-  app.get("/db/edge-test", async (c) => {
+  app.get("/db/edge-test", (c) => {
     try {
       const mongoose = require("mongoose");
       const testRawUri = "mongodb+srv://dbAdminUser:SuperSecretPassword123!@cluster0.mkcqp.mongodb.net/edumatrix?retryWrites=true&w=majority";
@@ -719,7 +719,7 @@ function createHonoApp() {
   });
 
   // ── Phase 7: Cloudflare Workers Realtime WebSocket Endpoints ──
-  app.get("/ws", async (c) => {
+  app.get("/ws", (c) => {
     const upgradeHeader = c.req.header("Upgrade");
     if (upgradeHeader !== "websocket") {
       return c.text("Expected Upgrade: websocket", 426);
@@ -745,7 +745,7 @@ function createHonoApp() {
   });
 
   // Socket.IO v4 Handshake & Upgrade Route
-  app.all("/socket.io/*", async (c) => {
+  app.all("/socket.io/*", (c) => {
     const upgradeHeader = c.req.header("Upgrade");
     if (upgradeHeader === "websocket" && typeof WebSocketPair !== "undefined") {
       const pair = new WebSocketPair();
