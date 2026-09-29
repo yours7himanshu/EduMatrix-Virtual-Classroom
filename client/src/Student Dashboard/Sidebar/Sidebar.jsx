@@ -81,9 +81,9 @@ const Sidebar = ({ isOpen, onClose }) => {
           <button
             onClick={onClose}
             aria-label="Close menu"
-            className="rounded-full p-1.5 text-ink-400 transition-colors hover:bg-ink-50 hover:text-ink-900 lg:hidden"
+            className="grid h-11 w-11 place-items-center rounded-full text-ink-400 transition-colors hover:bg-ink-50 hover:text-ink-900 active:scale-95 lg:hidden"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         ) : null}
       </div>
@@ -102,7 +102,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                   <button
                     key={item.path}
                     onClick={() => handleNavigation(item.path)}
-                    className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] transition-colors ${
+                    aria-current={active ? "page" : undefined}
+                    className={`group flex min-h-[44px] w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors active:scale-[0.99] ${
                       active
                         ? "bg-ink-900 font-semibold text-white"
                         : "font-medium text-ink-600 hover:bg-paper hover:text-ink-900"
@@ -140,9 +141,10 @@ const Sidebar = ({ isOpen, onClose }) => {
           <button
             onClick={handleLogout}
             title="Sign out"
-            className="rounded-full p-1.5 text-ink-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
+            aria-label="Sign out"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-ink-400 transition-colors hover:bg-rose-50 hover:text-rose-600 active:scale-95"
           >
-            <LogOut size={15} />
+            <LogOut size={17} />
           </button>
         </div>
       </div>
@@ -154,12 +156,12 @@ const Sidebar = ({ isOpen, onClose }) => {
       <div className="sticky top-0 hidden h-screen shrink-0 lg:block">{sidebarBody}</div>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-50 flex lg:hidden">
+        <div className="fixed inset-0 z-50 flex lg:hidden" role="dialog" aria-modal="true" aria-label="Student navigation">
           <div
             className="fixed inset-0 bg-ink-900/40 backdrop-blur-sm"
             onClick={onClose}
           />
-          <div className="relative z-10 h-full shadow-2xl">{sidebarBody}</div>
+          <div className="relative z-10 h-full h-dvh w-[min(18rem,calc(100vw-3rem))] max-w-full overflow-y-auto overscroll-contain shadow-2xl">{sidebarBody}</div>
         </div>
       ) : null}
     </>

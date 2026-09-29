@@ -8,8 +8,8 @@ const TABS = [
 ];
 
 const TabNavigation = ({ activeTab, setActiveTab }) => (
-  <div className="border-b border-ink-900/[0.08] px-5 sm:px-6">
-    <div className="no-scrollbar flex items-center gap-6 overflow-x-auto">
+  <div className="border-b border-ink-900/[0.08] px-4 sm:px-6">
+    <div className="no-scrollbar -mx-1 flex items-center gap-2 overflow-x-auto px-1 sm:gap-6" role="tablist" aria-label="Library sections">
       {TABS.map((tab) => {
         const Icon = tab.icon;
         const active = activeTab === tab.name;
@@ -17,9 +17,11 @@ const TabNavigation = ({ activeTab, setActiveTab }) => (
           <button
             key={tab.name}
             type="button"
+            role="tab"
+            aria-selected={active}
             onClick={() => setActiveTab(tab.name)}
             aria-current={active ? "page" : undefined}
-            className={`relative inline-flex h-12 shrink-0 items-center gap-2 text-[13px] transition-colors ${
+            className={`relative inline-flex min-h-[44px] shrink-0 items-center gap-2 px-1 text-sm transition-colors sm:text-[13px] ${
               active
                 ? "font-semibold text-ink-900"
                 : "font-medium text-ink-500 hover:text-ink-900"

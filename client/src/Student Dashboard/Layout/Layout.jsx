@@ -102,6 +102,21 @@ const Layout = () => (WrapLayoutComponent) => {
       setProfileOpen(false);
     }, [location.pathname]);
 
+    // Lock body scroll while the mobile drawer is open; close on Escape.
+    useEffect(() => {
+      if (!mobileOpen) return;
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      const onKey = (e) => {
+        if (e.key === "Escape") setMobileOpen(false);
+      };
+      document.addEventListener("keydown", onKey);
+      return () => {
+        document.body.style.overflow = prev;
+        document.removeEventListener("keydown", onKey);
+      };
+    }, [mobileOpen]);
+
     const handleLogout = () => {
       localStorage.removeItem("token");
       navigate("/MainLogin");
@@ -131,7 +146,7 @@ return (
               </Link>
 
               {/* Floating pill nav (identical to landing Navbar) */}
-              <div className="hidden items-center gap-1 rounded-full border border-ink-900/10 bg-white p-1 shadow-sm md:flex">
+              <div className="hidden items-center gap-1 rounded-full border border-ink-900/10 bg-white p-1 shadow-sm lg:flex">
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.to}
@@ -156,7 +171,7 @@ return (
                   </button>
 
                   {moreOpen ? (
-                    <div className="absolute right-0 top-[calc(100%+12px)] w-56 rounded-3xl border border-ink-900/10 bg-white p-1.5 shadow-card">
+                    <div className="absolute right-0 top-[calc(100%+12px)] max-h-[calc(100dvh-6rem)] w-[min(14rem,calc(100vw-2rem))] overflow-y-auto overscroll-contain rounded-3xl border border-ink-900/10 bg-white p-1.5 shadow-card">
                       {MORE_LINKS.map((item) => {
                         const Icon = item.icon;
                         const active = location.pathname === item.to;
@@ -180,7 +195,7 @@ return (
                 </div>
               </div>
 {/* Account actions (mirrors landing "Sign in / Get started") */}
-              <div className="hidden items-center gap-3 md:flex">
+              <div className="hidden items-center gap-3 lg:flex">
                 <div className="relative">
                   <IconButton
                     label="Announcements"
@@ -202,7 +217,7 @@ return (
                   </button>
 
                   {profileOpen ? (
-                    <div className="absolute right-0 top-[calc(100%+12px)] w-64 rounded-3xl border border-ink-900/10 bg-white p-1.5 shadow-card">
+                    <div role="menu" className="absolute right-0 top-[calc(100%+12px)] max-h-[calc(100dvh-5rem)] w-[min(16rem,calc(100vw-2rem))] overflow-y-auto overscroll-contain rounded-3xl border border-ink-900/10 bg-white p-1.5 shadow-card">
                       <div className="flex items-center gap-3 px-3 py-2.5">
                         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-ink-900 font-display text-[12px] font-bold text-white">
                           {studentInitial}
@@ -258,20 +273,24 @@ return (
               {/* Mobile menu toggle */}
               <button
                 onClick={() => setMobileOpen((open) => !open)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-900/10 bg-white md:hidden"
-                aria-label="Toggle menu"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink-900/10 bg-white transition-transform active:scale-95 lg:hidden"
+                aria-label={mobileOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileOpen}
+                aria-controls="student-mobile-nav"
               >
                 {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </nav>
 {/* Mobile drawer — same pattern as the landing Navbar */}
             {mobileOpen ? (
-              <div className="border-t border-ink-900/10 bg-white px-4 pb-6 pt-3 shadow-xl md:hidden">
+              <div id="student-mobile-nav" className="border-t border-ink-900/10 bg-white px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] pt-3 shadow-xl lg:hidden">
+                <nav aria-label="Student" className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain pb-1">
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
-                    className={`mt-2 block rounded-2xl px-4 py-3 text-sm first:mt-0 ${
+                    aria-current={location.pathname === link.to ? "page" : undefined}
+                    className={`mt-1.5 block min-h-[44px] rounded-2xl px-4 py-3 text-[15px] first:mt-0 ${
                       location.pathname === link.to
                         ? "bg-ink-100 font-semibold text-ink-900"
                         : "font-medium text-ink-700 hover:bg-ink-50"
@@ -281,6 +300,9 @@ return (
                   </Link>
                 ))}
 
+                <p className="mb-1 mt-4 px-4 text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink-400">
+                  More
+                </p>
                 {MORE_LINKS.map((item) => {
                   const Icon = item.icon;
                   const active = location.pathname === item.to;
@@ -288,39 +310,41 @@ return (
                     <Link
                       key={item.to}
                       to={item.to}
-                      className={`mt-2 flex items-center gap-2.5 rounded-2xl px-4 py-3 text-sm ${
+                      aria-current={active ? "page" : undefined}
+                      className={`mt-1.5 flex min-h-[44px] items-center gap-2.5 rounded-2xl px-4 py-3 text-[15px] ${
                         active
                           ? "bg-ink-100 font-semibold text-ink-900"
                           : "font-medium text-ink-700 hover:bg-ink-50"
                       }`}
                     >
-                      <Icon size={15} className={active ? "" : "text-ink-400"} />
+                      <Icon size={17} className={active ? "" : "text-ink-400"} />
                       {item.label}
                     </Link>
                   );
                 })}
 
-                <div className="mt-4 flex gap-3">
+                <div className="mt-4 flex flex-col gap-2.5 min-[380px]:flex-row min-[380px]:gap-3">
                   <button
                     onClick={handleLogout}
-                    className="flex-1 rounded-full border border-ink-900/15 px-4 py-2.5 text-sm font-semibold text-ink-700"
+                    className="min-h-[44px] flex-1 rounded-full border border-ink-900/15 px-4 py-2.5 text-sm font-semibold text-ink-700"
                   >
                     Sign out
                   </button>
                   <button
                     onClick={() => navigate("/live-class")}
-                    className="flex-1 rounded-full bg-ink-900 px-4 py-2.5 text-sm font-semibold text-white"
+                    className="min-h-[44px] flex-1 rounded-full bg-ink-900 px-4 py-2.5 text-sm font-semibold text-white"
                   >
                     Live class
                   </button>
                 </div>
+                </nav>
               </div>
             ) : null}
           </div>
         </header>
 
         {/* Workspace */}
-        <main className="relative z-10 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+        <main className="relative z-10 mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
           <WrapLayoutComponent {...props} />
         </main>
 

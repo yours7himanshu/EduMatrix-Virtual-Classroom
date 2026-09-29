@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import Signup from "./pages/Auth/SignUp.jsx";
+
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -55,7 +55,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
 
-        <Route path="/signup" element={<Signup />} />
      
         <Route path="/aboutUs" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />

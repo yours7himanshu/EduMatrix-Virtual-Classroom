@@ -389,11 +389,11 @@ const StudentLive = () => {
 
   const getDynamicGridClass = (count) => {
     if (count <= 1) return "grid-cols-1 grid-rows-1";
-    if (count === 2) return "grid-cols-1 md:grid-cols-2 grid-rows-1";
-    if (count === 3) return "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid-rows-1";
-    if (count === 4) return "grid-cols-2 grid-rows-2";
-    if (count <= 6) return "grid-cols-2 md:grid-cols-3";
-    return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
+    if (count === 2) return "grid-cols-1 sm:grid-cols-2 grid-rows-1";
+    if (count === 3) return "grid-cols-1 md:grid-cols-3 grid-rows-1";
+    if (count === 4) return "grid-cols-1 min-[480px]:grid-cols-2 min-[480px]:grid-rows-2";
+    if (count <= 6) return "grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3";
+    return "grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
   };
 
   /* ─── JSX ──────────────────────────────────────────────────────────── */
@@ -404,16 +404,17 @@ const StudentLive = () => {
     >
       {/* ── Top Header Bar ───────────────────────────────────────────── */}
       <header
-        className="flex-shrink-0 w-full px-5 py-3 flex items-center justify-between gap-3 z-20 border-b"
+        className="flex-shrink-0 w-full px-3 sm:px-5 py-2.5 sm:py-3 flex flex-col gap-2.5 min-[560px]:flex-row min-[560px]:items-center min-[560px]:justify-between min-[560px]:gap-3 z-20 border-b"
         style={{
           background: "rgba(13,18,41,0.92)",
           backdropFilter: "blur(16px)",
           borderColor: "rgba(99,102,241,0.18)",
           boxShadow: "0 1px 0 rgba(99,102,241,0.08)",
+          paddingTop: "calc(0.625rem + env(safe-area-inset-top, 0px))",
         }}
       >
         {/* Left: Brand + Classroom selector */}
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
           <div
             className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
@@ -444,7 +445,8 @@ const StudentLive = () => {
                 setSelectedClassroomId(e.target.value);
               }}
               disabled={isConnected}
-              className="appearance-none pl-3 pr-7 py-1.5 rounded-lg text-xs font-semibold text-white focus:outline-none cursor-pointer"
+              aria-label="Select classroom"
+              className="min-h-[44px] w-full min-w-0 max-w-full appearance-none rounded-lg py-2.5 pl-3 pr-8 text-base font-semibold text-white focus:outline-none min-[560px]:w-auto min-[560px]:max-w-[220px] min-[560px]:py-1.5 min-[560px]:pr-7 min-[560px]:text-xs cursor-pointer"
               style={{
                 background: "rgba(99,102,241,0.1)",
                 border: "1px solid rgba(99,102,241,0.25)",
@@ -479,7 +481,7 @@ const StudentLive = () => {
         </div>
 
         {/* Right: Classmates count + In-Call Chat Toggle + Leave */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
           {isConnected && classmateList.length > 0 && (
             <div
               className="hidden sm:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg"
@@ -495,7 +497,8 @@ const StudentLive = () => {
             <button
               type="button"
               onClick={() => setShowChat((prev) => !prev)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+              aria-expanded={showChat}
+              className="flex min-h-[44px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-bold transition-all min-[560px]:min-h-0 min-[560px]:px-3 min-[560px]:py-1.5"
               style={{
                 background: showChat
                   ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
@@ -514,7 +517,7 @@ const StudentLive = () => {
 
           <button
             onClick={handleLeaveClass}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold text-white transition-all hover:opacity-80"
+            className="flex min-h-[44px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-bold text-white transition-all hover:opacity-80 min-[560px]:min-h-0 min-[560px]:px-3.5 min-[560px]:py-1.5"
             style={{
               background: "rgba(99,102,241,0.12)",
               border: "1px solid rgba(99,102,241,0.2)",
@@ -526,12 +529,12 @@ const StudentLive = () => {
       </header>
 
       {/* ── Main Content ─────────────────────────────────────────────── */}
-      <main className="flex-1 flex flex-col p-4 gap-4 overflow-hidden min-h-0 relative">
+      <main className="flex-1 flex flex-col p-3 sm:p-4 gap-3 sm:gap-4 overflow-y-auto overscroll-contain min-h-0 relative">
         {/* Session Ended Banner */}
         {sessionEndedMessage ? (
-          <div className="my-auto flex items-center justify-center">
+          <div className="my-auto flex items-center justify-center px-1 py-6">
             <div
-              className="w-full max-w-md rounded-2xl p-8 text-center space-y-5 shadow-2xl"
+              className="w-full max-w-md rounded-2xl p-5 sm:p-8 text-center space-y-5 shadow-2xl"
               style={{
                 background: "rgba(13,18,41,0.95)",
                 border: "1px solid rgba(99,102,241,0.2)",
@@ -562,9 +565,9 @@ const StudentLive = () => {
           </div>
         ) : !activeSession && !isLoadingSession ? (
           /* Waiting Screen */
-          <div className="my-auto flex items-center justify-center">
+          <div className="my-auto flex items-center justify-center px-1 py-6">
             <div
-              className="w-full max-w-lg rounded-2xl p-10 text-center space-y-5 shadow-2xl"
+              className="w-full max-w-lg rounded-2xl p-5 sm:p-10 text-center space-y-5 shadow-2xl"
               style={{
                 background: "rgba(13,18,41,0.95)",
                 border: "1px solid rgba(99,102,241,0.2)",
@@ -657,7 +660,7 @@ const StudentLive = () => {
 
                 {/* Side Strip of Cameras (Teacher + You + Classmates) */}
                 <div
-                  className="w-full lg:w-72 flex flex-col gap-2 overflow-y-auto p-2 rounded-2xl flex-shrink-0"
+                  className="w-full lg:w-72 flex flex-col gap-2 overflow-y-auto overscroll-contain p-2 rounded-2xl flex-shrink-0 max-h-[38dvh] lg:max-h-none"
                   style={{
                     background: "rgba(13,18,41,0.8)",
                     border: "1px solid rgba(99,102,241,0.15)",
@@ -726,7 +729,7 @@ const StudentLive = () => {
               /* 2. Standard DYNAMIC FLEXIBLE GRID (No Screen Share) */
               /* When 1 person: 100% full stage. When 2: 50/50 split! When 3-4: 4 equal quadrants! */
               <div
-                className={`flex-1 grid gap-4 w-full h-full min-h-0 ${getDynamicGridClass(
+                className={`flex-1 grid gap-3 sm:gap-4 w-full h-full min-h-0 auto-rows-[minmax(220px,auto)] sm:auto-rows-auto ${getDynamicGridClass(
                   totalInGrid
                 )}`}
               >
@@ -738,7 +741,7 @@ const StudentLive = () => {
                       background: "#000",
                       border: "1px solid rgba(99,102,241,0.3)",
                       boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-                      minHeight: totalInGrid <= 2 ? "320px" : "180px",
+                      minHeight: "220px",
                     }}
                   >
                     {teacherStream?.videoTrack ? (
@@ -796,7 +799,7 @@ const StudentLive = () => {
                     background: "#000",
                     border: "1px solid rgba(99,102,241,0.25)",
                     boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-                    minHeight: totalInGrid <= 2 ? "320px" : "180px",
+                    minHeight: "220px",
                   }}
                 >
                   {localVideoTrack && isCameraEnabled ? (
@@ -847,7 +850,7 @@ const StudentLive = () => {
                       background: "#000",
                       border: "1px solid rgba(99,102,241,0.2)",
                       boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-                      minHeight: totalInGrid <= 2 ? "320px" : "180px",
+                      minHeight: "220px",
                     }}
                   >
                     {videoTrack ? (
@@ -901,18 +904,22 @@ const StudentLive = () => {
       {/* ── Floating Bottom Control Bar ───────────────────────────────── */}
       {isConnected && (
         <div
-          className="flex-shrink-0 flex items-center justify-center gap-3 px-6 py-4 z-30"
+          className="flex-shrink-0 z-30 border-t"
           style={{
             background: "rgba(13,18,41,0.92)",
             backdropFilter: "blur(16px)",
             borderTop: "1px solid rgba(99,102,241,0.12)",
+            paddingBottom: "env(safe-area-inset-bottom, 0px)",
           }}
         >
+        <div className="no-scrollbar mx-auto flex w-full max-w-3xl items-center justify-center gap-2 overflow-x-auto px-3 py-3 sm:gap-3 sm:px-6 sm:py-4">
           {/* Mic */}
           <button
             onClick={toggleMicrophone}
             title={isMicEnabled ? "Mute Microphone" : "Unmute Microphone"}
-            className="relative group w-12 h-12 rounded-full flex items-center justify-center transition-all"
+            aria-label={isMicEnabled ? "Mute microphone" : "Unmute microphone"}
+            aria-pressed={isMicEnabled}
+            className="relative shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
             style={{
               background: isMicEnabled ? "rgba(99,102,241,0.15)" : "rgba(239,68,68,0.85)",
               border: isMicEnabled
@@ -937,7 +944,9 @@ const StudentLive = () => {
           <button
             onClick={toggleCamera}
             title={isCameraEnabled ? "Turn Off Camera" : "Turn On Camera"}
-            className="relative group w-12 h-12 rounded-full flex items-center justify-center transition-all"
+            aria-label={isCameraEnabled ? "Turn off camera" : "Turn on camera"}
+            aria-pressed={isCameraEnabled}
+            className="relative shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
             style={{
               background: isCameraEnabled ? "rgba(99,102,241,0.15)" : "rgba(239,68,68,0.85)",
               border: isCameraEnabled
@@ -962,7 +971,9 @@ const StudentLive = () => {
           <button
             onClick={() => setShowChat((prev) => !prev)}
             title={showChat ? "Close Chat" : "Live Chat"}
-            className="relative group w-12 h-12 rounded-full flex items-center justify-center transition-all"
+            aria-label={showChat ? "Close live chat" : "Open live chat"}
+            aria-expanded={showChat}
+            className="relative shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
             style={{
               background: showChat
                 ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
@@ -988,15 +999,17 @@ const StudentLive = () => {
           <button
             onClick={handleLeaveClass}
             title="Leave Session"
-            className="relative group flex items-center gap-2.5 px-6 py-3 rounded-full text-xs font-bold text-white transition-all hover:scale-105"
+            aria-label="Leave session"
+            className="relative group flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold text-white transition-all hover:scale-105 active:scale-95 sm:gap-2.5 sm:px-6 sm:py-3"
             style={{
               background: "linear-gradient(135deg, #ef4444, #dc2626)",
               boxShadow: "0 4px 20px rgba(239,68,68,0.3)",
             }}
           >
             <PhoneOff className="w-4 h-4" />
-            <span>Leave Session</span>
+            <span>Leave</span>
           </button>
+        </div>
         </div>
       )}
 

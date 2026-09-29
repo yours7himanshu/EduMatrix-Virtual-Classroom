@@ -10,7 +10,7 @@ function ModalComponent() {
 
   const githubButton = (
     <Link to="https://github.com/yours7himanshu/EduMatrix-Virtual-Classroom" target="_blank" >
-    <button className='h-13 bg-black rounded-md  text-white p-3 hover:bg-gray-900 ' >
+    <button className='inline-flex min-h-[44px] items-center justify-center rounded-lg bg-black px-5 py-3 text-white hover:bg-gray-900' >
         Star on Github ⭐
     </button>
     </Link>

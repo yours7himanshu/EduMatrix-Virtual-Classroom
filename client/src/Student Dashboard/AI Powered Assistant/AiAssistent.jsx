@@ -131,12 +131,13 @@ return (
 
         <div className="p-5 sm:p-6">
           {/* Suggested prompts */}
-          <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          <div className="flex flex-wrap gap-2 pb-1">
             {SUGGESTED_PROMPTS.map((prompt) => (
               <button
                 key={prompt}
+                type="button"
                 onClick={() => setInput(prompt)}
-                className="shrink-0 rounded-full border border-ink-900/[0.10] bg-white px-3.5 py-2 text-[12.5px] font-medium text-ink-600 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                className="min-h-[44px] rounded-full border border-ink-900/[0.10] bg-white px-4 py-2 text-left text-[13px] font-medium leading-snug text-ink-600 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 active:scale-[0.99]"
               >
                 {prompt}
               </button>
@@ -180,7 +181,7 @@ return (
               </header>
 
               <div
-                className="prose max-w-none px-4 py-4 text-[13.5px] text-ink-700 sm:px-5"
+                className="prose max-w-none break-words px-4 py-4 text-sm leading-relaxed text-ink-700 sm:px-5 sm:text-[13.5px] [&_a]:break-all [&_code]:break-all [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto"
                 dangerouslySetInnerHTML={{ __html: formatResponse(output) }}
               />
             </motion.article>
@@ -198,13 +199,14 @@ return (
                     handleSubmit();
                   }
                 }}
-                rows={3}
+                rows={2}
                 disabled={loading}
                 placeholder="Ask anything about your courses, homework or research topics…"
-                className="w-full resize-none rounded-2xl bg-transparent px-4 py-3.5 text-[13.5px] text-ink-900 outline-none placeholder:text-ink-400"
+                aria-label="Ask the AI assistant"
+                className="max-h-[38dvh] w-full resize-none rounded-2xl bg-transparent px-4 py-3.5 text-base text-ink-900 outline-none placeholder:text-ink-400 sm:text-[13.5px]"
               />
 
-              <div className="flex items-center justify-between gap-3 border-t border-ink-900/[0.06] px-4 py-2.5">
+              <div className="flex items-center justify-end gap-3 border-t border-ink-900/[0.06] px-3 py-2.5 sm:justify-between sm:px-4">
                 <span className="hidden sm:inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-400">
                   <CornerDownLeft size={13} />
                   Enter to send · Shift + Enter for a new line
@@ -213,7 +215,7 @@ return (
                 <button
                   type="submit"
                   disabled={loading || !input.trim()}
-                  className="inline-flex h-9 items-center gap-2 rounded-full bg-ink-900 px-4 text-[12.5px] font-semibold text-white transition-colors hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-45"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-ink-900 px-5 text-[13px] font-semibold text-white transition-colors hover:bg-brand-600 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-45"
                 >
                   {loading ? (
                     <>

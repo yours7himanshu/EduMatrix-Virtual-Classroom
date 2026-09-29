@@ -15,32 +15,32 @@ const MissionSection: React.FC = () => {
           <p className="inline-block rounded-full bg-white border border-ink-900/10 shadow-soft text-ink-600 text-[11px] font-extrabold tracking-[0.16em] px-4 py-1.5">
             OUR MISSION
           </p>
-          <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-ink-900 mt-4 mb-5">
+          <h2 className="font-display text-[1.75rem] min-[420px]:text-3xl md:text-5xl font-extrabold tracking-tight text-ink-900 mt-4 mb-4 sm:mb-5">
             Education that empowers everyone
           </h2>
-          <p className="text-ink-500 mb-12">
+          <p className="text-ink-500 text-[15px] sm:text-base mb-8 sm:mb-12 leading-relaxed">
             To empower educational institutions with cutting-edge technology solutions that enhance learning experiences and improve educational outcomes. We believe in making quality education accessible, engaging, and effective for everyone.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 mt-4">
           <img
             src="/images/about-mission.jpg"
             alt="Teacher leading a class"
             loading="lazy"
-            className="w-full h-64 object-cover rounded-3xl border border-ink-900/10 shadow-soft"
+            className="w-full h-48 min-[480px]:h-64 object-cover rounded-[1.5rem] sm:rounded-3xl border border-ink-900/10 shadow-soft"
           />
           <img
             src="/images/about-story.jpg"
             alt="Student studying with notes"
             loading="lazy"
-            className="w-full h-64 object-cover rounded-3xl border border-ink-900/10 shadow-soft"
+            className="w-full h-48 min-[480px]:h-64 object-cover rounded-[1.5rem] sm:rounded-3xl border border-ink-900/10 shadow-soft"
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 mt-4 sm:mt-5">
           {values.map((value: Value, index: number) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300"
+              className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-3xl border border-ink-900/10 shadow-soft motion-safe:hover:shadow-card motion-safe:hover:-translate-y-1 transition-all duration-300"
               data-aos="fade-up"
             >
               <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 border border-brand-600/10 text-brand-600">

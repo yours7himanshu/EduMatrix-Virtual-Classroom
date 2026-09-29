@@ -15,16 +15,16 @@ const StatSection: React.FC = () => {
           {stats.map((stat: Stat, index: number) => (
             <div
               key={index}
-              className="text-center bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300"
+              className="text-center bg-white p-3.5 min-[420px]:p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-ink-900/10 shadow-soft motion-safe:hover:shadow-card motion-safe:hover:-translate-y-1 transition-all duration-300"
               data-aos="fade-up"
             >
-              <div className="mx-auto mb-3 sm:mb-4 grid h-10 w-10 sm:h-12 sm:w-12 place-items-center rounded-xl sm:rounded-2xl bg-brand-50 border border-brand-600/10 text-brand-600">
+              <div className="mx-auto mb-2.5 sm:mb-4 grid h-10 w-10 sm:h-12 sm:w-12 place-items-center rounded-xl sm:rounded-2xl bg-brand-50 border border-brand-600/10 text-brand-600">
                 {stat.icon}
               </div>
-              <div className="font-display text-2xl sm:text-3xl font-extrabold text-ink-900 mb-0.5 sm:mb-1">
+              <div className="font-display text-xl min-[420px]:text-2xl sm:text-3xl font-extrabold text-ink-900 mb-0.5 sm:mb-1">
                 {stat.number}
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-ink-500">
+              <div className="text-[11.5px] min-[420px]:text-xs sm:text-sm font-semibold text-ink-500 leading-snug">
                 {stat.label}
               </div>
             </div>

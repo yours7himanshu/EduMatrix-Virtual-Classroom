@@ -23,11 +23,13 @@ import {
   Button,
   FilterChips,
   PageHeader,
+  Pagination,
   SearchField,
   SkeletonRows,
 } from "../Shared/ui";
 
 const CATEGORIES = ["All", "Exam", "Event", "Holiday", "Assignment", "Lecture"];
+const PAGE_SIZE = 6;
 
 const CATEGORY_TONE = {
   exam: "warn",
@@ -42,6 +44,7 @@ function Announcement() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [page, setPage] = useState(1);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
@@ -96,6 +99,16 @@ function Announcement() {
 
   const isFiltered = Boolean(searchQuery) || selectedCategory !== "All";
 
+  // Reset to the first page whenever the result set changes.
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery, selectedCategory, announcements.length]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredAnnouncements.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const start = (safePage - 1) * PAGE_SIZE;
+  const visibleAnnouncements = filteredAnnouncements.slice(start, start + PAGE_SIZE);
+
 return (
     <div className="space-y-6">
       <PageHeader
@@ -127,7 +140,7 @@ return (
         <SkeletonRows rows={4} />
       ) : filteredAnnouncements.length > 0 ? (
         <div className="space-y-4">
-          {filteredAnnouncements.map((item, index) => (
+          {visibleAnnouncements.map((item, index) => (
             <article
               key={item._id || index}
               className="rounded-2xl border border-ink-900/[0.08] bg-white p-5 shadow-[0_1px_2px_rgba(19,19,40,0.04)] transition-all duration-200 hover:border-ink-900/[0.14] hover:shadow-[0_2px_6px_rgba(19,19,40,0.05),0_18px_36px_-24px_rgba(19,19,40,0.3)] sm:p-6"
@@ -161,6 +174,12 @@ return (
               </p>
             </article>
           ))}
+          <div className="pt-2">
+            <p className="mb-3 text-center text-[12.5px] font-semibold text-ink-500">
+              Showing {filteredAnnouncements.length === 0 ? 0 : start + 1}–{Math.min(start + PAGE_SIZE, filteredAnnouncements.length)} of {filteredAnnouncements.length} notices
+            </p>
+            <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center rounded-2xl border border-ink-900/[0.08] bg-white px-6 py-16 text-center shadow-[0_1px_2px_rgba(19,19,40,0.04)]">

@@ -213,28 +213,28 @@ const Payfees = () => {
                   <p className="text-[11px] font-extrabold uppercase tracking-wider text-ink-400">
                     Recorded Profile Data
                   </p>
-                  <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  <div className="mt-2 grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2 sm:grid-cols-4">
                     <div className="rounded-lg bg-white/60 p-2.5">
                       <span className="text-[11px] text-ink-500">Name</span>
-                      <p className="text-[12.5px] font-bold text-ink-900 truncate">
+                      <p className="break-words text-[13px] font-bold text-ink-900">
                         {student.name}
                       </p>
                     </div>
                     <div className="rounded-lg bg-white/60 p-2.5">
                       <span className="text-[11px] text-ink-500">Roll No</span>
-                      <p className="text-[12.5px] font-bold text-ink-900 truncate">
+                      <p className="break-words text-[13px] font-bold text-ink-900">
                         {student.rollNo}
                       </p>
                     </div>
                     <div className="rounded-lg bg-white/60 p-2.5">
                       <span className="text-[11px] text-ink-500">Department</span>
-                      <p className="text-[12.5px] font-bold text-ink-900 truncate">
+                      <p className="break-words text-[13px] font-bold text-ink-900">
                         {student.branch}
                       </p>
                     </div>
                     <div className="rounded-lg bg-white/60 p-2.5">
                       <span className="text-[11px] text-ink-500">Batch</span>
-                      <p className="text-[12.5px] font-bold text-ink-900 truncate">
+                      <p className="break-words text-[13px] font-bold text-ink-900">
                         {student.batch}
                       </p>
                     </div>
@@ -339,7 +339,7 @@ const Payfees = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:gap-4">
+          <div className="grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2 sm:grid-cols-4 sm:gap-3 lg:gap-4">
             <div className="rounded-xl border border-ink-900/[0.08] bg-white p-3">
               <p className="text-[10.5px] font-semibold text-ink-400 uppercase tracking-wider">
                 Admission Year
@@ -582,7 +582,7 @@ const Payfees = () => {
                   </div>
 
                   {/* Amounts breakdown */}
-                  <div className="mt-3.5 grid grid-cols-3 gap-2 rounded-xl bg-ink-50/60 p-2.5 text-center sm:text-left">
+                  <div className="mt-3.5 grid grid-cols-1 gap-2 rounded-xl bg-ink-50/60 p-3 min-[420px]:grid-cols-3 min-[420px]:p-2.5 min-[420px]:text-center sm:text-left">
                     <div>
                       <span className="text-[10.5px] font-semibold text-ink-400 uppercase">
                         Assessed

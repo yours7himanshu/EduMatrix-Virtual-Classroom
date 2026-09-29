@@ -297,8 +297,8 @@ const StudentDashboard = () => {
                   </p>
                 </div>
                 {item.isLive ? (
-                  <Button variant="primary" size="sm" onClick={() => navigate("/live-class")}>
-                    <Video size={14} className="mr-1 sm:mr-1.5" /> <span className="hidden xs:inline">Join</span>
+                  <Button variant="primary" size="sm" onClick={() => navigate("/live-class")} aria-label={`Join ${item.subject}`}>
+                    <Video size={14} className="mr-1 sm:mr-1.5" /> <span>Join</span>
                   </Button>
                 ) : (
                   <Button variant="secondary" size="sm" onClick={() => navigate("/live-class")}>

@@ -17,21 +17,22 @@ const Modal = ({ isOpen, onClose, content, actionButton }) => {
   if (!showModal) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="relative w-full max-md:w-[95%] max-md:h-auto max-w-md mx-auto bg-white h-[40%] rounded-lg shadow-lg">
-        <div className="flex items-center justify-center p-5  ">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true">
+      <div className="relative mx-auto flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
+        <div className="flex items-center justify-center p-4 pb-0">
           {/* <h3 className="text-xl font-semibold text-gray-400 dark:text-white">
             {content.title}
           </h3> */}
           <button 
             type="button" 
-            onClick={closeModal} 
-            className="text-white bg-red-500 hover:bg-red-400  rounded-md text-sm p-1.5 ml-auto inline-flex items-center "
+            onClick={closeModal}
+            aria-label="Close dialog"
+            className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-red-500 text-sm text-white hover:bg-red-400"
           >
             <CloseIcon />
           </button>
         </div>
-        <div className="p-1 space-y-3">
+        <div className="space-y-3 overflow-y-auto overscroll-contain p-5">
             
         <p className=" text-center text-sm  font-medium text-wrap dark:text-indigo-600" > {content.disclaimer} </p>
           <p className=" text-center  text-wrap dark:text-gray-500">
@@ -41,7 +42,7 @@ const Modal = ({ isOpen, onClose, content, actionButton }) => {
             </span>
           </p>
         </div>
-        <div className=" flex  justify-center p-2 ">
+        <div className=" flex justify-center p-4 pt-2 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
           {actionButton}
         </div>
       </div>

@@ -203,7 +203,10 @@ const StudentChat = ({
 
   return (
     <div
-      className="fixed top-0 bottom-0 right-0 w-full sm:w-88 md:w-96 z-50 flex flex-col shadow-2xl transition-transform duration-300 antialiased"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+      className="fixed top-0 bottom-0 right-0 w-full min-[480px]:w-[22rem] md:w-96 z-50 flex flex-col shadow-2xl transition-transform duration-300 antialiased"
       style={{
         background: "rgba(13, 18, 41, 0.97)",
         backdropFilter: "blur(20px)",
@@ -236,7 +239,8 @@ const StudentChat = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+            aria-label="Close chat"
+            className="grid h-11 w-11 place-items-center rounded-lg text-slate-400 hover:text-white transition-colors active:scale-95"
             style={{
               background: "rgba(99, 102, 241, 0.1)",
               border: "1px solid rgba(99, 102, 241, 0.15)",
@@ -301,7 +305,7 @@ const StudentChat = ({
                   </span>
                 )}
                 <div
-                  className={`px-3.5 py-2 rounded-2xl text-xs max-w-[85%] break-words shadow-sm ${
+                  className={`px-3.5 py-2 rounded-2xl text-sm max-w-[85%] break-words shadow-sm ${
                     isMe
                       ? "rounded-tr-sm text-white"
                       : "rounded-tl-sm text-slate-200"
@@ -334,7 +338,7 @@ const StudentChat = ({
       {/* Input Bar */}
       <form
         onSubmit={sendMessage}
-        className="flex-shrink-0 p-3 border-t flex items-center gap-2"
+        className="flex-shrink-0 border-t flex items-center gap-2 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]"
         style={{
           background: "rgba(13, 18, 41, 0.95)",
           borderColor: "rgba(99, 102, 241, 0.15)",
@@ -346,7 +350,9 @@ const StudentChat = ({
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={handleKeyPress}
           placeholder="Send a message..."
-          className="flex-1 px-3.5 py-2.5 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none transition-colors"
+          aria-label="Send a message"
+          enterKeyHint="send"
+          className="flex-1 min-h-[44px] px-3.5 py-2.5 rounded-xl text-base text-white placeholder-slate-500 focus:outline-none transition-colors sm:text-xs"
           style={{
             background: "rgba(99, 102, 241, 0.08)",
             border: "1px solid rgba(99, 102, 241, 0.2)",
@@ -361,7 +367,8 @@ const StudentChat = ({
         <button
           type="submit"
           disabled={!inputMessage.trim()}
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-white transition-all disabled:opacity-40 hover:opacity-90 flex-shrink-0"
+          aria-label="Send message"
+          className="h-11 w-11 rounded-xl flex items-center justify-center text-white transition-all disabled:opacity-40 hover:opacity-90 active:scale-95 flex-shrink-0"
           style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
           title="Send"
         >

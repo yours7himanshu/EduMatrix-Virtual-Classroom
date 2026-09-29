@@ -169,7 +169,7 @@ return (
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-all duration-200 ${
+            className={`rounded-2xl border-2 border-dashed px-4 py-8 text-center transition-all duration-200 sm:px-6 sm:py-12 ${
               pdfFile
                 ? "border-emerald-300 bg-emerald-50/50"
                 : dragActive
@@ -191,7 +191,7 @@ return (
 
                 <label
                   htmlFor="file-upload"
-                  className="mt-5 inline-flex h-10 cursor-pointer items-center gap-2 rounded-full bg-ink-900 px-5 text-[13px] font-semibold text-white transition-colors hover:bg-brand-600"
+                  className="mt-5 inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-full bg-ink-900 px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-600 active:scale-[0.99]"
                 >
                   <FilePlus size={15} />
                   Select document
@@ -215,17 +215,18 @@ return (
                 <span className="grid h-12 w-12 place-items-center rounded-2xl border border-emerald-200 bg-emerald-100 text-emerald-700">
                   <CheckCircle2 size={22} />
                 </span>
-                <div className="mt-4 flex max-w-md items-center gap-2.5 rounded-xl border border-ink-900/[0.08] bg-white px-3.5 py-2.5">
+                <div className="mt-4 flex w-full max-w-md items-center gap-2.5 rounded-xl border border-ink-900/[0.08] bg-white px-3.5 py-2.5">
                   <FileText size={16} className="shrink-0 text-brand-600" />
-                  <span className="truncate text-[13px] font-semibold text-ink-900">
+                  <span className="min-w-0 flex-1 break-words text-[13px] font-semibold text-ink-900">
                     {fileName}
                   </span>
                   <button
                     onClick={resetFileSelection}
                     title="Remove file"
-                    className="rounded-lg p-1 text-ink-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
+                    aria-label="Remove selected file"
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-ink-400 transition-colors hover:bg-rose-50 hover:text-rose-600 active:scale-95"
                   >
-                    <X size={15} />
+                    <X size={17} />
                   </button>
                 </div>
 

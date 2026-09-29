@@ -21,3 +21,9 @@ limitations under the License.
   box-sizing: border-box;
 
 }
+/* Mobile-first guards: never allow a stray element to force page-wide horizontal scroll.
+   Individual data tables use .table-scroll for contained scrolling instead. */
+html,body{ overflow-x:clip; max-width:100%; }
+img,video,iframe,canvas{ max-width:100%; }
+/* Safe-area support for notched phones (bottom nav / control bars) */
+:root{ --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px); }

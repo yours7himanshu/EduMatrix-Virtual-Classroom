@@ -32,6 +32,7 @@ import {
   CardHeader,
   EmptyState,
   PageHeader,
+  Pagination,
   SearchField,
   SkeletonCards,
 } from "../Shared/ui";
@@ -70,7 +71,8 @@ const QuizCard = ({ quiz, isActive, onToggle, onSubmit, userAnswers, setUserAnsw
         </span>
         <button
           onClick={() => onToggle(quiz._id)}
-          className="inline-flex items-center gap-1.5 text-[12.5px] font-bold text-brand-600 transition-colors hover:text-brand-700"
+          aria-expanded={isActive}
+          className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-[13px] font-bold text-brand-600 transition-colors hover:bg-brand-50 hover:text-brand-700 active:scale-95"
         >
           {isActive ? "Hide questions" : "Start quiz"}
           {isActive ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -96,13 +98,13 @@ const QuizCard = ({ quiz, isActive, onToggle, onSubmit, userAnswers, setUserAnsw
                     {question.questionText}
                   </legend>
 
-                  <div className="space-y-2 pl-[30px]">
+                  <div className="space-y-2 sm:pl-[30px]">
                     {question.options.map((option, optIndex) => {
                       const checked = userAnswers[quiz._id]?.[question._id] === optIndex;
                       return (
                         <label
                           key={optIndex}
-                          className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-2.5 text-[12.5px] transition-all ${
+                          className={`flex min-h-[44px] cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-3 text-[13.5px] transition-all active:scale-[0.99] ${
                             checked
                               ? "border-brand-400 bg-brand-50 font-semibold text-ink-900"
                               : "border-ink-900/[0.08] bg-white font-medium text-ink-600 hover:border-ink-900/[0.16] hover:text-ink-900"
@@ -114,9 +116,9 @@ const QuizCard = ({ quiz, isActive, onToggle, onSubmit, userAnswers, setUserAnsw
                             value={optIndex}
                             checked={checked}
                             onChange={() => handleAnswerChange(question._id, optIndex)}
-                            className="h-3.5 w-3.5 accent-brand-600"
+                            className="h-5 w-5 shrink-0 accent-brand-600"
                           />
-                          {option}
+                          <span className="min-w-0 break-words">{option}</span>
                         </label>
                       );
                     })}
@@ -126,7 +128,7 @@ const QuizCard = ({ quiz, isActive, onToggle, onSubmit, userAnswers, setUserAnsw
 
               <button
                 type="submit"
-                className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-ink-900 text-[13px] font-semibold text-white transition-colors hover:bg-brand-600"
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-ink-900 text-sm font-semibold text-white transition-colors hover:bg-brand-600 active:scale-[0.99]"
               >
                 <Send size={14} />
                 Submit answers
@@ -149,6 +151,8 @@ const QuizList = () => {
   const [userAnswers, setUserAnswers] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 6;
 
   const backendApiUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 
@@ -344,6 +348,16 @@ const QuizList = () => {
     0
   );
 
+  // Reset to the first page whenever the result set changes.
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, quizzes.length]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredQuizzes.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const start = (safePage - 1) * PAGE_SIZE;
+  const visibleQuizzes = filteredQuizzes.slice(start, start + PAGE_SIZE);
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -367,8 +381,9 @@ const QuizList = () => {
       {isLoading ? (
         <SkeletonCards count={3} />
       ) : filteredQuizzes.length > 0 ? (
+        <>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {filteredQuizzes.map((quiz) => (
+          {visibleQuizzes.map((quiz) => (
             <QuizCard
               key={quiz._id}
               quiz={quiz}
@@ -380,6 +395,13 @@ const QuizList = () => {
             />
           ))}
         </div>
+        <div className="pt-1">
+          <p className="mb-3 text-center text-[12.5px] font-semibold text-ink-500">
+            Showing {start + 1}–{Math.min(start + PAGE_SIZE, filteredQuizzes.length)} of {filteredQuizzes.length} quizzes
+          </p>
+          <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
+        </div>
+        </>
       ) : (
         <EmptyState
           icon={Inbox}

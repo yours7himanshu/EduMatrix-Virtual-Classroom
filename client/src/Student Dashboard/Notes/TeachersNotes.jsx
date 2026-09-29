@@ -245,7 +245,7 @@ return (
                   rel="noreferrer"
                   variant="subtle"
                   size="sm"
-                  className="shrink-0"
+                  className="w-full shrink-0 sm:w-auto"
                 >
                   <Download size={14} />
                   Download

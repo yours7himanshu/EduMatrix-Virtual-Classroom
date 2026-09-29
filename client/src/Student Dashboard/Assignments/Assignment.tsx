@@ -111,7 +111,7 @@ const Assignment: React.FC = () => {
             const meta = deadlineMeta(assignment.deadline);
             return (
               <Card key={assignment._id} className="flex flex-col overflow-hidden">
-                <div className="flex items-center justify-between gap-3 border-b border-ink-900/[0.08] px-5 py-3.5">
+                <div className="flex flex-wrap items-center gap-2 border-b border-ink-900/[0.08] px-4 py-3 sm:px-5 sm:py-3.5">
                   <Badge tone="neutral" icon={Paperclip}>
                     {assignment.questions
                       ? `${assignment.questions} questions`

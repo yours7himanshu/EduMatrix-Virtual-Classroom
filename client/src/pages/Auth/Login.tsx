@@ -62,7 +62,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink-900 relative overflow-hidden flex flex-col justify-between items-center px-6 py-10 antialiased selection:bg-brand-100 selection:text-brand-700">
+    <div className="min-h-dvh bg-paper text-ink-900 relative overflow-hidden flex flex-col justify-between items-center px-4 sm:px-6 py-6 sm:py-10 antialiased selection:bg-brand-100 selection:text-brand-700">
       {/* ─── Ambient Glow Blobs & Dot-Grid (Matches Website Header) ─── */}
       <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
       <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
@@ -90,7 +90,7 @@ const Login: React.FC = () => {
 
       {/* ─── Auth Card ─── */}
       <div className="relative z-10 w-full max-w-md my-auto py-6">
-        <div className="bg-white/95 backdrop-blur-xl rounded-[2.25rem] border border-ink-900/10 shadow-card p-8 sm:p-10">
+        <div className="bg-white/95 backdrop-blur-xl rounded-3xl sm:rounded-[2.25rem] border border-ink-900/10 shadow-card p-5 sm:p-10">
           <div className="text-center mb-7">
             <h1 className="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-ink-900">
               Student Sign In
@@ -127,7 +127,9 @@ const Login: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="student@college.edu"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-paper border border-ink-900/15 rounded-2xl text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                  autoComplete="email"
+                  inputMode="email"
+                  className="w-full min-h-[48px] pl-11 pr-4 py-3 bg-paper border border-ink-900/15 rounded-2xl text-base text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all sm:text-sm"
                 />
               </div>
             </div>
@@ -148,7 +150,8 @@ const Login: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-paper border border-ink-900/15 rounded-2xl text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                  autoComplete="current-password"
+                  className="w-full min-h-[48px] pl-11 pr-4 py-3 bg-paper border border-ink-900/15 rounded-2xl text-base text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all sm:text-sm"
                 />
               </div>
             </div>
@@ -158,7 +161,7 @@ const Login: React.FC = () => {
                 type="submit"
                 disabled={loading}
                 aria-busy={loading}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 text-white font-bold py-3.5 px-6 text-sm shadow-soft hover:bg-brand-600 transition-all duration-200 disabled:opacity-60"
+                className="w-full min-h-[48px] inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 text-white font-bold py-3.5 px-6 text-sm shadow-soft hover:bg-brand-600 transition-all duration-200 active:scale-[0.99] disabled:opacity-60"
               >
                 {loading ? (
                   <FaSpinner className="animate-spin h-4 w-4" aria-label="Signing in..." />

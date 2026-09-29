@@ -80,7 +80,7 @@ export function PrimaryBtn({
   ...rest
 }) {
   const link = href || to;
-  const classes = `group inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-300 hover:bg-brand-600 hover:shadow-card hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:translate-y-0 ${className}`;
+  const classes = `group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-ink-900 px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-300 hover:bg-brand-600 hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:scale-[0.99] motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 ${className}`;
   const inner = (
     <>
       <span>{children}</span>
@@ -115,7 +115,7 @@ export function GhostBtn({
   ...rest
 }) {
   const link = href || to;
-  const classes = `inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink-900 border border-ink-900/15 shadow-soft transition-all duration-300 hover:border-ink-900/25 hover:shadow-card hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:translate-y-0 ${className}`;
+  const classes = `inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink-900 border border-ink-900/15 shadow-soft transition-all duration-300 hover:border-ink-900/25 hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:scale-[0.99] motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 ${className}`;
   if (link) {
     return (
       <a href={link} onClick={onClick} className={classes} {...rest}>

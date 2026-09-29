@@ -145,7 +145,7 @@ const SyllabusPage = () => {
           {syllabusData.map((course) => (
             <div
               key={course.id}
-              className="bg-white rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-300 p-7 sm:p-9"
+              className="bg-white rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card motion-safe:hover:-translate-y-0.5 transition-all duration-300 p-5 sm:p-9"
             >
               {/* Header row */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -192,7 +192,7 @@ const SyllabusPage = () => {
                 <a
                   href={course.syllabusLink}
                   download
-                  className="inline-flex items-center gap-2 rounded-full bg-ink-900 text-white px-6 py-2.5 text-xs sm:text-sm font-bold shadow-soft hover:bg-brand-600 transition-colors"
+                  className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-ink-900 text-white px-6 py-3 text-sm font-bold shadow-soft hover:bg-brand-600 transition-colors active:scale-[0.99] sm:w-auto sm:py-2.5 sm:text-sm"
                 >
                   <Download size={15} />
                   <span>Download Full Syllabus</span>
