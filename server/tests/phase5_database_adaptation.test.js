@@ -15,32 +15,38 @@ const {
 test('EduMatrix Cloudflare Migration Phase 5: Database Adaptation Suite', async (t) => {
   // ── 1. Credential Redaction & URI Sanitization ───────────────────────────
   await t.test('1. sanitizeMongoUri redacts username and password from standard mongodb:// URI', () => {
-    const raw = 'mongodb://appUser:MySecretPassword123!@localhost:27017/edumatrix?authSource=admin';
+    const dummyUser = 'mockUser';
+    const dummyPass = 'mockPassword123!';
+    const raw = `mongodb://${dummyUser}:${dummyPass}@localhost:27017/edumatrix?authSource=admin`;
     const sanitized = sanitizeMongoUri(raw);
 
-    assert.ok(!sanitized.includes('MySecretPassword123!'));
-    assert.ok(!sanitized.includes('appUser'));
+    assert.ok(!sanitized.includes(dummyPass));
+    assert.ok(!sanitized.includes(dummyUser));
     assert.ok(sanitized.includes('[REDACTED_CREDENTIALS]'));
     assert.equal(sanitized, 'mongodb://[REDACTED_CREDENTIALS]@localhost:27017/edumatrix?authSource=admin');
   });
 
   await t.test('2. sanitizeMongoUri redacts credentials from SRV mongodb+srv:// connection string', () => {
-    const raw = 'mongodb+srv://admin_himanshu:P%40ssw0rd99@cluster0.mkcqp.mongodb.net/edumatrix?retryWrites=true&w=majority';
+    const dummyUser = 'mockAdmin';
+    const dummyPass = 'mockSecret%40Pass123!';
+    const raw = `mongodb+srv://${dummyUser}:${dummyPass}@cluster0.example.mongodb.net/edumatrix?retryWrites=true&w=majority`;
     const sanitized = sanitizeMongoUri(raw);
 
-    assert.ok(!sanitized.includes('P%40ssw0rd99'));
-    assert.ok(!sanitized.includes('admin_himanshu'));
+    assert.ok(!sanitized.includes(dummyPass));
+    assert.ok(!sanitized.includes(dummyUser));
     assert.ok(sanitized.includes('[REDACTED_CREDENTIALS]'));
-    assert.equal(sanitized, 'mongodb+srv://[REDACTED_CREDENTIALS]@cluster0.mkcqp.mongodb.net/edumatrix?retryWrites=true&w=majority');
+    assert.equal(sanitized, 'mongodb+srv://[REDACTED_CREDENTIALS]@cluster0.example.mongodb.net/edumatrix?retryWrites=true&w=majority');
   });
 
   await t.test('3. sanitizeMongoUri redacts credentials embedded in multi-line error traces', () => {
-    const errorText = 'MongoServerSelectionError: connection <monitor> to mongodb+srv://clusterAdmin:TopSecretPass@cluster0.net:27017 closed\n    at connectionFailure (/app/node_modules/mongodb/lib/sdam/server.js:312:35)';
+    const dummyUser = 'mockClusterAdmin';
+    const dummyPass = 'mockClusterPassword';
+    const errorText = `MongoServerSelectionError: connection <monitor> to mongodb+srv://${dummyUser}:${dummyPass}@cluster0.example.net:27017 closed\n    at connectionFailure (/app/node_modules/mongodb/lib/sdam/server.js:312:35)`;
     const sanitized = sanitizeMongoUri(errorText);
 
-    assert.ok(!sanitized.includes('TopSecretPass'));
-    assert.ok(!sanitized.includes('clusterAdmin'));
-    assert.ok(sanitized.includes('mongodb+srv://[REDACTED_CREDENTIALS]@cluster0.net:27017 closed'));
+    assert.ok(!sanitized.includes(dummyPass));
+    assert.ok(!sanitized.includes(dummyUser));
+    assert.ok(sanitized.includes('mongodb+srv://[REDACTED_CREDENTIALS]@cluster0.example.net:27017 closed'));
   });
 
   await t.test('4. sanitizeMongoUri preserves URI without credentials and handles non-string safely', () => {
@@ -53,9 +59,9 @@ test('EduMatrix Cloudflare Migration Phase 5: Database Adaptation Suite', async 
     assert.equal(sanitizeMongoUri(undefined), '');
 
     // Error object input
-    const errObj = new Error('Failed to connect to mongodb://user:pass@host:27017/db');
+    const errObj = new Error('Failed to connect to mongodb://mockUser:mockPass@host:27017/db');
     const sanitizedErr = sanitizeMongoUri(errObj);
-    assert.ok(!sanitizedErr.includes('pass'));
+    assert.ok(!sanitizedErr.includes('mockPass'));
     assert.ok(sanitizedErr.includes('[REDACTED_CREDENTIALS]'));
   });
 
@@ -121,13 +127,15 @@ test('EduMatrix Cloudflare Migration Phase 5: Database Adaptation Suite', async 
   });
 
   await t.test('9. Rethrown connection error has credentials redacted in message', async () => {
-    const fakeAuthUri = 'mongodb://secretUser:SuperConfidentialPass99@127.0.0.1:65530/test?connectTimeoutMS=50&serverSelectionTimeoutMS=50';
+    const dummyUser = 'mockSecretUser';
+    const dummyPass = 'mockSecretPass99';
+    const fakeAuthUri = `mongodb://${dummyUser}:${dummyPass}@127.0.0.1:65530/test?connectTimeoutMS=50&serverSelectionTimeoutMS=50`;
 
     await assert.rejects(
       connectDB(fakeAuthUri),
       (err) => {
-        assert.ok(!err.message.includes('SuperConfidentialPass99'));
-        assert.ok(!err.message.includes('secretUser'));
+        assert.ok(!err.message.includes(dummyPass));
+        assert.ok(!err.message.includes(dummyUser));
         return true;
       }
     );

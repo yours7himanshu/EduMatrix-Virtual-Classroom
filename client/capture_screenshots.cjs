@@ -11,6 +11,16 @@ if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir, { recursive: true });
 }
 
+// Generates an unsigned mock token dynamically for local screenshot testing without hardcoding JWT strings
+function createMockAdminToken() {
+  if (process.env.ADMIN_MOCK_TOKEN) {
+    return process.env.ADMIN_MOCK_TOKEN;
+  }
+  const header = Buffer.from(JSON.stringify({ alg: 'none', typ: 'JWT' })).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({ role: 'admin', name: 'Admin User', id: 'mock-admin' })).toString('base64url');
+  return `${header}.${payload}.mock_sig`;
+}
+
 const clientPages = [
   { name: 'client_home', path: '/' },
   { name: 'client_about', path: '/aboutUs' },
@@ -89,10 +99,11 @@ async function capture() {
         try {
           await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 10000 });
           if (p.auth) {
-            await page.evaluate(() => {
-              localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW4gVXNlciIsImlkIjoiMSJ9.mock_signature');
+            const adminToken = createMockAdminToken();
+            await page.evaluate((token) => {
+              localStorage.setItem('token', token);
               localStorage.setItem('user', JSON.stringify({ role: 'admin', name: 'Admin User' }));
-            });
+            }, adminToken);
             await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 10000 });
           }
           // Admin has a 2000ms loader! Let's wait 3000ms

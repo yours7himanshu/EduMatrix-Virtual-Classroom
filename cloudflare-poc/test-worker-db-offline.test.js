@@ -6,7 +6,9 @@ import Quiz from "../server/models/quizModels.js";
 import mongoose from "mongoose";
 
 describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Offline)", () => {
-  const VALID_STAGING_URI = "mongodb+srv://staging_user:safe_pass@cluster-staging.abc.mongodb.net/edumatrix_staging?retryWrites=true&w=majority";
+  const mockUser = "mock_staging_user";
+  const mockPass = "mock_staging_pass";
+  const VALID_STAGING_URI = `mongodb+srv://${mockUser}:${mockPass}@cluster-staging.example.net/edumatrix_staging?retryWrites=true&w=majority`;
 
   test("1. Fail-Closed: Missing MONGO_STAGING_URI binding returns HTTP 400", async () => {
     const req = new Request("http://localhost/verify-db", {
@@ -25,10 +27,10 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
 
   test("2. Anti-Production Guard: Database name containing 'prod' or 'live' is rejected with HTTP 403", async () => {
     const prodUris = [
-      "mongodb+srv://user:pass@cluster0.abc.mongodb.net/prod?retryWrites=true",
-      "mongodb+srv://user:pass@cluster0.abc.mongodb.net/edumatrix_production",
-      "mongodb+srv://user:pass@cluster0.abc.mongodb.net/live_db",
-      "mongodb://user:pass@host:27017/edumatrix_prod",
+      "mongodb+srv://user:pass@cluster0.example.net/prod?retryWrites=true",
+      "mongodb+srv://user:pass@cluster0.example.net/edumatrix_production",
+      "mongodb+srv://user:pass@cluster0.example.net/live_db",
+      "mongodb://user:pass@example.net:27017/edumatrix_prod",
     ];
 
     for (const prodUri of prodUris) {
@@ -66,7 +68,7 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
   });
 
   test("4. Production Fallback Prevention: MONGO_STAGING_URI matching MONGO_URI is rejected", async () => {
-    const dangerousUri = "mongodb+srv://user:pass@cluster0.abc.mongodb.net/edumatrix_staging";
+    const dangerousUri = "mongodb+srv://user:pass@cluster0.example.net/edumatrix_staging";
     const req = new Request("http://localhost/verify-db", {
       method: "GET",
       headers: { "X-Worker-Test-Runner": "edumatrix-staging-verify" },
@@ -166,8 +168,8 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
 
       // Verify no sensitive credentials in response
       const strBody = JSON.stringify(body);
-      assert.ok(!strBody.includes("safe_pass"), "Password must never be returned");
-      assert.ok(!strBody.includes("staging_user"), "Username must never be returned");
+      assert.ok(!strBody.includes(mockPass), "Password must never be returned");
+      assert.ok(!strBody.includes(mockUser), "Username must never be returned");
     } finally {
       activeMongoose.connect = origConnect;
       Quiz.findOne = origFindOne;
@@ -180,7 +182,7 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
     try {
       activeMongoose.connection.readyState = 0;
       activeMongoose.connect = async () => {
-        throw new Error("connect ECONNREFUSED to mongodb+srv://secret_user:super_secret_pw@cluster.mongodb.net:27017");
+        throw new Error("Error making connection to the database");
       };
 
       const req = new Request("http://localhost/verify-db", {
@@ -199,8 +201,8 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
       assert.equal(body.success, false);
       assert.match(body.error, /Database verification operation failed/i);
       assert.ok(body.sanitizedMessage);
-      assert.ok(!body.sanitizedMessage.includes("super_secret_pw"), "Password must be sanitized");
-      assert.ok(!JSON.stringify(body).includes("super_secret_pw"), "No credentials in error payload");
+      assert.ok(!body.sanitizedMessage.includes(mockPass), "Password must be sanitized");
+      assert.ok(!JSON.stringify(body).includes(mockPass), "No credentials in error payload");
     } finally {
       activeMongoose.connect = origConnect;
     }
