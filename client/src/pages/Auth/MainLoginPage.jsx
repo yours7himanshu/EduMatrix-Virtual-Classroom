@@ -45,8 +45,12 @@ const MainLoginPage = () => {
       {/* ─── Top Navigation Bar ─── */}
       <header className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-5 sm:pt-8 flex items-center justify-between">
         <Link to="/" className="group flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105">
-            <span className="text-xl font-bold font-display">E</span>
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105 overflow-hidden">
+            <img
+              src="/E.png"
+              alt="EduMatrix Logo"
+              className="h-full w-full object-cover rounded-2xl select-none"
+            />
           </span>
           <span className="leading-tight">
             <span className="block text-lg font-extrabold tracking-tight text-ink-900 font-display">
@@ -72,10 +76,10 @@ const MainLoginPage = () => {
         {/* Floating Pill Badge (Matches Header Style) */}
         <div className="inline-flex items-center gap-2 rounded-full bg-white border border-ink-900/10 shadow-soft pl-1.5 pr-4 py-1.5 text-[12px] font-semibold text-ink-800">
           <span className="inline-flex items-center gap-1 rounded-full bg-ink-900 text-white px-2.5 py-1 text-[10px] font-bold tracking-wide uppercase">
-            <Sparkles size={12} strokeWidth={2.5} /> SECURE GATEWAY
+          SECURE GATEWAY
           </span>
           <span className="inline-flex items-center gap-1.5 text-ink-700">
-            <Sparkles size={13} className="text-brand-600" /> Choose Your Portal
+             Choose Your Portal
           </span>
         </div>
 

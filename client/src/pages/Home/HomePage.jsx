@@ -51,9 +51,9 @@ const HomePage = () => {
           {/* Full announcement pill — roomy screens only */}
           <div data-aos="fade-down" className="hidden min-[480px]:inline-flex items-center gap-2 rounded-full bg-white border border-ink-900/10 shadow-soft pl-1.5 pr-4 py-1.5 text-[13px] font-semibold text-ink-800">
             <span className="inline-flex items-center gap-1 rounded-full bg-ink-900 text-white px-2.5 py-1 text-[11px] font-bold tracking-wide">
-              <Sparkles size={13} strokeWidth={2.5} /> NEW
+               NEW
             </span>
-            <span className="inline-flex items-center gap-1.5"><Sparkles size={14} className="text-brand-600" /> Revolutionizing Digital Education</span>
+            <span className="inline-flex items-center gap-1.5"> Revolutionizing Digital Education</span>
           </div>
           {/* Compact eyebrow for phones — no wrapped pill */}
           <p data-aos="fade-down" className="inline-flex min-[480px]:hidden items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.2em] text-brand-700">

@@ -106,11 +106,11 @@ const StudentDashboard = () => {
           <div className="relative z-10 w-full max-w-2xl md:max-w-[55%]">
             <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-ink-900/10 bg-white/50 py-1 pl-1 pr-4 shadow-sm backdrop-blur-md">
               <span className="flex items-center gap-1.5 rounded-full bg-ink-900 px-2.5 py-0.5 text-[10px] font-bold tracking-widest text-white">
-                <Sparkles size={12} className="text-brand-300" />
+                <Sparkles size={12} className="text-brand-300 text-white" />
                 STUDENT
               </span>
               <span className="text-[12px] font-semibold text-ink-600">
-                <Sparkles size={12} className="mr-1 inline text-brand-500" />
+                
                 Virtual Classroom Portal
               </span>
             </div>

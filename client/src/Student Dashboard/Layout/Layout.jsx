@@ -133,12 +133,16 @@ return (
           <div className="border-b border-ink-900/10 bg-white/80 backdrop-blur-xl">
             <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
               {/* Brand lockup (identical to landing Navbar) */}
-              <Link to="/StudentDashboard/dashboard" className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink-900 text-xl font-bold text-white">
-                  E
+              <Link to="/StudentDashboard/dashboard" className="group flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105 overflow-hidden">
+                  <img
+                    src="/E.png"
+                    alt="EduMatrix Logo"
+                    className="h-full w-full object-cover rounded-2xl select-none"
+                  />
                 </span>
                 <span className="leading-tight">
-                  <span className="block text-base font-bold text-ink-900">EduMatrix</span>
+                  <span className="block text-base font-bold text-ink-900 font-display">EduMatrix</span>
                   <span className="block text-xs font-medium text-ink-500">
                     Virtual Classroom
                   </span>

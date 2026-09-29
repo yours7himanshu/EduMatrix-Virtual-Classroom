@@ -71,8 +71,12 @@ const Login: React.FC = () => {
       {/* Top Header */}
       <div className="relative z-10 w-full max-w-md flex items-center justify-between">
         <Link to="/" className="group flex items-center gap-2.5">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105">
-            <span className="text-lg font-bold font-display">E</span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105 overflow-hidden">
+            <img
+              src="/E.png"
+              alt="EduMatrix Logo"
+              className="h-full w-full object-cover rounded-2xl select-none"
+            />
           </span>
           <span className="text-base font-extrabold tracking-tight text-ink-900 font-display">
             EduMatrix
