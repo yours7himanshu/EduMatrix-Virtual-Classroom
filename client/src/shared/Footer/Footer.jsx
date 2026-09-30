@@ -46,9 +46,9 @@ export default function Footer() {
       <div className="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-brand-100/35 blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 right-1/4 h-72 w-72 rounded-full bg-accent-lime/20 blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 pt-16 pb-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-10 pt-10 sm:pt-16 pb-10 sm:pb-12">
         {/* ─── Main Footer Columns ─── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-5 lg:gap-12">
           {/* Brand & Mission Column (Span 2) */}
           <div className="lg:col-span-2">
             <Link to="/" className="group inline-flex items-center gap-3">
@@ -86,12 +86,14 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Link groups: 2-col on phones so the footer reads as one block */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-8 min-[480px]:grid-cols-3 sm:gap-8 lg:col-span-3">
           {/* Learning Column */}
           <div>
             <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
               Learning
             </h4>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-4 sm:mt-5 space-y-2.5 sm:space-y-3">
               {learningLinks.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -110,7 +112,7 @@ export default function Footer() {
             <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
               Portals
             </h4>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-4 sm:mt-5 space-y-2.5 sm:space-y-3">
               {portalLinks.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -125,11 +127,11 @@ export default function Footer() {
           </div>
 
           {/* Company Column */}
-          <div>
+          <div className="col-span-2 min-[480px]:col-span-1">
             <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
               Company
             </h4>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-4 sm:mt-5 grid grid-cols-2 gap-x-4 gap-y-2.5 min-[480px]:flex min-[480px]:flex-col min-[480px]:gap-2.5 sm:gap-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -142,10 +144,11 @@ export default function Footer() {
               ))}
             </ul>
           </div>
+          </div>
         </div>
 
         {/* ─── Bottom Copyright Bar ─── */}
-        <div className="mt-14 pt-8 border-t border-ink-900/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-400">
+        <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-ink-900/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-ink-400">
           <p className="text-center sm:text-left">
             © {new Date().getFullYear()} EduMatrix Virtual Classroom. All rights reserved.
           </p>

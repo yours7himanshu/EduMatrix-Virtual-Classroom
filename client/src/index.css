@@ -2,8 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root{ --paper:#FAF8F4; --ink:#131328; --brand:#5B50E6; --tap:44px; }
-html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+:root{ --paper:#FAF8F4; --ink:#131328; --brand:#5B50E6; --tap:44px; --header-h:56px; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; scroll-padding-top:calc(var(--header-h) + 16px); }
+@media (min-width:640px){ :root{ --header-h:64px; } }
 html,body{ overflow-x:clip; }
 body{ background:#FAF8F4; color:#131328; font-family:"Plus Jakarta Sans",system-ui,sans-serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
 img,video,canvas,svg{ max-width:100%; }
@@ -35,6 +36,9 @@ img,video{ height:auto; }
   /* Contained horizontal scroll for data tables — never scrolls the whole page */
   .table-scroll{ @apply -mx-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0; scrollbar-width:thin; }
   .table-scroll table{ @apply min-w-[640px] w-full; }
+  /* Homepage CTA / hero pills: never let the trailing icon get clipped on 320-360px phones */
+  .btn-pill{ @apply max-w-full overflow-hidden; }
+  .btn-pill > :last-child{ flex-shrink:0; }
 }
 
 /* Subtle, fast, accessible motion */
