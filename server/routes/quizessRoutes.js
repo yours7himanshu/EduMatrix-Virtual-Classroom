@@ -115,7 +115,7 @@ router.post('/quizzes/:id/submit', async (req, res) => {
   try {
     const quizId = req.params.id;
 
-    if (!quizId || !String(quizId).match(/^[0-9a-fA-F]{24}$/)) {
+    if (!quizId || !/^[0-9a-fA-F]{24}$/.test(String(quizId))) {
       return res.status(400).json({
         success: false,
         message: 'Invalid quiz ID format',

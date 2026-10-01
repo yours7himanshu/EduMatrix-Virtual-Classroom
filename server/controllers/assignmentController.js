@@ -120,7 +120,7 @@ const deleteAssignment = async (req, res) => {
   try {
     const assignmentId = req.params.id;
 
-    if (!assignmentId || !String(assignmentId).match(/^[0-9a-fA-F]{24}$/)) {
+    if (!assignmentId || !/^[0-9a-fA-F]{24}$/.test(String(assignmentId))) {
       return res.status(400).json({
         success: false,
         message: "Invalid assignment ID format",
