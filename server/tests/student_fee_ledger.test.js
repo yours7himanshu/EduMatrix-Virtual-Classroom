@@ -230,7 +230,7 @@ test("Student Fee Ledger & Financial Summary Calculation Suite", async (t) => {
     const doc = id && id.toString() === studentId.toString() ? studentDoc : null;
     return {
       ...doc,
-      lean: async () => doc,
+      lean: () => doc,
       then(resolve, reject) {
         return Promise.resolve(doc).then(resolve, reject);
       },
@@ -259,7 +259,7 @@ test("Student Fee Ledger & Financial Summary Calculation Suite", async (t) => {
       : null;
     return {
       ...doc,
-      lean: async () => doc,
+      lean: () => doc,
       then(resolve, reject) {
         return Promise.resolve(doc).then(resolve, reject);
       },
@@ -269,14 +269,14 @@ test("Student Fee Ledger & Financial Summary Calculation Suite", async (t) => {
   // Mock StudentFeeAccount.findOne
   const originalAccountFindOne = StudentFeeAccount.findOne;
   StudentFeeAccount.findOne = () => ({
-    lean: async () => null,
+    lean: () => null,
   });
 
   // Mock FeesModel.find
   let mockPayments = [];
   const originalFeesFind = FeesModel.find;
   FeesModel.find = (query) => ({
-    lean: async () => {
+    lean: () => {
       return mockPayments.filter(
         (p) =>
           p.studentId.toString() === query.studentId.toString() &&
@@ -400,7 +400,7 @@ test("Student Fee Ledger & Financial Summary Calculation Suite", async (t) => {
     setStripeInstance({
       checkout: {
         sessions: {
-          create: async () => ({ id: "mock_session", url: "https://stripe.com/pay" }),
+          create: () => ({ id: "mock_session", url: "https://stripe.com/pay" }),
         },
       },
     });
@@ -432,7 +432,7 @@ test("Student Fee Ledger & Financial Summary Calculation Suite", async (t) => {
     const origFeeFindOne = FeeStructure.findOne;
     // Simulate no fee structures configured in the institution
     FeeStructure.findOne = () => ({
-      lean: async () => null,
+      lean: () => null,
       then(resolve, reject) {
         return Promise.resolve(null).then(resolve, reject);
       },
@@ -477,7 +477,7 @@ test("Student Fee Ledger & Financial Summary Calculation Suite", async (t) => {
         : null;
       return {
         ...doc,
-        lean: async () => doc,
+        lean: () => doc,
         then(resolve, reject) {
           return Promise.resolve(doc).then(resolve, reject);
         },

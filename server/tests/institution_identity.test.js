@@ -56,7 +56,7 @@ function buildService() {
 
   const { resolveStudentAcademicProgression } = require("../services/studentAcademicProgressionService");
 
-  async function resolveStudentFinancialSummary(studentId, currentDate = new Date()) {
+  function resolveStudentFinancialSummary(studentId, currentDate = new Date()) {
     const student = mockStudentDoc;
     if (!student) {
       const err = new Error("Student not found");

@@ -8,7 +8,7 @@ const Message = require('../models/messageModel');
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'test_jwt_secret_key_123';
 
 test('Chat & Token Integrity Suite (SEC-09 & SEC-02)', async (t) => {
-  await t.test('1. Student token includes name, role, and valid 24h exp claim', async () => {
+  await t.test('1. Student token includes name, role, and valid 24h exp claim', () => {
     const studentUser = {
       _id: new mongoose.Types.ObjectId().toString(),
       name: 'Alice Student',
@@ -36,7 +36,7 @@ test('Chat & Token Integrity Suite (SEC-09 & SEC-02)', async (t) => {
     assert.strictEqual(decoded.exp - decoded.iat, 86400);
   });
 
-  await t.test('2. Admin token includes name, role, and valid 24h exp claim', async () => {
+  await t.test('2. Admin token includes name, role, and valid 24h exp claim', () => {
     const adminUser = {
       _id: new mongoose.Types.ObjectId().toString(),
       collegeName: 'National Engineering College',
@@ -63,7 +63,7 @@ test('Chat & Token Integrity Suite (SEC-09 & SEC-02)', async (t) => {
     assert.strictEqual(decoded.exp - decoded.iat, 86400);
   });
 
-  await t.test('3. Chat sender derivation prevents Mongoose ValidationError on legacy tokens', async () => {
+  await t.test('3. Chat sender derivation prevents Mongoose ValidationError on legacy tokens', () => {
     // Simulate legacy token with missing role and name
     const legacyToken = jwt.sign(
       { email: 'oldstudent@college.edu', userId: '12345' },
@@ -89,7 +89,7 @@ test('Chat & Token Integrity Suite (SEC-09 & SEC-02)', async (t) => {
     assert.strictEqual(validationErr, undefined, 'Must pass Mongoose validation without error');
   });
 
-  await t.test('4. Chat message creation with student name passes validation', async () => {
+  await t.test('4. Chat message creation with student name passes validation', () => {
     const modernToken = jwt.sign(
       {
         email: 'alice@college.edu',
@@ -115,7 +115,7 @@ test('Chat & Token Integrity Suite (SEC-09 & SEC-02)', async (t) => {
     assert.strictEqual(msgDoc.sender, 'Alice Student');
   });
 
-  await t.test('5. Mongoose Message schema strictly requires non-empty sender', async () => {
+  await t.test('5. Mongoose Message schema strictly requires non-empty sender', () => {
     // If sender is undefined (the original bug), validateSync must fail
     const brokenMsg = new Message({
       sender: undefined,

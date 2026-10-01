@@ -1,6 +1,6 @@
 const { predictPlacement } = require('../services/documentAiService');
 
-const AiPredictorController = async (req, res) => {
+const AiPredictorController = (req, res) => {
   const { marks, attendance, branch } = req.body || {};
 
   try {

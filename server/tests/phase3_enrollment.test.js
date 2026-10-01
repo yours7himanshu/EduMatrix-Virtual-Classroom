@@ -63,19 +63,19 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const originalFindEnrollment = Enrollment.findOne;
     const originalCreateEnrollment = Enrollment.create;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       institutionId: instId,
       name: "Alice",
       email: "alice@test.edu",
     });
-    Enrollment.findOne = async () => null; // Not already enrolled
-    Enrollment.create = async (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
+    Enrollment.findOne = () => null; // Not already enrolled
+    Enrollment.create = (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -107,7 +107,7 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const classId = new mongoose.Types.ObjectId().toString();
 
     const originalFindClass = Classroom.findById;
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacher2Id, // Owned by teacher2!
@@ -143,18 +143,18 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const originalFindEnrollment = Enrollment.findOne;
     const originalCreateEnrollment = Enrollment.create;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       institutionId: instId,
       name: "Bob",
     });
-    Enrollment.findOne = async () => null;
-    Enrollment.create = async (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
+    Enrollment.findOne = () => null;
+    Enrollment.create = (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -181,7 +181,7 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const studentId = new mongoose.Types.ObjectId().toString();
 
     const originalFindClass = Classroom.findById;
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: new mongoose.Types.ObjectId().toString(),
       teacherId: new mongoose.Types.ObjectId().toString(),
@@ -225,16 +225,16 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const originalFindStudent = Student.findById;
     const originalFindEnrollment = Enrollment.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       institutionId: instId,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       _id: "existing_enrollment_id",
       classroomId: classId,
       studentId: studentId,
@@ -271,12 +271,12 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const originalFindStudent = Student.findById;
     const originalFindEnrollment = Enrollment.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       institutionId: instId,
     });
@@ -288,9 +288,9 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
       status: "dropped",
       enrolledAt: new Date("2024-01-01"),
       droppedAt: new Date("2024-02-01"),
-      save: async function () { return this; },
+      save: function () { return this; },
     };
-    Enrollment.findOne = async () => droppedRecord;
+    Enrollment.findOne = () => droppedRecord;
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -324,12 +324,12 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const originalFindClass = Classroom.findById;
     const originalFindStudent = Student.findById;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classA,
       institutionId: instA,
       teacherId: teacherA,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentB,
       institutionId: instB, // Student belongs to college B!
     });
@@ -364,7 +364,7 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const originalFindEnrollment = Enrollment.findOne;
     const originalCreateEnrollment = Enrollment.create;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classA,
       institutionId: instA,
       teacherId: teacherA,
@@ -375,14 +375,14 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
       _id: studentId,
       name: "New Student",
       institutionId: null, // Unaffiliated!
-      save: async function () {
+      save: function () {
         studentSaved = true;
         return this;
       },
     };
-    Student.findById = async () => unaffiliatedStudent;
-    Enrollment.findOne = async () => null;
-    Enrollment.create = async (doc) => ({ _id: "new_enrollment_id", ...doc });
+    Student.findById = () => unaffiliatedStudent;
+    Enrollment.findOne = () => null;
+    Enrollment.create = (doc) => ({ _id: "new_enrollment_id", ...doc });
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -415,7 +415,7 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
     const originalFindClass = Classroom.findById;
     const originalFindEnrollment = Enrollment.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
@@ -426,9 +426,9 @@ test("Phase 3: Enrollment & Roster Management Suite", async (t) => {
       classroomId: classId,
       studentId: studentId,
       status: "enrolled",
-      save: async function () { return this; },
+      save: function () { return this; },
     };
-    Enrollment.findOne = async () => activeEnrollment;
+    Enrollment.findOne = () => activeEnrollment;
 
     t.after(() => {
       Classroom.findById = originalFindClass;

@@ -73,19 +73,19 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindAdmin = Admin.findById;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       directorName: "Prof. Einstein",
       email: "einstein@college.edu",
       isActive: true,
     });
-    LiveSession.findOne = async () => ({
+    LiveSession.findOne = () => ({
       _id: sessionId,
       classroomId: classId,
       hostTeacherId: teacherId,
@@ -138,25 +138,25 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindEnrollment = Enrollment.findOne;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       name: "Ada Lovelace",
       email: "ada@college.edu",
       institutionId: instId,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       _id: "enr_1",
       classroomId: classId,
       studentId,
       status: "enrolled",
     });
-    LiveSession.findOne = async () => ({
+    LiveSession.findOne = () => ({
       _id: sessionId,
       classroomId: classId,
       roomName,
@@ -219,7 +219,7 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const teacherId = new mongoose.Types.ObjectId().toString();
 
     const originalFindClass = Classroom.findById;
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: "inst_alpha",
       teacherId: teacherId,
@@ -250,7 +250,7 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const callingTeacherId = new mongoose.Types.ObjectId().toString();
 
     const originalFindClass = Classroom.findById;
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: assignedTeacherId, // Assigned to different teacher
@@ -282,13 +282,13 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindClass = Classroom.findById;
     const originalFindAdmin = Admin.findById;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       directorName: "Prof. Inactive",
       isActive: false, // Inactive account!
@@ -321,18 +321,18 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindStudent = Student.findById;
     const originalFindEnrollment = Enrollment.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: "teacher_1",
       isActive: true,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       name: "Non-enrolled Student",
       institutionId: instId,
     });
-    Enrollment.findOne = async () => null; // No enrollment
+    Enrollment.findOne = () => null; // No enrollment
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -362,18 +362,18 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindStudent = Student.findById;
     const originalFindEnrollment = Enrollment.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: "teacher_1",
       isActive: true,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       name: "Dropped Student",
       institutionId: instId,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       _id: "enr_dropped",
       classroomId: classId,
       studentId,
@@ -408,17 +408,17 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindAdmin = Admin.findById;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       isActive: true,
     });
-    LiveSession.findOne = async () => null; // No active session!
+    LiveSession.findOne = () => null; // No active session!
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -452,24 +452,24 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindEnrollment = Enrollment.findOne;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Student.findById = async () => ({
+    Student.findById = () => ({
       _id: studentId,
       name: "Student Impersonator",
       institutionId: instId,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       _id: "enr_1",
       classroomId: classId,
       studentId,
       status: "enrolled",
     });
-    LiveSession.findOne = async () => ({
+    LiveSession.findOne = () => ({
       _id: sessionId,
       classroomId: classId,
       roomName,
@@ -541,18 +541,18 @@ test("Phase 5: Secure Server-Side LiveKit Token Generation Suite", async (t) => 
     const originalFindAdmin = Admin.findById;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       directorName: "Prof. Einstein",
       isActive: true,
     });
-    LiveSession.findOne = async () => ({
+    LiveSession.findOne = () => ({
       _id: sessionId,
       classroomId: classId,
       roomName: "live_room_signature_test",
