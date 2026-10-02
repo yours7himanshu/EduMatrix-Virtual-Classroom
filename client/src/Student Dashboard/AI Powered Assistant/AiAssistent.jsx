@@ -17,7 +17,6 @@ limitations under the License.
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import DOMPurify from "dompurify";
 import { motion } from "framer-motion";
 import {
   Bot,
@@ -38,49 +37,146 @@ const SUGGESTED_PROMPTS = [
   "Give me 5 practice questions on differential calculus",
 ];
 
+const renderInlineMarkdown = (text) => {
+  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+  return parts.map((part, index) => {
+    const boldMatch = part.match(/^\*\*(.*?)\*\*$/);
+    if (boldMatch) {
+      return (
+        <strong key={`bold-${index}`} className="font-bold text-ink-900">
+          {boldMatch[1]}
+        </strong>
+      );
+    }
+
+    const italicMatch = part.match(/^\*(.*?)\*$/);
+    if (italicMatch) {
+      return (
+        <em key={`italic-${index}`} className="italic text-ink-800">
+          {italicMatch[1]}
+        </em>
+      );
+    }
+
+    return <React.Fragment key={`text-${index}`}>{part}</React.Fragment>;
+  });
+};
+
+export const formatResponse = (text) => {
+  if (!text) return null;
+
+  const elements = [];
+  const lines = text.split("\n");
+  let paragraphLines = [];
+  let listItems = [];
+  let keyIndex = 0;
+
+  const flushParagraph = () => {
+    if (!paragraphLines.length) return;
+    elements.push(
+      <p key={`p-${keyIndex++}`} className="mb-3.5 leading-relaxed">
+        {paragraphLines.map((line, index) => (
+          <React.Fragment key={`line-${index}`}>
+            {index > 0 ? <br /> : null}
+            {renderInlineMarkdown(line)}
+          </React.Fragment>
+        ))}
+      </p>
+    );
+    paragraphLines = [];
+  };
+
+  const flushList = () => {
+    if (!listItems.length) return;
+    elements.push(
+      <ul key={`ul-${keyIndex++}`} className="list-disc pl-5 mb-4 space-y-1">
+        {listItems.map((item, index) => (
+          <li key={`li-${index}`} className="ml-4 mb-1.5 text-ink-700">
+            {renderInlineMarkdown(item)}
+          </li>
+        ))}
+      </ul>
+    );
+    listItems = [];
+  };
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushParagraph();
+      flushList();
+      return;
+    }
+
+    const heading3 = trimmed.match(/^###\s+(.*)$/);
+    const heading2 = trimmed.match(/^##\s+(.*)$/);
+    const heading1 = trimmed.match(/^#\s+(.*)$/);
+    const bullet = trimmed.match(/^-\s+(.*)$/);
+
+    if (heading3) {
+      flushParagraph();
+      flushList();
+      elements.push(
+        <h3
+          key={`h3-${keyIndex++}`}
+          className="font-display text-[15px] font-bold text-ink-900 mt-5 mb-2"
+        >
+          {renderInlineMarkdown(heading3[1])}
+        </h3>
+      );
+      return;
+    }
+
+    if (heading2) {
+      flushParagraph();
+      flushList();
+      elements.push(
+        <h2
+          key={`h2-${keyIndex++}`}
+          className="font-display text-[17px] font-bold text-ink-900 mt-6 mb-3"
+        >
+          {renderInlineMarkdown(heading2[1])}
+        </h2>
+      );
+      return;
+    }
+
+    if (heading1) {
+      flushParagraph();
+      flushList();
+      elements.push(
+        <h1
+          key={`h1-${keyIndex++}`}
+          className="font-display text-[19px] font-extrabold text-ink-900 mt-7 mb-3"
+        >
+          {renderInlineMarkdown(heading1[1])}
+        </h1>
+      );
+      return;
+    }
+
+    if (bullet) {
+      flushParagraph();
+      listItems.push(bullet[1]);
+      return;
+    }
+
+    flushList();
+    paragraphLines.push(trimmed);
+  });
+
+  flushParagraph();
+  flushList();
+  return elements;
+};
+
 const AiAssistent = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-  const formatResponse = (text) => {
-    if (!text) return "";
-
-    let formattedText = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-ink-900">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em class="italic text-ink-800">$1</em>')
-      .replace(
-        /#{3}\s+(.*)/g,
-        '<h3 class="font-display text-[15px] font-bold text-ink-900 mt-5 mb-2">$1</h3>'
-      )
-      .replace(
-        /#{2}\s+(.*)/g,
-        '<h2 class="font-display text-[17px] font-bold text-ink-900 mt-6 mb-3">$1</h2>'
-      )
-      .replace(
-        /#\s+(.*)/g,
-        '<h1 class="font-display text-[19px] font-extrabold text-ink-900 mt-7 mb-3">$1</h1>'
-      )
-      .replace(/\n/g, "<br />")
-      .replace(/- (.*?)(<br \/>|$)/g, '<li class="ml-4 mb-1.5 text-ink-700">$1</li>');
-
-    formattedText = formattedText
-      .split("<br /><br />")
-      .map((paragraph) => {
-        if (paragraph.startsWith("<li")) {
-          return `<ul class="list-disc pl-5 mb-4 space-y-1">${paragraph}</ul>`;
-        }
-        if (!paragraph.match(/^<h[1-3]|^<ul/)) {
-          return `<p class="mb-3.5 leading-relaxed">${paragraph}</p>`;
-        }
-        return paragraph;
-      })
-      .join("");
-
-    return DOMPurify.sanitize(formattedText);
-  };
 
   const handleSubmit = async (event) => {
     if (event) event.preventDefault();
@@ -180,10 +276,9 @@ return (
                 </button>
               </header>
 
-              <div
-                className="prose max-w-none break-words px-4 py-4 text-sm leading-relaxed text-ink-700 sm:px-5 sm:text-[13.5px] [&_a]:break-all [&_code]:break-all [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto"
-                dangerouslySetInnerHTML={{ __html: formatResponse(output) }}
-              />
+              <div className="prose max-w-none break-words px-4 py-4 text-sm leading-relaxed text-ink-700 sm:px-5 sm:text-[13.5px] [&_a]:break-all [&_code]:break-all [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto">
+                {formatResponse(output)}
+              </div>
             </motion.article>
           ) : null}
 
