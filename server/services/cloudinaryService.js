@@ -9,7 +9,7 @@
 const { sanitizeFilename } = require('./uploadValidator');
 
 /**
- * Computes Cloudinary SHA-1 signature.
+ * Computes Cloudinary SHA-256 signature.
  * Compatible with WebCrypto (Workers) and Node.js crypto.
  */
 async function generateSignature(params, apiSecret) {
@@ -25,14 +25,14 @@ async function generateSignature(params, apiSecret) {
   if (typeof crypto !== 'undefined' && crypto.subtle) {
     const encoder = new TextEncoder();
     const data = encoder.encode(toSign);
-    const hashBuffer = await crypto.subtle.digest('SHA-1', data);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     return Array.from(new Uint8Array(hashBuffer))
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('');
   }
 
   const nodeCrypto = require('crypto');
-  return nodeCrypto.createHash('sha1').update(toSign).digest('hex');
+  return nodeCrypto.createHash('sha256').update(toSign).digest('hex');
 }
 
 /**

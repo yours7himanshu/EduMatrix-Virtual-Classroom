@@ -83,10 +83,10 @@ test('EduMatrix Cloudflare Migration Phase 4: Edge File Uploads Suite', async (t
   });
 
   // ── 2. Cloudinary REST API Service & Signing ─────────────────────────────
-  await t.test('6. Computes valid Cloudinary SHA-1 signature according to REST specs', async () => {
+  await t.test('6. Computes valid Cloudinary SHA-256 signature according to REST specs', async () => {
     const sig = await generateSignature({ timestamp: 123456789 }, 'test_secret_key');
     assert.equal(typeof sig, 'string');
-    assert.equal(sig.length, 40); // 40-char SHA-1 hex digest
+    assert.equal(sig.length, 64); // 64-char SHA-256 hex digest
   });
 
   await t.test('7. uploadToCloudinary returns secure_url and public_id (mock fallback in test env)', async () => {
