@@ -1,6 +1,6 @@
 import { io } from "../client/node_modules/socket.io-client/build/esm/index.js";
 
-async function testDirect(transports = ["polling", "websocket"]) {
+function testDirect(transports = ["polling", "websocket"]) {
   return new Promise((resolve) => {
     console.log(`\n--- Testing Direct Express Socket.IO (transports: ${JSON.stringify(transports)}) ---`);
     const start = Date.now();

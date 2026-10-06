@@ -33,7 +33,7 @@ test('Quiz Submission Suite (BUG-03)', async (t) => {
   };
 
   const originalFindById = Quiz.findById;
-  Quiz.findById = async (id) => {
+  Quiz.findById = (id) => {
     return mockQuizzes[id ? id.toString() : ''] || null;
   };
 
@@ -191,7 +191,7 @@ test('Quiz Submission Suite (BUG-03)', async (t) => {
     assert.ok(postLayer, 'Route POST /quizzes must exist on quizRouter');
 
     const originalSave = Quiz.prototype.save;
-    Quiz.prototype.save = async function () {
+    Quiz.prototype.save = function () {
       this._id = new mongoose.Types.ObjectId();
       return this;
     };

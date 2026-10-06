@@ -177,7 +177,7 @@ test("Multi-Tenant FeeStructure Isolation & Attack Defense Suite", async (t) => 
 
     const doc = {
       ...found,
-      save: async function () {
+      save: function () {
         const idx = mockFeeStructures.findIndex((s) => s._id.toString() === this._id.toString());
         if (idx !== -1) mockFeeStructures[idx] = { ...this };
         return this;
@@ -252,7 +252,7 @@ test("Multi-Tenant FeeStructure Isolation & Attack Defense Suite", async (t) => 
   // =========================================================================
   // TEST 1: Dual Tenant Cohabitation
   // =========================================================================
-  await t.test("1. Two institutions can have identical branch (CSE) and year (1) with distinct fees", async () => {
+  await t.test("1. Two institutions can have identical branch (CSE) and year (1) with distinct fees", () => {
     assert.strictEqual(structA.branch, "CSE");
     assert.strictEqual(structB.branch, "CSE");
     assert.strictEqual(structA.academicYear, 1);

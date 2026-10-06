@@ -256,7 +256,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
     const origFindOne = Enrollment.findOne;
 
     try {
-      Classroom.findById = async () => ({
+      Classroom.findById = () => ({
         _id: new mongoose.Types.ObjectId(testClassroomId),
         institutionId: new mongoose.Types.ObjectId(instId1),
         teacherId: new mongoose.Types.ObjectId(teacherUser1.collegeId),
@@ -264,7 +264,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
       });
 
       // Enrollment returns null (not enrolled)
-      Enrollment.findOne = async () => null;
+      Enrollment.findOne = () => null;
 
       let callbackResult = null;
       await socket.trigger('joinClassroom', { classroomId: testClassroomId }, (res) => {
@@ -294,7 +294,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
     const origFindOne = Enrollment.findOne;
 
     try {
-      Classroom.findById = async () => ({
+      Classroom.findById = () => ({
         _id: new mongoose.Types.ObjectId(testClassroomId),
         institutionId: new mongoose.Types.ObjectId(instId1),
         teacherId: new mongoose.Types.ObjectId(teacherUser1.collegeId),
@@ -302,7 +302,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
       });
 
       // Active enrollment found
-      Enrollment.findOne = async () => ({
+      Enrollment.findOne = () => ({
         classroomId: testClassroomId,
         studentId: studentUser1.userId,
         status: 'enrolled',
@@ -334,7 +334,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
     const origFindById = Classroom.findById;
 
     try {
-      Classroom.findById = async () => ({
+      Classroom.findById = () => ({
         _id: new mongoose.Types.ObjectId(testClassroomId),
         institutionId: new mongoose.Types.ObjectId(instId1), // Belongs to Inst 1
         teacherId: new mongoose.Types.ObjectId(teacherUser1.collegeId),
@@ -368,7 +368,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
     const origFindById = Classroom.findById;
 
     try {
-      Classroom.findById = async () => ({
+      Classroom.findById = () => ({
         _id: new mongoose.Types.ObjectId(testClassroomId),
         institutionId: new mongoose.Types.ObjectId(instId1),
         teacherId: new mongoose.Types.ObjectId(otherTeacherId), // Different teacher
@@ -400,7 +400,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
     const origFindById = Classroom.findById;
 
     try {
-      Classroom.findById = async () => ({
+      Classroom.findById = () => ({
         _id: new mongoose.Types.ObjectId(testClassroomId),
         institutionId: new mongoose.Types.ObjectId(instId1),
         teacherId: new mongoose.Types.ObjectId(teacherUser1.collegeId), // Matches assigned teacher
@@ -430,7 +430,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
     const origFindById = Classroom.findById;
 
     try {
-      Classroom.findById = async () => ({
+      Classroom.findById = () => ({
         _id: new mongoose.Types.ObjectId(testClassroomId),
         institutionId: new mongoose.Types.ObjectId(instId1),
         teacherId: new mongoose.Types.ObjectId(), // Any teacher
@@ -480,7 +480,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
 
     const origCreate = Message.create;
     try {
-      Message.create = async (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
+      Message.create = (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
 
       await socket.trigger('sendMessage', {
         classroomId: testClassroomId,
@@ -516,7 +516,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
     const origCreate = Message.create;
     let createCalled = false;
     try {
-      Message.create = async (doc) => {
+      Message.create = (doc) => {
         createCalled = true;
         return doc;
       };
@@ -545,7 +545,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
 
     const origCreate = Message.create;
     try {
-      Message.create = async (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
+      Message.create = (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
 
       // Emitted without classroomId (standalone or general chat)
       await socket.trigger('sendMessage', {
@@ -594,7 +594,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
 
     const origCreate = Message.create;
     try {
-      Message.create = async (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
+      Message.create = (doc) => ({ _id: new mongoose.Types.ObjectId(), ...doc });
 
       // Send 10 messages rapidly (allowed)
       for (let i = 0; i < 10; i++) {
@@ -620,7 +620,7 @@ test('Socket.IO Security & Room-Level Authorization Suite (Phase 3)', async (t) 
 
     const origCreate = Message.create;
     try {
-      Message.create = async () => {
+      Message.create = () => {
         throw new Error('FATAL_DB_CONNECTION_SECRET_PASSWORD_123');
       };
 
@@ -777,7 +777,7 @@ test('Phase 3.1 — Quiz API Security & Broadcast Sanitization Suite', async (t)
   await t.test('22. POST /quizzes from user without institutionId returns 403', async () => {
     const handler = getPostQuizzesHandler();
     const origSave = Quiz.prototype.save;
-    Quiz.prototype.save = async function () { this._id = new mongoose.Types.ObjectId(); return this; };
+    Quiz.prototype.save = function () { this._id = new mongoose.Types.ObjectId(); return this; };
     try {
       const req = {
         body: { title: 'Quiz', description: 'x', questions: [] },
@@ -798,7 +798,7 @@ test('Phase 3.1 — Quiz API Security & Broadcast Sanitization Suite', async (t)
     const handler = getPostQuizzesHandler();
     let savedDoc = null;
     const origSave = Quiz.prototype.save;
-    Quiz.prototype.save = async function () {
+    Quiz.prototype.save = function () {
       this._id = new mongoose.Types.ObjectId();
       savedDoc = this;
       return this;
@@ -831,7 +831,7 @@ test('Phase 3.1 — Quiz API Security & Broadcast Sanitization Suite', async (t)
   await t.test('24. new-quiz Socket.IO broadcast does not expose correctAnswer', async () => {
     const handler = getPostQuizzesHandler();
     const origSave = Quiz.prototype.save;
-    Quiz.prototype.save = async function () { this._id = new mongoose.Types.ObjectId(); return this; };
+    Quiz.prototype.save = function () { this._id = new mongoose.Types.ObjectId(); return this; };
     let capturedPayload = null;
     const mockIo = {
       to() { return { emit(ev, data) { capturedPayload = data; } }; },
@@ -871,7 +871,7 @@ test('Phase 3.1 — Quiz API Security & Broadcast Sanitization Suite', async (t)
   await t.test('25. new-quiz is NOT broadcast to a different institution Socket.IO room', async () => {
     const handler = getPostQuizzesHandler();
     const origSave = Quiz.prototype.save;
-    Quiz.prototype.save = async function () { this._id = new mongoose.Types.ObjectId(); return this; };
+    Quiz.prototype.save = function () { this._id = new mongoose.Types.ObjectId(); return this; };
     const emittedRooms = [];
     const mockIo = {
       to(room) { return { emit() { emittedRooms.push(room); } }; },

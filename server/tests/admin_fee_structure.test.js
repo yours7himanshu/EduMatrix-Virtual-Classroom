@@ -85,7 +85,7 @@ test("Admin Fee Structure Management Suite (Registrar Role)", async (t) => {
     // Return mock document with save() method
     const mockDoc = {
       ...item,
-      save: async function () {
+      save: function () {
         const idx = memoryStructures.findIndex(
           (s) => s._id.toString() === this._id.toString()
         );
@@ -98,7 +98,7 @@ test("Admin Fee Structure Management Suite (Registrar Role)", async (t) => {
     return Promise.resolve(mockDoc);
   };
 
-  FeeStructure.create = async (doc) => {
+  FeeStructure.create = (doc) => {
     const created = {
       _id: new mongoose.Types.ObjectId(),
       ...doc,
@@ -109,7 +109,7 @@ test("Admin Fee Structure Management Suite (Registrar Role)", async (t) => {
     return created;
   };
 
-  FeeStructure.findOneAndDelete = async (query) => {
+  FeeStructure.findOneAndDelete = (query) => {
     const idx = memoryStructures.findIndex(
       (s) =>
         s._id.toString() === query._id.toString() &&

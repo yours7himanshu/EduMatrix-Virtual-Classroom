@@ -110,7 +110,7 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
 
     try {
       activeMongoose.connection.readyState = 0;
-      activeMongoose.connect = async (uri) => {
+      activeMongoose.connect = (uri) => {
         connectCalledWith = uri;
         activeMongoose.connection.readyState = 1;
         return activeMongoose;
@@ -118,7 +118,7 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
 
       activeMongoose.connection.db = {
         admin: () => ({
-          ping: async () => {
+          ping: () => {
             pingCalled = true;
             return { ok: 1 };
           },
@@ -131,7 +131,7 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
           select(field) {
             assert.equal(field, "_id");
             return {
-              async lean() {
+              lean() {
                 return null; // Empty collection is normal
               },
             };
@@ -181,7 +181,7 @@ describe("Task 2: Worker Database Verification Harness & Staging Guard Suite (Of
     const origConnect = activeMongoose.connect;
     try {
       activeMongoose.connection.readyState = 0;
-      activeMongoose.connect = async () => {
+      activeMongoose.connect = () => {
         throw new Error("Error making connection to the database");
       };
 

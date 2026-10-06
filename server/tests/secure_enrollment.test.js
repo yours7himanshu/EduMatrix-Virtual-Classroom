@@ -98,7 +98,7 @@ function resetMocks() {
 
 // ── Inline resolveRegistrarForEnrollment (mirrors the real implementation) ────
 
-async function resolveRegistrarForEnrollment(req, res) {
+function resolveRegistrarForEnrollment(req, res) {
   if (!req.user) {
     res._status = 401;
     res._body = { success: false, message: "Unauthorized: Authentication is required to enroll students." };
@@ -206,7 +206,7 @@ async function getStudentsMock(req, res) {
 }
 
 // Mock classroom cross-tenant check (mirrors verifyClassroomManagementAccess)
-async function checkCrossInstitutionClassroomMock(classroomInstitutionId, userInstitutionId) {
+function checkCrossInstitutionClassroomMock(classroomInstitutionId, userInstitutionId) {
   return classroomInstitutionId.toString() === userInstitutionId.toString();
 }
 
@@ -391,7 +391,7 @@ describe("Secure Registrar Enrollment — Multi-Tenant Security Tests", () => {
   });
 
   // ── Test 9: Existing student authentication still works ───────────────────
-  test("9. Student self-lookup (getStudentById) is unaffected by Registrar-only changes", async () => {
+  test("9. Student self-lookup (getStudentById) is unaffected by Registrar-only changes", () => {
     // getStudentById uses authStudent middleware — a separate auth path
     // We verify the function exists and returns 200 for a valid student
     const { getStudentById } = require("../controllers/studentController");
@@ -399,14 +399,14 @@ describe("Secure Registrar Enrollment — Multi-Tenant Security Tests", () => {
   });
 
   // ── Test 10: Existing fee ledger still resolves institution correctly ──────
-  test("10. resolveStudentFinancialSummary still includes institution block in response", async () => {
+  test("10. resolveStudentFinancialSummary still includes institution block in response", () => {
     const { resolveStudentFinancialSummary } = require("../services/studentFeeLedgerService");
     assert.ok(typeof resolveStudentFinancialSummary === "function", "Service must still be importable");
     // Actual computation tested in institution_identity.test.js and student_fee_ledger.test.js
   });
 
   // ── Test 11: Existing payment flow remains intact ─────────────────────────
-  test("11. paymentController.js still exports handlePayment without import errors", async () => {
+  test("11. paymentController.js still exports handlePayment without import errors", () => {
     // A simple require smoke test — if routes are broken this throws
     assert.doesNotThrow(() => {
       require("../controllers/paymentController");

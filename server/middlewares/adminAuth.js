@@ -18,7 +18,7 @@ limitations under the License.
 
 const jwt = require('jsonwebtoken')
 
-const isAdminAuthenticated = async(req,res,next)=>{
+const isAdminAuthenticated = (req,res,next)=>{
  try{
     const token =
       (req.cookies && req.cookies['token']) ||

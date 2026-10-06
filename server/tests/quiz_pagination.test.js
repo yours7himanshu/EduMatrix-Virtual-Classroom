@@ -11,7 +11,7 @@ describe("Task 1: Robust Cursor-Based Quiz Event Pagination & Frontend Synchroni
   // Phase 8: database gating lives in Hono middleware (covered by the Phase 8
   // suite). These handler tests simulate a connected isolate so they verify
   // pagination, validation, and sanitization logic behind a healthy database.
-  connectDB.ensureDbConnected = async () => connectDB.mongoose;
+  connectDB.ensureDbConnected = () => connectDB.mongoose;
   const TEST_JWT_SECRET = "test_pagination_jwt_secret_98765";
   const mockInstitutionAlpha = new mongoose.Types.ObjectId().toString();
   const mockInstitutionBeta = new mongoose.Types.ObjectId().toString();
@@ -106,7 +106,7 @@ describe("Task 1: Robust Cursor-Based Quiz Event Pagination & Frontend Synchroni
           this._limit = n;
           return this;
         },
-        async lean() {
+        lean() {
           if (this._sort) {
             filtered.sort((a, b) => {
               const timeA = new Date(a.createdAt).getTime();
@@ -441,7 +441,7 @@ describe("Task 1: Robust Cursor-Based Quiz Event Pagination & Frontend Synchroni
       });
     }
 
-    async function mockApiGetEvents(cursor, limit = 10) {
+    function mockApiGetEvents(cursor, limit = 10) {
       let startIndex = 0;
       if (cursor) {
         const decoded = decodeQuizCursor(cursor);

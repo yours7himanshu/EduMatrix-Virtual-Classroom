@@ -55,14 +55,14 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const originalFindClassroom = Classroom.findOne;
     const originalCreate = Classroom.create;
 
-    Admin.findById = async (id) => ({
+    Admin.findById = (id) => ({
       _id: teacherId,
       role: "Teacher",
       isActive: true,
       institutionId: instId,
     });
-    Classroom.findOne = async () => null; // No existing courseCode
-    Classroom.create = async (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
+    Classroom.findOne = () => null; // No existing courseCode
+    Classroom.create = (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
 
     t.after(() => {
       Admin.findById = originalFindAdmin;
@@ -124,14 +124,14 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const originalFindClassroom = Classroom.findOne;
     const originalCreate = Classroom.create;
 
-    Admin.findById = async (id) => {
+    Admin.findById = (id) => {
       if (id.toString() === teacherId) {
         return { _id: teacherId, role: "Teacher", isActive: true, institutionId: instId };
       }
       return null;
     };
-    Classroom.findOne = async () => null;
-    Classroom.create = async (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
+    Classroom.findOne = () => null;
+    Classroom.create = (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
 
     t.after(() => {
       Admin.findById = originalFindAdmin;
@@ -165,7 +165,7 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const teacherB = new mongoose.Types.ObjectId().toString();
 
     const originalFindAdmin = Admin.findById;
-    Admin.findById = async (id) => {
+    Admin.findById = (id) => {
       if (id.toString() === teacherB) {
         return { _id: teacherB, role: "Teacher", isActive: true, institutionId: instB };
       }
@@ -201,7 +201,7 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const inactiveTeacherId = new mongoose.Types.ObjectId().toString();
 
     const originalFindAdmin = Admin.findById;
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: inactiveTeacherId,
       role: "Teacher",
       isActive: false, // Inactive account!
@@ -237,7 +237,7 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const registrarId = new mongoose.Types.ObjectId().toString();
 
     const originalFindAdmin = Admin.findById;
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: registrarId,
       role: "Registrar", // Not a teacher
       isActive: true,
@@ -274,13 +274,13 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const originalFindAdmin = Admin.findById;
     const originalFindClassroom = Classroom.findOne;
 
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       role: "Teacher",
       isActive: true,
       institutionId: instId,
     });
-    Classroom.findOne = async () => ({
+    Classroom.findOne = () => ({
       _id: "existing_class_id",
       courseCode: "CS101",
       institutionId: instId,
@@ -317,7 +317,7 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const originalFind = Classroom.findById;
     Classroom.findById = () => ({
       populate: () => ({
-        populate: async () => ({
+        populate: () => ({
           _id: classId,
           title: "College A Class",
           institutionId: { _id: instA },
@@ -351,7 +351,7 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
     const originalFindAdmin = Admin.findById;
     const originalFindClass = Classroom.findById;
 
-    Admin.findById = async (id) => ({
+    Admin.findById = (id) => ({
       _id: id,
       role: "Teacher",
       isActive: true,
@@ -362,9 +362,9 @@ test("Phase 2: Classroom Architecture & Multi-Tenant Authorization Suite", async
       _id: classId,
       institutionId: instId,
       teacherId: "teacher1_id",
-      save: async function () { return this; },
+      save: function () { return this; },
     };
-    Classroom.findById = async () => mockClassroom;
+    Classroom.findById = () => mockClassroom;
 
     t.after(() => {
       Admin.findById = originalFindAdmin;

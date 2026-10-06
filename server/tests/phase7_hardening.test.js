@@ -157,7 +157,7 @@ test("Phase 7: Production Hardening & Legacy WebRTC Retirement Suite", async (t)
       process.env.NODE_ENV = "production";
       const Classroom = require("../models/classroomModel");
       const originalFindById = Classroom.findById;
-      Classroom.findById = async () => {
+      Classroom.findById = () => {
         throw new Error("Simulated database failure");
       };
 

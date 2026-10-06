@@ -12,7 +12,7 @@ describe("Phase 7 & Integration Verification: LiveKit Chat, Quiz Auth & Persiste
   // Phase 8: database gating lives in Hono middleware (covered by the Phase 8
   // suite). These integration tests simulate a connected isolate so they
   // verify handler behavior (auth boundaries, sanitization, fallbacks).
-  connectDB.ensureDbConnected = async () => connectDB.mongoose;
+  connectDB.ensureDbConnected = () => connectDB.mongoose;
   const TEST_JWT_SECRET = "integration_test_jwt_secret_xyz123";
   const mockInstitutionAlpha = new mongoose.Types.ObjectId().toString();
   const mockInstitutionBeta = new mongoose.Types.ObjectId().toString();
@@ -85,7 +85,7 @@ describe("Phase 7 & Integration Verification: LiveKit Chat, Quiz Auth & Persiste
     assert.ok(typeof body.serverTime === "number");
   });
 
-  test("4. Sensitive Field Exclusion: Quiz events strictly exclude correctAnswer from questions", async () => {
+  test("4. Sensitive Field Exclusion: Quiz events strictly exclude correctAnswer from questions", () => {
     // Inject a simulated quiz with correctAnswer into Quiz collection or mock event
     const sampleQuestion = {
       _id: new mongoose.Types.ObjectId(),
@@ -118,14 +118,14 @@ describe("Phase 7 & Integration Verification: LiveKit Chat, Quiz Auth & Persiste
 
     let capturedTargetRooms = [];
     const mockRoomService = {
-      sendData: async (targetRoom, dataPacket, kind) => {
+      sendData: (targetRoom, dataPacket, kind) => {
         capturedTargetRooms.push(targetRoom);
       },
     };
 
     // Test LiveKit dispatch logic with active session stub
     const originalFindOne = LiveSession.findOne;
-    LiveSession.findOne = async (query) => {
+    LiveSession.findOne = (query) => {
       if (query.classroomId === testClassroomId && query.status === "active") {
         return { roomName: liveSessionRoom, classroomId: testClassroomId };
       }

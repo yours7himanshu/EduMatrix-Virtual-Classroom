@@ -221,7 +221,7 @@ test("FeeStructure Service Layer Suite", async (t) => {
       isActive: true,
     };
 
-    FeeStructure.findOne = async (query) => {
+    FeeStructure.findOne = (query) => {
       assert.strictEqual(query.institutionId, dummyInstitutionId);
       assert.strictEqual(query.branch, "CSE");
       assert.strictEqual(query.academicYear, 1);
@@ -244,7 +244,7 @@ test("FeeStructure Service Layer Suite", async (t) => {
       FeeStructure.findOne = originalFindOne;
     });
 
-    FeeStructure.findOne = async () => null;
+    FeeStructure.findOne = () => null;
 
     await assert.rejects(
       async () => {
@@ -269,7 +269,7 @@ test("FeeStructure Service Layer Suite", async (t) => {
     });
 
     // Mongoose query filter isActive: true returns null for inactive structures
-    FeeStructure.findOne = async (query) => {
+    FeeStructure.findOne = (query) => {
       if (query.isActive === true) {
         return null;
       }

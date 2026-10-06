@@ -56,21 +56,21 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const originalFindSession = LiveSession.findOne;
     const originalCreateSession = LiveSession.create;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       title: "Distributed Systems",
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       role: "Teacher",
       isActive: true,
       institutionId: instId,
     });
-    LiveSession.findOne = async () => null; // No active session
-    LiveSession.create = async (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
+    LiveSession.findOne = () => null; // No active session
+    LiveSession.create = (doc) => ({ _id: new mongoose.Types.ObjectId().toString(), ...doc });
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -104,13 +104,13 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const originalFindClass = Classroom.findById;
     const originalFindAdmin = Admin.findById;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacher2Id, // Owned by teacher2!
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacher2Id,
       role: "Teacher",
       isActive: true,
@@ -145,13 +145,13 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const originalFindClass = Classroom.findById;
     const originalFindAdmin = Admin.findById;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: inactiveTeacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: inactiveTeacherId,
       role: "Teacher",
       isActive: false, // Inactive!
@@ -184,7 +184,7 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const classA = new mongoose.Types.ObjectId().toString();
 
     const originalFindClass = Classroom.findById;
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classA,
       institutionId: instA, // College A!
       teacherId: "teacher_a",
@@ -218,19 +218,19 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const originalFindAdmin = Admin.findById;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       role: "Teacher",
       isActive: true,
       institutionId: instId,
     });
-    LiveSession.findOne = async () => ({
+    LiveSession.findOne = () => ({
       _id: "existing_active_session",
       classroomId: classId,
       status: "active", // Already active!
@@ -266,13 +266,13 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const originalFindAdmin = Admin.findById;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       teacherId: teacherId,
       isActive: true,
     });
-    Admin.findById = async () => ({
+    Admin.findById = () => ({
       _id: teacherId,
       role: "Teacher",
       isActive: true,
@@ -285,9 +285,9 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
       status: "active",
       startedAt: new Date("2024-01-01T10:00:00Z"),
       endedAt: null,
-      save: async function () { return this; },
+      save: function () { return this; },
     };
-    LiveSession.findOne = async () => activeSession;
+    LiveSession.findOne = () => activeSession;
 
     t.after(() => {
       Classroom.findById = originalFindClass;
@@ -314,7 +314,7 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const studentId = new mongoose.Types.ObjectId().toString();
 
     const originalFindClass = Classroom.findById;
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: "inst_1",
       teacherId: "teacher_1",
@@ -349,18 +349,18 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const originalFindEnrollment = Enrollment.findOne;
     const originalFindSession = LiveSession.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       isActive: true,
     });
-    Enrollment.findOne = async () => ({
+    Enrollment.findOne = () => ({
       classroomId: classId,
       studentId: studentId,
       status: "enrolled", // Enrolled!
     });
     LiveSession.findOne = () => ({
-      populate: async () => ({
+      populate: () => ({
         _id: "active_sess_id",
         classroomId: classId,
         status: "active",
@@ -396,12 +396,12 @@ test("Phase 4: LiveSession Lifecycle & Authorization Suite", async (t) => {
     const originalFindClass = Classroom.findById;
     const originalFindEnrollment = Enrollment.findOne;
 
-    Classroom.findById = async () => ({
+    Classroom.findById = () => ({
       _id: classId,
       institutionId: instId,
       isActive: true,
     });
-    Enrollment.findOne = async () => null; // Not enrolled!
+    Enrollment.findOne = () => null; // Not enrolled!
 
     t.after(() => {
       Classroom.findById = originalFindClass;

@@ -57,7 +57,7 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
     clearDbEnv();
     connectDB.resetDbFailureState();
     connectCalls = 0;
-    mongoose.connect = async (...args) => {
+    mongoose.connect = (...args) => {
       connectCalls += 1;
       return origMongooseConnect.apply(mongoose, args);
     };
@@ -73,7 +73,7 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("1. GET /health responds 200 quickly without touching Mongoose", async () => {
-    mongoose.connect = async () => {
+    mongoose.connect = () => {
       connectCalls += 1;
       throw new Error("mongoose.connect must not be called for /health");
     };
@@ -88,7 +88,7 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("2. CORS preflight (OPTIONS) completes 204 without database access", async () => {
-    mongoose.connect = async () => {
+    mongoose.connect = () => {
       connectCalls += 1;
       throw new Error("mongoose.connect must not be called for preflight");
     };
@@ -197,7 +197,7 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
     assert.ok(Date.now() - start < 20000, "unreachable host must stay bounded");
   });
 
-  test("9. resolveConnectionMode/getDbStatus never expose URI values", async () => {
+  test("9. resolveConnectionMode/getDbStatus never expose URI values", () => {
     assert.equal(connectDB.resolveConnectionMode({}), "srv");
     assert.equal(connectDB.resolveConnectionMode({ MONGO_CONNECTION_MODE: "direct" }), "direct");
     assert.equal(connectDB.resolveConnectionMode({ MONGO_CONNECTION_MODE: "bogus" }), "srv");
@@ -236,12 +236,12 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("12. Login success contract preserved with mocked lookup", async () => {
-    connectDB.ensureDbConnected = async () => mongoose;
+    connectDB.ensureDbConnected = () => mongoose;
     process.env.JWT_SECRET = "phase8_login_contract_secret";
     const password = "CorrectHorse123!";
     const hash = await bcrypt.hash(password, 4);
     const fakeId = new mongoose.Types.ObjectId();
-    Students.findOne = async () => ({
+    Students.findOne = () => ({
       _id: fakeId,
       email: "student@example.com",
       name: "Test Student",
@@ -267,10 +267,10 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("13. Invalid password still 401; unknown user still 404 (mocked DB)", async () => {
-    connectDB.ensureDbConnected = async () => mongoose;
+    connectDB.ensureDbConnected = () => mongoose;
     process.env.JWT_SECRET = "phase8_login_negative_secret";
     const hash = await bcrypt.hash("RightPassword123!", 4);
-    Students.findOne = async () => ({ _id: new mongoose.Types.ObjectId(), password: hash, role: "student" });
+    Students.findOne = () => ({ _id: new mongoose.Types.ObjectId(), password: hash, role: "student" });
 
     const badPass = await app.fetch(
       new Request("http://localhost/api/v1/login", {
@@ -283,7 +283,7 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
     assert.equal(badPass.status, 401);
     assert.match((await badPass.json()).message, /invalid credentials/i);
 
-    Students.findOne = async () => null;
+    Students.findOne = () => null;
     const unknown = await app.fetch(
       new Request("http://localhost/api/v1/login", {
         method: "POST",
@@ -297,10 +297,10 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("14. Missing JWT configuration yields distinct 503 (not generic 500)", async () => {
-    connectDB.ensureDbConnected = async () => mongoose;
+    connectDB.ensureDbConnected = () => mongoose;
     delete process.env.JWT_SECRET;
     const hash = await bcrypt.hash("SomePassword123!", 4);
-    Students.findOne = async () => ({ _id: new mongoose.Types.ObjectId(), password: hash, role: "student" });
+    Students.findOne = () => ({ _id: new mongoose.Types.ObjectId(), password: hash, role: "student" });
     const res = await app.fetch(
       new Request("http://localhost/api/v1/login", {
         method: "POST",
@@ -369,7 +369,7 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
     });
     await new Promise((resolve) => setImmediate(resolve));
     assert.equal(connectDB.isDbRequestInUse(), true);
-    await assert.rejects(connectDB.withRequestDb({}, async () => "never"), (err) => {
+    await assert.rejects(connectDB.withRequestDb({}, () => "never"), (err) => {
       assert.equal(err.status, 503);
       assert.equal(err.code, "DB_BUSY");
       return true;
@@ -380,9 +380,9 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("19. withRequestDb runs, then releases and disconnects", async () => {
-    connectDB.ensureDbConnected = async () => mongoose;
+    connectDB.ensureDbConnected = () => mongoose;
     let ran = false;
-    const out = await connectDB.withRequestDb({}, async () => {
+    const out = await connectDB.withRequestDb({}, () => {
       ran = true;
       assert.equal(connectDB.isDbRequestInUse(), true);
       return 42;
@@ -394,7 +394,7 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("20. withRequestDb propagates acquisition failure and releases", async () => {
-    await assert.rejects(connectDB.withRequestDb({ env: {} }, async () => "never"), (err) => {
+    await assert.rejects(connectDB.withRequestDb({ env: {} }, () => "never"), (err) => {
       assert.equal(err.status, 503);
       return true;
     });
@@ -402,10 +402,10 @@ describe("Phase 8: Bounded DB Lifecycle Suite", () => {
   });
 
   test("21. Login rejects missing credentials with 400 before any lookup", async () => {
-    connectDB.ensureDbConnected = async () => mongoose;
+    connectDB.ensureDbConnected = () => mongoose;
     process.env.JWT_SECRET = "phase8_login_required_secret";
     let lookedUp = false;
-    Students.findOne = async () => {
+    Students.findOne = () => {
       lookedUp = true;
       return null;
     };
