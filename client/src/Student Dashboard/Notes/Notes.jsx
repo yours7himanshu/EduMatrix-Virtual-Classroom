@@ -31,6 +31,34 @@ import {
 import Layout from "../Layout/Layout";
 import { Badge, Button, Card, CardHeader, PageHeader } from "../Shared/ui";
 
+const renderInlineMarkdown = (text) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    const boldMatch = part.match(/^\*\*(.*?)\*\*$/);
+    if (boldMatch) {
+      return (
+        <strong key={`bold-${index}`} className="font-bold text-ink-900">
+          {boldMatch[1]}
+        </strong>
+      );
+    }
+    return <React.Fragment key={`text-${index}`}>{part}</React.Fragment>;
+  });
+};
+
+export const formatMarkdown = (text) => {
+  if (!text) return null;
+  return text
+    .split("\n\n")
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .map((paragraph, index) => (
+      <p key={index} className="mb-3 leading-relaxed text-ink-700">
+        {renderInlineMarkdown(paragraph)}
+      </p>
+    ));
+};
+
 const Notes = () => {
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -41,23 +69,6 @@ const Notes = () => {
   const [showSummary, setShowSummary] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  const formatMarkdown = (text) => {
-    if (!text) return "";
-    let formatted = text.replace(
-      /\*\*(.*?)\*\*/g,
-      '<strong class="font-bold text-ink-900">$1</strong>'
-    );
-    formatted = formatted
-      .split("\n\n")
-      .map((paragraph) =>
-        paragraph.trim()
-          ? `<p class="mb-3 leading-relaxed text-ink-700">${paragraph}</p>`
-          : ""
-      )
-      .join("");
-    return formatted;
-  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -294,10 +305,7 @@ return (
             }
           />
           <div className="p-5 sm:p-6">
-            <div
-              className="prose max-w-none text-[13.5px] text-ink-700"
-              dangerouslySetInnerHTML={{ __html: formatMarkdown(summary) }}
-            />
+            <div className="prose max-w-none text-[13.5px] text-ink-700">{formatMarkdown(summary)}</div>
           </div>
         </Card>
       ) : null}

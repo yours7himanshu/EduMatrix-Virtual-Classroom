@@ -14,17 +14,33 @@ const NotesUpload = () => {
   const [showSummary, setShowSummary] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
-  // Function to convert markdown to HTML for display
+  const renderInlineMarkdown = (text) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      const boldMatch = part.match(/^\*\*(.*?)\*\*$/);
+      if (boldMatch) {
+        return (
+          <span key={`bold-${index}`} className="font-bold">
+            {boldMatch[1]}
+          </span>
+        );
+      }
+      return <React.Fragment key={`text-${index}`}>{part}</React.Fragment>;
+    });
+  };
+
   const formatMarkdown = (text) => {
-    if (!text) return "";
-    
-    let formatted = text.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold">$1</span>');
-    
-    formatted = formatted.split('\n\n').map((paragraph, index) => 
-      paragraph.trim() ? `<p key=${index} class="mb-3">${paragraph}</p>` : ''
-    ).join('');
-    
-    return formatted;
+    if (!text) return null;
+
+    return text
+      .split("\n\n")
+      .map((paragraph) => paragraph.trim())
+      .filter(Boolean)
+      .map((paragraph, index) => (
+        <p key={index} className="mb-3">
+          {renderInlineMarkdown(paragraph)}
+        </p>
+      ));
   };
 
   const handleFileChange = (e) => {
@@ -287,10 +303,9 @@ const NotesUpload = () => {
                 </button>
               </div>
               <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-xs overflow-x-auto">
-                <div
-                  className="prose max-w-none text-gray-700 text-sm sm:text-base"
-                  dangerouslySetInnerHTML={{ __html: formatMarkdown(summary) }}
-                />
+                <div className="prose max-w-none text-gray-700 text-sm sm:text-base">
+                  {formatMarkdown(summary)}
+                </div>
               </div>
             </div>
           )}
