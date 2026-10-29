@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import React, { useState } from 'react';
-import { FileText, Download, Sparkles, Search, BookOpen, Clock } from 'lucide-react';
+import { FileText, Download, Sparkles, Search, BookOpen, Clock, X } from 'lucide-react';
 import ServiceLayout from '../../layout/ServiceLayout.jsx';
 
 const notesData = [
@@ -88,12 +88,12 @@ const NotesPage = () => {
   return (
     <div className="min-h-screen bg-paper text-ink-900 antialiased selection:bg-brand-100 selection:text-brand-700">
       {/* ─── Hero Header Section ─── */}
-      <section className="relative pt-24 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6 overflow-hidden">
+      <section className="hero-fade relative pt-24 sm:pt-32 pb-10 sm:pb-12 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
         <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
         <div className="absolute top-10 -right-24 h-96 w-96 rounded-full bg-accent-lime/30 blur-3xl pointer-events-none" />
 
-        <div className="relative max-w-4xl mx-auto text-center">
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
           {/* Pill Badge */}
           <div className="inline-flex items-center gap-2 rounded-full bg-white border border-ink-900/10 shadow-soft pl-1.5 pr-4 py-1.5 text-[12px] font-semibold text-ink-800">
             <span className="inline-flex items-center gap-1 rounded-full bg-ink-900 text-white px-2.5 py-1 text-[10px] font-bold tracking-wide uppercase">
@@ -121,21 +121,40 @@ const NotesPage = () => {
           </p>
 
           {/* Search Pill Input */}
-          <div className="mt-8 max-w-xl mx-auto relative">
+          <div role="search" className="mt-8 max-w-xl mx-auto relative">
+            <label htmlFor="notes-search" className="sr-only">Search study notes</label>
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-5 w-5 pointer-events-none" />
             <input
-              type="text"
+              id="notes-search"
+              type="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by topic, course code, or subject..."
-              className="w-full pl-12 pr-5 py-3.5 bg-white border border-ink-900/10 rounded-full shadow-soft text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+              placeholder="Search notes or codes"
+              autoComplete="off"
+              enterKeyHint="search"
+              className="w-full pl-12 pr-12 py-3.5 bg-white border border-ink-900/10 rounded-full shadow-soft text-base text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all sm:text-sm"
             />
+            {searchQuery ? (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+                className="absolute right-2 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full text-ink-400 transition-colors hover:bg-ink-50 hover:text-ink-900 active:scale-95"
+              >
+                <X size={17} />
+              </button>
+            ) : null}
           </div>
+          <p aria-live="polite" className="mt-3 text-[12px] font-semibold text-ink-500">
+            {filteredNotes.length} of {notesData.length} {notesData.length === 1 ? 'note' : 'notes'}
+            {searchQuery ? <> matching &ldquo;{searchQuery}&rdquo;</> : ' available'}
+          </p>
         </div>
       </section>
 
       {/* ─── Notes Cards Grid ─── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+        <h2 className="sr-only">Study notes library</h2>
         {filteredNotes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {filteredNotes.map((note) => (
@@ -181,20 +200,32 @@ const NotesPage = () => {
                   <a
                     href={note.downloadLink}
                     download
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 text-white py-3 px-5 text-sm font-bold shadow-soft hover:bg-brand-600 transition-colors"
+                    aria-label={`Download ${note.title} PDF notes`}
+                    className="w-full inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-ink-900 text-white py-3 px-5 text-sm font-bold shadow-soft hover:bg-brand-600 transition-colors active:scale-[0.99]"
                   >
                     <Download size={16} />
-                    <span>Download PDF Notes</span>
+                    <span>Download PDF notes</span>
                   </a>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 bg-white rounded-3xl border border-ink-900/10 shadow-soft max-w-md mx-auto">
-            <FileText size={36} className="text-ink-300 mx-auto mb-3" />
+          <div className="text-center py-12 sm:py-16 px-5 bg-white rounded-3xl border border-ink-900/10 shadow-soft max-w-md mx-auto">
+            <span className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 border border-brand-600/10 text-brand-600">
+              <FileText size={26} />
+            </span>
             <h3 className="font-display text-lg font-bold text-ink-900">No notes found</h3>
-            <p className="text-sm text-ink-500 mt-1">Try adjusting your search query.</p>
+            <p className="text-sm text-ink-500 mt-1">
+              Nothing matches &ldquo;{searchQuery}&rdquo;. Try a shorter topic or course code.
+            </p>
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="mt-5 inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-ink-900 px-5 text-sm font-bold text-white transition-colors hover:bg-brand-600 active:scale-[0.99]"
+            >
+              <X size={15} /> Clear search
+            </button>
           </div>
         )}
       </section>

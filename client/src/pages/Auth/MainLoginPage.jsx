@@ -20,7 +20,6 @@ import {
   ShieldCheck, 
   ArrowRight, 
   ExternalLink, 
-  Sparkles,
   ArrowLeft,
   Video,
   Bot,
@@ -29,10 +28,10 @@ import {
   Users,
   Calendar
 } from 'lucide-react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const MainLoginPage = () => {
-  const navigate = useNavigate();
+  const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:5173';
 
   return (
     <div className="min-h-screen bg-paper text-ink-900 relative overflow-hidden flex flex-col justify-between antialiased selection:bg-brand-100 selection:text-brand-700">
@@ -44,10 +43,10 @@ const MainLoginPage = () => {
 
       {/* ─── Top Navigation Bar ─── */}
       <header className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-5 sm:pt-8 flex items-center justify-between">
-        <Link to="/" className="group flex items-center gap-3">
+        <Link to="/" className="group flex min-w-0 items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-soft transition-transform group-hover:scale-105 overflow-hidden">
             <img
-              src="/E.png"
+              src="/logo/E.png"
               alt="EduMatrix Logo"
               className="h-full w-full object-cover rounded-2xl select-none"
             />
@@ -56,7 +55,7 @@ const MainLoginPage = () => {
             <span className="block text-lg font-extrabold tracking-tight text-ink-900 font-display">
               EduMatrix
             </span>
-            <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-ink-400">
+            <span className="hidden text-[10px] font-bold uppercase tracking-[0.18em] text-ink-400 min-[360px]:block">
               Virtual Classroom
             </span>
           </span>
@@ -64,10 +63,11 @@ const MainLoginPage = () => {
 
         <Link
           to="/"
-          className="inline-flex items-center gap-2 rounded-full bg-white border border-ink-900/10 shadow-soft px-4 py-2 text-xs sm:text-sm font-semibold text-ink-700 hover:bg-ink-50 hover:shadow-card hover:-translate-y-0.5 transition-all"
+          className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-ink-900/10 bg-white px-3 py-2 text-[11px] font-semibold text-ink-700 shadow-soft transition-all hover:-translate-y-0.5 hover:bg-ink-50 hover:shadow-card min-[360px]:gap-2 min-[360px]:px-4 min-[360px]:text-xs sm:text-sm"
         >
           <ArrowLeft size={15} />
-          <span>Back to Home</span>
+          <span className="min-[360px]:hidden">Back</span>
+          <span className="hidden min-[360px]:inline">Back to Home</span>
         </Link>
       </header>
 
@@ -103,9 +103,10 @@ const MainLoginPage = () => {
         {/* ─── Role Selection Cards Grid ─── */}
         <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 w-full max-w-3xl text-left">
           {/* Student Card */}
-          <div
-            onClick={() => navigate('/login')}
-            className="group relative bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] border border-ink-900/10 p-5 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-brand-500/30 overflow-hidden"
+          <Link
+            to="/login"
+            aria-label="Continue as a student"
+            className="group relative w-full text-left bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] border border-ink-900/10 p-5 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-brand-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2 overflow-hidden"
           >
             {/* Subtle lavender ambient corner glow inside card */}
             <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-brand-100/60 blur-2xl group-hover:bg-brand-200/80 transition-all pointer-events-none" />
@@ -145,25 +146,22 @@ const MainLoginPage = () => {
 
             {/* Action Button (Matches Website Header Style) */}
             <div className="mt-8 relative z-10">
-              <button
-                type="button"
+              <span
                 className="w-full inline-flex items-center justify-between rounded-full bg-ink-900 text-white pl-6 pr-2.5 py-2.5 text-sm font-bold shadow-soft group-hover:bg-brand-600 group-hover:shadow-card transition-all duration-300"
               >
-                <span>Continue as Student</span>
+                <span>Continue as student</span>
                 <span className="grid h-8 w-8 place-items-center rounded-full bg-white/15 group-hover:bg-white group-hover:text-ink-900 transition-colors">
                   <ArrowRight size={16} />
                 </span>
-              </button>
+              </span>
             </div>
-          </div>
+          </Link>
 
           {/* Faculty & Administrator Card */}
-          <div
-            onClick={() => {
-              const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:5173';
-              window.location.href = adminUrl;
-            }}
-            className="group relative bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] border border-ink-900/10 p-5 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-accent-lime overflow-hidden"
+          <a
+            href={adminUrl}
+            aria-label="Open the faculty and administrator console"
+            className="group relative w-full text-left bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] border border-ink-900/10 p-5 sm:p-8 shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer ring-1 ring-transparent hover:ring-accent-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2 overflow-hidden"
           >
             {/* Subtle lime ambient corner glow inside card */}
             <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-accent-lime/25 blur-2xl group-hover:bg-accent-lime/45 transition-all pointer-events-none" />
@@ -203,27 +201,26 @@ const MainLoginPage = () => {
 
             {/* Action Button (Matches Website Header Style) */}
             <div className="mt-8 relative z-10">
-              <button
-                type="button"
-                className="w-full inline-flex items-center justify-between rounded-full bg-white border border-ink-900/15 text-ink-900 pl-6 pr-2.5 py-2.5 text-sm font-bold shadow-soft hover:bg-ink-50 hover:border-ink-900/30 transition-all duration-300"
+              <span
+                className="w-full inline-flex items-center justify-between rounded-full bg-white border border-ink-900/15 text-ink-900 pl-6 pr-2.5 py-2.5 text-sm font-bold shadow-soft group-hover:bg-ink-50 group-hover:border-ink-900/30 transition-all duration-300"
               >
-                <span>Open Admin Console</span>
+                <span>Open admin console</span>
                 <span className="grid h-8 w-8 place-items-center rounded-full bg-ink-900 text-white transition-colors">
                   <ExternalLink size={15} />
                 </span>
-              </button>
+              </span>
             </div>
-          </div>
+          </a>
         </div>
 
         {/* ─── Bottom Navigation Prompt ─── */}
         <p className="mt-8 sm:mt-10 text-sm text-ink-500">
           Need a new classroom account?{' '}
           <Link
-            to="/signup"
+            to="/contact"
             className="font-bold text-ink-900 underline underline-offset-4 decoration-brand-500 hover:text-brand-600 transition-colors"
           >
-            Create free classroom
+            Talk to your administrator
           </Link>
         </p>
       </main>

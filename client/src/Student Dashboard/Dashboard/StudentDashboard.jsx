@@ -159,8 +159,8 @@ const StudentDashboard = () => {
       {/* ── Institution Identity Strip (server-authoritative) ── */}
       {institutionInfo && (
         <Card className="overflow-hidden border-brand-100">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 px-5 py-4 sm:px-6">
-            <div className="flex items-center gap-2.5">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-4 px-5 py-4 sm:flex sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-3 sm:px-6">
+            <div className="col-span-2 flex min-w-0 items-center gap-2.5 sm:col-span-1">
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600">
                 <Building2 size={16} />
               </span>
@@ -175,7 +175,7 @@ const StudentDashboard = () => {
             </div>
 
             {institutionInfo.branch && (
-              <div className="border-l border-ink-900/[0.06] pl-6">
+              <div className="min-w-0 sm:border-l sm:border-ink-900/[0.06] sm:pl-6">
                 <p className="text-[10px] font-extrabold uppercase tracking-widest text-ink-400">
                   Program
                 </p>
@@ -186,7 +186,7 @@ const StudentDashboard = () => {
             )}
 
             {institutionInfo.currentAcademicYear && (
-              <div className="border-l border-ink-900/[0.06] pl-6">
+              <div className="min-w-0 sm:border-l sm:border-ink-900/[0.06] sm:pl-6">
                 <p className="text-[10px] font-extrabold uppercase tracking-widest text-ink-400">
                   Academic Year
                 </p>
@@ -199,7 +199,7 @@ const StudentDashboard = () => {
             )}
 
             {institutionInfo.currentSessionLabel && (
-              <div className="border-l border-ink-900/[0.06] pl-6">
+              <div className="min-w-0 sm:border-l sm:border-ink-900/[0.06] sm:pl-6">
                 <p className="text-[10px] font-extrabold uppercase tracking-widest text-ink-400">
                   Current Session
                 </p>
@@ -213,11 +213,11 @@ const StudentDashboard = () => {
       )}
 
       {/* ── Bento Grid Workspace ── */}
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
         
         {/* Metric 1 */}
-        <Card className="flex flex-col justify-between p-6 hover:-translate-y-1 transition-transform duration-300">
-          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-indigo-50 text-indigo-600">
+        <Card className="flex flex-col justify-between p-4 sm:p-6 hover:-translate-y-1 transition-transform duration-300">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand-600">
             <BookOpen size={22} />
           </div>
           <div className="mt-4">
@@ -227,8 +227,8 @@ const StudentDashboard = () => {
         </Card>
 
         {/* Metric 2 */}
-        <Card className="flex flex-col justify-between p-6 hover:-translate-y-1 transition-transform duration-300">
-          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-rose-50 text-rose-600">
+        <Card className="flex flex-col justify-between p-4 sm:p-6 hover:-translate-y-1 transition-transform duration-300">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-accent-amber/15 text-amber-700">
             <ClipboardList size={22} />
           </div>
           <div className="mt-4">
@@ -238,9 +238,9 @@ const StudentDashboard = () => {
         </Card>
 
         {/* Metric 3 (Spans 2 cols on wide screens) */}
-        <Card className="flex flex-col justify-between p-6 hover:-translate-y-1 transition-transform duration-300 md:col-span-2 xl:col-span-2">
+        <Card className="col-span-2 flex flex-col justify-between p-4 sm:p-6 hover:-translate-y-1 transition-transform duration-300 md:col-span-2 xl:col-span-2">
           <div className="flex items-start justify-between">
-            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-emerald-600">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-accent-mint/10 text-emerald-700">
               <Clock size={22} />
             </div>
             <MiniChart />
@@ -257,7 +257,7 @@ const StudentDashboard = () => {
         </Card>
 
         {/* Schedule (Spans 2 cols) */}
-        <Card className="overflow-hidden md:col-span-2">
+        <Card className="col-span-2 overflow-hidden md:col-span-2">
           <CardHeader
             title="Today's Schedule"
             description="Your upcoming classes and live sessions"
@@ -281,7 +281,7 @@ const StudentDashboard = () => {
                   </p>
                   {item.day && <p className="text-[10.5px] sm:text-[11px] font-semibold text-ink-400 mt-0.5">{item.day}</p>}
                   {item.isLive && (
-                    <span className="mt-1 inline-flex items-center gap-1.5 text-[9.5px] sm:text-[10px] font-extrabold uppercase tracking-widest text-emerald-600">
+                    <span className="mt-1 inline-flex items-center gap-1.5 text-[9.5px] sm:text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">
                       <span className="relative flex h-1.5 w-1.5">
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -311,7 +311,7 @@ const StudentDashboard = () => {
         </Card>
 
         {/* Deadlines (Spans 2 cols) */}
-        <Card className="flex flex-col overflow-hidden md:col-span-2">
+        <Card className="col-span-2 flex flex-col overflow-hidden md:col-span-2">
           <CardHeader
             title="Pending Deadlines"
             description="Submissions due soon"

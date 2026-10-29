@@ -1,0 +1,61 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 1846 >>
+stream
+0.075 0.075 0.157 rg 0 720 595 122 re f
+0.831 0.953 0.306 rg 42 736 52 6 re f
+0.357 0.314 0.902 rg 42 728 92 4 re f
+BT 1 1 1 rg /F2 23 Tf 42 790 Td (EduMatrix) Tj ET
+BT 0.82 0.82 0.88 rg /F1 9.5 Tf 42 772 Td (VIRTUAL CLASSROOM  /  STUDY NOTES) Tj ET
+BT 0.357 0.314 0.902 rg /F1 10 Tf 42 678 Td (CS-201) Tj ET
+BT 0.07 0.07 0.16 rg /F2 21 Tf 42 648 Td (Introduction to Algorithms) Tj ET
+BT 0.29 0.29 0.42 rg /F1 10.5 Tf 42 614 Td (Learn fundamental sorting algorithms, computational complexity, recursion, and dynamic) Tj ET
+BT 0.29 0.29 0.42 rg /F1 10.5 Tf 42 598 Td (programming with step-by-step illustrations.) Tj ET
+BT 0.07 0.07 0.16 rg /F2 12 Tf 42 560 Td (What this guide covers) Tj ET
+0.90 0.90 0.94 rg 42 552 511 1 re f
+0.357 0.314 0.902 rg 46 531 5 5 re f
+BT 0.18 0.18 0.31 rg /F1 10.5 Tf 60 528 Td (Sorting and searching: merge sort, quicksort, heapsort) Tj ET
+0.357 0.314 0.902 rg 46 507 5 5 re f
+BT 0.18 0.18 0.31 rg /F1 10.5 Tf 60 504 Td (Asymptotic analysis: Big O, Big Theta, Big Omega) Tj ET
+0.357 0.314 0.902 rg 46 483 5 5 re f
+BT 0.18 0.18 0.31 rg /F1 10.5 Tf 60 480 Td (Recursion, divide and conquer, and backtracking) Tj ET
+0.357 0.314 0.902 rg 46 459 5 5 re f
+BT 0.18 0.18 0.31 rg /F1 10.5 Tf 60 456 Td (Dynamic programming: memoisation and tabulation) Tj ET
+0.357 0.314 0.902 rg 46 435 5 5 re f
+BT 0.18 0.18 0.31 rg /F1 10.5 Tf 60 432 Td (Practice set with worked solutions) Tj ET
+0.95 0.95 0.97 rg 42 354 511 58 re f
+BT 0.357 0.314 0.902 rg /F2 9.5 Tf 54 392 Td (Preview document) Tj ET
+BT 0.45 0.45 0.57 rg /F1 8.8 Tf 54 378 Td (This is a branded preview generated for the EduMatrix demo. The complete,) Tj ET
+BT 0.45 0.45 0.57 rg /F1 8.8 Tf 54 366 Td (faculty-approved document is shared inside your classroom workspace.) Tj ET
+BT 0.55 0.55 0.65 rg /F1 8.5 Tf 42 34 Td (edumatrix.live  /  Where learning feels alive) Tj ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000000321 00000 n 
+0000000396 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2294
+%%EOF

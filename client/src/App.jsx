@@ -22,6 +22,7 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import AboutPage from "./pages/About/AboutPage.tsx";
 import ContactPage from "./pages/Contact/ContactPage.tsx";
 import CoursesPage from "./pages/Courses/CoursesPage.tsx";
@@ -51,7 +52,17 @@ function App() {
     <>
       {/* <Navbar /> */}
 
-      <ToastContainer />
+      <ScrollToTop />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={4000}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        pauseOnHover
+        draggable
+        theme="light"
+      />
       <Routes>
         <Route path="/" element={<HomePage />} />
 

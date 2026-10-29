@@ -80,7 +80,7 @@ const Avatar = ({ name, size = "md" }) => {
     lg: "w-24 h-24 text-2xl",
   };
   const colors = [
-    "from-violet-500 to-purple-600",
+    "from-brand-500 to-brand-700",
     "from-blue-500 to-cyan-500",
     "from-emerald-500 to-teal-500",
     "from-rose-500 to-pink-500",
@@ -400,16 +400,16 @@ const StudentLive = () => {
   return (
     <div
       className="flex min-h-screen w-full flex-col text-white antialiased overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #0a0f1e 0%, #0d1229 50%, #0a0f1e 100%)" }}
+      style={{ background: "linear-gradient(135deg, #0B0B18 0%, #131328 50%, #0B0B18 100%)" }}
     >
       {/* ── Top Header Bar ───────────────────────────────────────────── */}
       <header
         className="flex-shrink-0 w-full px-3 sm:px-5 py-2.5 sm:py-3 flex flex-col gap-2.5 min-[560px]:flex-row min-[560px]:items-center min-[560px]:justify-between min-[560px]:gap-3 z-20 border-b"
         style={{
-          background: "rgba(13,18,41,0.92)",
+          background: "rgba(19,19,40,0.92)",
           backdropFilter: "blur(16px)",
-          borderColor: "rgba(99,102,241,0.18)",
-          boxShadow: "0 1px 0 rgba(99,102,241,0.08)",
+          borderColor: "rgba(91,80,230,0.18)",
+          boxShadow: "0 1px 0 rgba(91,80,230,0.08)",
           paddingTop: "calc(0.625rem + env(safe-area-inset-top, 0px))",
         }}
       >
@@ -417,7 +417,7 @@ const StudentLive = () => {
         <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
           <div
             className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
+            style={{ background: "linear-gradient(135deg, #5B50E6, #4A3FD4)" }}
           >
             <GraduationCap className="w-4 h-4 text-white" />
           </div>
@@ -448,19 +448,19 @@ const StudentLive = () => {
               aria-label="Select classroom"
               className="min-h-[44px] w-full min-w-0 max-w-full appearance-none rounded-lg py-2.5 pl-3 pr-8 text-base font-semibold text-white focus:outline-none min-[560px]:w-auto min-[560px]:max-w-[220px] min-[560px]:py-1.5 min-[560px]:pr-7 min-[560px]:text-xs cursor-pointer"
               style={{
-                background: "rgba(99,102,241,0.1)",
-                border: "1px solid rgba(99,102,241,0.25)",
+                background: "rgba(91,80,230,0.1)",
+                border: "1px solid rgba(91,80,230,0.25)",
               }}
             >
               {enrolledClassrooms.map((c) => (
-                <option key={c._id} value={c._id} style={{ background: "#0d1229" }}>
+                <option key={c._id} value={c._id} style={{ background: "#131328" }}>
                   {c.courseCode ? `${c.courseCode} — ` : ""}
                   {c.title}
                 </option>
               ))}
             </select>
           ) : (
-            <span className="text-xs font-medium" style={{ color: "#64748b" }}>
+            <span className="text-xs font-medium" style={{ color: "#94a3b8" }}>
               {selectedClassroomId || "No classrooms"}
             </span>
           )}
@@ -485,7 +485,7 @@ const StudentLive = () => {
           {isConnected && classmateList.length > 0 && (
             <div
               className="hidden sm:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg"
-              style={{ background: "rgba(99,102,241,0.1)", color: "#818cf8" }}
+              style={{ background: "rgba(91,80,230,0.1)", color: "#9C8FFF" }}
             >
               <Users className="w-3.5 h-3.5" />
               <span>{classmateList.length} classmates</span>
@@ -501,11 +501,11 @@ const StudentLive = () => {
               className="flex min-h-[44px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-bold transition-all min-[560px]:min-h-0 min-[560px]:px-3 min-[560px]:py-1.5"
               style={{
                 background: showChat
-                  ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
-                  : "rgba(99,102,241,0.15)",
+                  ? "linear-gradient(135deg, #5B50E6, #4A3FD4)"
+                  : "rgba(91,80,230,0.15)",
                 border: showChat
-                  ? "1px solid rgba(139,92,246,0.5)"
-                  : "1px solid rgba(99,102,241,0.25)",
+                  ? "1px solid rgba(123,104,255,0.5)"
+                  : "1px solid rgba(91,80,230,0.25)",
                 color: "white",
               }}
               title="Toggle In-Call Chat"
@@ -519,8 +519,8 @@ const StudentLive = () => {
             onClick={handleLeaveClass}
             className="flex min-h-[44px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-bold text-white transition-all hover:opacity-80 min-[560px]:min-h-0 min-[560px]:px-3.5 min-[560px]:py-1.5"
             style={{
-              background: "rgba(99,102,241,0.12)",
-              border: "1px solid rgba(99,102,241,0.2)",
+              background: "rgba(91,80,230,0.12)",
+              border: "1px solid rgba(91,80,230,0.2)",
             }}
           >
             Dashboard
@@ -536,8 +536,8 @@ const StudentLive = () => {
             <div
               className="w-full max-w-md rounded-2xl p-5 sm:p-8 text-center space-y-5 shadow-2xl"
               style={{
-                background: "rgba(13,18,41,0.95)",
-                border: "1px solid rgba(99,102,241,0.2)",
+                background: "rgba(19,19,40,0.95)",
+                border: "1px solid rgba(91,80,230,0.2)",
                 boxShadow: "0 25px 60px rgba(0,0,0,0.6)",
               }}
             >
@@ -557,7 +557,7 @@ const StudentLive = () => {
               <button
                 onClick={handleLeaveClass}
                 className="w-full py-3 rounded-xl text-xs font-bold text-white transition-all hover:opacity-90"
-                style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
+                style={{ background: "linear-gradient(135deg, #5B50E6, #4A3FD4)" }}
               >
                 Return to Student Dashboard
               </button>
@@ -569,20 +569,20 @@ const StudentLive = () => {
             <div
               className="w-full max-w-lg rounded-2xl p-5 sm:p-10 text-center space-y-5 shadow-2xl"
               style={{
-                background: "rgba(13,18,41,0.95)",
-                border: "1px solid rgba(99,102,241,0.2)",
+                background: "rgba(19,19,40,0.95)",
+                border: "1px solid rgba(91,80,230,0.2)",
                 boxShadow: "0 25px 60px rgba(0,0,0,0.6)",
               }}
             >
               <div
                 className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto"
                 style={{
-                  background: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))",
-                  border: "1px solid rgba(99,102,241,0.2)",
+                  background: "linear-gradient(135deg, rgba(91,80,230,0.15), rgba(123,104,255,0.15))",
+                  border: "1px solid rgba(91,80,230,0.2)",
                 }}
               >
                 <Radio
-                  className="w-10 h-10 text-indigo-400"
+                  className="w-10 h-10 text-brand-300"
                   style={{ animation: enrolledClassrooms.length > 0 ? "pulse 2s infinite" : "none" }}
                 />
               </div>
@@ -598,6 +598,26 @@ const StudentLive = () => {
                     : "No live lecture is currently active. The stream will automatically connect as soon as the instructor starts broadcasting."}
                 </p>
               </div>
+
+              {enrolledClassrooms.length === 0 && (
+                <div className="grid gap-2 text-left sm:grid-cols-3">
+                  {[
+                    { icon: GraduationCap, label: "Get enrolled", detail: "Your college adds you to a class" },
+                    { icon: Radio, label: "Wait for live", detail: "The room opens when class starts" },
+                    { icon: Wifi, label: "Check connection", detail: "A stable network is all you need" },
+                  ].map(({ icon: Icon, label, detail }) => (
+                    <div
+                      key={label}
+                      className="rounded-xl p-3"
+                      style={{ background: "rgba(91,80,230,0.07)", border: "1px solid rgba(91,80,230,0.14)" }}
+                    >
+                      <Icon className="h-4 w-4 text-brand-300" aria-hidden="true" />
+                      <p className="mt-2 text-[11.5px] font-bold text-white">{label}</p>
+                      <p className="mt-0.5 text-[10.5px] leading-snug text-slate-400">{detail}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {connectionError && (
                 <div
@@ -618,12 +638,21 @@ const StudentLive = () => {
                   onClick={checkActiveSession}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all hover:opacity-80"
                   style={{
-                    background: "rgba(99,102,241,0.12)",
-                    border: "1px solid rgba(99,102,241,0.2)",
+                    background: "rgba(91,80,230,0.12)",
+                    border: "1px solid rgba(91,80,230,0.2)",
                   }}
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   Check Again
+                </button>
+              )}
+
+              {enrolledClassrooms.length === 0 && (
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 transition-colors hover:text-white"
+                >
+                  Need help? Contact support
                 </button>
               )}
             </div>
@@ -637,7 +666,7 @@ const StudentLive = () => {
                 {/* Hero Presentation Window */}
                 <div
                   className="flex-1 relative rounded-2xl overflow-hidden bg-black flex items-center justify-center shadow-2xl"
-                  style={{ border: "1px solid rgba(99,102,241,0.3)" }}
+                  style={{ border: "1px solid rgba(91,80,230,0.3)" }}
                 >
                   <LiveKitTrackRenderer
                     track={teacherStream.screenTrack}
@@ -662,13 +691,13 @@ const StudentLive = () => {
                 <div
                   className="w-full lg:w-72 flex flex-col gap-2 overflow-y-auto overscroll-contain p-2 rounded-2xl flex-shrink-0 max-h-[38dvh] lg:max-h-none"
                   style={{
-                    background: "rgba(13,18,41,0.8)",
-                    border: "1px solid rgba(99,102,241,0.15)",
+                    background: "rgba(19,19,40,0.8)",
+                    border: "1px solid rgba(91,80,230,0.15)",
                   }}
                 >
                   {/* Instructor Camera */}
                   {teacherStream?.videoTrack && (
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-indigo-500/30 flex-shrink-0">
+                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-brand-500/30 flex-shrink-0">
                       <LiveKitTrackRenderer
                         track={teacherStream.videoTrack}
                         className="w-full h-full object-cover"
@@ -680,7 +709,7 @@ const StudentLive = () => {
                   )}
 
                   {/* Student Local Camera (You) */}
-                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-indigo-500/30 flex-shrink-0">
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-brand-500/30 flex-shrink-0">
                     {localVideoTrack && isCameraEnabled ? (
                       <LiveKitTrackRenderer
                         track={localVideoTrack}
@@ -701,7 +730,7 @@ const StudentLive = () => {
                   {classmateList.map(({ participant, videoTrack, audioTrack }) => (
                     <div
                       key={participant.identity}
-                      className="relative aspect-video rounded-xl overflow-hidden bg-black border border-indigo-500/20 flex-shrink-0"
+                      className="relative aspect-video rounded-xl overflow-hidden bg-black border border-brand-500/20 flex-shrink-0"
                     >
                       {videoTrack ? (
                         <LiveKitTrackRenderer
@@ -739,7 +768,7 @@ const StudentLive = () => {
                     className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center shadow-2xl transition-all"
                     style={{
                       background: "#000",
-                      border: "1px solid rgba(99,102,241,0.3)",
+                      border: "1px solid rgba(91,80,230,0.3)",
                       boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
                       minHeight: "220px",
                     }}
@@ -797,7 +826,7 @@ const StudentLive = () => {
                   className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center shadow-2xl transition-all"
                   style={{
                     background: "#000",
-                    border: "1px solid rgba(99,102,241,0.25)",
+                    border: "1px solid rgba(91,80,230,0.25)",
                     boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
                     minHeight: "220px",
                   }}
@@ -848,7 +877,7 @@ const StudentLive = () => {
                     className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center shadow-2xl transition-all"
                     style={{
                       background: "#000",
-                      border: "1px solid rgba(99,102,241,0.2)",
+                      border: "1px solid rgba(91,80,230,0.2)",
                       boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
                       minHeight: "220px",
                     }}
@@ -879,7 +908,7 @@ const StudentLive = () => {
                         border: "1px solid rgba(255,255,255,0.12)",
                       }}
                     >
-                      <span className="w-2 h-2 rounded-full bg-indigo-400" />
+                      <span className="w-2 h-2 rounded-full bg-brand-300" />
                       <span className="truncate max-w-[160px]">
                         {participant.name || participant.identity}
                       </span>
@@ -906,9 +935,9 @@ const StudentLive = () => {
         <div
           className="flex-shrink-0 z-30 border-t"
           style={{
-            background: "rgba(13,18,41,0.92)",
+            background: "rgba(19,19,40,0.92)",
             backdropFilter: "blur(16px)",
-            borderTop: "1px solid rgba(99,102,241,0.12)",
+            borderTop: "1px solid rgba(91,80,230,0.12)",
             paddingBottom: "env(safe-area-inset-bottom, 0px)",
           }}
         >
@@ -921,9 +950,9 @@ const StudentLive = () => {
             aria-pressed={isMicEnabled}
             className="relative shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
             style={{
-              background: isMicEnabled ? "rgba(99,102,241,0.15)" : "rgba(239,68,68,0.85)",
+              background: isMicEnabled ? "rgba(91,80,230,0.15)" : "rgba(239,68,68,0.85)",
               border: isMicEnabled
-                ? "1px solid rgba(99,102,241,0.3)"
+                ? "1px solid rgba(91,80,230,0.3)"
                 : "1px solid rgba(239,68,68,0.5)",
             }}
           >
@@ -934,7 +963,7 @@ const StudentLive = () => {
             )}
             <span
               className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ color: "#64748b" }}
+              style={{ color: "#94a3b8" }}
             >
               {isMicEnabled ? "Mute" : "Unmute"}
             </span>
@@ -948,9 +977,9 @@ const StudentLive = () => {
             aria-pressed={isCameraEnabled}
             className="relative shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
             style={{
-              background: isCameraEnabled ? "rgba(99,102,241,0.15)" : "rgba(239,68,68,0.85)",
+              background: isCameraEnabled ? "rgba(91,80,230,0.15)" : "rgba(239,68,68,0.85)",
               border: isCameraEnabled
-                ? "1px solid rgba(99,102,241,0.3)"
+                ? "1px solid rgba(91,80,230,0.3)"
                 : "1px solid rgba(239,68,68,0.5)",
             }}
           >
@@ -961,7 +990,7 @@ const StudentLive = () => {
             )}
             <span
               className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ color: "#64748b" }}
+              style={{ color: "#94a3b8" }}
             >
               {isCameraEnabled ? "Stop Video" : "Start Video"}
             </span>
@@ -976,24 +1005,24 @@ const StudentLive = () => {
             className="relative shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95"
             style={{
               background: showChat
-                ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
-                : "rgba(99,102,241,0.15)",
+                ? "linear-gradient(135deg, #5B50E6, #4A3FD4)"
+                : "rgba(91,80,230,0.15)",
               border: showChat
-                ? "1px solid rgba(139,92,246,0.5)"
-                : "1px solid rgba(99,102,241,0.3)",
+                ? "1px solid rgba(123,104,255,0.5)"
+                : "1px solid rgba(91,80,230,0.3)",
             }}
           >
             <MessageSquare className="w-5 h-5 text-white" />
             <span
               className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ color: "#64748b" }}
+              style={{ color: "#94a3b8" }}
             >
               {showChat ? "Close Chat" : "Live Chat"}
             </span>
           </button>
 
           {/* Divider */}
-          <div className="w-px h-8 mx-1" style={{ background: "rgba(99,102,241,0.15)" }} />
+          <div className="w-px h-8 mx-1" style={{ background: "rgba(91,80,230,0.15)" }} />
 
           {/* Leave Session */}
           <button

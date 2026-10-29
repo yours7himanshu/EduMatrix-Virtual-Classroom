@@ -1,4 +1,5 @@
 import { CheckCircle2, ArrowRight, TrendingUp, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const features = [
   "Add teachers and students to your virtual college",
@@ -19,6 +20,7 @@ const workflowGrid = [
 // stat card, white checklist card with green checks). Mobile is product-led:
 // preview photo first, then a compact 2×2 workflow grid and a single compact CTA.
 const DashboardSection = () => {
+  const navigate = useNavigate();
   return (
     <section className="px-4 sm:px-6 pb-10 sm:pb-20 scroll-mt-20 sm:scroll-mt-24">
       <div data-aos="fade-up" className="max-w-7xl mx-auto text-left sm:text-center">
@@ -59,7 +61,7 @@ const DashboardSection = () => {
                 </li>
               ))}
             </ul>
-            <button className="group mt-4 sm:mt-8 inline-flex min-h-[44px] sm:min-h-[48px] w-auto max-w-full items-center gap-2 rounded-lg sm:rounded-full bg-ink-900 text-white text-[13.5px] sm:text-sm font-bold px-5 sm:pl-6 sm:pr-2 sm:py-2 hover:bg-brand-600 active:scale-[0.99] transition-all">
+            <button onClick={() => navigate("/MainLogin")} className="group mt-4 sm:mt-8 inline-flex min-h-[44px] sm:min-h-[48px] w-auto max-w-full items-center gap-2 rounded-lg sm:rounded-full bg-ink-900 text-white text-[13.5px] sm:text-sm font-bold px-5 sm:pl-6 sm:pr-2 sm:py-2 hover:bg-brand-600 active:scale-[0.99] transition-all">
               <span className="min-w-0 leading-tight">Explore dashboard</span>
               <ArrowRight size={15} className="sm:hidden shrink-0" />
               <span className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/15 group-hover:bg-white group-hover:text-ink-900 transition-colors"><ArrowRight size={17} /></span>

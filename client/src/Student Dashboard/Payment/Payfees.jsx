@@ -156,9 +156,9 @@ const Payfees = () => {
           <div className="flex items-start gap-4">
             <AlertCircle size={28} className="shrink-0 text-rose-600" />
             <div className="space-y-2">
-              <h3 className="font-display text-base font-bold text-rose-950">
+              <h2 className="font-display text-base font-bold text-rose-950">
                 Unable to load fee ledger
-              </h3>
+              </h2>
               <p className="text-[13px] text-rose-700">{fetchError}</p>
               <button
                 onClick={fetchLedger}

@@ -26,9 +26,17 @@ const ServiceLayout = () => (WrapLayoutComponent)=> {
   return (props)=>{
 
     return (
-      <div className='flex flex-col' >
+      <div className='flex min-h-screen flex-col bg-paper text-ink-900'>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:inline-flex focus:min-h-[48px] focus:items-center focus:rounded-full focus:bg-ink-900 focus:px-6 focus:text-sm focus:font-bold focus:text-white focus:shadow-card"
+        >
+          Skip to content
+        </a>
         <Navbar/>
-        <WrapLayoutComponent {...props} />
+        <main id="main-content" tabIndex={-1} className="flex-1">
+          <WrapLayoutComponent {...props} />
+        </main>
         <Footer/>
       </div>
     )
@@ -36,4 +44,3 @@ const ServiceLayout = () => (WrapLayoutComponent)=> {
   }
 
 export default ServiceLayout
-

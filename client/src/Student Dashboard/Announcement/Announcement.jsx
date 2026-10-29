@@ -132,7 +132,7 @@ return (
           className="w-full lg:w-72"
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
-          placeholder="Search notices, courses, branches"
+          placeholder="Search notices"
         />
       </div>
 
@@ -186,9 +186,9 @@ return (
           <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl border border-ink-900/[0.08] bg-paper text-ink-500">
             <Inbox size={22} />
           </span>
-          <h3 className="font-display text-[16px] font-bold text-ink-900">
+          <h2 className="font-display text-[16px] font-bold text-ink-900">
             No announcements to show
-          </h3>
+          </h2>
           <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-ink-500">
             {isFiltered
               ? "Nothing matched this filter combination. Try another category or search term."

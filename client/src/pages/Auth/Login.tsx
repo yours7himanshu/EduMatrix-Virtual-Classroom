@@ -19,7 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaSpinner } from 'react-icons/fa';
-import { Mail, Lock, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, ArrowRight, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const Login: React.FC = () => {
@@ -30,6 +30,7 @@ const Login: React.FC = () => {
   const { setToken } = useAuth();
   const [errors, setErrors] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,7 +86,7 @@ const Login: React.FC = () => {
 
         <Link
           to="/MainLogin"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-500 hover:text-ink-900 transition-colors"
+          className="inline-flex min-h-[44px] items-center gap-1.5 px-1 text-xs font-semibold text-ink-500 transition-colors hover:text-ink-900"
         >
           <ArrowLeft size={14} />
           <span>Switch role</span>
@@ -149,14 +150,23 @@ const Login: React.FC = () => {
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 h-4 w-4" aria-hidden="true" />
                 <input
                   id="login-password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
-                  className="w-full min-h-[48px] pl-11 pr-4 py-3 bg-paper border border-ink-900/15 rounded-2xl text-base text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all sm:text-sm"
+                  className="w-full min-h-[48px] pl-11 pr-12 py-3 bg-paper border border-ink-900/15 rounded-2xl text-base text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all sm:text-sm"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                  className="absolute right-1.5 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full text-ink-400 transition-colors hover:bg-ink-50 hover:text-ink-900 active:scale-95"
+                >
+                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
               </div>
             </div>
 
@@ -186,6 +196,12 @@ const Login: React.FC = () => {
                 Ask your college administrator for student access credentials.
               </span>
             </p>
+            <Link
+              to="/contact"
+              className="mt-2 inline-flex min-h-[44px] items-center justify-center text-[11.5px] font-bold text-ink-500 underline decoration-ink-900/20 underline-offset-4 transition-colors hover:text-ink-900"
+            >
+              Need help? Contact support
+            </Link>
           </div>
         </div>
       </div>

@@ -53,9 +53,9 @@ const VideoSection = () => {
       </div>
       <div className="relative min-w-0">
         <div aria-hidden="true" className="hidden sm:block absolute -inset-4 bg-brand-200/50 blur-2xl rounded-[2rem] pointer-events-none" />
-        <video src="/videos/project.mp4" autoPlay muted loop playsInline aria-label="Preview of a live EduMatrix classroom session" className="relative w-full rounded-xl sm:rounded-2xl border border-ink-900/10 sm:shadow-card object-cover aspect-video bg-ink-900" />
+        <video src="/videos/project.mp4" poster="/images/live-teacher.jpg" preload="metadata" autoPlay muted loop playsInline aria-label="Preview of a live EduMatrix classroom session" className="relative w-full rounded-xl sm:rounded-2xl border border-ink-900/10 sm:shadow-card object-cover aspect-video bg-ink-900" />
         {/* Red LIVE badge kept only here: it marks the actual session in preview */}
-        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 inline-flex max-w-[calc(100%-1.5rem)] items-center gap-2 rounded-full bg-ink-900/90 glass text-white text-[10px] sm:text-[11px] font-extrabold tracking-widest px-3 sm:px-3.5 py-1.5 border border-white/20">
+        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 inline-flex max-w-[calc(100%-1.5rem)] items-center gap-2 rounded-full bg-ink-900/90 text-white text-[10px] sm:text-[11px] font-extrabold tracking-widest px-3 sm:px-3.5 py-1.5 border border-white/20">
           <span className="h-2 w-2 shrink-0 rounded-full bg-red-500 animate-pulse" /> LIVE
         </div>
         <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 lg:right-auto inline-flex max-w-[calc(100%-1.5rem)] items-center gap-2.5 sm:gap-3 rounded-xl sm:rounded-2xl glass bg-white/85 border border-white/60 shadow-card px-3 sm:px-4 py-2.5 sm:py-3 overflow-hidden">

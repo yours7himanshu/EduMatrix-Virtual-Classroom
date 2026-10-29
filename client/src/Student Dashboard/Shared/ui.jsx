@@ -421,7 +421,7 @@ export const EmptyState = ({ icon: Icon, title, description, action, className =
         <Icon size={22} />
       </span>
     ) : null}
-    <h3 className="font-display text-[16px] font-bold text-ink-900">{title}</h3>
+    <h2 className="font-display text-[16px] font-bold text-ink-900">{title}</h2>
     {description ? (
       <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-ink-500">{description}</p>
     ) : null}

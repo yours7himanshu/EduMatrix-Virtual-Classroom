@@ -208,9 +208,9 @@ const StudentChat = ({
       aria-label={title}
       className="fixed top-0 bottom-0 right-0 w-full min-[480px]:w-[22rem] md:w-96 z-50 flex flex-col shadow-2xl transition-transform duration-300 antialiased"
       style={{
-        background: "rgba(13, 18, 41, 0.97)",
+        background: "rgba(19, 19, 40, 0.97)",
         backdropFilter: "blur(20px)",
-        borderLeft: "1px solid rgba(99, 102, 241, 0.2)",
+        borderLeft: "1px solid rgba(91, 80, 230, 0.2)",
         boxShadow: "-10px 0 40px rgba(0, 0, 0, 0.6)",
       }}
     >
@@ -218,14 +218,14 @@ const StudentChat = ({
       <div
         className="flex-shrink-0 px-5 py-4 flex items-center justify-between border-b"
         style={{
-          background: "rgba(13, 18, 41, 0.95)",
-          borderColor: "rgba(99, 102, 241, 0.18)",
+          background: "rgba(19, 19, 40, 0.95)",
+          borderColor: "rgba(91, 80, 230, 0.18)",
         }}
       >
         <div className="flex items-center gap-2.5">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-            style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
+            style={{ background: "linear-gradient(135deg, #5B50E6, #4A3FD4)" }}
           >
             <MessageSquare className="w-4 h-4 text-white" />
           </div>
@@ -242,8 +242,8 @@ const StudentChat = ({
             aria-label="Close chat"
             className="grid h-11 w-11 place-items-center rounded-lg text-slate-400 hover:text-white transition-colors active:scale-95"
             style={{
-              background: "rgba(99, 102, 241, 0.1)",
-              border: "1px solid rgba(99, 102, 241, 0.15)",
+              background: "rgba(91, 80, 230, 0.1)",
+              border: "1px solid rgba(91, 80, 230, 0.15)",
             }}
             title="Close chat"
           >
@@ -272,7 +272,7 @@ const StudentChat = ({
         className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0"
         style={{
           scrollbarWidth: "thin",
-          scrollbarColor: "rgba(99, 102, 241, 0.2) transparent",
+          scrollbarColor: "rgba(91, 80, 230, 0.2) transparent",
         }}
       >
         {messages.length === 0 ? (
@@ -280,11 +280,11 @@ const StudentChat = ({
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto"
               style={{
-                background: "rgba(99, 102, 241, 0.08)",
-                border: "1px solid rgba(99, 102, 241, 0.15)",
+                background: "rgba(91, 80, 230, 0.08)",
+                border: "1px solid rgba(91, 80, 230, 0.15)",
               }}
             >
-              <MessageSquare className="w-6 h-6 text-indigo-400" />
+              <MessageSquare className="w-6 h-6 text-brand-300" />
             </div>
             <p className="text-xs font-semibold text-slate-300">No messages yet</p>
             <p className="text-[11px] text-slate-500 max-w-[200px]">
@@ -300,7 +300,7 @@ const StudentChat = ({
                 className={`flex flex-col ${isMe ? "items-end" : "items-start"}`}
               >
                 {!isMe && (
-                  <span className="text-[10px] font-bold text-indigo-400 mb-1 px-1">
+                  <span className="text-[10px] font-bold text-brand-300 mb-1 px-1">
                     {msg.sender || "Participant"}
                   </span>
                 )}
@@ -312,17 +312,17 @@ const StudentChat = ({
                   }`}
                   style={{
                     background: isMe
-                      ? "linear-gradient(135deg, #6366f1, #7c3aed)"
+                      ? "linear-gradient(135deg, #5B50E6, #4A3FD4)"
                       : "rgba(30, 37, 64, 0.9)",
                     border: isMe
                       ? "1px solid rgba(139, 92, 246, 0.4)"
-                      : "1px solid rgba(99, 102, 241, 0.18)",
+                      : "1px solid rgba(91, 80, 230, 0.18)",
                   }}
                 >
                   <p className="leading-relaxed">{msg.content}</p>
                   <p
                     className={`text-[9px] mt-1 text-right ${
-                      isMe ? "text-indigo-200" : "text-slate-400"
+                      isMe ? "text-white/80" : "text-slate-400"
                     }`}
                   >
                     {formatTime(msg.timestamp || new Date())}
@@ -340,8 +340,8 @@ const StudentChat = ({
         onSubmit={sendMessage}
         className="flex-shrink-0 border-t flex items-center gap-2 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]"
         style={{
-          background: "rgba(13, 18, 41, 0.95)",
-          borderColor: "rgba(99, 102, 241, 0.15)",
+          background: "rgba(19, 19, 40, 0.95)",
+          borderColor: "rgba(91, 80, 230, 0.15)",
         }}
       >
         <input
@@ -354,14 +354,14 @@ const StudentChat = ({
           enterKeyHint="send"
           className="flex-1 min-h-[44px] px-3.5 py-2.5 rounded-xl text-base text-white placeholder-slate-500 focus:outline-none transition-colors sm:text-xs"
           style={{
-            background: "rgba(99, 102, 241, 0.08)",
-            border: "1px solid rgba(99, 102, 241, 0.2)",
+            background: "rgba(91, 80, 230, 0.08)",
+            border: "1px solid rgba(91, 80, 230, 0.2)",
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = "rgba(99, 102, 241, 0.5)";
+            e.target.style.borderColor = "rgba(91, 80, 230, 0.5)";
           }}
           onBlur={(e) => {
-            e.target.style.borderColor = "rgba(99, 102, 241, 0.2)";
+            e.target.style.borderColor = "rgba(91, 80, 230, 0.2)";
           }}
         />
         <button
@@ -369,7 +369,7 @@ const StudentChat = ({
           disabled={!inputMessage.trim()}
           aria-label="Send message"
           className="h-11 w-11 rounded-xl flex items-center justify-center text-white transition-all disabled:opacity-40 hover:opacity-90 active:scale-95 flex-shrink-0"
-          style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
+          style={{ background: "linear-gradient(135deg, #5B50E6, #4A3FD4)" }}
           title="Send"
         >
           <Send className="w-4 h-4" />

@@ -105,12 +105,12 @@ const SyllabusPage = () => {
   return (
     <div className="min-h-screen bg-paper text-ink-900 antialiased selection:bg-brand-100 selection:text-brand-700">
       {/* ─── Hero Header Section ─── */}
-      <section className="relative pt-32 pb-10 px-6 overflow-hidden">
+      <section className="hero-fade relative pt-24 sm:pt-32 pb-10 sm:pb-12 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
         <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
         <div className="absolute top-10 -right-24 h-96 w-96 rounded-full bg-accent-lime/30 blur-3xl pointer-events-none" />
 
-        <div className="relative max-w-4xl mx-auto text-center">
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
           {/* Pill Badge */}
           <div className="inline-flex items-center gap-2 rounded-full bg-white border border-ink-900/10 shadow-soft pl-1.5 pr-4 py-1.5 text-[12px] font-semibold text-ink-800">
             <span className="inline-flex items-center gap-1 rounded-full bg-ink-900 text-white px-2.5 py-1 text-[10px] font-bold tracking-wide uppercase">
@@ -140,43 +140,43 @@ const SyllabusPage = () => {
       </section>
 
       {/* ─── Syllabus Cards List ─── */}
-      <section className="max-w-6xl mx-auto px-6 pb-24">
-        <div className="space-y-8">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+        <div className="space-y-6 sm:space-y-8">
           {syllabusData.map((course) => (
             <div
               key={course.id}
-              className="bg-white rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card motion-safe:hover:-translate-y-0.5 transition-all duration-300 p-5 sm:p-9"
+              className="bg-white rounded-2xl sm:rounded-3xl border border-ink-900/10 shadow-soft hover:shadow-card motion-safe:hover:-translate-y-0.5 transition-all duration-300 p-4 min-[420px]:p-5 sm:p-9"
             >
               {/* Header row */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <span className="rounded-full bg-brand-50 border border-brand-200/60 text-brand-700 text-xs font-bold px-3 py-1 uppercase tracking-wider inline-block">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                <div className="min-w-0">
+                  <span className="rounded-full bg-brand-50 border border-brand-200/60 text-brand-700 text-[11px] sm:text-xs font-bold px-3 py-1 uppercase tracking-wider inline-block">
                     {course.code}
                   </span>
-                  <h2 className="mt-2.5 font-display text-2xl font-bold text-ink-900">
+                  <h2 className="mt-2.5 font-display text-xl min-[420px]:text-2xl font-bold text-ink-900 leading-tight">
                     {course.course}
                   </h2>
                 </div>
 
-                <div className="inline-flex items-center gap-2 rounded-full bg-paper border border-ink-900/[0.08] px-4 py-2 text-xs font-semibold text-ink-700 shrink-0">
-                  <Clock size={14} className="text-brand-600" />
-                  <span>{course.schedule}</span>
+                <div className="inline-flex w-full sm:w-auto max-w-full items-center gap-2 rounded-full bg-paper border border-ink-900/[0.08] px-3.5 sm:px-4 py-2 text-[11px] sm:text-xs font-semibold text-ink-700 shrink-0">
+                  <Clock size={14} className="text-brand-600 shrink-0" />
+                  <span className="min-w-0 text-left leading-snug">{course.schedule}</span>
                 </div>
               </div>
 
               {/* Description */}
-              <p className="mt-4 text-sm text-ink-500 leading-relaxed max-w-3xl">
+              <p className="mt-4 text-[13.5px] sm:text-sm text-ink-500 leading-relaxed max-w-3xl">
                 {course.description}
               </p>
 
               {/* Topics Grid */}
-              <div className="mt-6 pt-6 border-t border-ink-900/[0.06]">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-ink-400 mb-4">
-                  Core Topics Covered
+              <div className="mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-ink-900/[0.06]">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-ink-400 mb-3.5 sm:mb-4">
+                  Core topics covered
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
                   {course.topics.map((topic, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-medium text-ink-700">
+                    <div key={idx} className="flex items-start gap-2.5 text-[12.5px] sm:text-sm font-medium text-ink-700">
                       <CheckCircle2 size={16} className="text-brand-600 shrink-0 mt-0.5" />
                       <span>{topic}</span>
                     </div>
@@ -185,17 +185,18 @@ const SyllabusPage = () => {
               </div>
 
               {/* Action row */}
-              <div className="mt-8 pt-6 border-t border-ink-900/[0.06] flex items-center justify-between flex-wrap gap-4">
-                <span className="text-xs text-ink-400 font-medium">
+              <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-ink-900/[0.06] flex items-center justify-between flex-wrap gap-3 sm:gap-4">
+                <span className="text-[11.5px] sm:text-xs text-ink-400 font-medium">
                   Official syllabus document • Updated for current academic year
                 </span>
                 <a
                   href={course.syllabusLink}
                   download
-                  className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-ink-900 text-white px-6 py-3 text-sm font-bold shadow-soft hover:bg-brand-600 transition-colors active:scale-[0.99] sm:w-auto sm:py-2.5 sm:text-sm"
+                  aria-label={`Download the full syllabus for ${course.course}`}
+                  className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-ink-900 text-white px-6 py-3 text-sm font-bold shadow-soft hover:bg-brand-600 transition-colors active:scale-[0.99] sm:w-auto"
                 >
                   <Download size={15} />
-                  <span>Download Full Syllabus</span>
+                  <span>Download full syllabus</span>
                 </a>
               </div>
             </div>

@@ -6,7 +6,7 @@ export default {
       colors: {
         paper: "#FAF8F4",
         cream: "#FFF9F0",
-        ink: { 50: "#F4F4F8", 100: "#EDEDF3", 900: "#131328", 800: "#1E1E3A", 700: "#2E2E52", 600: "#4A4A6A", 500: "#6B6B8A", 400: "#8E8EA8" },
+        ink: { 50: "#F4F4F8", 100: "#EDEDF3", 900: "#131328", 800: "#1E1E3A", 700: "#2E2E52", 600: "#4A4A6A", 500: "#6B6B8A", 400: "#70708A" },
         brand: { 50: "#EEECFF", 100: "#DDD8FF", 200: "#BEB6FF", 300: "#9C8FFF", 400: "#7B68FF", 500: "#5B50E6", 600: "#4A3FD4", 700: "#3B32A8" },
         accent: { amber: "#FFB020", coral: "#FF6B4A", mint: "#16C784", sky: "#0EA5E9", pink: "#FF7AB8", lime: "#D4F34E" }
       },

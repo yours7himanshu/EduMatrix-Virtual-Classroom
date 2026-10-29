@@ -8,7 +8,7 @@ const BookList = ({ books, searchTerm, setSearchTerm }) => (
       className="w-full sm:w-80"
       value={searchTerm}
       onChange={(event) => setSearchTerm(event.target.value)}
-      placeholder="Search by title, author or discipline"
+      placeholder="Title, author or subject"
     />
 
     {books.length > 0 ? (
@@ -37,7 +37,7 @@ const BookCard = ({ book }) => (
       <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/80 text-brand-700">
         <Book size={17} />
       </span>
-      <span className="text-[10.5px] font-extrabold uppercase tracking-wide text-ink-500">
+      <span className="text-[10.5px] font-extrabold uppercase tracking-wide text-ink-700">
         {book.publishedYear}
       </span>
     </div>

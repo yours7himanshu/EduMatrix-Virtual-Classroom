@@ -375,7 +375,7 @@ const QuizList = () => {
         className="w-full sm:w-80"
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
-        placeholder="Search quizzes by title or topic"
+        placeholder="Search quizzes"
       />
 
       {isLoading ? (

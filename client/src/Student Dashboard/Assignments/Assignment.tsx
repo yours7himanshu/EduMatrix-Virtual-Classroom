@@ -100,7 +100,7 @@ const Assignment: React.FC = () => {
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           setSearchQuery(event.target.value)
         }
-        placeholder="Search assignments by title or topic"
+        placeholder="Search assignments"
       />
 
       {loading ? (

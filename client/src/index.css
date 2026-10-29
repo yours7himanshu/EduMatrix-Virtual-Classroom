@@ -36,10 +36,43 @@ img,video{ height:auto; }
   /* Contained horizontal scroll for data tables — never scrolls the whole page */
   .table-scroll{ @apply -mx-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0; scrollbar-width:thin; }
   .table-scroll table{ @apply min-w-[640px] w-full; }
-  /* Homepage CTA / hero pills: never let the trailing icon get clipped on 320-360px phones */
-  .btn-pill{ @apply max-w-full overflow-hidden; }
-  .btn-pill > :last-child{ flex-shrink:0; }
+  /* Softly dissolves the bottom of hero glow into the paper canvas */
+  .hero-fade{ position:relative; }
+  .hero-fade::after{ content:""; position:absolute; inset-inline:0; bottom:0; z-index:1; height:5.5rem; background:linear-gradient(to bottom, rgba(250,248,244,0), var(--paper)); pointer-events:none; }
 }
+
+/* Brand selection + calm, themed scrollbars */
+::selection{ background:rgba(212,243,78,0.75); color:#131328; }
+*{ scrollbar-width:thin; scrollbar-color:rgba(19,19,40,0.22) transparent; }
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:rgba(19,19,40,0.18); border:3px solid transparent; border-radius:999px; background-clip:content-box; }
+::-webkit-scrollbar-thumb:hover{ background:rgba(19,19,40,0.32); background-clip:content-box; }
+
+/* Tap highlight + focus polish */
+a,button,label,summary{ -webkit-tap-highlight-color:transparent; }
+main:focus{ outline:none; }
+
+/* Toast palette mirrors the product cards: white surface, ink hairline, brand action */
+.Toastify__toast-container{ padding:16px; }
+.Toastify__toast{
+  border-radius:18px;
+  border:1px solid rgba(19,19,40,0.10);
+  background:#FFFFFF;
+  color:#131328;
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  font-size:13.5px;
+  font-weight:600;
+  box-shadow:0 2px 8px rgba(19,19,40,0.06), 0 20px 44px -16px rgba(91,80,230,0.22);
+  min-height:52px;
+}
+.Toastify__toast--success .Toastify__toast-icon svg{ fill:#16C784; }
+.Toastify__toast--error .Toastify__toast-icon svg{ fill:#FF6B4A; }
+.Toastify__toast--warning .Toastify__toast-icon svg{ fill:#FFB020; }
+.Toastify__toast--info .Toastify__toast-icon svg{ fill:#5B50E6; }
+.Toastify__progress-bar{ background:linear-gradient(90deg,#5B50E6,#7B68FF); height:3px; }
+.Toastify__close-button{ color:#8E8EA8; opacity:1; align-self:center; }
+.Toastify__close-button:hover{ color:#131328; }
 
 /* Subtle, fast, accessible motion */
 @media (prefers-reduced-motion:reduce){

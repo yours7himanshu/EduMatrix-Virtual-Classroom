@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Search, Clock, ArrowRight, GraduationCap, X, ChevronDown } from 'lucide-react';
 import courses from './utils/courses.ts';
 import categories from './utils/categories.ts';
@@ -39,10 +40,14 @@ const CourseCard = ({ course }) => {
           </button>
         ) : null}
       </div>
-      <button className="w-full mt-1 inline-flex min-h-[48px] items-center justify-center gap-2 py-3 bg-ink-900 text-white rounded-full font-bold text-sm hover:bg-brand-600 transition-all duration-300 active:scale-[0.99]">
-        <span>View Details</span>
+      <Link
+        to={`/contact?course=${encodeURIComponent(`${course.name} — ${course.fullName}`)}`}
+        className="w-full mt-1 inline-flex min-h-[48px] items-center justify-center gap-2 py-3 bg-ink-900 text-white rounded-full font-bold text-sm hover:bg-brand-600 transition-all duration-300 active:scale-[0.99]"
+        aria-label={`Talk to admissions about ${course.name}`}
+      >
+        <span>Talk to admissions</span>
         <ArrowRight className="h-4 w-4" />
-      </button>
+      </Link>
     </div>
   );
 };
@@ -73,11 +78,11 @@ const CoursesPage: React.FC = () => {
   const hasFilter = searchQuery !== '' || selectedCategory !== 'All';
   return (
     <div className="min-h-screen bg-paper text-ink-900 antialiased overflow-x-clip">
-      <div className="relative pt-24 sm:pt-32 pb-8 px-4 sm:px-6 overflow-hidden">
+      <div className="hero-fade relative pt-24 sm:pt-32 pb-10 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-60 pointer-events-none" />
         <div className="absolute -top-24 -left-24 h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-brand-200/50 blur-3xl pointer-events-none" />
         <div className="absolute top-10 -right-24 h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-accent-lime/30 blur-3xl pointer-events-none" />
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="relative z-10 max-w-7xl mx-auto text-center">
           <p className="inline-block rounded-full bg-white border border-ink-900/10 shadow-soft text-ink-600 text-[11px] font-extrabold tracking-[0.16em] px-4 py-1.5">EXPLORE PROGRAMS</p>
           <h1 className="font-display text-[2.5rem] leading-[1.05] min-[420px]:text-4xl md:text-6xl font-extrabold tracking-tight text-ink-900 mt-4 text-balance">Professional Degree Programs</h1>
           <p className="mt-3 sm:mt-4 max-w-2xl mx-auto text-ink-500 text-[15px] sm:text-base md:text-lg leading-relaxed">Shape your future with our comprehensive range of professional courses.</p>
@@ -103,7 +108,7 @@ const CoursesPage: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-ink-400" />
-              <input type="text" placeholder="Search courses or specializations..." aria-label="Search courses" className="w-full min-h-[48px] pl-12 pr-10 py-3 bg-paper text-base sm:text-sm text-ink-900 border border-ink-900/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+              <input type="text" placeholder="Search programs" aria-label="Search courses" className="w-full min-h-[48px] pl-12 pr-10 py-3 bg-paper text-base sm:text-sm text-ink-900 border border-ink-900/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
               {searchQuery ? (
                 <button type="button" onClick={() => setSearchQuery('')} aria-label="Clear search" className="absolute right-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-ink-400 transition-colors hover:bg-ink-50 hover:text-ink-900 active:scale-95">
                   <X size={16} />

@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import {
   Github,
-  Twitter,
-  Linkedin,
-  Instagram,
+  Mail,
+  ArrowUp,
   Heart
 } from 'lucide-react';
 
@@ -32,10 +31,8 @@ const companyLinks = [
 ];
 
 const socials = [
-  { icon: Github, label: 'GitHub', href: 'https://github.com/yours7himanshu/EduMatrix-Virtual-Classroom' },
-  { icon: Twitter, label: 'Twitter', href: '#' },
-  { icon: Linkedin, label: 'LinkedIn', href: '#' },
-  { icon: Instagram, label: 'Instagram', href: '#' },
+  { icon: Github, label: 'GitHub repository', href: 'https://github.com/yours7himanshu/EduMatrix-Virtual-Classroom' },
+  { icon: Mail, label: 'Email EduMatrix support', href: 'mailto:support@edumatrix.live' },
 ];
 
 export default function Footer() {
@@ -90,9 +87,9 @@ export default function Footer() {
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 min-[480px]:grid-cols-3 sm:gap-8 lg:col-span-3">
           {/* Learning Column */}
           <div>
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
               Learning
-            </h4>
+            </h3>
             <ul className="mt-4 sm:mt-5 space-y-2.5 sm:space-y-3">
               {learningLinks.map((link) => (
                 <li key={link.label}>
@@ -109,9 +106,9 @@ export default function Footer() {
 
           {/* Portals Column */}
           <div>
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
               Portals
-            </h4>
+            </h3>
             <ul className="mt-4 sm:mt-5 space-y-2.5 sm:space-y-3">
               {portalLinks.map((link) => (
                 <li key={link.label}>
@@ -128,9 +125,9 @@ export default function Footer() {
 
           {/* Company Column */}
           <div className="col-span-2 min-[480px]:col-span-1">
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink-400">
               Company
-            </h4>
+            </h3>
             <ul className="mt-4 sm:mt-5 grid grid-cols-2 gap-x-4 gap-y-2.5 min-[480px]:flex min-[480px]:flex-col min-[480px]:gap-2.5 sm:gap-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
@@ -153,10 +150,21 @@ export default function Footer() {
             © {new Date().getFullYear()} EduMatrix Virtual Classroom. All rights reserved.
           </p>
 
-          <p className="inline-flex items-center gap-1.5 font-medium text-ink-400">
-            Where learning feels alive
-            <Heart size={13} className="fill-brand-500 text-brand-500" />
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="inline-flex items-center gap-1.5 font-medium text-ink-400">
+              Where learning feels alive
+              <Heart size={13} className="fill-brand-500 text-brand-500" />
+            </p>
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-900/10 bg-white text-ink-500 shadow-soft transition-all hover:-translate-y-0.5 hover:border-ink-900/25 hover:text-ink-900 active:scale-95"
+              aria-label="Back to top"
+              title="Back to top"
+            >
+              <ArrowUp size={15} />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

@@ -1,7 +1,7 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Play, Star, ArrowRight, Radio, CheckCircle2 } from "lucide-react";
 import Services from "../../constants/Services";
 import VideoSection from "./components/VideoSection";
@@ -82,13 +82,15 @@ const HomePage = () => {
               <ArrowRight size={17} className="sm:hidden shrink-0 transition-transform group-hover:translate-x-0.5" />
               <span className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/15 group-hover:bg-white group-hover:text-ink-900 transition-colors"><ArrowRight size={18} /></span>
             </button>
-            <a href="#video" className="inline-flex min-h-[50px] sm:min-h-[52px] w-full sm:w-auto max-w-full overflow-hidden items-center justify-center gap-2 sm:gap-3 rounded-lg sm:rounded-full border border-ink-900/10 sm:border-ink-900/10 bg-transparent sm:bg-white shadow-none sm:shadow-soft px-5 sm:pl-2 sm:pr-7 py-3 sm:py-2 text-[14.5px] sm:text-[15px] font-bold hover:border-ink-900 transition-all motion-safe:hover:sm:shadow-card motion-safe:hover:sm:-translate-y-0.5 active:scale-[0.99]">
-              <span className="sm:hidden inline-flex items-center gap-2"><Play size={15} className="shrink-0" fill="currentColor" /><span className="min-w-0 leading-tight">See live classes</span></span>
-              <span className="hidden sm:inline-flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-50 text-brand-600 ring-1 ring-brand-600/15"><Play size={18} className="ml-0.5" fill="currentColor" /></span>
-                Watch demo
-                <span className="text-xs font-semibold text-ink-400">2:14</span>
-              </span>
+            {/* Mobile: quiet text link. Desktop: original demo pill. */}
+            <a href="#video" className="sm:hidden inline-flex min-h-[44px] items-center gap-1 text-[13.5px] font-bold text-brand-700 hover:text-brand-600 active:scale-[0.99] transition-colors">
+              <span className="min-w-0 leading-tight">See live classes</span>
+              <Play size={13} className="shrink-0" fill="currentColor" />
+            </a>
+            <a href="#video" className="hidden sm:inline-flex min-h-[52px] w-full sm:w-auto max-w-full overflow-hidden items-center justify-center gap-3 rounded-full border border-ink-900/10 bg-white shadow-soft pl-2 pr-7 py-2 text-[15px] font-bold hover:border-ink-900 transition-all motion-safe:hover:shadow-card motion-safe:hover:-translate-y-0.5 active:scale-[0.99]">
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-50 text-brand-600 ring-1 ring-brand-600/15"><Play size={18} className="ml-0.5" fill="currentColor" /></span>
+              Watch demo
+              <span className="text-xs font-semibold text-ink-400">2:14</span>
             </a>
           </div>
           {/* Proof: compact row on phones, original cluster on desktop */}
@@ -131,7 +133,8 @@ const HomePage = () => {
                 <img
                   src="/images/dashboard.png"
                   alt="EduMatrix admin dashboard with attendance and course stats"
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
                   className="w-full block object-cover object-top max-h-[300px] min-[480px]:max-h-[420px] sm:max-h-none h-auto"
                 />
               </div>
@@ -213,7 +216,7 @@ const HomePage = () => {
                 ))}
               </div>
             </div>
-            <div className="relative sm:bg-cream sm:p-8 md:p-12 sm:grid sm:place-items-center overflow-hidden">
+            <div className="relative hidden sm:grid sm:bg-cream sm:p-8 md:p-12 sm:place-items-center overflow-hidden">
               <div aria-hidden="true" className="hidden sm:block absolute inset-0 dot-grid opacity-70" />
               <img src="/images/campus-students.jpg" alt="Students in a classroom" loading="lazy" className="relative rounded-xl sm:rounded-[1.75rem] border border-ink-900/10 sm:shadow-card object-cover h-44 min-[375px]:h-52 min-[480px]:h-64 sm:h-80 lg:h-[420px] w-full" />
               {/* Original desktop overlay badge (desktop only) */}
@@ -238,7 +241,7 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="px-4 sm:px-6 text-left sm:text-center max-w-2xl sm:mx-auto">
             <p data-aos="fade-up" className="sm:hidden text-[11px] font-extrabold tracking-[0.16em] text-ink-500">CLASSROOM STORIES</p>
-            <p data-aos="fade-up" className="hidden sm:inline-block rounded-full bg-white border border-ink-900/10 shadow-soft text-ink-600 text-[11px] font-extrabold tracking-[0.16em] px-4 py-1.5">WALL OF LOVE</p>
+            <p data-aos="fade-up" className="hidden sm:inline-block rounded-full bg-white border border-ink-900/10 shadow-soft text-ink-600 text-[11px] font-extrabold tracking-[0.16em] px-4 py-1.5">CLASSROOM STORIES</p>
             <h2 data-aos="fade-up" className="font-display text-[1.5rem] leading-[1.15] min-[420px]:text-[1.65rem] md:text-5xl font-extrabold tracking-tight mt-2 sm:mt-4 text-balance">What our users say</h2>
             <p data-aos="fade-up" className="hidden sm:block mt-3 text-ink-500">Loved by teachers, students and admins alike.</p>
           </div>
@@ -292,18 +295,18 @@ const HomePage = () => {
             {/* Mobile: one compact primary + quiet text link */}
             <div className="sm:hidden mt-4">
               <button
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/MainLogin")}
                 className="group inline-flex min-h-[50px] w-full max-w-full items-center justify-center gap-2 rounded-lg bg-white text-ink-900 px-5 text-[14.5px] font-bold hover:bg-accent-lime transition-colors active:scale-[0.99]"
               >
                 <span className="whitespace-nowrap leading-none">Create free classroom</span>
                 <ArrowRight size={16} className="shrink-0 transition-transform group-hover:translate-x-0.5" />
               </button>
-              <a
-                href="#video"
+              <Link
+                to="/contact"
                 className="inline-flex min-h-[44px] items-center gap-1 text-[13.5px] font-bold text-white/80 hover:text-white active:scale-[0.99] transition-colors"
               >
                 Talk to us <ArrowRight size={14} className="shrink-0" />
-              </a>
+              </Link>
               <p className="mt-3 text-[12px] font-medium leading-relaxed text-white/55">
                 Free first class<span aria-hidden="true" className="mx-1.5 text-white/30">·</span>No credit card<span aria-hidden="true" className="mx-1.5 text-white/30">·</span>One shareable link
               </p>
@@ -311,18 +314,18 @@ const HomePage = () => {
             {/* Desktop: original paired pills + checklist */}
             <div className="hidden sm:flex mt-6 flex-col sm:flex-row items-stretch sm:items-center sm:justify-center gap-2.5 max-w-md sm:max-w-none sm:mx-auto">
               <button
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/MainLogin")}
                 className="group inline-flex min-h-[50px] w-full sm:w-auto max-w-full overflow-hidden items-center justify-center gap-2 rounded-lg sm:rounded-full bg-white text-ink-900 px-6 py-3 text-[15px] font-bold hover:bg-accent-lime hover:text-ink-900 transition-colors active:scale-[0.99]"
               >
                 <span className="min-w-0 flex-1 sm:flex-none text-center leading-tight">Create free classroom</span>
                 <ArrowRight size={17} className="shrink-0 transition-transform group-hover:translate-x-0.5" />
               </button>
-              <a
-                href="#video"
+              <Link
+                to="/contact"
                 className="inline-flex min-h-[50px] w-full sm:w-auto max-w-full items-center justify-center rounded-lg sm:rounded-full border border-white/20 px-6 py-3 text-[14.5px] font-bold text-white hover:border-white/50 transition-colors active:scale-[0.99]"
               >
                 Talk to us
-              </a>
+              </Link>
             </div>
             <ul className="hidden sm:grid mt-6 pt-5 border-t border-white/10 grid-cols-1 min-[480px]:grid-cols-3 gap-2 text-[12.5px] sm:text-sm font-semibold text-white/75 max-w-2xl sm:mx-auto">
               {["Free first class setup", "No credit card required", "Instant shareable link"].map((perk) => (
